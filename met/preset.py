@@ -92,8 +92,8 @@ def validate(data):
     if type(data["seed"]) is not int or data["seed"] < 0:
         raise ValueError("preset.seed must be a nonnegative integer")
     scores = data["scores"]
-    if not isinstance(scores, dict) or set(scores) != {"within_factor"}:
-        raise ValueError("preset.scores needs exactly within_factor: [K, ...]")
+    if not isinstance(scores, dict) or "within_factor" not in scores or set(scores) - {"within_factor", "compare_to"}:
+        raise ValueError("preset.scores needs within_factor: [K, ...] and optionally compare_to: <estimator>")
     factors = scores["within_factor"]
     if not isinstance(factors, list) or not factors or not all(
             isinstance(k, (int, float)) and k > 1 for k in factors):
@@ -104,6 +104,8 @@ def validate(data):
     names = [e.name for e in estimators]
     if len(set(names)) != len(names):
         raise ValueError("estimator names must be unique")
+    if "compare_to" in scores and scores["compare_to"] not in names:
+        raise ValueError(f"scores.compare_to must name one of the estimators {names}")
     cells = expand(data["world"])
     for cell in cells:
         for est in estimators:

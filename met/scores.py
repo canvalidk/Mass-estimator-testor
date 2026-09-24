@@ -67,3 +67,24 @@ def worst_regret(cells, factors):
             out[name][k] = {"value": worst, "cell": cells[values.index(worst)]["id"],
                             "ties": sum(v == worst for v in values)}
     return out
+
+
+def agreement(values, reference):
+    """How far one estimator's readout sits from a reference estimator's, series by series.
+
+    For points: |log(value / reference)|. For intervals: the larger of the two
+    endpoints' |log ratio|. Reports quantiles, and the fraction within 1% and 5%.
+    """
+    values, reference = np.asarray(values, dtype=float), np.asarray(reference, dtype=float)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        dist = np.abs(np.log(values / reference))
+    if dist.ndim == 2:
+        dist = np.max(dist, axis=1)
+    finite = np.isfinite(dist)
+    d = dist[finite]
+    if d.size == 0:
+        return {"invalid": int(np.sum(~finite))}
+    q = np.quantile(d, [0.5, 0.9, 0.99])
+    return {"invalid": int(np.sum(~finite)), "median": float(q[0]), "p90": float(q[1]), "p99": float(q[2]),
+            "max": float(d.max()), "within_1pct": float(np.mean(d < math.log(1.01))),
+            "within_5pct": float(np.mean(d < math.log(1.05)))}

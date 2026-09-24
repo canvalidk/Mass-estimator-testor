@@ -20,7 +20,7 @@ import numpy as np
 import yaml
 
 from . import preset as preset_mod
-from .scores import add_regret, score_interval, score_point, worst_regret
+from .scores import add_regret, agreement, score_interval, score_point, worst_regret
 from .world import cell_key, generate, series_rngs
 
 PACKAGE = Path(__file__).resolve().parent
@@ -40,7 +40,7 @@ def code_version():
             "python": platform.python_version(), "numpy": np.__version__}
 
 
-def run_cell(cell, estimators, replicates, seed, factors, batch_elements, progress=None):
+def run_cell(cell, estimators, replicates, seed, factors, batch_elements, progress=None, compare_to=None):
     readings, truth = generate(cell["world"], series_rngs(seed, cell["world"], replicates))
     n = readings.readings
     values, seconds = {}, {}
@@ -63,6 +63,15 @@ def run_cell(cell, estimators, replicates, seed, factors, batch_elements, progre
             scores["intervals"][f"{est.name}.{name}"] = score_interval(v[name], truth["mass"])
         scores.setdefault("unresolved", {})[est.name] = int(np.sum(v["unresolved"]))
     add_regret(scores, factors)
+    if compare_to:
+        ref = values[compare_to]
+        scores["agreement"] = {}
+        for est in estimators:
+            if est.name == compare_to:
+                continue
+            for name in est.point_readouts() + est.interval_readouts():
+                if name in ref:
+                    scores["agreement"][f"{est.name}.{name}"] = agreement(values[est.name][name], ref[name])
     return {"id": cell["id"], "axes": cell["axes"], "world": cell["world"],
             "cell_key": cell_key(cell["world"]), "scores": scores,
             "seconds": seconds}, values
@@ -87,7 +96,8 @@ def run(path, out_root="results", replicates=None, progress=print):
         if progress:
             progress(f"cell {cell['id']} {cell['axes']}")
         result, values = run_cell(cell, spec["estimators"], reps, raw["seed"], factors,
-                                  spec["numerics"]["batch_elements"], progress)
+                                  spec["numerics"]["batch_elements"], progress,
+                                  raw["scores"].get("compare_to"))
         cells.append(result)
         for est, readouts in values.items():
             for name, arr in readouts.items():
@@ -143,6 +153,16 @@ def summary_markdown(record, factors):
                 lines.append(f"| {name} | {_pct(s['coverage']['value'])} ± {_pct(s['coverage']['mcse'])} | "
                              f"{_pct(s['truth_below']['value'])} | {_pct(s['truth_above']['value'])} | "
                              f"{s['median_log_width']:.3g} | {s['invalid']} |")
+        if cell["scores"].get("agreement"):
+            lines += ["", "Distance from the reference estimator, series by series (|log ratio|; intervals: worse endpoint):", "",
+                      "| readout | median | 90th pct | 99th pct | max | within 1% | within 5% |",
+                      "|---|---|---|---|---|---|---|"]
+            for name, s in cell["scores"]["agreement"].items():
+                if "median" not in s:
+                    lines.append(f"| {name} | — | — | — | — | — | — |")
+                    continue
+                lines.append(f"| {name} | {s['median']:.2g} | {s['p90']:.2g} | {s['p99']:.2g} | {s['max']:.2g} | "
+                             f"{_pct(s['within_1pct'])} | {_pct(s['within_5pct'])} |")
         lines.append("")
     lines += ["## Worst-case regret across cells", "",
               "Regret = best within-factor success among all point readouts in the cell, minus this readout's.", "",

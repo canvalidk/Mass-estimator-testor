@@ -15,7 +15,8 @@ import numpy as np
 from .law import NUISANCES, REFERENCES, ReadingSet
 
 REDUCES = ("none", "pool_pair")
-RULES = ("single", "likelihood_product", "posterior_product")
+RULES = ("single", "likelihood_product", "posterior_product", "sequential")
+CARRIES = ("exact", "curve_only", "lognormal_fit", "tilt_fit")
 COORDINATES = ("mass", "log_mass")
 POINT_READOUTS = ("ratio_of_means", "median", "geometric", "reciprocal_root")
 DIRECT_RULES = ("norm_ratio", "dot_acceleration", "dot_force")
@@ -139,6 +140,14 @@ def tail_slopes(law, combine, n):
     like = _LIKE_SLOPES[law["nuisance"]]
     ref = _REF_SLOPES[law["nuisance"]]
     rule = combine["rule"]
+    if rule == "sequential":
+        carry = combine["carry"]
+        if carry == "lognormal_fit":
+            return like[0], like[1], True
+        if carry == "tilt_fit":
+            return like[0] - 1, like[1] + 1, False
+        plus, minus, confined = tail_slopes(law, combine["old"], n - 1)
+        return plus + like[0], minus + like[1], confined
     if rule == "single":
         plus, minus = like[0] + ref[0], like[1] + ref[1]
     elif rule == "likelihood_product":
@@ -160,6 +169,13 @@ def tail_slopes(law, combine, n):
 
 def check_proper(law, combine, n):
     """Raise if the declared law cannot be normalised for n readings."""
+    if combine["rule"] == "sequential":
+        if n < 2:
+            raise ValueError(f"rule 'sequential' needs at least two readings (old and new), but this world gives {n}")
+        try:
+            check_proper(law, combine["old"], n - 1)
+        except ValueError as error:
+            raise ValueError(f"the old readings' law: {error}") from None
     if combine["rule"] == "single" and n != 1:
         raise ValueError(f"rule 'single' needs exactly one reading after reduce, but this world gives {n}")
     plus, minus, confined = tail_slopes(law, combine, n)
@@ -173,9 +189,11 @@ def check_proper(law, combine, n):
 
 def joint_log_density(readings, u, law, combine):
     """Joint log density in u (up to a constant) and A(u) = sum_i E[alpha_i | m]."""
+    rule = combine["rule"]
+    if rule == "sequential":
+        return _sequential_log_density(readings, u, law, combine)
     log_like, log_ref, cond_alpha = readings.reading_terms(u, law["nuisance"])
     n = readings.readings
-    rule = combine["rule"]
     if rule == "single":
         if n != 1:
             raise ValueError("rule 'single' needs exactly one reading per series after reduce")
@@ -190,6 +208,94 @@ def joint_log_density(readings, u, law, combine):
         raise ValueError(f"unknown rule {rule!r}")
     lp = lp + prior_log_density(combine["prior"], u, readings)
     return lp, np.sum(cond_alpha, axis=1)
+
+
+# ---------------------------------------------------------------- the sequential rule
+#
+# The last reading of a series is "new"; the ones before it are "old". Under a
+# rule that counts the prior once, the exact joint law factorises as
+#
+#     p_all(m) = p_old(m) * L_new(m),        A_all(m) = A_old(m) + E[alpha_new | m],
+#
+# so the old information enters exactly where a prior does, plus the old
+# conditional acceleration A_old that the ratio-of-means readout needs.
+# `carry` says what of the old information is kept:
+#
+#   exact          p_old and A_old, evaluated exactly (equals the rule applied to all readings)
+#   curve_only     p_old exactly, A_old dropped
+#   lognormal_fit  p_old replaced by a normal law in log m with the same mean and SD
+#   tilt_fit       p_old replaced by the tilted half-Cauchy  sech(z) exp(lambda (sech z - 1)),
+#                  z = log(m / m0), with m0 and lambda set so its mean and SD in log m match
+#
+# The two fits keep two numbers of the old information, in the slots the prior
+# parameters occupy. A_old is dropped by every carry except `exact`.
+
+def tilt_sd(lam, points=40001):
+    """SD in z of sech(z) exp(lam (sech z - 1)), on a grid scaled to the law's width."""
+    width = 80.0 if lam < 50 else 15.0 / math.sqrt(1.0 + lam)
+    z = np.linspace(-width, width, points)
+    sech = 1.0 / np.cosh(z)
+    logd = np.log(sech) + lam * (sech - 1.0)
+    d = np.exp(logd - logd.max())
+    return math.sqrt(np.sum(d * z * z) / np.sum(d))
+
+
+def _tilt_table():
+    lams = np.concatenate([np.linspace(-40, 0, 401)[:-1], np.geomspace(1e-3, 2e5, 1200)])
+    lams = np.unique(np.concatenate([lams, [0.0]]))
+    return lams, np.array([tilt_sd(lam) for lam in lams])
+
+
+_TILT = None
+
+
+def tilt_lambda_for_sd(sd):
+    """lambda such that sech(z) exp(lambda (sech z - 1)) has SD `sd` in z (vectorised).
+
+    Beyond the table, lambda ~ 1/sd^2 - 1 (the law is then nearly normal).
+    Wider than lambda = -40 allows is clipped to -40.
+    """
+    global _TILT
+    if _TILT is None:
+        _TILT = _tilt_table()
+    lams, sds = _TILT
+    sd = np.asarray(sd, dtype=float)
+    inside = np.interp(-sd, -sds, lams)
+    return np.where(sd < sds[-1], 1.0 / np.maximum(sd, 1e-300) ** 2 - 1.0, inside)
+
+
+def _old_fit(readings, law, combine):
+    """Mean and SD of log m under the old readings' law, per series (cached on the readings)."""
+    key = ("old_fit", id(combine))
+    if key not in readings.series_data:
+        old = readings.take_readings(slice(0, readings.readings - 1))
+        old.series_data = {}
+        out = posterior_summaries(old, law, combine["old"], ["geometric", "log_sd"])
+        readings.series_data[key] = np.stack([np.log(out["geometric"]), out["log_sd"]], axis=1)
+    return readings.series_data[key]
+
+
+def _sequential_log_density(readings, u, law, combine):
+    carry = combine["carry"]
+    n = readings.readings
+    new = readings.take_readings(slice(n - 1, n))
+    like_new, _, cond_new = new.reading_terms(u, law["nuisance"])
+    lp = like_new[:, 0]
+    acc = cond_new[:, 0]
+    if carry in ("exact", "curve_only"):
+        old = readings.take_readings(slice(0, n - 1))
+        lp_old, acc_old = joint_log_density(old, u, law, combine["old"])
+        lp = lp + lp_old
+        if carry == "exact":
+            acc = acc + acc_old
+        return lp, acc
+    fit = _old_fit(readings, law, combine)
+    mu, sd = fit[:, 0:1], fit[:, 1:2]
+    z = u - mu
+    if carry == "lognormal_fit":
+        return lp - z * z / (2.0 * sd * sd), acc
+    lam = tilt_lambda_for_sd(sd)
+    return lp - np.logaddexp(z, -z) + lam * (1.0 / np.cosh(np.clip(z, -700, 700)) - 1.0), acc
 
 
 def _trapezoid_weights(n):
@@ -401,20 +507,19 @@ class Estimator:
         if law["nuisance"] not in NUISANCES:
             raise ValueError(f"{where}: nuisance must be one of {NUISANCES}")
         combine = spec["combine"]
-        if not isinstance(combine, dict) or "rule" not in combine or "prior" not in combine:
-            raise ValueError(f"{where}: combine needs rule and prior")
-        rule = combine["rule"]
-        if rule not in RULES:
-            raise ValueError(f"{where}: rule must be one of {RULES}")
-        allowed = {"rule", "prior"} | ({"coordinate"} if rule == "posterior_product" else set())
-        if set(combine) != allowed:
-            raise ValueError(f"{where}: combine for {rule} needs exactly {sorted(allowed)}")
-        if rule == "posterior_product" and combine["coordinate"] not in COORDINATES:
-            raise ValueError(f"{where}: coordinate must be one of {COORDINATES}")
-        try:
-            validate_prior(combine["prior"], rule)
-        except ValueError as error:
-            raise ValueError(f"{where}: {error}") from None
+        rule = combine.get("rule") if isinstance(combine, dict) else None
+        if rule == "sequential":
+            if set(combine) != {"rule", "old", "carry"}:
+                raise ValueError(f"{where}: combine for sequential needs exactly old, carry and rule "
+                                 "(the prior belongs to the old readings' law)")
+            if combine["carry"] not in CARRIES:
+                raise ValueError(f"{where}: carry must be one of {CARRIES}")
+            old = combine["old"]
+            if not isinstance(old, dict) or old.get("rule") not in ("single", "likelihood_product", "posterior_product"):
+                raise ValueError(f"{where}: combine.old must be a non-sequential combine block")
+            self._validate_combine(old, f"{where} (old readings)")
+        else:
+            self._validate_combine(combine, where)
         readouts = spec["readouts"]
         if not isinstance(readouts, list) or not readouts:
             raise ValueError(f"{where}: readouts must be a nonempty list")
@@ -431,6 +536,23 @@ class Estimator:
         except ValueError as error:
             raise ValueError(f"{where}: {error}") from None
         self.numerics = dict(DEFAULT_NUMERICS, **spec.get("numerics", {}))
+
+    @staticmethod
+    def _validate_combine(combine, where):
+        if not isinstance(combine, dict) or "rule" not in combine or "prior" not in combine:
+            raise ValueError(f"{where}: combine needs rule and prior")
+        rule = combine["rule"]
+        if rule not in RULES or rule == "sequential":
+            raise ValueError(f"{where}: rule must be one of {RULES}")
+        allowed = {"rule", "prior"} | ({"coordinate"} if rule == "posterior_product" else set())
+        if set(combine) != allowed:
+            raise ValueError(f"{where}: combine for {rule} needs exactly {sorted(allowed)}")
+        if rule == "posterior_product" and combine["coordinate"] not in COORDINATES:
+            raise ValueError(f"{where}: coordinate must be one of {COORDINATES}")
+        try:
+            validate_prior(combine["prior"], rule)
+        except ValueError as error:
+            raise ValueError(f"{where}: {error}") from None
 
     @property
     def pools(self):

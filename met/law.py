@@ -123,13 +123,25 @@ class ReadingSet:
         self.dimension = self.force.shape[2]
         if self.dimension not in DIMENSIONS:
             raise ValueError(f"dimension must be one of {DIMENSIONS}")
+        # Per-series quantities an analyst stage computed and later stages reuse
+        # (sliced along with the series by subset()).
+        self.series_data = {}
         self.P, self.Q, self.D, self.s = standardize(self.force, self.acceleration,
                                                      self.force_sd, self.acceleration_sd)
 
     def subset(self, index):
         """The series selected by `index` (a slice or index array)."""
-        return ReadingSet(self.force[index], self.acceleration[index],
-                          self.force_sd[index], self.acceleration_sd[index])
+        out = ReadingSet(self.force[index], self.acceleration[index],
+                         self.force_sd[index], self.acceleration_sd[index])
+        out.series_data = {k: v[index] for k, v in self.series_data.items()}
+        return out
+
+    def take_readings(self, index):
+        """The same series, keeping only the readings selected by `index` (a slice)."""
+        out = ReadingSet(self.force[:, index], self.acceleration[:, index],
+                         self.force_sd[:, index], self.acceleration_sd[:, index])
+        out.series_data = dict(self.series_data)
+        return out
 
     @property
     def series(self):
