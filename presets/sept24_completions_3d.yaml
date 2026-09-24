@@ -1,0 +1,50 @@
+name: sept24-completions-3d
+question: >-
+  The 24 September premise fixes the weighting only up to a factor in mass. In
+  3D, how much of the change from the 21 September law is the forced part and
+  how much is the chosen completion, and what would the instrument-free
+  completion do instead?
+notes: >-
+  All four are the 21 September measure df d(alpha) dOmega times a weight.
+  sept21: 1. plain: alpha^(d-2) = alpha, the forced excitation factor alone
+  with a flat-in-m completion (record section 3's comparison law).
+  sept24: r^(d-2) = r, the record's completion (uniform in the noise-unit
+  angle). instrument_free: (f alpha)^((d-2)/2) = sqrt(f alpha), the only
+  member of the forced class that is symmetric in f and alpha in every unit
+  system (no sigma in the weight); it is sept24 times sin^(1/2) cos^(1/2) of
+  the noise-unit angle. plain is sept24 times cos of that angle.
+world:
+  dimension: 3
+  design: same_pair
+  mass: [0.25, 1, 4]
+  acceleration_snr: [0.25, 0.5, 1, 2, 4, 8]
+  direction: fixed
+  readings: 1
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: sept21
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: single, prior: []}
+    readouts: [ratio_of_means, median, interval_95]
+  - name: plain
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: single, prior: [{angle_power: {sin: 0, cos: 1, center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95]
+  - name: sept24
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: single, prior: []}
+    readouts: [ratio_of_means, median, interval_95]
+  - name: instrument_free
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: single, prior: [{angle_power: {sin: 0.5, cos: 0.5, center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95]
+scores:
+  within_factor: [1.25, 1.5, 2]
+  compare_to: sept21
+replicates: 4000
+seed: 20260925

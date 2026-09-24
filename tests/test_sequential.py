@@ -79,8 +79,8 @@ def test_validation():
         Estimator(dict(base, combine={"rule": "sequential", "old": OLD, "carry": "exact", "prior": []}))
     est = Estimator(dict(base, combine=_seq("lognormal_fit")))
     with pytest.raises(ValueError, match="at least two"):
-        est.check_world({"readings": 1, "design": "new_excitation"})
+        est.check_world({"readings": 1, "design": "new_excitation", "dimension": 3})
     bad = Estimator(dict(base, combine={"rule": "sequential", "carry": "exact",
                                         "old": {"rule": "likelihood_product", "prior": ["flat_mass"]}}))
     with pytest.raises(ValueError, match="old readings"):
-        bad.check_world({"readings": 3, "design": "new_excitation"})
+        bad.check_world({"readings": 3, "design": "new_excitation", "dimension": 3})

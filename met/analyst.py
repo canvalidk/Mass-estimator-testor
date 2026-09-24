@@ -12,7 +12,7 @@ import math
 
 import numpy as np
 
-from .law import NUISANCES, REFERENCES, ReadingSet
+from .law import NUISANCES, REFERENCES, ReadingSet, nuisance_power
 
 REDUCES = ("none", "pool_pair")
 RULES = ("single", "likelihood_product", "posterior_product", "sequential")
@@ -21,7 +21,7 @@ COORDINATES = ("mass", "log_mass")
 POINT_READOUTS = ("ratio_of_means", "median", "geometric", "reciprocal_root")
 DIRECT_RULES = ("norm_ratio", "dot_acceleration", "dot_force")
 PRIOR_FLAT = ("flat_mass", "flat_log_mass", "flat_inverse_mass")
-PRIOR_PARAMETRIC = ("uniform_angle", "sech_tilt", "lognormal")
+PRIOR_PARAMETRIC = ("uniform_angle", "sech_tilt", "lognormal", "angle_power")
 
 # Numerical settings: the only settings with defaults. Recorded in every output.
 #   span, coarse_step   first search grid: log s of reading 1 +- span, this step
@@ -87,6 +87,11 @@ def prior_log_density(factors, u, readings):
             z = u - _center(params["center"], readings)
             width = float(params["width"])
             total = total - z * z / (2.0 * width * width)
+        elif kind == "angle_power":
+            # sin(theta)^p cos(theta)^q with tan(theta) = m / C. {sin: 1, cos: 1} is uniform_angle.
+            z = u - _center(params["center"], readings)
+            total = total - 0.5 * float(params["sin"]) * np.logaddexp(0.0, -2.0 * z) \
+                          - 0.5 * float(params["cos"]) * np.logaddexp(0.0, 2.0 * z)
         else:
             raise ValueError(f"unknown prior factor {kind!r}")
     return total
@@ -106,7 +111,7 @@ def validate_prior(factors, rule):
             raise ValueError(f"prior factor must be a name or a one-key mapping, got {factor!r}")
         (kind, params), = factor.items()
         required = {"uniform_angle": {"center"}, "sech_tilt": {"lambda", "center"},
-                    "lognormal": {"center", "width"}}.get(kind)
+                    "lognormal": {"center", "width"}, "angle_power": {"sin", "cos", "center"}}.get(kind)
         if required is None:
             raise ValueError(f"unknown prior factor {kind!r}")
         if not isinstance(params, dict) or set(params) != required:
@@ -118,27 +123,39 @@ def validate_prior(factors, rule):
             raise ValueError(f"prior centre must be a positive number or 'first_reading', got {center!r}")
         if kind == "sech_tilt":
             _number(params["lambda"], "sech_tilt lambda")
+        if kind == "angle_power":
+            _number(params["sin"], "angle_power sin")
+            _number(params["cos"], "angle_power cos")
         if kind == "lognormal" and _number(params["width"], "lognormal width") <= 0:
             raise ValueError("lognormal width must be positive")
 
 
 # Tail slopes of the joint log density in u = log m, as u -> +inf and u -> -inf.
 # The radial kernel tends to a constant at both ends whatever the data, so
-# whether a law can be normalised is decided by the settings and N alone.
-_LIKE_SLOPES = {"radius": (0, 0), "acceleration": (-2, 0), "force": (0, 2)}
-_REF_SLOPES = {"radius": (-1, 1), "acceleration": (1, 1), "force": (-1, -1)}
+# whether a law can be normalised is decided by the settings, N and d alone.
+# k is the nuisance power: 2 for the flat reference, d for the cartesian one
+# (so the table depends on the dimension only under the cartesian reference).
+def _like_slopes(nuisance, k):
+    return {"radius": (0, 0), "acceleration": (-k, 0), "force": (0, k)}[nuisance]
+
+
+def _ref_slopes(nuisance, k):
+    return {"radius": (-1, 1), "acceleration": (k - 1, 1), "force": (-1, 1 - k)}[nuisance]
+
+
 _PRIOR_SLOPES = {"flat_mass": (1, 1), "flat_log_mass": (0, 0), "flat_inverse_mass": (-1, -1),
                  "uniform_angle": (-1, 1), "sech_tilt": (0, 0)}
 
 
-def tail_slopes(law, combine, n):
-    """(slope as u -> +inf, slope as u -> -inf, confined) for n readings after reduce.
+def tail_slopes(law, combine, n, d):
+    """(slope as u -> +inf, slope as u -> -inf, confined) for n readings of dimension d after reduce.
 
     `confined` is True when a log-normal factor makes both tails decay regardless.
     The law is proper iff confined, or the first slope is < 0 and the second > 0.
     """
-    like = _LIKE_SLOPES[law["nuisance"]]
-    ref = _REF_SLOPES[law["nuisance"]]
+    k = nuisance_power(d, law["reference"])
+    like = _like_slopes(law["nuisance"], k)
+    ref = _ref_slopes(law["nuisance"], k)
     rule = combine["rule"]
     if rule == "sequential":
         carry = combine["carry"]
@@ -146,7 +163,7 @@ def tail_slopes(law, combine, n):
             return like[0], like[1], True
         if carry == "tilt_fit":
             return like[0] - 1, like[1] + 1, False
-        plus, minus, confined = tail_slopes(law, combine["old"], n - 1)
+        plus, minus, confined = tail_slopes(law, combine["old"], n - 1, d)
         return plus + like[0], minus + like[1], confined
     if rule == "single":
         plus, minus = like[0] + ref[0], like[1] + ref[1]
@@ -162,26 +179,31 @@ def tail_slopes(law, combine, n):
         if kind == "lognormal":
             confined = True
             continue
+        if kind == "angle_power":
+            params = factor["angle_power"]
+            plus -= float(params["cos"])
+            minus += float(params["sin"])
+            continue
         plus += _PRIOR_SLOPES[kind][0]
         minus += _PRIOR_SLOPES[kind][1]
     return plus, minus, confined
 
 
-def check_proper(law, combine, n):
-    """Raise if the declared law cannot be normalised for n readings."""
+def check_proper(law, combine, n, d):
+    """Raise if the declared law cannot be normalised for n readings of dimension d."""
     if combine["rule"] == "sequential":
         if n < 2:
             raise ValueError(f"rule 'sequential' needs at least two readings (old and new), but this world gives {n}")
         try:
-            check_proper(law, combine["old"], n - 1)
+            check_proper(law, combine["old"], n - 1, d)
         except ValueError as error:
             raise ValueError(f"the old readings' law: {error}") from None
     if combine["rule"] == "single" and n != 1:
         raise ValueError(f"rule 'single' needs exactly one reading after reduce, but this world gives {n}")
-    plus, minus, confined = tail_slopes(law, combine, n)
+    plus, minus, confined = tail_slopes(law, combine, n, d)
     if not confined and not (plus < 0 and minus > 0):
         raise ValueError(
-            f"this law cannot be normalised for N = {n}: its log density has slope {plus} as m -> infinity "
+            f"this law cannot be normalised for N = {n} in {d}D: its log density has slope {plus} as m -> infinity "
             f"and {minus} as m -> 0 (in log m); it needs < 0 and > 0. Change the prior or the rule.")
 
 
@@ -192,7 +214,7 @@ def joint_log_density(readings, u, law, combine):
     rule = combine["rule"]
     if rule == "sequential":
         return _sequential_log_density(readings, u, law, combine)
-    log_like, log_ref, cond_alpha = readings.reading_terms(u, law["nuisance"])
+    log_like, log_ref, cond_alpha = readings.reading_terms(u, law["nuisance"], reference=law["reference"])
     n = readings.readings
     if rule == "single":
         if n != 1:
@@ -279,7 +301,7 @@ def _sequential_log_density(readings, u, law, combine):
     carry = combine["carry"]
     n = readings.readings
     new = readings.take_readings(slice(n - 1, n))
-    like_new, _, cond_new = new.reading_terms(u, law["nuisance"])
+    like_new, _, cond_new = new.reading_terms(u, law["nuisance"], reference=law["reference"])
     lp = like_new[:, 0]
     acc = cond_new[:, 0]
     if carry in ("exact", "curve_only"):
@@ -503,7 +525,7 @@ class Estimator:
         if not isinstance(law, dict) or set(law) != {"reference", "nuisance"}:
             raise ValueError(f"{where}: law needs exactly reference and nuisance")
         if law["reference"] not in REFERENCES:
-            raise ValueError(f"{where}: reference must be one of {REFERENCES} (others not built yet)")
+            raise ValueError(f"{where}: reference must be one of {REFERENCES}")
         if law["nuisance"] not in NUISANCES:
             raise ValueError(f"{where}: nuisance must be one of {NUISANCES}")
         combine = spec["combine"]
@@ -571,7 +593,7 @@ class Estimator:
                 f"new_excitation. If that mismatch is intended, add `declared_mismatch: <why>` to the estimator.")
         if self.direct is None:
             try:
-                check_proper(self.spec["law"], self.spec["combine"], n)
+                check_proper(self.spec["law"], self.spec["combine"], n, world["dimension"])
             except ValueError as error:
                 raise ValueError(f"{where}: {error}") from None
 

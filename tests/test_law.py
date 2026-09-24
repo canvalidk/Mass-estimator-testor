@@ -50,9 +50,9 @@ def test_nuisance_splits_give_the_same_single_reading_law(d):
     u = np.tile(np.linspace(-6, 6, 101), (4, 1))
     totals = []
     for nuisance in ("radius", "acceleration", "force"):
-        like, ref, cond = readings.reading_terms(u, nuisance)
+        like, ref, cond = readings.reading_terms(u, nuisance, reference="flat")
         totals.append(like + ref)
-        cond_radius = readings.reading_terms(u, "radius")[2]
+        cond_radius = readings.reading_terms(u, "radius", reference="flat")[2]
         assert np.allclose(cond, cond_radius)
     for other in totals[1:]:
         diff = other - totals[0]

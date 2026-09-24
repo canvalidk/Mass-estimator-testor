@@ -152,7 +152,7 @@ def test_static_tail_slopes_match_the_computed_density(nuisance, rule, prior, n)
     lp, _ = joint_log_density(readings, u, law, combine)
     minus = (lp[0, 1] - lp[0, 0]) / 10
     plus = (lp[0, 3] - lp[0, 2]) / 10
-    expected_plus, expected_minus, _ = tail_slopes(law, combine, n)
+    expected_plus, expected_minus, _ = tail_slopes(law, combine, n, 3)
     assert plus == pytest.approx(expected_plus, abs=1e-6)
     assert minus == pytest.approx(expected_minus, abs=1e-6)
 

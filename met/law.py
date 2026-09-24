@@ -43,6 +43,41 @@ one reading; the split matters only when readings are combined.
     force        f df dOmega             log K + 2 log sin       -u     (flat in 1/m)
 
 (all up to additive constants that do not depend on u).
+
+The cartesian reference (24 September, excitation_weighting_premise_2026-09-24)
+------------------------------------------------------------------------------
+Weight the true pair flat as a VECTOR: d^d v d(theta), with v = r u the pair in
+noise units (r^2 = (f/sigma_F)^2 + (alpha/sigma_a)^2) and theta uniform. Against
+the flat reference,
+
+    d^d v d(theta) = r^(d-1) dr dOmega d(theta) = r^(d-2) df d(alpha) dOmega / (sigma_F sigma_a),
+
+so the cartesian law is the flat law reweighted by r^(d-2): identical in 2D,
+x r in 3D, x 1/r in 1D. The factor splits as r^(d-2) = alpha^(d-2) x
+(sec(theta) / sigma_a)^(d-2): the excitation part alpha^(d-2) that the premise
+forces (flat in the true acceleration vector at fixed mass), and a factor in
+m alone that keeps the single-reading law uniform in theta. The radial
+integral is now a full Gaussian integral over R^d:
+
+    K_d(h) = integral_0^inf r^(d-1) exp(-r^2/2) < exp(r h . u) >_u dr  ~  exp(h^2/2)   (every d)
+
+and E[r | theta] is the mean length of N(w, I_d) with |w| = h (noncentral chi mean):
+
+    d = 1:  sqrt(2/pi) exp(-h^2/2) + h erf(h/sqrt2)                 (folded normal)
+    d = 2:  the Rice mean (as for the flat reference)
+    d = 3:  sqrt(2/pi) exp(-h^2/2) + (h + 1/h) erf(h/sqrt2)
+
+The nuisance splits keep their names; the nuisance measures become the
+d-dimensional volumes (radius: d^d v; acceleration: d^d a* = alpha^(d-1) d(alpha)
+dOmega; force: d^d F*), so the powers 2 become d:
+
+    nuisance     log_like(u)             log_ref(u)
+    radius       h^2/2                   log(sech(z)/2)             (uniform angle)
+    acceleration h^2/2 + d log cos       u + (2 - d) log cos
+    force        h^2/2 + d log sin       -u + (2 - d) log sin
+
+In every dimension, the radius-nuisance likelihood is exactly
+-|F - m a|^2 / (2 (sigma_F^2 + m^2 sigma_a^2)) plus a constant in m.
 """
 
 import math
@@ -52,9 +87,10 @@ from scipy.special import erf, ive
 
 SQRT_HALF_PI = math.sqrt(math.pi / 2)
 SQRT2 = math.sqrt(2.0)
+SQRT_2_OVER_PI = math.sqrt(2.0 / math.pi)
 DIMENSIONS = (1, 2, 3)
 NUISANCES = ("radius", "acceleration", "force")
-REFERENCES = ("flat",)
+REFERENCES = ("flat", "cartesian")
 _SMALL_H = 1e-6
 
 
@@ -86,6 +122,39 @@ def mean_radius(h, d):
         safe = np.where(h > _SMALL_H, h, 1.0)
         return np.where(h > _SMALL_H, safe / erf(safe / SQRT2), SQRT_HALF_PI * (1.0 + h2 / 6.0))
     raise ValueError(f"dimension must be one of {DIMENSIONS}")
+
+
+def cartesian_mean_radius(h, d):
+    """E[r | theta] under the cartesian reference: the mean of |N(w, I_d)| with |w| = h."""
+    h = np.abs(np.asarray(h, dtype=float))
+    h2 = h * h
+    if d == 1:
+        return SQRT_2_OVER_PI * np.exp(-0.5 * h2) + h * erf(h / SQRT2)
+    if d == 2:
+        return mean_radius(h, 2)
+    if d == 3:
+        safe = np.where(h > _SMALL_H, h, 1.0)
+        big = SQRT_2_OVER_PI * np.exp(-0.5 * h2) + (safe + 1.0 / safe) * erf(safe / SQRT2)
+        return np.where(h > _SMALL_H, big, 2.0 * SQRT_2_OVER_PI * (1.0 + h2 / 6.0))
+    raise ValueError(f"dimension must be one of {DIMENSIONS}")
+
+
+def radial_terms(h, d, reference):
+    """(log K, E[r | theta]) for the named reference measure."""
+    if reference == "flat":
+        return log_radial_kernel(h, d), mean_radius(h, d)
+    if reference == "cartesian":
+        if d not in DIMENSIONS:
+            raise ValueError(f"dimension must be one of {DIMENSIONS}")
+        h = np.abs(np.asarray(h, dtype=float))
+        return 0.5 * h * h, cartesian_mean_radius(h, d)
+    raise ValueError(f"reference must be one of {REFERENCES}")
+
+
+def nuisance_power(d, reference):
+    """The power of the latent magnitude in the acceleration/force nuisance measures:
+    2 for the flat reference (alpha d(alpha)), d for the cartesian one (d^d a*)."""
+    return 2 if reference == "flat" else d
 
 
 def standardize(force, acceleration, force_sd, acceleration_sd):
@@ -151,16 +220,19 @@ class ReadingSet:
     def readings(self):
         return self.force.shape[1]
 
-    def reading_terms(self, u, nuisance):
+    def reading_terms(self, u, nuisance, *, reference):
         """Per-reading curves on log-mass grids u of shape (B, G).
 
-        Returns (log_like, log_ref, cond_alpha), each (B, N, G):
+        reference: 'flat' (21 Sept, df d(alpha) dOmega) or 'cartesian' (24 Sept,
+        flat in the vector). Returns (log_like, log_ref, cond_alpha), each (B, N, G):
           log_like   log-likelihood of mass with this reading's nuisance integrated,
           log_ref    the mass factor the single-reading reference implies (density in u),
           cond_alpha E[alpha | m] for this reading.
         """
         if nuisance not in NUISANCES:
             raise ValueError(f"nuisance must be one of {NUISANCES}")
+        if reference not in REFERENCES:
+            raise ValueError(f"reference must be one of {REFERENCES}")
         u = np.asarray(u, dtype=float)[:, None, :]
         z = u - np.log(self.s)[:, :, None]
         log_sin = -0.5 * np.logaddexp(0.0, -2.0 * z)
@@ -168,14 +240,16 @@ class ReadingSet:
         sn, cs = np.exp(log_sin), np.exp(log_cos)
         P, Q, D = (v[:, :, None] for v in (self.P, self.Q, self.D))
         h = np.sqrt(np.maximum(0.0, P * sn * sn + Q * cs * cs + 2.0 * D * sn * cs))
-        log_k = log_radial_kernel(h, self.dimension)
-        cond_alpha = self.acceleration_sd[:, :, None] * cs * mean_radius(h, self.dimension)
+        log_k, radius = radial_terms(h, self.dimension, reference)
+        cond_alpha = self.acceleration_sd[:, :, None] * cs * radius
+        k = nuisance_power(self.dimension, reference)
         if nuisance == "radius":
             log_like, log_ref = log_k, -np.logaddexp(z, -z)
         elif nuisance == "acceleration":
-            log_like, log_ref = log_k + 2.0 * log_cos, np.broadcast_to(u, log_k.shape)
+            log_like, log_ref = log_k + k * log_cos, u + (2 - k) * log_cos
         else:
-            log_like, log_ref = log_k + 2.0 * log_sin, np.broadcast_to(-u, log_k.shape)
+            log_like, log_ref = log_k + k * log_sin, -u + (2 - k) * log_sin
+        log_ref = np.broadcast_to(log_ref, log_k.shape)
         return log_like, log_ref, cond_alpha
 
     def pooled(self):

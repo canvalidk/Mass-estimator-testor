@@ -1,0 +1,40 @@
+name: sept24-completions-1d
+question: >-
+  The 1D counterpart of sept24-completions-3d. In 1D the forced factor is
+  1/alpha and the flat-in-m completion is improper, so the comparison is the
+  21 September law, the record's completion, and the instrument-free one.
+notes: >-
+  instrument_free is (f alpha)^(-1/2) df d(alpha) dOmega = sept24 times
+  sin^(-1/2) cos^(-1/2) of the noise-unit angle. Its law is proper but has
+  heavy tails in log m (slopes -1/2 and +1/2), so its search span is widened.
+world:
+  dimension: 1
+  design: same_pair
+  mass: [0.25, 1, 4]
+  acceleration_snr: [0.25, 0.5, 1, 2, 4, 8]
+  direction: fixed
+  readings: 1
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: sept21
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: single, prior: []}
+    readouts: [ratio_of_means, median, interval_95]
+  - name: sept24
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: single, prior: []}
+    readouts: [ratio_of_means, median, interval_95]
+  - name: instrument_free
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: single, prior: [{angle_power: {sin: -0.5, cos: -0.5, center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95]
+    numerics: {span: 200.0}
+scores:
+  within_factor: [1.25, 1.5, 2]
+  compare_to: sept21
+replicates: 4000
+seed: 20260925
