@@ -43,6 +43,17 @@ one reading; the split matters only when readings are combined.
     force        f df dOmega             log K + 2 log sin       -u     (flat in 1/m)
 
 (all up to additive constants that do not depend on u).
+
+The `cartesian` reference replaces the flat-magnitude measure by one flat in
+each component of the common latent vector v = r u (standardised), and
+uniform in theta:  d^d v d(theta) = r^(d-2) x (flat measure). A d-dimensional
+reading is then exactly d independent one-dimensional projection readings
+sharing the mass, and the radial integral is a plain Gaussian integral:
+
+    K(h) = exp(h^2/2)  in every dimension,   E[r | theta] = mean of a noncentral chi_d.
+
+In 2D the two references coincide. The nuisance splits keep the same mass
+factors (uniform angle, flat in m, flat in 1/m) with K replaced.
 """
 
 import math
@@ -54,7 +65,7 @@ SQRT_HALF_PI = math.sqrt(math.pi / 2)
 SQRT2 = math.sqrt(2.0)
 DIMENSIONS = (1, 2, 3)
 NUISANCES = ("radius", "acceleration", "force")
-REFERENCES = ("flat",)
+REFERENCES = ("flat", "cartesian")
 _SMALL_H = 1e-6
 
 
@@ -85,6 +96,25 @@ def mean_radius(h, d):
     if d == 3:
         safe = np.where(h > _SMALL_H, h, 1.0)
         return np.where(h > _SMALL_H, safe / erf(safe / SQRT2), SQRT_HALF_PI * (1.0 + h2 / 6.0))
+    raise ValueError(f"dimension must be one of {DIMENSIONS}")
+
+
+def cartesian_mean_radius(h, d):
+    """E|v| for v ~ N(w, I_d) with |w| = h: the mean of a noncentral chi variable.
+
+    Under the cartesian reference the latent vector v is Gaussian around w at
+    fixed theta, so this is E[r | theta].
+    """
+    h = np.abs(np.asarray(h, dtype=float))
+    if d == 1:
+        return math.sqrt(2 / math.pi) * np.exp(-0.5 * h * h) + h * erf(h / SQRT2)
+    if d == 2:
+        return mean_radius(h, 2)
+    if d == 3:
+        safe = np.where(h > _SMALL_H, h, 1.0)
+        return np.where(h > _SMALL_H,
+                        math.sqrt(2 / math.pi) * np.exp(-0.5 * h * h) + (safe + 1.0 / safe) * erf(safe / SQRT2),
+                        2 * math.sqrt(2 / math.pi) * (1.0 + h * h / 6.0))
     raise ValueError(f"dimension must be one of {DIMENSIONS}")
 
 
@@ -151,7 +181,7 @@ class ReadingSet:
     def readings(self):
         return self.force.shape[1]
 
-    def reading_terms(self, u, nuisance):
+    def reading_terms(self, u, nuisance, reference="flat"):
         """Per-reading curves on log-mass grids u of shape (B, G).
 
         Returns (log_like, log_ref, cond_alpha), each (B, N, G):
@@ -161,6 +191,8 @@ class ReadingSet:
         """
         if nuisance not in NUISANCES:
             raise ValueError(f"nuisance must be one of {NUISANCES}")
+        if reference not in REFERENCES:
+            raise ValueError(f"reference must be one of {REFERENCES}")
         u = np.asarray(u, dtype=float)[:, None, :]
         z = u - np.log(self.s)[:, :, None]
         log_sin = -0.5 * np.logaddexp(0.0, -2.0 * z)
@@ -168,8 +200,13 @@ class ReadingSet:
         sn, cs = np.exp(log_sin), np.exp(log_cos)
         P, Q, D = (v[:, :, None] for v in (self.P, self.Q, self.D))
         h = np.sqrt(np.maximum(0.0, P * sn * sn + Q * cs * cs + 2.0 * D * sn * cs))
-        log_k = log_radial_kernel(h, self.dimension)
-        cond_alpha = self.acceleration_sd[:, :, None] * cs * mean_radius(h, self.dimension)
+        if reference == "flat":
+            log_k = log_radial_kernel(h, self.dimension)
+            radius = mean_radius(h, self.dimension)
+        else:
+            log_k = 0.5 * h * h
+            radius = cartesian_mean_radius(h, self.dimension)
+        cond_alpha = self.acceleration_sd[:, :, None] * cs * radius
         if nuisance == "radius":
             log_like, log_ref = log_k, -np.logaddexp(z, -z)
         elif nuisance == "acceleration":

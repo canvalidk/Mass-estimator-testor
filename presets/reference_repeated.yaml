@@ -1,0 +1,33 @@
+name: reference-repeated
+question: >-
+  With 50 readings that share only the mass (3D), does the cartesian
+  reference change the symmetric rule's accuracy or its weak-signal
+  undercoverage?
+notes: >-
+  Same world as repetition-new-excitation. Both estimators use the symmetric
+  rule (likelihood product, radius nuisance, half-Cauchy prior at the first
+  reading's instrument ratio); only the reference measure differs.
+world:
+  dimension: 3
+  design: new_excitation
+  mass: [0.25, 1, 4]
+  acceleration_snr: [1, 3]
+  direction: random
+  readings: 50
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: flat
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: cartesian
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+scores:
+  within_factor: [1.1, 1.25, 1.5]
+replicates: 1000
+seed: 20260929

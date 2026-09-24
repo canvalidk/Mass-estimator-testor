@@ -195,7 +195,7 @@ def joint_log_density(readings, u, law, combine):
     rule = combine["rule"]
     if rule == "sequential":
         return _sequential_log_density(readings, u, law, combine)
-    log_like, log_ref, cond_alpha = readings.reading_terms(u, law["nuisance"])
+    log_like, log_ref, cond_alpha = readings.reading_terms(u, law["nuisance"], law["reference"])
     n = readings.readings
     if rule == "single":
         if n != 1:
@@ -234,9 +234,10 @@ def joint_log_density(readings, u, law, combine):
 #                  doubled angle 2 theta_i (m = s_i tan theta_i):
 #                      log L_i ~ ((Q_i - P_i)/4) cos 2theta_i + (D_i/2) sin 2theta_i,
 #                  i.e. the complex number c_i = (1/4) sum_k (y_k + i x_k)^2, times the old prior.
-#                  With a common s the old state is the single vector sum_i c_i. Exact in
-#                  d = 2 (the radial kernel is exp(h^2/2)); in d = 1, 3 it drops the
-#                  factor ~ h^(2-d). Needs the old rule to be likelihood_product, radius.
+#                  With a common s the old state is the single vector sum_i c_i. Exact
+#                  under the cartesian reference in every d, and under the flat
+#                  reference in d = 2; with flat in d = 1, 3 it drops the factor
+#                  ~ h^(2-d). Needs the old rule to be likelihood_product, radius.
 #
 # The fits keep two numbers of the old information, in the slots the prior
 # parameters occupy. A_old is dropped by every carry except `exact`.
@@ -290,7 +291,7 @@ def _sequential_log_density(readings, u, law, combine):
     carry = combine["carry"]
     n = readings.readings
     new = readings.take_readings(slice(n - 1, n))
-    like_new, _, cond_new = new.reading_terms(u, law["nuisance"])
+    like_new, _, cond_new = new.reading_terms(u, law["nuisance"], law["reference"])
     lp = like_new[:, 0]
     acc = cond_new[:, 0]
     if carry in ("exact", "curve_only"):
