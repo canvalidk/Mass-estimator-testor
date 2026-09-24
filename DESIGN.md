@@ -1,6 +1,8 @@
 # Mass estimator tester — design
 
-**Status:** draft for review, 2026-09-24. Nothing below is built yet.
+**Status:** first build done, 2026-09-24 (see README.md for what exists and
+what is not built yet). The open questions at the end were settled
+provisionally as marked; each is Can's to overturn.
 
 ## What this program is for
 
@@ -76,9 +78,12 @@ world ──► readings ──► [reduce] ──► per-reading law ──► 
    Settings: `reference` (`flat`, `tube`, …) and `nuisance`
    (`radius`, `acceleration`, …).
 4. **Combine (analyst).** Joins the per-reading curves into one joint law.
-   Settings: `rule` (`single`, `symmetric`, `mass_matching` = eq. 18,
-   `log_matching` = eq. 20) and `prior` (`none`, a sech tilt with λ and m₀,
-   log-normal …). A prior is always a named setting, including `none`.
+   Settings: `rule` (`single`, `likelihood_product` = count the prior once,
+   `posterior_product` = multiply whole single-reading laws, in mass
+   (eq. 18) or log mass (eq. 20)) and `prior` (a list of factors: flat in m,
+   log m or 1/m, uniform angle, sech tilt, log-normal). The prior is never
+   implicit. (As built; the draft named the rules symmetric / mass_matching /
+   log_matching. Those are now particular settings, listed in the README.)
 5. **Readouts (analyst).** Scalars and intervals from the joint law:
    `ratio_of_means` (eq. 28: ∫ m A p / ∫ A p), `median`, `geometric`,
    `reciprocal_root`, quantile intervals, log SD. **Direct rules** that skip
@@ -88,9 +93,10 @@ world ──► readings ──► [reduce] ──► per-reading law ──► 
    coverage and width. Across rules: paired differences, regret against the
    best rule in the cell, worst-case regret.
 
-An **estimator** in a preset is a named path through stages 2–5. Estimators
-that share a law share its computation: the curves are computed once per
-reading and every readout reuses them.
+An **estimator** in a preset is a named path through stages 2–5. All of its
+readouts come from one evaluation of its joint law. (Sharing the per-reading
+curves between estimators that use the same law is a planned speed-up; the
+first build computes them once per estimator.)
 
 ## Settings with no default
 
@@ -107,51 +113,22 @@ those are recorded in the output.
 
 ## Presets
 
-A preset is one YAML file in `presets/`:
-
-```yaml
-name: repetition-same-pair
-question: Does each combination rule recover the mass when one pair is measured 50 times?
-world:
-  dimension: 3
-  design: same_pair
-  excitation: {acceleration_snr: [1, 3], force_snr_from_mass: true}
-  mass: [0.25, 1, 4]            # in units of s = σ_F/σ_a
-  readings_per_series: 50
-  noise: {force_sd: 1, acceleration_sd: 1}
-  calibration: exact
-estimators:
-  - name: pooled
-    reduce: pool_pair
-    law: {reference: flat, nuisance: radius}
-    combine: {rule: single, prior: none}
-    readouts: [ratio_of_means, median, interval_95]
-  - name: symmetric
-    law: {reference: flat, nuisance: radius}
-    combine: {rule: symmetric, prior: first_reading}
-    readouts: [ratio_of_means, median, interval_95]
-scores: [within_factor: [1.25, 1.5, 2], coverage: [0.8, 0.95]]
-replicates: 2000
-seed: 20260924
-```
-
-Any world setting given as a list becomes a grid axis; each combination is a
-cell. `python -m met run presets/repetition-same-pair.yaml` writes a results
-folder holding a copy of the preset, the code version, and the per-cell
-scores.
+A preset is one YAML file in `presets/`. See
+`presets/repetition_same_pair.yaml` for a complete one, and the README for
+every setting. Any world setting given as a list becomes a grid axis; each
+combination is a cell. `python -m met run presets/<file>.yaml` writes a
+results folder holding a copy of the preset, the code version, every
+readout for every replicate, and the per-cell scores.
 
 ## Tests
 
 Two kinds, kept apart:
 
-- **Tests** check that the code computes what it claims. They are exact where
-  possible: the zero-reading null law (half-Cauchy, log SD π/2, the 95%
-  interval [0.0393, 25.45]·s), reciprocal symmetry, unit covariance, the
-  known-direction truncated-normal means, the 1D law against Liseo's eq. (12),
-  the eq. (18)/(20) angle identities against the symmetric rule, and the
-  composition identities (L) and (R) on the readout. One spot-check against
-  the old lab's core law, on a handful of inputs, to catch a mistake on
-  either side.
+- **Tests** check that the code computes what it claims, exactly where
+  possible. The built list is in the README. Planned and not yet written:
+  the 1D law against Liseo's eq. (12), the known-direction truncated-normal
+  means (known direction is not built), and the composition identities (L)
+  and (R) on the readout.
 - **Studies** are presets. They answer questions about estimators. A study is
   never a test.
 
@@ -166,9 +143,14 @@ Two kinds, kept apart:
 5. Two presets: the repetition study run both ways (same pair, new
    excitation), and a single-reading operating-range grid.
 
-## Open, for Can to rule
+## Open questions, settled provisionally in the first build
 
-- The no-default list above: anything to add or remove?
-- Should masses and SNRs be stated in units of s = σ_F/σ_a (as the old lab
-  did), or in physical units with s derived?
-- Is a prior a property of the combination stage (as here), or its own stage?
+- **No-default list:** as above. In addition, a prior can only be omitted
+  (`prior: []`) where the law already carries its reference (`single`,
+  `posterior_product`); `likelihood_product` refuses an empty prior.
+- **Units:** physical. The world states true SDs and a physical mass; s is
+  derived. Presets that set both SDs to 1 read in units of s.
+- **Where the prior lives:** in the combine stage, as a list of factors.
+  The per-reading law still reports its implied reference factor separately,
+  so "count the reference once" and "count it N times" are both explicit
+  choices (`likelihood_product` vs `posterior_product`).

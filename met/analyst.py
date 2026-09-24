@@ -23,7 +23,34 @@ PRIOR_FLAT = ("flat_mass", "flat_log_mass", "flat_inverse_mass")
 PRIOR_PARAMETRIC = ("uniform_angle", "sech_tilt", "lognormal")
 
 # Numerical settings: the only settings with defaults. Recorded in every output.
-DEFAULT_NUMERICS = {"span": 60.0, "coarse_step": 0.05, "cutoff": 40.0, "grid_points": 2001}
+#   span, coarse_step   first search grid: log s of reading 1 +- span, this step
+#   cutoff              the law is cut where it falls exp(-cutoff) below its peak
+#   min_support_steps   refine the search until the support spans this many steps
+#   refine_points       points per refinement pass
+#   grid_points         points of the final uniform grid
+DEFAULT_NUMERICS = {"span": 60.0, "coarse_step": 0.05, "cutoff": 40.0, "grid_points": 2001,
+                    "min_support_steps": 100, "refine_points": 401}
+_INTEGER_NUMERICS = {"grid_points": 201, "min_support_steps": 10, "refine_points": 101}
+
+
+def _number(value, label):
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+        raise ValueError(f"{label} must be a finite number, got {value!r}")
+    return float(value)
+
+
+def validate_numerics(numerics):
+    if not isinstance(numerics, dict):
+        raise ValueError("numerics must be a mapping")
+    unknown = set(numerics) - set(DEFAULT_NUMERICS)
+    if unknown:
+        raise ValueError(f"unknown numerics setting(s) {sorted(unknown)}; allowed: {sorted(DEFAULT_NUMERICS)}")
+    for key, value in numerics.items():
+        if key in _INTEGER_NUMERICS:
+            if type(value) is not int or value < _INTEGER_NUMERICS[key]:
+                raise ValueError(f"numerics.{key} must be an integer >= {_INTEGER_NUMERICS[key]}")
+        elif _number(value, f"numerics.{key}") <= 0:
+            raise ValueError(f"numerics.{key} must be positive")
 
 
 # ---------------------------------------------------------------- priors
@@ -84,8 +111,62 @@ def validate_prior(factors, rule):
         if not isinstance(params, dict) or set(params) != required:
             raise ValueError(f"prior factor {kind} needs exactly: {', '.join(sorted(required))}")
         center = params["center"]
-        if center != "first_reading" and not (isinstance(center, (int, float)) and center > 0):
+        if center != "first_reading" and not (
+                not isinstance(center, bool) and isinstance(center, (int, float))
+                and math.isfinite(center) and center > 0):
             raise ValueError(f"prior centre must be a positive number or 'first_reading', got {center!r}")
+        if kind == "sech_tilt":
+            _number(params["lambda"], "sech_tilt lambda")
+        if kind == "lognormal" and _number(params["width"], "lognormal width") <= 0:
+            raise ValueError("lognormal width must be positive")
+
+
+# Tail slopes of the joint log density in u = log m, as u -> +inf and u -> -inf.
+# The radial kernel tends to a constant at both ends whatever the data, so
+# whether a law can be normalised is decided by the settings and N alone.
+_LIKE_SLOPES = {"radius": (0, 0), "acceleration": (-2, 0), "force": (0, 2)}
+_REF_SLOPES = {"radius": (-1, 1), "acceleration": (1, 1), "force": (-1, -1)}
+_PRIOR_SLOPES = {"flat_mass": (1, 1), "flat_log_mass": (0, 0), "flat_inverse_mass": (-1, -1),
+                 "uniform_angle": (-1, 1), "sech_tilt": (0, 0)}
+
+
+def tail_slopes(law, combine, n):
+    """(slope as u -> +inf, slope as u -> -inf, confined) for n readings after reduce.
+
+    `confined` is True when a log-normal factor makes both tails decay regardless.
+    The law is proper iff confined, or the first slope is < 0 and the second > 0.
+    """
+    like = _LIKE_SLOPES[law["nuisance"]]
+    ref = _REF_SLOPES[law["nuisance"]]
+    rule = combine["rule"]
+    if rule == "single":
+        plus, minus = like[0] + ref[0], like[1] + ref[1]
+    elif rule == "likelihood_product":
+        plus, minus = n * like[0], n * like[1]
+    elif combine["coordinate"] == "mass":
+        plus, minus = n * (like[0] + ref[0]) + (1 - n), n * (like[1] + ref[1]) + (1 - n)
+    else:
+        plus, minus = n * (like[0] + ref[0]), n * (like[1] + ref[1])
+    confined = False
+    for factor in combine["prior"]:
+        kind = factor if isinstance(factor, str) else next(iter(factor))
+        if kind == "lognormal":
+            confined = True
+            continue
+        plus += _PRIOR_SLOPES[kind][0]
+        minus += _PRIOR_SLOPES[kind][1]
+    return plus, minus, confined
+
+
+def check_proper(law, combine, n):
+    """Raise if the declared law cannot be normalised for n readings."""
+    if combine["rule"] == "single" and n != 1:
+        raise ValueError(f"rule 'single' needs exactly one reading after reduce, but this world gives {n}")
+    plus, minus, confined = tail_slopes(law, combine, n)
+    if not confined and not (plus < 0 and minus > 0):
+        raise ValueError(
+            f"this law cannot be normalised for N = {n}: its log density has slope {plus} as m -> infinity "
+            f"and {minus} as m -> 0 (in log m); it needs < 0 and > 0. Change the prior or the rule.")
 
 
 # ---------------------------------------------------------------- joint law
@@ -154,6 +235,24 @@ def _quantiles(u, density, cdf, probabilities, newton_steps=4):
     return out
 
 
+def _support(readings, grid, law, combine, cutoff):
+    """Where the law is within exp(-cutoff) of its peak on `grid` (B, G).
+
+    Returns lo, hi (two grid steps outside the support), the support's width in
+    grid steps, and whether the support touches either end of the grid.
+    """
+    lp, _ = joint_log_density(readings, grid, law, combine)
+    top = np.max(lp, axis=1, keepdims=True)
+    keep = lp > top - cutoff
+    first = np.argmax(keep, axis=1)
+    last = keep.shape[1] - 1 - np.argmax(keep[:, ::-1], axis=1)
+    touches = (~np.isfinite(top[:, 0])) | (first == 0) | (last == keep.shape[1] - 1)
+    rows = np.arange(grid.shape[0])
+    lo = grid[rows, np.maximum(first - 2, 0)]
+    hi = grid[rows, np.minimum(last + 2, keep.shape[1] - 1)]
+    return lo, hi, (last - first).astype(float), touches
+
+
 def posterior_summaries(readings, law, combine, readouts, numerics=None):
     """Evaluate the joint law on an adaptive log-mass grid and compute readouts.
 
@@ -166,15 +265,17 @@ def posterior_summaries(readings, law, combine, readouts, numerics=None):
     center = np.log(readings.s[:, 0])
     offsets = np.arange(-num["span"], num["span"] + num["coarse_step"] / 2, num["coarse_step"])
     coarse = center[:, None] + offsets[None, :]
-    lp, _ = joint_log_density(readings, coarse, law, combine)
-    top = np.max(lp, axis=1, keepdims=True)
-    keep = lp > top - num["cutoff"]
-    first = np.argmax(keep, axis=1)
-    last = keep.shape[1] - 1 - np.argmax(keep[:, ::-1], axis=1)
-    unresolved = (~np.isfinite(top[:, 0])) | (first == 0) | (last == keep.shape[1] - 1)
-    rows = np.arange(b)
-    lo = coarse[rows, np.maximum(first - 2, 0)]
-    hi = coarse[rows, np.minimum(last + 2, keep.shape[1] - 1)]
+    lo, hi, span_steps, unresolved = _support(readings, coarse, law, combine, num["cutoff"])
+    # A safety net only: laws that cannot be normalised are refused at validation
+    # (check_proper). Off-grid here means a proper law sits outside the search span.
+    for _ in range(12):
+        narrow = np.flatnonzero(~unresolved & (span_steps < num["min_support_steps"]))
+        if narrow.size == 0:
+            break
+        grid = lo[narrow, None] + (hi - lo)[narrow, None] * np.linspace(0, 1, num["refine_points"])[None, :]
+        lo_n, hi_n, steps_n, bad_n = _support(readings.subset(narrow), grid, law, combine, num["cutoff"])
+        lo[narrow], hi[narrow], span_steps[narrow] = lo_n, hi_n, steps_n
+        unresolved[narrow] |= bad_n
 
     g = int(num["grid_points"])
     t = np.linspace(0.0, 1.0, g)
@@ -197,7 +298,7 @@ def posterior_summaries(readings, law, combine, readouts, numerics=None):
         if "geometric" in wanted:
             out["geometric"] = np.exp(mean_u)
         if "log_sd" in wanted:
-            out["log_sd"] = np.sqrt(np.maximum(np.sum(w * u * u, axis=1) - mean_u**2, 0.0))
+            out["log_sd"] = np.sqrt(np.sum(w * (u - mean_u[:, None]) ** 2, axis=1))
     if "reciprocal_root" in wanted:
         out["reciprocal_root"] = np.sum(w * np.exp(0.5 * u), axis=1) / np.sum(w * np.exp(-0.5 * u), axis=1)
     probabilities, slots = [], []
@@ -266,21 +367,28 @@ class Estimator:
         self.name = str(spec["name"])
         self.spec = spec
         where = f"estimator {self.name!r}"
+        self.declared_mismatch = spec.get("declared_mismatch")
+        if self.declared_mismatch is not None and (
+                not isinstance(self.declared_mismatch, str) or not self.declared_mismatch.strip()):
+            raise ValueError(f"{where}: declared_mismatch must be a sentence saying why")
         if "direct" in spec:
-            extra = set(spec) - {"name", "direct"}
+            extra = set(spec) - {"name", "direct", "reduce", "declared_mismatch"}
             if extra:
-                raise ValueError(f"{where}: a direct rule takes only 'name' and 'direct' (got {sorted(extra)})")
+                raise ValueError(f"{where}: a direct rule takes name, direct, reduce (got {sorted(extra)})")
             if spec["direct"] not in DIRECT_RULES:
                 raise ValueError(f"{where}: direct rule must be one of {DIRECT_RULES}")
+            if spec.get("reduce") != "pool_pair":
+                raise ValueError(f"{where}: a direct rule acts on one pair, so it must state reduce: pool_pair")
             self.direct = spec["direct"]
             self.readouts = [self.direct]
+            self.numerics = None
             return
         self.direct = None
         required = {"name", "reduce", "law", "combine", "readouts"}
         missing = required - set(spec)
         if missing:
             raise ValueError(f"{where}: missing required setting(s) {sorted(missing)}")
-        extra = set(spec) - required - {"numerics"}
+        extra = set(spec) - required - {"numerics", "declared_mismatch"}
         if extra:
             raise ValueError(f"{where}: unknown setting(s) {sorted(extra)}")
         if spec["reduce"] not in REDUCES:
@@ -318,7 +426,32 @@ class Estimator:
                 continue
             raise ValueError(f"{where}: unknown readout {name!r}")
         self.readouts = list(readouts)
+        try:
+            validate_numerics(spec.get("numerics", {}))
+        except ValueError as error:
+            raise ValueError(f"{where}: {error}") from None
         self.numerics = dict(DEFAULT_NUMERICS, **spec.get("numerics", {}))
+
+    @property
+    def pools(self):
+        """Whether this estimator averages a series' readings into one pair."""
+        return self.spec.get("reduce") == "pool_pair"
+
+    def check_world(self, world):
+        """Refuse settings that don't fit this world: improper laws, 'single' with
+        several readings, and undeclared model/world mismatches."""
+        where = f"estimator {self.name!r}"
+        n = 1 if self.pools else world["readings"]
+        if self.pools and world["design"] == "new_excitation" and world["readings"] > 1 \
+                and self.declared_mismatch is None:
+            raise ValueError(
+                f"{where} pools readings, which assumes they share one latent pair, but the world's design is "
+                f"new_excitation. If that mismatch is intended, add `declared_mismatch: <why>` to the estimator.")
+        if self.direct is None:
+            try:
+                check_proper(self.spec["law"], self.spec["combine"], n)
+            except ValueError as error:
+                raise ValueError(f"{where}: {error}") from None
 
     def evaluate(self, readings):
         if self.direct is not None:

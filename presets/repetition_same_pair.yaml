@@ -40,6 +40,7 @@ estimators:
     readouts: [ratio_of_means, median, interval_95, interval_80]
   - name: vector_length
     direct: norm_ratio
+    reduce: pool_pair
 scores:
   within_factor: [1.1, 1.25, 1.5]
 replicates: 1000

@@ -117,3 +117,77 @@ def test_pooling_a_repeated_pair_equals_one_precise_reading():
     direct = _series(f.mean(axis=1), a.mean(axis=1), 1 / math.sqrt(20), 1 / math.sqrt(20))
     _same(posterior_summaries(pooled, FLAT, {"rule": "single", "prior": []}, READOUTS),
           posterior_summaries(direct, FLAT, {"rule": "single", "prior": []}, READOUTS), rtol=1e-12)
+
+
+# ---------------------------------------------------------------- added after the independent review
+
+import zlib
+
+from met.analyst import tail_slopes
+
+
+@pytest.mark.parametrize("nuisance,rule,prior,n", [
+    (nu, rule, prior, n)
+    for nu in ("radius", "acceleration", "force")
+    for rule in ("single", "likelihood_product", "posterior_mass", "posterior_log")
+    for prior in ([], ["flat_mass"], ["flat_log_mass"], ["flat_inverse_mass"],
+                  [{"uniform_angle": {"center": "first_reading"}}],
+                  [{"sech_tilt": {"lambda": 2.0, "center": 1.0}}])
+    for n in (1, 3)
+    if not (rule == "single" and n != 1)
+])
+def test_static_tail_slopes_match_the_computed_density(nuisance, rule, prior, n):
+    """The properness check reads tail slopes from a table; compare with the real density."""
+    combine = {"rule": {"posterior_mass": "posterior_product", "posterior_log": "posterior_product"}.get(rule, rule),
+               "prior": prior}
+    if rule == "posterior_mass":
+        combine["coordinate"] = "mass"
+    if rule == "posterior_log":
+        combine["coordinate"] = "log_mass"
+    rng = np.random.default_rng(zlib.crc32(f"{nuisance}{rule}{n}{prior}".encode()))
+    readings = ReadingSet(rng.normal(size=(1, n, 3)) * 2 + 1, rng.normal(size=(1, n, 3)) + 0.5,
+                          rng.uniform(0.5, 2, size=(1, n)), rng.uniform(0.5, 2, size=(1, n)))
+    law = {"reference": "flat", "nuisance": nuisance}
+    u = np.array([[-80.0, -70.0, 70.0, 80.0]])
+    lp, _ = joint_log_density(readings, u, law, combine)
+    minus = (lp[0, 1] - lp[0, 0]) / 10
+    plus = (lp[0, 3] - lp[0, 2]) / 10
+    expected_plus, expected_minus, _ = tail_slopes(law, combine, n)
+    assert plus == pytest.approx(expected_plus, abs=1e-6)
+    assert minus == pytest.approx(expected_minus, abs=1e-6)
+
+
+@pytest.mark.parametrize("snr", [3e4, 1e5, 1e6])
+def test_very_precise_readings_are_resolved(snr):
+    """At high SNR the law of log m is close to normal with sd sqrt(1/snr_F^2 + 1/snr_a^2)."""
+    readings = _series([[3.0 * snr, 0, 0]], [[snr, 0, 0]], 1.0, 1.0)
+    out = posterior_summaries(readings, FLAT, {"rule": "single", "prior": []},
+                              ["ratio_of_means", "median", "log_sd", "interval_95"])
+    sd = math.sqrt(1 / (3 * snr) ** 2 + 1 / snr**2)
+    assert not out["unresolved"][0]
+    assert out["log_sd"][0] == pytest.approx(sd, rel=1e-3)
+    assert out["ratio_of_means"][0] == pytest.approx(3.0, abs=0.05 * sd * 3)
+    lo, hi = np.log(out["interval_95"][0] / out["median"][0])
+    assert -lo == pytest.approx(1.959964 * sd, rel=2e-3)
+    assert hi == pytest.approx(1.959964 * sd, rel=2e-3)
+
+
+def test_pooling_equals_the_same_pair_likelihood_by_brute_force():
+    """1D: the N-reading same-pair law, integrated directly over (f, alpha, direction),
+    against the estimator applied to the pooled pair."""
+    rng = np.random.default_rng(6)
+    n, sf, sa = 4, 1.0, 0.7
+    f_obs = 2.4 + sf * rng.standard_normal(n)
+    a_obs = 1.1 + sa * rng.standard_normal(n)
+    f = np.linspace(1e-6, 8.0, 1601)[:, None]
+    a = np.linspace(1e-6, 4.0, 1601)[None, :]
+    logs = []
+    for sign in (1.0, -1.0):
+        q = sum((fo - sign * f) ** 2 / sf**2 + (ao - sign * a) ** 2 / sa**2 for fo, ao in zip(f_obs, a_obs))
+        logs.append(-q / 2)
+    top = max(np.max(x) for x in logs)
+    w = sum(np.exp(x - top) for x in logs)
+    brute = float(np.sum(w * f) / np.sum(w * a))
+    readings = ReadingSet(f_obs[None, :, None], a_obs[None, :, None], np.full((1, n), sf), np.full((1, n), sa))
+    pooled = posterior_summaries(readings.pooled(), FLAT, {"rule": "single", "prior": []}, ["ratio_of_means"])
+    assert pooled["ratio_of_means"][0] == pytest.approx(brute, rel=2e-5)

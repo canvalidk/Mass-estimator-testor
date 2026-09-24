@@ -62,7 +62,8 @@ def worst_regret(cells, factors):
     for name in names:
         out[name] = {}
         for k in map(str, factors):
-            values = [(c["scores"]["points"][name]["regret"][k], c["id"]) for c in cells]
-            worst, where = max(values)
-            out[name][k] = {"value": worst, "cell": where}
+            values = [c["scores"]["points"][name]["regret"][k] for c in cells]
+            worst = max(values)
+            out[name][k] = {"value": worst, "cell": cells[values.index(worst)]["id"],
+                            "ties": sum(v == worst for v in values)}
     return out

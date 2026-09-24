@@ -1,8 +1,10 @@
 """Run a preset: generate each cell's data once, pass it to every estimator, score.
 
 All estimators in a cell see the same readings, so their scores are paired.
-The data of cell i is drawn from SeedSequence(seed, spawn_key=(i,)), so any
-cell can be regenerated exactly from the preset.
+Series i of a cell is drawn from SeedSequence(seed, spawn_key=(cell_key, i)),
+where cell_key is a hash of the cell's world settings. So any series can be
+regenerated from the preset; a quick run with fewer replicates sees the first
+series of the full run; and adding a grid value does not change other cells.
 """
 
 import datetime as _dt
@@ -19,7 +21,7 @@ import yaml
 
 from . import preset as preset_mod
 from .scores import add_regret, score_interval, score_point, worst_regret
-from .world import generate
+from .world import cell_key, generate, series_rngs
 
 PACKAGE = Path(__file__).resolve().parent
 
@@ -38,9 +40,8 @@ def code_version():
             "python": platform.python_version(), "numpy": np.__version__}
 
 
-def run_cell(cell, index, estimators, replicates, seed, factors, batch_elements, progress=None):
-    rng = np.random.default_rng(np.random.SeedSequence(seed, spawn_key=(index,)))
-    readings, truth = generate(cell["world"], replicates, rng)
+def run_cell(cell, estimators, replicates, seed, factors, batch_elements, progress=None):
+    readings, truth = generate(cell["world"], series_rngs(seed, cell["world"], replicates))
     n = readings.readings
     values, seconds = {}, {}
     for est in estimators:
@@ -62,7 +63,8 @@ def run_cell(cell, index, estimators, replicates, seed, factors, batch_elements,
             scores["intervals"][f"{est.name}.{name}"] = score_interval(v[name], truth["mass"])
         scores.setdefault("unresolved", {})[est.name] = int(np.sum(v["unresolved"]))
     add_regret(scores, factors)
-    return {"id": cell["id"], "axes": cell["axes"], "world": cell["world"], "scores": scores,
+    return {"id": cell["id"], "axes": cell["axes"], "world": cell["world"],
+            "cell_key": cell_key(cell["world"]), "scores": scores,
             "seconds": seconds}, values
 
 
@@ -73,14 +75,18 @@ def run(path, out_root="results", replicates=None, progress=print):
     factors = raw["scores"]["within_factor"]
     stamp = _dt.datetime.now().strftime("%Y%m%d-%H%M%S")
     out = Path(out_root) / raw["name"] / stamp
-    out.mkdir(parents=True, exist_ok=False)
+    suffix = 1
+    while out.exists():
+        suffix += 1
+        out = Path(out_root) / raw["name"] / f"{stamp}-{suffix}"
+    out.mkdir(parents=True)
     (out / "preset.yaml").write_text(Path(path).read_text(encoding="utf-8"), encoding="utf-8")
     cells, arrays = [], {}
     start = time.perf_counter()
-    for index, cell in enumerate(spec["cells"]):
+    for cell in spec["cells"]:
         if progress:
             progress(f"cell {cell['id']} {cell['axes']}")
-        result, values = run_cell(cell, index, spec["estimators"], reps, raw["seed"], factors,
+        result, values = run_cell(cell, spec["estimators"], reps, raw["seed"], factors,
                                   spec["numerics"]["batch_elements"], progress)
         cells.append(result)
         for est, readouts in values.items():

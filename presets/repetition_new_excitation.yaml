@@ -21,6 +21,7 @@ world:
 estimators:
   - name: pooled_mismatched
     reduce: pool_pair
+    declared_mismatch: averages readings that do not share a pair, to show what that does
     law: {reference: flat, nuisance: radius}
     combine: {rule: single, prior: []}
     readouts: [ratio_of_means, median, interval_95, interval_80]
@@ -41,6 +42,8 @@ estimators:
     readouts: [ratio_of_means, median, interval_95, interval_80]
   - name: vector_length
     direct: norm_ratio
+    reduce: pool_pair
+    declared_mismatch: the vector-length rule acts on one pair, so it averages readings that do not share one
 scores:
   within_factor: [1.1, 1.25, 1.5]
 replicates: 1000

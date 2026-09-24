@@ -105,6 +105,12 @@ def validate(data):
     if len(set(names)) != len(names):
         raise ValueError("estimator names must be unique")
     cells = expand(data["world"])
+    for cell in cells:
+        for est in estimators:
+            try:
+                est.check_world(cell["world"])
+            except ValueError as error:
+                raise ValueError(f"cell {cell['id']} {cell['axes']}: {error}") from None
     numerics = dict(DEFAULT_RUN_NUMERICS, **(data.get("numerics") or {}))
     if set(numerics) != set(DEFAULT_RUN_NUMERICS):
         raise ValueError(f"preset.numerics accepts only {sorted(DEFAULT_RUN_NUMERICS)}")

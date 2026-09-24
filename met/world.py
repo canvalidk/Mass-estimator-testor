@@ -20,6 +20,9 @@ A cell of a study is one fully specified world. Its settings:
                     {force_scale, acceleration_scale}: supplied = scale x true
 """
 
+import hashlib
+import json
+
 import numpy as np
 
 from .law import DIMENSIONS, ReadingSet
@@ -46,7 +49,7 @@ def validate_cell(cell):
     extra = set(cell) - set(WORLD_KEYS)
     if extra:
         raise ValueError(f"unknown world setting(s): {sorted(extra)}")
-    if cell["dimension"] not in DIMENSIONS:
+    if type(cell["dimension"]) is not int or cell["dimension"] not in DIMENSIONS:
         raise ValueError(f"world.dimension must be one of {DIMENSIONS}")
     if cell["design"] not in DESIGNS:
         raise ValueError(f"world.design must be one of {DESIGNS}")
@@ -64,6 +67,11 @@ def validate_cell(cell):
         _positive(snr, "world.acceleration_snr", allow_zero=True)
     if type(cell["readings"]) is not int or cell["readings"] < 1:
         raise ValueError("world.readings must be a positive integer")
+    if (cell["design"] == "new_excitation" and cell["direction"] == "fixed"
+            and not isinstance(snr, dict) and cell["readings"] > 1):
+        raise ValueError("world.design new_excitation with a fixed direction and a single acceleration_snr "
+                         "gives every reading the same latent pair; say design: same_pair, or vary the "
+                         "direction or the excitation")
     noise = cell["noise"]
     if not isinstance(noise, dict) or set(noise) != {"force_sd", "acceleration_sd"}:
         raise ValueError("world.noise needs exactly force_sd and acceleration_sd")
@@ -95,25 +103,41 @@ def _snrs(rng, count, spec):
     return np.full(count, float(spec))
 
 
-def generate(cell, series, rng):
-    """Draw `series` independent series of the cell's readings.
+def cell_key(cell):
+    """A stable integer from the cell's settings, so its data do not depend on
+    where the cell sits in the grid."""
+    canonical = json.dumps(cell, sort_keys=True, default=float)
+    return int(hashlib.sha256(canonical.encode()).hexdigest()[:15], 16)
+
+
+def series_rngs(seed, cell, count):
+    """One independent random stream per series: series i of a cell is the same
+    whether the run asks for 50 series or 5000."""
+    key = cell_key(cell)
+    return [np.random.default_rng(np.random.SeedSequence(seed, spawn_key=(key, i))) for i in range(count)]
+
+
+def generate(cell, rngs):
+    """Draw one series of readings per random stream in `rngs`.
 
     Returns (ReadingSet as the analyst sees it, truth dict).
     """
     d, n = cell["dimension"], cell["readings"]
     sf, sa = cell["noise"]["force_sd"], cell["noise"]["acceleration_sd"]
     mass = float(cell["mass"])
-    pairs = series if cell["design"] == "same_pair" else series * n
-    direction = _directions(rng, pairs, d, cell["direction"])
-    true_a = (_snrs(rng, pairs, cell["acceleration_snr"]) * sa)[:, None] * direction
-    if cell["design"] == "same_pair":
-        true_a = np.repeat(true_a[:, None, :], n, axis=1)
-    else:
-        true_a = true_a.reshape(series, n, d)
-    true_f = mass * true_a
-    force = true_f + sf * rng.standard_normal((series, n, d))
-    acceleration = true_a + sa * rng.standard_normal((series, n, d))
+    same = cell["design"] == "same_pair"
+    series = len(rngs)
+    true_a = np.empty((series, n, d))
+    force = np.empty((series, n, d))
+    acceleration = np.empty((series, n, d))
+    for i, rng in enumerate(rngs):
+        pairs = 1 if same else n
+        direction = _directions(rng, pairs, d, cell["direction"])
+        a = (_snrs(rng, pairs, cell["acceleration_snr"]) * sa)[:, None] * direction
+        true_a[i] = np.repeat(a, n, axis=0) if same else a
+        force[i] = mass * true_a[i] + sf * rng.standard_normal((n, d))
+        acceleration[i] = true_a[i] + sa * rng.standard_normal((n, d))
     supplied = cell["supplied_noise"]
     ksf, ksa = (1.0, 1.0) if supplied == "exact" else (supplied["force_scale"], supplied["acceleration_scale"])
     readings = ReadingSet(force, acceleration, np.full((series, n), sf * ksf), np.full((series, n), sa * ksa))
-    return readings, {"mass": mass, "true_force": true_f, "true_acceleration": true_a}
+    return readings, {"mass": mass, "true_force": mass * true_a, "true_acceleration": true_a}

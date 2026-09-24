@@ -29,10 +29,13 @@ estimators:
     readouts: [ratio_of_means, median, interval_95]
   - name: vector_length
     direct: norm_ratio
+    reduce: pool_pair
   - name: dot_acceleration
     direct: dot_acceleration
+    reduce: pool_pair
   - name: dot_force
     direct: dot_force
+    reduce: pool_pair
 scores:
   within_factor: [1.25, 1.5, 2]
 replicates: 4000
