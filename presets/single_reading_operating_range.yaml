@@ -1,0 +1,39 @@
+name: single-reading-operating-range
+question: >-
+  For one reading, how do the flat law's readouts and the direct rules compare
+  across masses and excitation strengths, including weak excitation?
+notes: >-
+  Masses are in units of s = sigma_F / sigma_a (both SDs are 1). Force SNR is
+  mass x acceleration SNR. `tilted_0.35` is the flat law times contribution
+  12's fitted sech tilt, declared as a prior factor centred at the instrument
+  ratio of the reading.
+world:
+  dimension: 3
+  design: same_pair
+  mass: [0.25, 1, 4]
+  acceleration_snr: [0.5, 1, 2, 4, 8]
+  direction: fixed
+  readings: 1
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: flat
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: single, prior: []}
+    readouts: [ratio_of_means, median, geometric, reciprocal_root, interval_95]
+  - name: tilted_0.35
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: single, prior: [{sech_tilt: {lambda: 0.35, center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95]
+  - name: vector_length
+    direct: norm_ratio
+  - name: dot_acceleration
+    direct: dot_acceleration
+  - name: dot_force
+    direct: dot_force
+scores:
+  within_factor: [1.25, 1.5, 2]
+replicates: 4000
+seed: 20260925

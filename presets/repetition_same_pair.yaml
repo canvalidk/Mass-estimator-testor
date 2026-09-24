@@ -1,0 +1,46 @@
+name: repetition-same-pair
+question: >-
+  When one latent force/acceleration pair is measured 50 times, which way of
+  combining the readings recovers the mass, and do its intervals cover?
+notes: >-
+  The world matches contribution 12's repetition study: every reading in a
+  series measures the same true vector pair. `pooled` is the model that matches
+  this world (contribution 11, eq. 5). The other three model each reading as
+  its own latent pair sharing only the mass, which is true but throws away the
+  shared pair.
+world:
+  dimension: 3
+  design: same_pair
+  mass: [0.25, 1, 4]
+  acceleration_snr: [1, 3]
+  direction: fixed
+  readings: 50
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: pooled
+    reduce: pool_pair
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: single, prior: []}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: symmetric
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: eq18
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: posterior_product, coordinate: mass, prior: []}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: eq20
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: posterior_product, coordinate: log_mass, prior: []}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: vector_length
+    direct: norm_ratio
+scores:
+  within_factor: [1.1, 1.25, 1.5]
+replicates: 1000
+seed: 20260924

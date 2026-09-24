@@ -1,0 +1,47 @@
+name: repetition-new-excitation
+question: >-
+  When each of 50 readings has its own excitation (same mass, new random
+  direction each time), which way of combining the readings recovers the
+  mass, and do its intervals cover?
+notes: >-
+  The world the update rules were built for: readings share only the mass.
+  `pooled_mismatched` averages the readings as if they shared one pair. That
+  is a deliberate mismatch, kept to show what averaging different excitations
+  does (the vectors cancel). The vector-length rule is applied to the same
+  pooled pair, so it is mismatched too.
+world:
+  dimension: 3
+  design: new_excitation
+  mass: [0.25, 1, 4]
+  acceleration_snr: [1, 3]
+  direction: random
+  readings: 50
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: pooled_mismatched
+    reduce: pool_pair
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: single, prior: []}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: symmetric
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: eq18
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: posterior_product, coordinate: mass, prior: []}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: eq20
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: posterior_product, coordinate: log_mass, prior: []}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: vector_length
+    direct: norm_ratio
+scores:
+  within_factor: [1.1, 1.25, 1.5]
+replicates: 1000
+seed: 20260924
