@@ -34,5 +34,5 @@ estimators:
 scores:
   within_factor: [1.1, 1.25, 1.5]
   compare_to: sept21
-replicates: 1000
+replicates: 500
 seed: 20260925
