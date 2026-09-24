@@ -139,6 +139,34 @@ Named combinations from the earlier work:
 - **eq. (18)** is also `likelihood_product` with nuisance `acceleration` and
   prior `[flat_mass]`, exactly (tested).
 
+### The sequential rule: old information in the prior slot
+
+Under `likelihood_product` the exact law of N+1 readings factorises as
+p_old(m) · L_new(m), and the readout's A(m) as A_old(m) + E[α_new | m]. So
+the old readings' information enters exactly where a prior does. The
+`sequential` rule treats the last reading of a series as new and the ones
+before it as old, and `carry` says what of the old information is kept:
+
+```yaml
+combine:
+  rule: sequential
+  carry: exact            # exact | curve_only | lognormal_fit | tilt_fit
+  old: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+```
+
+| carry | old information kept |
+|---|---|
+| `exact` | p_old and A_old (equals `old` applied to all readings; tested) |
+| `curve_only` | p_old exactly; A_old dropped (median and intervals equal exact; tested) |
+| `lognormal_fit` | two numbers: the mean and SD of log m under p_old, as a normal law in log m |
+| `tilt_fit` | two numbers: m₀ and λ of sech(z)·exp(λ(sech z − 1)), z = log(m/m₀), matched to the same mean and SD |
+
+The tilt family contains the zero-reading law (λ = 0, m₀ = s), and for large
+λ it is close to normal with variance 1/(1+λ) in log m. So m₀ is the slot
+for the old estimate and λ the slot for its precision. Add
+`scores: {compare_to: exact}` to measure each carry against the exact law
+series by series.
+
 ### Priors
 
 A prior is a list of factors, multiplied together:
