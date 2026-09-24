@@ -1,0 +1,46 @@
+name: excitation-hierarchy
+question: >-
+  Does giving every reading's excitation one shared, learned Gaussian prior
+  (the hierarchical rule) repair the symmetric rule's weak-signal
+  undercoverage with 50 readings that share only the mass?
+notes: >-
+  The flat excitation prior is the beta -> 1 limit of the hierarchical one,
+  where beta = omega^2 / (1 + omega^2) and omega is the excitation scale in
+  noise units: it asserts the pushes are infinitely larger than the noise.
+  Prediction before running: the flat rule's law is too concentrated by
+  about 1/beta, so its 80% intervals cover about 49-58% in the weak cells
+  (mass s/4 and s at acceleration SNR 1) and about 76% elsewhere. Two kinds of
+  world: fixed push size with random direction (the model's Gaussian shape is
+  then wrong), and Gaussian push vectors (the model is then exactly right).
+world:
+  dimension: 3
+  design: new_excitation
+  mass: [0.25, 1, 4]
+  acceleration_snr: [1, 3, {normal_rms: 1}, {normal_rms: 3}]
+  direction: random
+  readings: 50
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: symmetric_flat
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: symmetric_cartesian
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: hierarchical
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine:
+      rule: hierarchical
+      prior: [{uniform_angle: {center: first_reading}}]
+      excitation: {beta_b: 1}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+scores:
+  within_factor: [1.1, 1.25, 1.5]
+replicates: 500
+seed: 20260930

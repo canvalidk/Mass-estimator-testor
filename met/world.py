@@ -11,7 +11,9 @@ A cell of a study is one fully specified world. Its settings:
                     new_excitation  each reading draws its own latent pair (same mass)
   mass              true mass, physical units (force unit / acceleration unit)
   acceleration_snr  true |a*| / sigma_a per latent pair: a number, or
-                    {uniform: [lo, hi]} drawn per latent pair. 0 means no excitation.
+                    {uniform: [lo, hi]} drawn per latent pair, or {normal_rms: v}: the
+                    whole true acceleration vector drawn as N(0, tau^2 I) with RMS
+                    length v sigma_a (needs direction: random). 0 means no excitation.
   direction         fixed (the first axis) or random (uniform on the sphere),
                     drawn per latent pair
   readings          N readings per series
@@ -57,9 +59,15 @@ def validate_cell(cell):
         raise ValueError(f"world.direction must be one of {DIRECTIONS}")
     _positive(cell["mass"], "world.mass")
     snr = cell["acceleration_snr"]
-    if isinstance(snr, dict):
+    if isinstance(snr, dict) and set(snr) == {"normal_rms"}:
+        _positive(snr["normal_rms"], "world.acceleration_snr.normal_rms")
+        if cell["direction"] != "random":
+            raise ValueError("acceleration_snr {normal_rms} draws the whole true acceleration vector as a "
+                             "Gaussian, so its direction is random: say direction: random")
+    elif isinstance(snr, dict):
         if set(snr) != {"uniform"} or not isinstance(snr["uniform"], list) or len(snr["uniform"]) != 2:
-            raise ValueError("world.acceleration_snr as a distribution must be {uniform: [lo, hi]}")
+            raise ValueError("world.acceleration_snr as a distribution must be {uniform: [lo, hi]} "
+                             "or {normal_rms: value}")
         lo, hi = (_positive(v, "world.acceleration_snr.uniform", allow_zero=True) for v in snr["uniform"])
         if hi < lo:
             raise ValueError("world.acceleration_snr.uniform needs lo <= hi")
@@ -132,8 +140,13 @@ def generate(cell, rngs):
     acceleration = np.empty((series, n, d))
     for i, rng in enumerate(rngs):
         pairs = 1 if same else n
-        direction = _directions(rng, pairs, d, cell["direction"])
-        a = (_snrs(rng, pairs, cell["acceleration_snr"]) * sa)[:, None] * direction
+        spec = cell["acceleration_snr"]
+        if isinstance(spec, dict) and "normal_rms" in spec:
+            # the true acceleration vector is N(0, tau^2 I) with RMS length normal_rms * sigma_a
+            a = rng.standard_normal((pairs, d)) * (spec["normal_rms"] * sa / np.sqrt(d))
+        else:
+            direction = _directions(rng, pairs, d, cell["direction"])
+            a = (_snrs(rng, pairs, spec) * sa)[:, None] * direction
         true_a[i] = np.repeat(a, n, axis=0) if same else a
         force[i] = mass * true_a[i] + sf * rng.standard_normal((n, d))
         acceleration[i] = true_a[i] + sa * rng.standard_normal((n, d))

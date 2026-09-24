@@ -15,7 +15,7 @@ import numpy as np
 from .law import NUISANCES, REFERENCES, ReadingSet
 
 REDUCES = ("none", "pool_pair")
-RULES = ("single", "likelihood_product", "posterior_product", "sequential")
+RULES = ("single", "likelihood_product", "posterior_product", "sequential", "hierarchical")
 CARRIES = ("exact", "curve_only", "lognormal_fit", "tilt_fit", "vonmises_state")
 COORDINATES = ("mass", "log_mass")
 POINT_READOUTS = ("ratio_of_means", "median", "geometric", "reciprocal_root")
@@ -151,7 +151,9 @@ def tail_slopes(law, combine, n):
             return plus + like[0], minus + like[1], confined
         plus, minus, confined = tail_slopes(law, combine["old"], n - 1)
         return plus + like[0], minus + like[1], confined
-    if rule == "single":
+    if rule == "hierarchical":
+        plus, minus = 0, 0
+    elif rule == "single":
         plus, minus = like[0] + ref[0], like[1] + ref[1]
     elif rule == "likelihood_product":
         plus, minus = n * like[0], n * like[1]
@@ -195,6 +197,8 @@ def joint_log_density(readings, u, law, combine):
     rule = combine["rule"]
     if rule == "sequential":
         return _sequential_log_density(readings, u, law, combine)
+    if rule == "hierarchical":
+        return _hierarchical_log_density(readings, u, law, combine)
     log_like, log_ref, cond_alpha = readings.reading_terms(u, law["nuisance"], law["reference"])
     n = readings.readings
     if rule == "single":
@@ -315,6 +319,84 @@ def _sequential_log_density(readings, u, law, combine):
         return lp - z * z / (2.0 * sd * sd), acc
     lam = tilt_lambda_for_sd(sd)
     return lp - np.logaddexp(z, -z) + lam * (1.0 / np.cosh(np.clip(z, -700, 700)) - 1.0), acc
+
+
+# ---------------------------------------------------------------- the hierarchical rule
+#
+# Each reading's standardised latent vector v_i (f/sigma_F = r sin theta, alpha/sigma_a =
+# r cos theta, v = r u) gets a shared prior N(0, omega^2 I) instead of a flat one.
+# Integrating every v_i out exactly leaves, with n = N d and beta = omega^2/(1+omega^2),
+#
+#     L(theta, beta) = (1 - beta)^(n/2) exp(beta H(theta) / 2),   H = sum_i h_i(theta)^2.
+#
+# The flat (cartesian) excitation prior is the beta -> 1 limit. The excitation scale is
+# learned: beta ~ Beta(1, b) is integrated out exactly,
+#
+#     int_0^1 (1-beta)^(n/2+b-1) e^(beta z) d(beta) = e^z int_0^1 g^(c-1) e^(-g z) dg,
+#     c = n/2 + b,  z = H/2,
+#
+# a lower incomplete gamma function. Given theta, v_i ~ N(beta w_i, beta I), so
+# E[alpha_i | theta, beta] = sigma_a cos(theta) sqrt(beta) chi_d(sqrt(beta) h_i); the beta
+# average uses 24 quantile midpoints of beta's conditional law (1 - beta is a Gamma(c, z)
+# truncated to (0, 1)).
+
+_HIER_NODES = (np.arange(24) + 0.5) / 24
+
+
+def _log_lower_gamma_integral(c, z):
+    """log int_0^1 g^(c-1) e^(-g z) dg for c > 0, z >= 0 (vectorised, stable)."""
+    from scipy.special import gammainc, gammaln
+    z = np.asarray(z, dtype=float)
+    out = np.empty_like(z)
+    big = z > c
+    if np.any(big):
+        zb = z[big]
+        out[big] = gammaln(c) - c * np.log(zb) + np.log(gammainc(c, zb))
+    small = ~big
+    if np.any(small):
+        zs = z[small]
+        # int_0^1 g^(c-1) e^(-gz) dg = e^(-z) sum_k z^k / (c (c+1) ... (c+k)), a positive series
+        term = np.full_like(zs, 1.0 / c)
+        total = term.copy()
+        for k in range(1, 2000):
+            term = term * zs / (c + k)
+            total += term
+            if np.all(term < 1e-17 * total):
+                break
+        out[small] = -zs + np.log(total)
+    return out
+
+
+def _hierarchical_log_density(readings, u, law, combine):
+    from scipy.special import gammainc, gammaincinv
+    b = float(combine["excitation"]["beta_b"])
+    like, _, _ = readings.reading_terms(u, "radius", "cartesian")
+    h2 = 2.0 * like                                  # (B, N, G): h_i(theta)^2
+    z = 0.5 * np.sum(h2, axis=1)                     # (B, G): H/2
+    n = readings.readings * readings.dimension
+    c = 0.5 * n + b
+    lp = z + _log_lower_gamma_integral(c, z) + prior_log_density(combine["prior"], u, readings)
+    # A(theta): average over beta | theta, on a sub-grid, interpolated in u (it is smooth)
+    g = u.shape[1]
+    idx = np.unique(np.linspace(0, g - 1, min(g, 201)).round().astype(int))
+    zs = z[:, idx]
+    frac = gammainc(c, np.maximum(zs, 1e-300))[..., None] * _HIER_NODES
+    with np.errstate(divide="ignore", invalid="ignore"):
+        gam = np.where(frac > 1e-280, gammaincinv(c, frac) / np.maximum(zs, 1e-300)[..., None],
+                       _HIER_NODES ** (1.0 / c))
+    beta = np.clip(1.0 - gam, 0.0, 1.0)              # (B, S, 24)
+    from .law import cartesian_mean_radius
+    h = np.sqrt(np.maximum(h2[:, :, idx], 0.0))      # (B, N, S)
+    sq = np.sqrt(beta)[:, None, :, :]                # (B, 1, S, 24)
+    radius = np.mean(sq * cartesian_mean_radius(sq * h[..., None], readings.dimension), axis=3)
+    zrel = u[:, idx][:, None, :] - np.log(readings.s)[:, :, None]
+    cos = np.exp(-0.5 * np.logaddexp(0.0, 2.0 * zrel))
+    acc_sub = np.sum(readings.acceleration_sd[:, :, None] * cos * radius, axis=1)   # (B, S)
+    if len(idx) == g:
+        acc = acc_sub
+    else:
+        acc = np.stack([np.interp(u[i], u[i, idx], acc_sub[i]) for i in range(u.shape[0])])
+    return lp, acc
 
 
 def _trapezoid_weights(n):
@@ -543,6 +625,9 @@ class Estimator:
                                  "product, so it needs old rule likelihood_product and nuisance radius")
         else:
             self._validate_combine(combine, where)
+            if rule == "hierarchical" and (law["reference"] != "cartesian" or law["nuisance"] != "radius"):
+                raise ValueError(f"{where}: the hierarchical rule is built on the cartesian reference "
+                                 "(it is its proper version), so it needs reference cartesian and nuisance radius")
         readouts = spec["readouts"]
         if not isinstance(readouts, list) or not readouts:
             raise ValueError(f"{where}: readouts must be a nonempty list")
@@ -567,6 +652,19 @@ class Estimator:
         rule = combine["rule"]
         if rule not in RULES or rule == "sequential":
             raise ValueError(f"{where}: rule must be one of {RULES}")
+        if rule == "hierarchical":
+            if set(combine) != {"rule", "prior", "excitation"}:
+                raise ValueError(f"{where}: combine for hierarchical needs exactly rule, prior and excitation")
+            exc = combine["excitation"]
+            if not isinstance(exc, dict) or set(exc) != {"beta_b"} or isinstance(exc["beta_b"], bool) \
+                    or not isinstance(exc["beta_b"], (int, float)) or not exc["beta_b"] > 0:
+                raise ValueError(f"{where}: excitation must be {{beta_b: b > 0}} (prior Beta(1, b) on "
+                                 "beta = omega^2/(1+omega^2))")
+            try:
+                validate_prior(combine["prior"], "likelihood_product")
+            except ValueError as error:
+                raise ValueError(f"{where}: {error}") from None
+            return
         allowed = {"rule", "prior"} | ({"coordinate"} if rule == "posterior_product" else set())
         if set(combine) != allowed:
             raise ValueError(f"{where}: combine for {rule} needs exactly {sorted(allowed)}")
