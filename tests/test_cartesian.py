@@ -317,3 +317,70 @@ def test_angle_power_contains_uniform_angle_and_converts_between_completions():
         {"angle_power": {"sin": 0, "cos": 1, "center": "first_reading"}}]}, READOUTS)
     for key in READOUTS:
         assert np.allclose(plain[key], tilted[key], rtol=1e-9), key
+
+
+def test_the_new_mass_law_is_the_21_september_2d_law_in_every_dimension():
+    """The cartesian kernel is exp(h^2/2) for every d, the flat one only in 2D. So a
+    reading's cartesian mass law (not its E[alpha | m]) equals the 21 September law of a
+    2D reading with the same |x|, |y| and x.y."""
+    rng = np.random.default_rng(70)
+    f3, a3 = rng.normal(size=3) * 2, rng.normal(size=3)
+    x, y = np.linalg.norm(f3), np.linalg.norm(a3)
+    cos_xy = f3 @ a3 / (x * y)
+    f2, a2 = np.array([x, 0.0]), np.array([y * cos_xy, y * math.sqrt(1 - cos_xy**2)])
+    u = np.linspace(-6, 6, 241)[None]
+    lp3, _ = joint_log_density(_series(f3, a3, 1.0, 1.0), u, CART, SINGLE)
+    lp2, _ = joint_log_density(_series(f2, a2, 1.0, 1.0), u, FLAT, SINGLE)
+    assert np.ptp(lp3 - lp2) < 1e-10
+    # and an aligned reading gives the same law in 1D and 3D
+    aligned3 = joint_log_density(_series([x, 0, 0], [y, 0, 0], 1.0, 1.0), u, CART, SINGLE)[0]
+    aligned1 = joint_log_density(_series([x], [y], 1.0, 1.0), u, CART, SINGLE)[0]
+    assert np.ptp(aligned3 - aligned1) < 1e-10
+
+
+@pytest.mark.parametrize("d", [1, 3])
+def test_instrument_free_completion_by_brute_force(d):
+    """(f alpha)^((d-2)/2) df d(alpha) dOmega, the sigma-free member of the forced class,
+    is the cartesian law times angle_power {sin: (d-2)/2, cos: (d-2)/2} at the instrument ratio."""
+    rng = np.random.default_rng(80 + d)
+    f, a = rng.normal(size=d) * 1.5, rng.normal(size=d)
+    sf, sa = 1.3, 0.6
+    k = (d - 2) / 2
+    combine = {"rule": "single", "prior": [{"angle_power": {"sin": k, "cos": k, "center": "first_reading"}}]}
+    mine = posterior_summaries(_series(f, a, sf, sa), CART, combine, ["ratio_of_means"],
+                               {"span": 200.0} if d == 1 else None)
+    # theta = (pi/2) sin^2(pi t/2) clusters nodes at both ends, where (f alpha)^k is singular in 1D
+    x, w = roots_legendre(300)
+    t = (x + 1) / 2
+    theta = (math.pi / 2) * np.sin(math.pi * t / 2) ** 2
+    wt = (w / 2) * (math.pi**2 / 2) * np.sin(math.pi * t / 2) * np.cos(math.pi * t / 2)
+    r, wr = (x + 1) * 30.0, w * 30.0
+    R, T = np.meshgrid(r, theta, indexing="ij")
+    fm, al = sf * R * np.sin(T), sa * R * np.cos(T)
+    z = np.linalg.norm(fm[..., None] * f / sf**2 + al[..., None] * a / sa**2, axis=-1)
+    log_avg = z + (np.log(0.5 * (1 + np.exp(-2 * z))) if d == 1 else np.log(-np.expm1(-2 * z) / (2 * z)))
+    log_int = -0.5 * R**2 + log_avg + np.log(R) + k * np.log(fm * al)
+    dens = np.exp(log_int - log_int.max()) * wr[:, None] * wt[None, :]
+    assert mine["ratio_of_means"][0] == pytest.approx(float(np.sum(dens * fm) / np.sum(dens * al)), rel=1e-9)
+
+
+def test_axis_splitting_holds_for_cartesian_and_fails_for_flat_and_the_sigma_free_completion():
+    """Axis splitting: one 3D reading, and its three axes treated as 1D readings under the
+    symmetric rule (prior counted once), give the same law of mass. Only the cartesian law
+    with the uniform-angle completion passes."""
+    rng = np.random.default_rng(90)
+    f, a = rng.normal(size=3) * 2 + 1, rng.normal(size=3) + 0.5
+    u = np.linspace(-5, 5, 201)[None]
+    prior = [{"uniform_angle": {"center": 1.0}}]
+
+    def gap(law, prior3, prior1):
+        one = joint_log_density(_series(f, a, 1.0, 1.0), u, law, {"rule": "likelihood_product", "prior": prior3})[0]
+        three = joint_log_density(_series(f[:, None], a[:, None], 1.0, 1.0), u, law,
+                                  {"rule": "likelihood_product", "prior": prior1})[0]
+        return np.ptp(one - three)
+
+    assert gap(CART, prior, prior) < 1e-10
+    assert gap(FLAT, prior, prior) > 0.1
+    free3 = prior + [{"angle_power": {"sin": 0.5, "cos": 0.5, "center": 1.0}}]
+    free1 = prior + [{"angle_power": {"sin": -0.5, "cos": -0.5, "center": 1.0}}]
+    assert gap(CART, free3, free1) > 0.1

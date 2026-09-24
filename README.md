@@ -67,7 +67,7 @@ world:
 estimators:
   - name: symmetric
     reduce: none               # or pool_pair
-    law: {reference: flat, nuisance: radius}      # nuisance: radius | acceleration | force
+    law: {reference: flat, nuisance: radius}      # reference: flat | cartesian; nuisance: radius | acceleration | force
     combine:
       rule: likelihood_product # single | likelihood_product | posterior_product
       prior: [{uniform_angle: {center: first_reading}}]
@@ -123,6 +123,28 @@ matters only when readings are combined:
 | `acceleration` | α dα dΩ | flat in m |
 | `force` | f df dΩ | flat in 1/m |
 
+#### The `cartesian` reference (24 September)
+
+`reference: cartesian` is the law of `excitation_weighting_premise_2026-09-24`:
+flat in the true pair **as a vector**, d^d v dθ, with v the pair in noise
+units and θ = atan(m/s) uniform. It is the flat measure times r^(d−2),
+r² = (f/σ_F)² + (α/σ_a)², so it is identical to `flat` in 2D. Its radial
+kernel is exp(h²/2) in every dimension, so a reading's law of mass is the
+flat law's 2D form whatever d is (E[α | m], the noncentral chi mean, still
+depends on d). The nuisance measures become d-dimensional volumes:
+
+| nuisance | nuisance measure | implied reference factor on mass |
+|---|---|---|
+| `radius` | d^d v | uniform angle (as for `flat`) |
+| `acceleration` | d^d a* = α^(d−1) dα dΩ | m · cos(θ)^(2−d) |
+| `force` | d^d F* | (1/m) · sin(θ)^(2−d) |
+
+So properness depends on d under this reference: `validate` checks it per
+cell. The premise fixes the weighting only up to a factor in m; other
+completions are this law times an `angle_power` prior (below), e.g.
+`{sin: 0, cos: d−2}` for flat in m and `{sin: (d−2)/2, cos: (d−2)/2}` for the
+σ-free (fα)^((d−2)/2) df dα dΩ.
+
 ### Combination rules
 
 | rule | joint log density | notes |
@@ -172,7 +194,9 @@ series by series.
 A prior is a list of factors, multiplied together:
 `flat_mass`, `flat_log_mass`, `flat_inverse_mass`,
 `{uniform_angle: {center: C}}`, `{sech_tilt: {lambda: λ, center: C}}`,
-`{lognormal: {center: C, width: w}}`. A centre `C` is a positive number or
+`{lognormal: {center: C, width: w}}`,
+`{angle_power: {sin: p, cos: q, center: C}}` (sin^p θ cos^q θ with
+tan θ = m/C; `{sin: 1, cos: 1}` is `uniform_angle`). A centre `C` is a positive number or
 `first_reading` (the instrument ratio s of the series' first reading).
 `likelihood_product` refuses an empty prior. For `single` and
 `posterior_product`, `[]` means no factor beyond the reference already in
@@ -239,6 +263,12 @@ the data of the other cells.
 - very precise data (SNR up to 10⁶) resolved: log SD and interval against
   the normal limit;
 - pooling against the N-reading same-pair law integrated by brute force;
+- the `cartesian` reference (`tests/test_cartesian.py`): kernel and mean
+  radius against radial quadrature; the whole law against brute force in the
+  21 September coordinates with weight r^(d−2), and in 1D against brute force
+  in the record's own variables (a*, m); the record's section 3 formulas term
+  by term; 2D identical to `flat`; a 3D reading equal to three 1D readings;
+  the σ-free completion by brute force; its d-dependent tail slopes;
 - world designs and noise; per-series streams (a quick run is a prefix of the
   full run; grid position does not change a cell's data);
 - presets refusing every missing required setting and each validation hole
@@ -246,7 +276,8 @@ the data of the other cells.
 
 ## Not built yet
 
-- Reference measures other than `flat` (the tube/Jeffreys measure).
+- Reference measures other than `flat` and `cartesian` (the tube/Jeffreys
+  measure), and the hierarchical (finite-temperature) excitation prior.
 - General or anisotropic covariance, correlated channels, and a known
   direction.
 - Calibration estimated from samples, and calibration uncertainty.
