@@ -1,0 +1,114 @@
+name: old-info-vonmises
+question: Does carrying the old readings as one doubled-angle vector (the von Mises state) reproduce the
+  exact answer, exactly in 2D and closely in 3D, and does it beat the log-normal and log-shifted tilt
+  fits?
+notes: 'Each reading''s likelihood is exp((Q-P)/4 cos 2theta + D/2 sin 2theta) times a factor ~ h^(2-d):
+  exactly von Mises in the doubled angle in 2D. With a common s the old readings combine by vector addition,
+  so the old state is two numbers. vonmises_state carries that sum plus the old prior; compared against
+  curve_only (the exact old curve without A_old), exact, and the two moment fits of old-info-as-prior.'
+world:
+  dimension:
+  - 2
+  - 3
+  design: new_excitation
+  mass:
+  - 0.25
+  - 1
+  - 4
+  acceleration_snr:
+  - 1
+  - 3
+  direction: random
+  readings:
+  - 2
+  - 6
+  - 21
+  noise:
+    force_sd: 1
+    acceleration_sd: 1
+  supplied_noise: exact
+estimators:
+- name: exact
+  reduce: none
+  law:
+    reference: flat
+    nuisance: radius
+  combine:
+    rule: sequential
+    carry: exact
+    old:
+      rule: likelihood_product
+      prior:
+      - uniform_angle:
+          center: first_reading
+  readouts:
+  - ratio_of_means
+  - median
+  - interval_95
+- name: curve_only
+  reduce: none
+  law: &id001
+    reference: flat
+    nuisance: radius
+  combine:
+    rule: sequential
+    carry: curve_only
+    old: &id002
+      rule: likelihood_product
+      prior:
+      - uniform_angle:
+          center: first_reading
+  readouts: &id003
+  - ratio_of_means
+  - median
+  - interval_95
+- name: lognormal_fit
+  reduce: none
+  law:
+    reference: flat
+    nuisance: radius
+  combine:
+    rule: sequential
+    carry: lognormal_fit
+    old:
+      rule: likelihood_product
+      prior:
+      - uniform_angle:
+          center: first_reading
+  readouts:
+  - ratio_of_means
+  - median
+  - interval_95
+- name: tilt_fit
+  reduce: none
+  law:
+    reference: flat
+    nuisance: radius
+  combine:
+    rule: sequential
+    carry: tilt_fit
+    old:
+      rule: likelihood_product
+      prior:
+      - uniform_angle:
+          center: first_reading
+  readouts:
+  - ratio_of_means
+  - median
+  - interval_95
+- name: vonmises_state
+  reduce: none
+  law: *id001
+  combine:
+    rule: sequential
+    carry: vonmises_state
+    old: *id002
+  readouts: *id003
+scores:
+  within_factor:
+  - 1.1
+  - 1.25
+  - 1.5
+  compare_to: exact
+replicates: 500
+seed: 20260927

@@ -16,7 +16,7 @@ from .law import NUISANCES, REFERENCES, ReadingSet
 
 REDUCES = ("none", "pool_pair")
 RULES = ("single", "likelihood_product", "posterior_product", "sequential")
-CARRIES = ("exact", "curve_only", "lognormal_fit", "tilt_fit")
+CARRIES = ("exact", "curve_only", "lognormal_fit", "tilt_fit", "vonmises_state")
 COORDINATES = ("mass", "log_mass")
 POINT_READOUTS = ("ratio_of_means", "median", "geometric", "reciprocal_root")
 DIRECT_RULES = ("norm_ratio", "dot_acceleration", "dot_force")
@@ -146,6 +146,9 @@ def tail_slopes(law, combine, n):
             return like[0], like[1], True
         if carry == "tilt_fit":
             return like[0] - 1, like[1] + 1, False
+        if carry == "vonmises_state":
+            plus, minus, confined = tail_slopes(law, combine["old"], 0)
+            return plus + like[0], minus + like[1], confined
         plus, minus, confined = tail_slopes(law, combine["old"], n - 1)
         return plus + like[0], minus + like[1], confined
     if rule == "single":
@@ -227,7 +230,15 @@ def joint_log_density(readings, u, law, combine):
 #   tilt_fit       p_old replaced by the tilted half-Cauchy  sech(z) exp(lambda (sech z - 1)),
 #                  z = log(m / m0), with m0 and lambda set so its mean and SD in log m match
 #
-# The two fits keep two numbers of the old information, in the slots the prior
+#   vonmises_state the old readings' likelihoods replaced by their von Mises parts in the
+#                  doubled angle 2 theta_i (m = s_i tan theta_i):
+#                      log L_i ~ ((Q_i - P_i)/4) cos 2theta_i + (D_i/2) sin 2theta_i,
+#                  i.e. the complex number c_i = (1/4) sum_k (y_k + i x_k)^2, times the old prior.
+#                  With a common s the old state is the single vector sum_i c_i. Exact in
+#                  d = 2 (the radial kernel is exp(h^2/2)); in d = 1, 3 it drops the
+#                  factor ~ h^(2-d). Needs the old rule to be likelihood_product, radius.
+#
+# The fits keep two numbers of the old information, in the slots the prior
 # parameters occupy. A_old is dropped by every carry except `exact`.
 
 def tilt_sd(lam, points=40001):
@@ -289,6 +300,13 @@ def _sequential_log_density(readings, u, law, combine):
         if carry == "exact":
             acc = acc + acc_old
         return lp, acc
+    if carry == "vonmises_state":
+        old = readings.take_readings(slice(0, n - 1))
+        z_old = u[:, None, :] - np.log(old.s)[:, :, None]
+        theta = np.arctan(np.exp(np.clip(z_old, -700, 700)))
+        vm = (((old.Q - old.P) / 4.0)[:, :, None] * np.cos(2 * theta)
+              + (old.D / 2.0)[:, :, None] * np.sin(2 * theta))
+        return lp + np.sum(vm, axis=1) + prior_log_density(combine["old"]["prior"], u, readings), acc
     fit = _old_fit(readings, law, combine)
     mu, sd = fit[:, 0:1], fit[:, 1:2]
     z = u - mu
@@ -518,6 +536,10 @@ class Estimator:
             if not isinstance(old, dict) or old.get("rule") not in ("single", "likelihood_product", "posterior_product"):
                 raise ValueError(f"{where}: combine.old must be a non-sequential combine block")
             self._validate_combine(old, f"{where} (old readings)")
+            if combine["carry"] == "vonmises_state" and (
+                    old["rule"] != "likelihood_product" or law["nuisance"] != "radius"):
+                raise ValueError(f"{where}: vonmises_state approximates the radius-nuisance likelihood "
+                                 "product, so it needs old rule likelihood_product and nuisance radius")
         else:
             self._validate_combine(combine, where)
         readouts = spec["readouts"]
