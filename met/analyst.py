@@ -375,16 +375,24 @@ def _hierarchical_log_density(readings, u, law, combine):
     z = 0.5 * np.sum(h2, axis=1)                     # (B, G): H/2
     n = readings.readings * readings.dimension
     c = 0.5 * n + b
-    lp = z + _log_lower_gamma_integral(c, z) + prior_log_density(combine["prior"], u, readings)
+    fixed = combine.get("_fixed_beta")
+    if fixed is not None:
+        # declared oracle: the true excitation scale is given, not learned
+        lp = 0.5 * n * math.log1p(-fixed) + fixed * z + prior_log_density(combine["prior"], u, readings)
+    else:
+        lp = z + _log_lower_gamma_integral(c, z) + prior_log_density(combine["prior"], u, readings)
     # A(theta): average over beta | theta, on a sub-grid, interpolated in u (it is smooth)
     g = u.shape[1]
     idx = np.unique(np.linspace(0, g - 1, min(g, 201)).round().astype(int))
     zs = z[:, idx]
-    frac = gammainc(c, np.maximum(zs, 1e-300))[..., None] * _HIER_NODES
-    with np.errstate(divide="ignore", invalid="ignore"):
-        gam = np.where(frac > 1e-280, gammaincinv(c, frac) / np.maximum(zs, 1e-300)[..., None],
-                       _HIER_NODES ** (1.0 / c))
-    beta = np.clip(1.0 - gam, 0.0, 1.0)              # (B, S, 24)
+    if fixed is not None:
+        beta = np.full(zs.shape + (1,), float(fixed))
+    else:
+        frac = gammainc(c, np.maximum(zs, 1e-300))[..., None] * _HIER_NODES
+        with np.errstate(divide="ignore", invalid="ignore"):
+            gam = np.where(frac > 1e-280, gammaincinv(c, frac) / np.maximum(zs, 1e-300)[..., None],
+                           _HIER_NODES ** (1.0 / c))
+        beta = np.clip(1.0 - gam, 0.0, 1.0)          # (B, S, 24)
     from .law import cartesian_mean_radius
     h = np.sqrt(np.maximum(h2[:, :, idx], 0.0))      # (B, N, S)
     sq = np.sqrt(beta)[:, None, :, :]                # (B, 1, S, 24)
@@ -563,6 +571,67 @@ def direct_rule(readings, rule):
     return np.where(value > 0, value, np.nan)
 
 
+# ---------------------------------------------------------------- declared oracles
+#
+# An oracle is the one place the analyst is shown part of the truth. It is only
+# ever declared by name in a preset (`oracle: ...`), so it cannot happen by accident.
+#
+#   known_excitation  told every reading's true acceleration vector a*_i. Only the
+#                     force readings are then uncertain: F_i = m a*_i + noise, so with a
+#                     flat prior on m > 0 the law is a normal (mean sum F.a*/sigma^2 over
+#                     sum |a*|^2/sigma^2) truncated to m > 0. A ceiling: no method that
+#                     sees only the readings can know more.
+#   known_beta        the hierarchical rule with the true excitation scale plugged in
+#                     instead of learned (beta from the world's settings). In the Gaussian-
+#                     excitation world it is the best any method can do with the same
+#                     readings and the same mass prior.
+ORACLES = ("known_excitation", "known_beta")
+
+
+def world_beta(world):
+    """The true beta = omega^2 / (1 + omega^2) of a world, from its settings.
+
+    omega^2 is the per-component variance of the standardised latent vector:
+    R^2 (1 + (m/s)^2) / d, with R the RMS acceleration SNR of the pushes.
+    """
+    spec = world["acceleration_snr"]
+    if isinstance(spec, dict) and "normal_rms" in spec:
+        r2 = float(spec["normal_rms"]) ** 2
+    elif isinstance(spec, dict):
+        lo, hi = spec["uniform"]
+        r2 = (lo * lo + lo * hi + hi * hi) / 3.0
+    else:
+        r2 = float(spec) ** 2
+    s = world["noise"]["force_sd"] / world["noise"]["acceleration_sd"]
+    omega2 = r2 * (1.0 + (float(world["mass"]) / s) ** 2) / world["dimension"]
+    return omega2 / (1.0 + omega2)
+
+
+def known_excitation_summaries(readings, true_acceleration, readouts):
+    from scipy.stats import truncnorm
+    w = 1.0 / readings.force_sd ** 2                                    # (B, N)
+    prec = np.sum(w * np.sum(true_acceleration ** 2, axis=2), axis=1)   # (B,)
+    num = np.sum(w * np.sum(readings.force * true_acceleration, axis=2), axis=1)
+    ok = prec > 0
+    mu = np.where(ok, num / np.where(ok, prec, 1.0), 0.0)
+    sd = np.where(ok, 1.0 / np.sqrt(np.where(ok, prec, 1.0)), 1.0)
+    lo = -mu / sd
+    out = {"unresolved": ~ok}
+    for name in readouts:
+        if name == "ratio_of_means":      # alpha is known exactly, so E[f]/E[alpha] = E[m]
+            out[name] = truncnorm.mean(lo, np.inf, loc=mu, scale=sd)
+        elif name == "median":
+            out[name] = truncnorm.ppf(0.5, lo, np.inf, loc=mu, scale=sd)
+        else:
+            content = interval_content(name)
+            out[name] = np.stack([truncnorm.ppf((1 - content) / 2, lo, np.inf, loc=mu, scale=sd),
+                                  truncnorm.ppf((1 + content) / 2, lo, np.inf, loc=mu, scale=sd)], axis=1)
+    for name, value in out.items():
+        if name != "unresolved":
+            value[~ok] = np.nan
+    return out
+
+
 # ---------------------------------------------------------------- estimators
 
 class Estimator:
@@ -574,6 +643,20 @@ class Estimator:
         self.name = str(spec["name"])
         self.spec = spec
         where = f"estimator {self.name!r}"
+        self.oracle = spec.get("oracle")
+        if self.oracle is not None and self.oracle not in ORACLES:
+            raise ValueError(f"{where}: oracle must be one of {ORACLES}")
+        if self.oracle == "known_excitation":
+            extra = set(spec) - {"name", "oracle", "readouts"}
+            if extra or "readouts" not in spec:
+                raise ValueError(f"{where}: a known_excitation oracle takes exactly name, oracle, readouts")
+            for r in spec["readouts"]:
+                if r not in ("ratio_of_means", "median") and not str(r).startswith("interval_"):
+                    raise ValueError(f"{where}: known_excitation offers ratio_of_means, median and intervals")
+                if str(r).startswith("interval_"):
+                    interval_content(r)
+            self.direct, self.readouts, self.numerics, self.declared_mismatch = None, list(spec["readouts"]), None, None
+            return
         self.declared_mismatch = spec.get("declared_mismatch")
         if self.declared_mismatch is not None and (
                 not isinstance(self.declared_mismatch, str) or not self.declared_mismatch.strip()):
@@ -595,7 +678,7 @@ class Estimator:
         missing = required - set(spec)
         if missing:
             raise ValueError(f"{where}: missing required setting(s) {sorted(missing)}")
-        extra = set(spec) - required - {"numerics", "declared_mismatch"}
+        extra = set(spec) - required - {"numerics", "declared_mismatch", "oracle"}
         if extra:
             raise ValueError(f"{where}: unknown setting(s) {sorted(extra)}")
         if spec["reduce"] not in REDUCES:
@@ -625,6 +708,8 @@ class Estimator:
                                  "product, so it needs old rule likelihood_product and nuisance radius")
         else:
             self._validate_combine(combine, where)
+            if self.oracle == "known_beta" and rule != "hierarchical":
+                raise ValueError(f"{where}: the known_beta oracle is the hierarchical rule with beta given")
             if rule == "hierarchical" and (law["reference"] != "cartesian" or law["nuisance"] != "radius"):
                 raise ValueError(f"{where}: the hierarchical rule is built on the cartesian reference "
                                  "(it is its proper version), so it needs reference cartesian and nuisance radius")
@@ -684,6 +769,8 @@ class Estimator:
         """Refuse settings that don't fit this world: improper laws, 'single' with
         several readings, and undeclared model/world mismatches."""
         where = f"estimator {self.name!r}"
+        if self.oracle == "known_excitation":
+            return
         n = 1 if self.pools else world["readings"]
         if self.pools and world["design"] == "new_excitation" and world["readings"] > 1 \
                 and self.declared_mismatch is None:
@@ -696,7 +783,12 @@ class Estimator:
             except ValueError as error:
                 raise ValueError(f"{where}: {error}") from None
 
-    def evaluate(self, readings):
+    def evaluate(self, readings, truth=None, world=None):
+        if self.oracle == "known_excitation":
+            return known_excitation_summaries(readings, truth["true_acceleration"], self.readouts)
+        if self.oracle == "known_beta":
+            combine = dict(self.spec["combine"], _fixed_beta=world_beta(world))
+            return posterior_summaries(readings, self.spec["law"], combine, self.readouts, self.numerics)
         if self.direct is not None:
             return {self.direct: direct_rule(readings, self.direct),
                     "unresolved": np.zeros(readings.series, dtype=bool)}
@@ -707,6 +799,10 @@ class Estimator:
 
     def point_readouts(self):
         return [r for r in self.readouts if r in POINT_READOUTS or r in DIRECT_RULES]
+
+    def check_world_oracle(self, world):
+        if self.oracle == "known_beta":
+            world_beta(world)
 
     def interval_readouts(self):
         return [r for r in self.readouts if isinstance(r, str) and r.startswith("interval_")]

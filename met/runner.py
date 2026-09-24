@@ -47,9 +47,13 @@ def run_cell(cell, estimators, replicates, seed, factors, batch_elements, progre
     for est in estimators:
         start = time.perf_counter()
         per_reading = 1 if (est.direct or est.spec.get("reduce") == "pool_pair") else n
-        grid = est.numerics["grid_points"] if est.direct is None else 1
+        grid = est.numerics["grid_points"] if est.numerics else 1
         batch = max(1, int(batch_elements // max(1, per_reading * grid)))
-        parts = [est.evaluate(readings.subset(slice(i, i + batch))) for i in range(0, replicates, batch)]
+        parts = []
+        for i in range(0, replicates, batch):
+            part = slice(i, i + batch)
+            given = {"mass": truth["mass"], "true_acceleration": truth["true_acceleration"][part]}
+            parts.append(est.evaluate(readings.subset(part), given, cell["world"]))
         values[est.name] = {key: np.concatenate([p[key] for p in parts]) for key in parts[0]}
         seconds[est.name] = time.perf_counter() - start
         if progress:
