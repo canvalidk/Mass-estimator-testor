@@ -1,8 +1,9 @@
 # Mass estimator tester — design
 
-**Status:** first build done, 2026-09-24 (see README.md for what exists and
-what is not built yet). The open questions at the end were settled
-provisionally as marked; each is Can's to overturn.
+**Status:** first build done, 2026-09-24; extended in two parallel lines and
+merged on 2026-09-25 (see "Since the first build" below, and README.md for
+what exists and what is not built yet). The open questions at the end were
+settled provisionally as marked; each is Can's to overturn.
 
 ## What this program is for
 
@@ -23,7 +24,9 @@ Every study has two sides, and the program keeps them apart.
   excited, the true noise, and which readings share what.
 - **The analyst** is the estimator. It sees only the readings and what it is
   told (supplied covariances, a declared model). It never sees the world's
-  settings.
+  settings, except through an oracle declared by name in the preset
+  (`known_excitation`, `known_beta`). An oracle is a benchmark, never an
+  estimator.
 
 An estimator is a **declared model plus a readout**. A study scores declared
 models against worlds.
@@ -142,6 +145,27 @@ Two kinds, kept apart:
 4. The runner and the scores.
 5. Two presets: the repetition study run both ways (same pair, new
    excitation), and a single-reading operating-range grid.
+
+## Since the first build
+
+Two sessions extended the first build in parallel from the same commit
+("Document the sequential rule"). Their lines were merged on 2026-09-25 with
+every commit kept:
+
+- **Line A:** the `vonmises_state` carry; a `cartesian` reference with its
+  comparison presets; the `hierarchical` rule and the Gaussian-excitation
+  world; the declared oracles and the bottom-regime presets.
+- **Line B:** the `cartesian` reference as the 24 September law (the r^(d−2)
+  reweighting carried into the nuisance measures, so the acceleration and
+  force splits become d-dimensional volumes); `angle_power` priors;
+  `calibrate: sandwich` ("ours25") and its presets.
+
+Both lines built a `cartesian` reference. They agree for one reading and for
+the `radius` nuisance, the only one Line A's presets use. They differ when
+readings are combined under the `acceleration` or `force` split. The merge
+keeps Line B's law, which follows the measure it states, and keeps Line A's
+independent checks of it in `tests/test_cartesian.py`. Every preset of both
+lines gives bit-identical values before and after the merge.
 
 ## Open questions, settled provisionally in the first build
 

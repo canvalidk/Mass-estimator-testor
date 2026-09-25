@@ -1,0 +1,38 @@
+name: sept21-vs-sept24-repeated
+question: >-
+  With many readings sharing only the mass, do the 21 and 24 September laws
+  converge to the same place, how different are their spreads, and do their
+  intervals cover as the large-N formula predicts?
+notes: >-
+  Both use contribution 12's symmetric rule (likelihood product, radius
+  nuisance, uniform-angle prior at the instrument ratio, counted once).
+  Prediction for sept24 (derived 2026-09-24): both are consistent, and the
+  posterior is too narrow by a variance factor 1 + d / r*^2, where
+  r*^2 = snr^2 (1 + m^2 / s^2) is the true pair's squared length in noise
+  units. sept21's factor has no closed form; it is smaller than sept24's in 3D
+  and larger in 1D.
+world:
+  dimension: [1, 3]
+  design: new_excitation
+  mass: [0.25, 1, 4]
+  acceleration_snr: [1, 3]
+  direction: random
+  readings: [10, 50, 200]
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: sept21
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: sept24
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+scores:
+  within_factor: [1.1, 1.25, 1.5]
+  compare_to: sept21
+replicates: 500
+seed: 20260925

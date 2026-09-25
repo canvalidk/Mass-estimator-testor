@@ -12,16 +12,17 @@ import math
 
 import numpy as np
 
-from .law import NUISANCES, REFERENCES, ReadingSet
+from .law import NUISANCES, REFERENCES, ReadingSet, nuisance_power
 
 REDUCES = ("none", "pool_pair")
 RULES = ("single", "likelihood_product", "posterior_product", "sequential", "hierarchical")
 CARRIES = ("exact", "curve_only", "lognormal_fit", "tilt_fit", "vonmises_state")
 COORDINATES = ("mass", "log_mass")
+CALIBRATIONS = ("sandwich",)
 POINT_READOUTS = ("ratio_of_means", "median", "geometric", "reciprocal_root")
 DIRECT_RULES = ("norm_ratio", "dot_acceleration", "dot_force")
 PRIOR_FLAT = ("flat_mass", "flat_log_mass", "flat_inverse_mass")
-PRIOR_PARAMETRIC = ("uniform_angle", "sech_tilt", "lognormal")
+PRIOR_PARAMETRIC = ("uniform_angle", "sech_tilt", "lognormal", "angle_power")
 
 # Numerical settings: the only settings with defaults. Recorded in every output.
 #   span, coarse_step   first search grid: log s of reading 1 +- span, this step
@@ -87,6 +88,11 @@ def prior_log_density(factors, u, readings):
             z = u - _center(params["center"], readings)
             width = float(params["width"])
             total = total - z * z / (2.0 * width * width)
+        elif kind == "angle_power":
+            # sin(theta)^p cos(theta)^q with tan(theta) = m / C. {sin: 1, cos: 1} is uniform_angle.
+            z = u - _center(params["center"], readings)
+            total = total - 0.5 * float(params["sin"]) * np.logaddexp(0.0, -2.0 * z) \
+                          - 0.5 * float(params["cos"]) * np.logaddexp(0.0, 2.0 * z)
         else:
             raise ValueError(f"unknown prior factor {kind!r}")
     return total
@@ -106,7 +112,7 @@ def validate_prior(factors, rule):
             raise ValueError(f"prior factor must be a name or a one-key mapping, got {factor!r}")
         (kind, params), = factor.items()
         required = {"uniform_angle": {"center"}, "sech_tilt": {"lambda", "center"},
-                    "lognormal": {"center", "width"}}.get(kind)
+                    "lognormal": {"center", "width"}, "angle_power": {"sin", "cos", "center"}}.get(kind)
         if required is None:
             raise ValueError(f"unknown prior factor {kind!r}")
         if not isinstance(params, dict) or set(params) != required:
@@ -118,27 +124,39 @@ def validate_prior(factors, rule):
             raise ValueError(f"prior centre must be a positive number or 'first_reading', got {center!r}")
         if kind == "sech_tilt":
             _number(params["lambda"], "sech_tilt lambda")
+        if kind == "angle_power":
+            _number(params["sin"], "angle_power sin")
+            _number(params["cos"], "angle_power cos")
         if kind == "lognormal" and _number(params["width"], "lognormal width") <= 0:
             raise ValueError("lognormal width must be positive")
 
 
 # Tail slopes of the joint log density in u = log m, as u -> +inf and u -> -inf.
 # The radial kernel tends to a constant at both ends whatever the data, so
-# whether a law can be normalised is decided by the settings and N alone.
-_LIKE_SLOPES = {"radius": (0, 0), "acceleration": (-2, 0), "force": (0, 2)}
-_REF_SLOPES = {"radius": (-1, 1), "acceleration": (1, 1), "force": (-1, -1)}
+# whether a law can be normalised is decided by the settings, N and d alone.
+# k is the nuisance power: 2 for the flat reference, d for the cartesian one
+# (so the table depends on the dimension only under the cartesian reference).
+def _like_slopes(nuisance, k):
+    return {"radius": (0, 0), "acceleration": (-k, 0), "force": (0, k)}[nuisance]
+
+
+def _ref_slopes(nuisance, k):
+    return {"radius": (-1, 1), "acceleration": (k - 1, 1), "force": (-1, 1 - k)}[nuisance]
+
+
 _PRIOR_SLOPES = {"flat_mass": (1, 1), "flat_log_mass": (0, 0), "flat_inverse_mass": (-1, -1),
                  "uniform_angle": (-1, 1), "sech_tilt": (0, 0)}
 
 
-def tail_slopes(law, combine, n):
-    """(slope as u -> +inf, slope as u -> -inf, confined) for n readings after reduce.
+def tail_slopes(law, combine, n, d):
+    """(slope as u -> +inf, slope as u -> -inf, confined) for n readings of dimension d after reduce.
 
     `confined` is True when a log-normal factor makes both tails decay regardless.
     The law is proper iff confined, or the first slope is < 0 and the second > 0.
     """
-    like = _LIKE_SLOPES[law["nuisance"]]
-    ref = _REF_SLOPES[law["nuisance"]]
+    k = nuisance_power(d, law["reference"])
+    like = _like_slopes(law["nuisance"], k)
+    ref = _ref_slopes(law["nuisance"], k)
     rule = combine["rule"]
     if rule == "sequential":
         carry = combine["carry"]
@@ -147,9 +165,9 @@ def tail_slopes(law, combine, n):
         if carry == "tilt_fit":
             return like[0] - 1, like[1] + 1, False
         if carry == "vonmises_state":
-            plus, minus, confined = tail_slopes(law, combine["old"], 0)
+            plus, minus, confined = tail_slopes(law, combine["old"], 0, d)
             return plus + like[0], minus + like[1], confined
-        plus, minus, confined = tail_slopes(law, combine["old"], n - 1)
+        plus, minus, confined = tail_slopes(law, combine["old"], n - 1, d)
         return plus + like[0], minus + like[1], confined
     if rule == "hierarchical":
         plus, minus = 0, 0
@@ -167,26 +185,31 @@ def tail_slopes(law, combine, n):
         if kind == "lognormal":
             confined = True
             continue
+        if kind == "angle_power":
+            params = factor["angle_power"]
+            plus -= float(params["cos"])
+            minus += float(params["sin"])
+            continue
         plus += _PRIOR_SLOPES[kind][0]
         minus += _PRIOR_SLOPES[kind][1]
     return plus, minus, confined
 
 
-def check_proper(law, combine, n):
-    """Raise if the declared law cannot be normalised for n readings."""
+def check_proper(law, combine, n, d):
+    """Raise if the declared law cannot be normalised for n readings of dimension d."""
     if combine["rule"] == "sequential":
         if n < 2:
             raise ValueError(f"rule 'sequential' needs at least two readings (old and new), but this world gives {n}")
         try:
-            check_proper(law, combine["old"], n - 1)
+            check_proper(law, combine["old"], n - 1, d)
         except ValueError as error:
             raise ValueError(f"the old readings' law: {error}") from None
     if combine["rule"] == "single" and n != 1:
         raise ValueError(f"rule 'single' needs exactly one reading after reduce, but this world gives {n}")
-    plus, minus, confined = tail_slopes(law, combine, n)
+    plus, minus, confined = tail_slopes(law, combine, n, d)
     if not confined and not (plus < 0 and minus > 0):
         raise ValueError(
-            f"this law cannot be normalised for N = {n}: its log density has slope {plus} as m -> infinity "
+            f"this law cannot be normalised for N = {n} in {d}D: its log density has slope {plus} as m -> infinity "
             f"and {minus} as m -> 0 (in log m); it needs < 0 and > 0. Change the prior or the rule.")
 
 
@@ -199,7 +222,7 @@ def joint_log_density(readings, u, law, combine):
         return _sequential_log_density(readings, u, law, combine)
     if rule == "hierarchical":
         return _hierarchical_log_density(readings, u, law, combine)
-    log_like, log_ref, cond_alpha = readings.reading_terms(u, law["nuisance"], law["reference"])
+    log_like, log_ref, cond_alpha = readings.reading_terms(u, law["nuisance"], reference=law["reference"])
     n = readings.readings
     if rule == "single":
         if n != 1:
@@ -207,6 +230,8 @@ def joint_log_density(readings, u, law, combine):
         lp = log_like[:, 0] + log_ref[:, 0]
     elif rule == "likelihood_product":
         lp = np.sum(log_like, axis=1)
+        if combine.get("calibrate") == "sandwich":
+            lp = sandwich_weight(readings, law, combine)[:, None] * lp
     elif rule == "posterior_product":
         lp = np.sum(log_like + log_ref, axis=1)
         if combine["coordinate"] == "mass":
@@ -215,6 +240,66 @@ def joint_log_density(readings, u, law, combine):
         raise ValueError(f"unknown rule {rule!r}")
     lp = lp + prior_log_density(combine["prior"], u, readings)
     return lp, np.sum(cond_alpha, axis=1)
+
+
+# ---------------------------------------------------------------- sandwich calibration (our25)
+#
+# With many readings sharing only the mass, the declared law's curvature H
+# understates the spread of its own peak: the peak's variance is J / H^2, the
+# law's is 1 / H, where J is the variance of the summed per-reading score. For
+# the cartesian law, per reading, J = d + r*^2 and H = r*^2 exactly (r* the true
+# pair's noise-unit length). The calibrated law raises the likelihood to the
+# power w = H / J, so its width matches the peak's spread; the prior is not
+# tempered. J and H are estimated from the readings at the likelihood's peak:
+#
+#     H = -sum_i l_i''(u*),   J = N/(N-1) sum_i (l_i'(u*) - mean l')^2,
+#
+# (centred scores, so a grid-sized miss of the peak does not bias J). The ratio
+# does not depend on the coordinate. w is clipped to [W_FLOOR, 1]: never narrower
+# than the declared law, and if the readings show no curvature (H <= 0: the
+# mass is not identified) the law falls back to the prior alone.
+
+W_FLOOR = 1e-6
+
+
+def _likelihood_total(readings, u, law):
+    log_like, _, _ = readings.reading_terms(u, law["nuisance"], reference=law["reference"])
+    return log_like
+
+
+def sandwich_weight(readings, law, combine):
+    """Per-series tempering power w = H/J (cached on the readings)."""
+    key = ("sandwich", id(combine))
+    if key in readings.series_data:
+        return readings.series_data[key]
+    b = readings.series
+    center = np.log(readings.s[:, 0])
+    coarse = center[:, None] + np.arange(-30.0, 30.0001, 0.05)[None, :]
+    total = np.sum(_likelihood_total(readings, coarse, law), axis=1)
+    peak = coarse[np.arange(b), np.argmax(total, axis=1)]
+    for width in (0.1, 0.002):
+        local = peak[:, None] + np.linspace(-width, width, 201)[None, :]
+        total = np.sum(_likelihood_total(readings, local, law), axis=1)
+        k = np.clip(np.argmax(total, axis=1), 1, 199)
+        rows = np.arange(b)
+        y0, y1, y2 = total[rows, k - 1], total[rows, k], total[rows, k + 1]
+        step = local[0, 1] - local[0, 0]
+        curv = y0 - 2 * y1 + y2
+        shift = np.where(curv < 0, 0.5 * (y0 - y2) / np.where(curv < 0, curv, -1.0), 0.0)
+        peak = local[rows, k] + np.clip(shift, -1, 1) * step
+    h = 1e-3
+    stencil = peak[:, None] + np.array([-h, 0.0, h])[None, :]
+    ll = _likelihood_total(readings, stencil, law)                    # (B, N, 3)
+    grad = (ll[:, :, 2] - ll[:, :, 0]) / (2 * h)
+    hess = (ll[:, :, 2] - 2 * ll[:, :, 1] + ll[:, :, 0]) / h**2
+    n = readings.readings
+    H = -np.sum(hess, axis=1)
+    J = n / (n - 1) * np.sum((grad - grad.mean(axis=1, keepdims=True)) ** 2, axis=1)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        w = np.where((H > 0) & (J > 0), H / J, W_FLOOR)
+    w = np.clip(w, W_FLOOR, 1.0)
+    readings.series_data[key] = w
+    return w
 
 
 # ---------------------------------------------------------------- the sequential rule
@@ -295,7 +380,7 @@ def _sequential_log_density(readings, u, law, combine):
     carry = combine["carry"]
     n = readings.readings
     new = readings.take_readings(slice(n - 1, n))
-    like_new, _, cond_new = new.reading_terms(u, law["nuisance"], law["reference"])
+    like_new, _, cond_new = new.reading_terms(u, law["nuisance"], reference=law["reference"])
     lp = like_new[:, 0]
     acc = cond_new[:, 0]
     if carry in ("exact", "curve_only"):
@@ -370,7 +455,7 @@ def _log_lower_gamma_integral(c, z):
 def _hierarchical_log_density(readings, u, law, combine):
     from scipy.special import gammainc, gammaincinv
     b = float(combine["excitation"]["beta_b"])
-    like, _, _ = readings.reading_terms(u, "radius", "cartesian")
+    like, _, _ = readings.reading_terms(u, "radius", reference="cartesian")
     h2 = 2.0 * like                                  # (B, N, G): h_i(theta)^2
     z = 0.5 * np.sum(h2, axis=1)                     # (B, G): H/2
     n = readings.readings * readings.dimension
@@ -687,7 +772,7 @@ class Estimator:
         if not isinstance(law, dict) or set(law) != {"reference", "nuisance"}:
             raise ValueError(f"{where}: law needs exactly reference and nuisance")
         if law["reference"] not in REFERENCES:
-            raise ValueError(f"{where}: reference must be one of {REFERENCES} (others not built yet)")
+            raise ValueError(f"{where}: reference must be one of {REFERENCES}")
         if law["nuisance"] not in NUISANCES:
             raise ValueError(f"{where}: nuisance must be one of {NUISANCES}")
         combine = spec["combine"]
@@ -702,6 +787,8 @@ class Estimator:
             if not isinstance(old, dict) or old.get("rule") not in ("single", "likelihood_product", "posterior_product"):
                 raise ValueError(f"{where}: combine.old must be a non-sequential combine block")
             self._validate_combine(old, f"{where} (old readings)")
+            if "calibrate" in old:
+                raise ValueError(f"{where}: calibrate is not supported inside a sequential rule")
             if combine["carry"] == "vonmises_state" and (
                     old["rule"] != "likelihood_product" or law["nuisance"] != "radius"):
                 raise ValueError(f"{where}: vonmises_state approximates the radius-nuisance likelihood "
@@ -751,8 +838,12 @@ class Estimator:
                 raise ValueError(f"{where}: {error}") from None
             return
         allowed = {"rule", "prior"} | ({"coordinate"} if rule == "posterior_product" else set())
-        if set(combine) != allowed:
-            raise ValueError(f"{where}: combine for {rule} needs exactly {sorted(allowed)}")
+        optional = {"calibrate"} if rule == "likelihood_product" else set()
+        if not (allowed <= set(combine) <= allowed | optional):
+            raise ValueError(f"{where}: combine for {rule} needs exactly {sorted(allowed)}"
+                             + (f" (optional: {sorted(optional)})" if optional else ""))
+        if "calibrate" in combine and combine["calibrate"] not in CALIBRATIONS:
+            raise ValueError(f"{where}: calibrate must be one of {CALIBRATIONS}")
         if rule == "posterior_product" and combine["coordinate"] not in COORDINATES:
             raise ValueError(f"{where}: coordinate must be one of {COORDINATES}")
         try:
@@ -779,9 +870,16 @@ class Estimator:
                 f"new_excitation. If that mismatch is intended, add `declared_mismatch: <why>` to the estimator.")
         if self.direct is None:
             try:
-                check_proper(self.spec["law"], self.spec["combine"], n)
+                check_proper(self.spec["law"], self.spec["combine"], n, world["dimension"])
             except ValueError as error:
                 raise ValueError(f"{where}: {error}") from None
+            if self.spec["combine"].get("calibrate"):
+                if n < 2:
+                    raise ValueError(f"{where}: calibrate estimates a spread across readings, so it needs "
+                                     f"at least two readings after reduce (this world gives {n})")
+                if self.spec["law"]["nuisance"] != "radius":
+                    raise ValueError(f"{where}: calibrate needs nuisance radius (the per-reading "
+                                     "likelihood must carry no mass factor)")
 
     def evaluate(self, readings, truth=None, world=None):
         if self.oracle == "known_excitation":

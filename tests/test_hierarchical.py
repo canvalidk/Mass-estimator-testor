@@ -103,7 +103,7 @@ def test_validation():
     with pytest.raises(ValueError, match="beta_b"):
         Estimator(dict(base, law=CART, combine={"rule": "hierarchical", "prior": PRIOR, "excitation": {"beta_b": 0}}))
     est = Estimator(dict(base, law=CART, combine=_hier()))
-    est.check_world({"readings": 50, "design": "new_excitation"})
+    est.check_world({"readings": 50, "design": "new_excitation", "dimension": 3})
 
 
 def test_gaussian_excitation_world():
