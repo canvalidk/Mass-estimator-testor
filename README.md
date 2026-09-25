@@ -161,6 +161,28 @@ Named combinations from the earlier work:
 - **eq. (18)** is also `likelihood_product` with nuisance `acceleration` and
   prior `[flat_mass]`, exactly (tested).
 
+### Calibrated width (`calibrate: sandwich`, "ours25")
+
+With many readings sharing only the mass, the declared law is too narrow:
+its curvature H understates the spread of its own peak, whose variance is
+J/H², with J the variance of the summed per-reading score. For the
+`cartesian` law, per reading, J = d + r*² and H = r*² exactly (r* is the true
+pair's noise-unit length), so the law is too narrow by 1 + d/r*² in variance.
+`likelihood_product` accepts
+
+```yaml
+combine: {rule: likelihood_product, prior: [...], calibrate: sandwich}
+```
+
+which raises the summed likelihood to w = H/J, estimated per series from the
+readings at the likelihood's peak (centred scores), clipped to [10⁻⁶, 1]
+(never narrower than the declared law; with no curvature the law falls back
+to the prior). The prior is not tempered. It needs at least two readings and
+the `radius` nuisance. It is a large-N correction for each fixed, nonzero
+excitation. No bounded interval can hold its coverage uniformly as the
+excitation vanishes (Gleser & Hwang 1987); see
+`presets/ours25_identification_limit.yaml`.
+
 ### The sequential rule: old information in the prior slot
 
 Under `likelihood_product` the exact law of N+1 readings factorises as
