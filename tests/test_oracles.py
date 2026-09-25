@@ -44,5 +44,5 @@ def test_oracles_must_be_declared_by_name():
         Estimator({"name": "x", "oracle": "peek", "readouts": ["median"]})
     with pytest.raises(ValueError, match="known_beta"):
         Estimator({"name": "x", "oracle": "known_beta", "reduce": "none",
-                   "law": {"reference": "cartesian", "nuisance": "radius"},
+                   "law": {"reference": "cartesian1", "nuisance": "radius"},
                    "combine": {"rule": "likelihood_product", "prior": ["flat_mass"]}, "readouts": ["median"]})

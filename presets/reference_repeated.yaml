@@ -24,7 +24,7 @@ estimators:
     readouts: [ratio_of_means, median, interval_95, interval_80]
   - name: cartesian
     reduce: none
-    law: {reference: cartesian, nuisance: radius}
+    law: {reference: cartesian1, nuisance: radius}
     combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
     readouts: [ratio_of_means, median, interval_95, interval_80]
 scores:

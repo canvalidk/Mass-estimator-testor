@@ -7,10 +7,10 @@ import pytest
 from scipy.integrate import quad
 
 from met.analyst import (Estimator, _log_lower_gamma_integral, joint_log_density, posterior_summaries)
-from met.law import ReadingSet, cartesian_mean_radius
+from met.law import ReadingSet, cartesian1_mean_radius
 from met.world import generate, series_rngs
 
-CART = {"reference": "cartesian", "nuisance": "radius"}
+CART = {"reference": "cartesian1", "nuisance": "radius"}
 PRIOR = [{"uniform_angle": {"center": "first_reading"}}]
 
 
@@ -68,7 +68,7 @@ def test_conditional_acceleration_quadrature():
     z = 0.5 * np.sum(h * h)
     w = lambda beta: (1 - beta) ** (c - 1) * math.exp(beta * z - z)
     norm = quad(w, 0, 1, epsabs=0, epsrel=1e-12)[0]
-    val = quad(lambda beta: w(beta) * sum(math.sqrt(beta) * float(cartesian_mean_radius(math.sqrt(beta) * hi, 3))
+    val = quad(lambda beta: w(beta) * sum(math.sqrt(beta) * float(cartesian1_mean_radius(math.sqrt(beta) * hi, 3))
                                           for hi in h), 0, 1, epsabs=0, epsrel=1e-12)[0] / norm
     assert acc[0, 0] == pytest.approx(math.cos(theta) * val, rel=2e-3)
 
@@ -98,7 +98,7 @@ def test_weak_excitation_widens_the_law():
 
 def test_validation():
     base = {"name": "h", "reduce": "none", "readouts": ["median"]}
-    with pytest.raises(ValueError, match="cartesian"):
+    with pytest.raises(ValueError, match="cartesian1"):
         Estimator(dict(base, law={"reference": "flat", "nuisance": "radius"}, combine=_hier()))
     with pytest.raises(ValueError, match="beta_b"):
         Estimator(dict(base, law=CART, combine={"rule": "hierarchical", "prior": PRIOR, "excitation": {"beta_b": 0}}))

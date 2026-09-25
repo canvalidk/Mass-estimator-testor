@@ -27,13 +27,13 @@ estimators:
     readouts: [ratio_of_means, median, reciprocal_root, interval_95]
   - name: hierarchical
     reduce: none
-    law: {reference: cartesian, nuisance: radius}
+    law: {reference: cartesian1, nuisance: radius}
     combine: {rule: hierarchical, prior: [{uniform_angle: {center: first_reading}}], excitation: {beta_b: 1}}
     readouts: [ratio_of_means, median, reciprocal_root, interval_95]
   - name: oracle_known_beta
     oracle: known_beta
     reduce: none
-    law: {reference: cartesian, nuisance: radius}
+    law: {reference: cartesian1, nuisance: radius}
     combine: {rule: hierarchical, prior: [{uniform_angle: {center: first_reading}}], excitation: {beta_b: 1}}
     readouts: [ratio_of_means, median, interval_95]
   - name: oracle_known_excitation

@@ -152,20 +152,27 @@ Two sessions extended the first build in parallel from the same commit
 ("Document the sequential rule"). Their lines were merged on 2026-09-25 with
 every commit kept:
 
-- **Line A:** the `vonmises_state` carry; a `cartesian` reference with its
+- **Line A:** the `vonmises_state` carry; a cartesian reference with its
   comparison presets; the `hierarchical` rule and the Gaussian-excitation
   world; the declared oracles and the bottom-regime presets.
-- **Line B:** the `cartesian` reference as the 24 September law (the r^(d−2)
+- **Line B:** a cartesian reference as the 24 September law (the r^(d−2)
   reweighting carried into the nuisance measures, so the acceleration and
   force splits become d-dimensional volumes); `angle_power` priors;
   `calibrate: sandwich` ("ours25") and its presets.
 
-Both lines built a `cartesian` reference. They agree for one reading and for
-the `radius` nuisance, the only one Line A's presets use. They differ when
-readings are combined under the `acceleration` or `force` split. The merge
-keeps Line B's law, which follows the measure it states, and keeps Line A's
-independent checks of it in `tests/test_cartesian.py`. Every preset of both
-lines gives bit-identical values before and after the merge.
+Both lines built a reference named `cartesian`, each without knowing about
+the other. This is an investigation, and checking that independent
+derivations agree is part of it, so both are kept: `cartesian1` (Line A) and
+`cartesian2` (Line B). Each line's presets and tests use their own. The
+plain name is refused with a message naming both.
+
+The two agree for one reading and under the `radius` nuisance. They differ
+only when readings are combined under the `acceleration` or `force` split,
+by exactly cos(θ)^(2−d) or sin(θ)^(2−d) per reading. `tests/test_cartesian.py`
+checks both statements directly. At the split, every preset of both lines
+gave bit-identical values against its own line's original commit. The
+presets that use either reference also gave bit-identical values when
+switched to the other one (all of them use the `radius` nuisance).
 
 ## Open questions, settled provisionally in the first build
 

@@ -27,7 +27,7 @@ estimators:
     readouts: [ratio_of_means, median, interval_95, interval_80]
   - name: sept24
     reduce: none
-    law: {reference: cartesian, nuisance: radius}
+    law: {reference: cartesian2, nuisance: radius}
     combine: {rule: single, prior: []}
     readouts: [ratio_of_means, median, interval_95, interval_80]
 scores:

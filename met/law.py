@@ -44,15 +44,43 @@ one reading; the split matters only when readings are combined.
 
 (all up to additive constants that do not depend on u).
 
-The cartesian reference (24 September, excitation_weighting_premise_2026-09-24)
-------------------------------------------------------------------------------
+Two cartesian implementations: cartesian1 and cartesian2
+---------------------------------------------------------
+Two sessions implemented the 24 September premise (flat in the true pair as a
+vector) independently on the same day. Both are kept, under their own names,
+so the investigation can check them against each other (tests/test_cartesian.py,
+"cartesian1 against cartesian2"). They share the measure d^d v d(theta), the
+radial kernel exp(h^2/2) and E[r | theta]; so they give the same single-reading
+law, and the same combined law under the radius nuisance. They differ only in
+how the acceleration and force nuisances split the single-reading law when
+readings are combined: cartesian1 keeps the flat reference's split (powers 2),
+cartesian2 integrates over the d-dimensional nuisance volume (powers d). Per
+reading, cartesian1's likelihood is cartesian2's times cos(theta)^(2-d)
+(acceleration) or sin(theta)^(2-d) (force), and its reference factor is
+cartesian2's divided by the same.
+
+cartesian1 (Line A, 665a321, 24 September 18:13)
+------------------------------------------------
+The cartesian1 reference replaces the flat-magnitude measure by one flat in
+each component of the common latent vector v = r u (standardised), and
+uniform in theta:  d^d v d(theta) = r^(d-2) x (flat measure). A d-dimensional
+reading is then exactly d independent one-dimensional projection readings
+sharing the mass, and the radial integral is a plain Gaussian integral:
+
+    K(h) = exp(h^2/2)  in every dimension,   E[r | theta] = mean of a noncentral chi_d.
+
+In 2D the two references coincide. The nuisance splits keep the same mass
+factors (uniform angle, flat in m, flat in 1/m) with K replaced.
+
+cartesian2 (Line B, 7081a44, 24 September 23:27; excitation_weighting_premise_2026-09-24)
+----------------------------------------------------------------------------------------
 Weight the true pair flat as a VECTOR: d^d v d(theta), with v = r u the pair in
 noise units (r^2 = (f/sigma_F)^2 + (alpha/sigma_a)^2) and theta uniform. Against
 the flat reference,
 
     d^d v d(theta) = r^(d-1) dr dOmega d(theta) = r^(d-2) df d(alpha) dOmega / (sigma_F sigma_a),
 
-so the cartesian law is the flat law reweighted by r^(d-2): identical in 2D,
+so the cartesian2 law is the flat law reweighted by r^(d-2): identical in 2D,
 x r in 3D, x 1/r in 1D. The factor splits as r^(d-2) = alpha^(d-2) x
 (sec(theta) / sigma_a)^(d-2): the excitation part alpha^(d-2) that the premise
 forces (flat in the true acceleration vector at fixed mass), and a factor in
@@ -90,7 +118,7 @@ SQRT2 = math.sqrt(2.0)
 SQRT_2_OVER_PI = math.sqrt(2.0 / math.pi)
 DIMENSIONS = (1, 2, 3)
 NUISANCES = ("radius", "acceleration", "force")
-REFERENCES = ("flat", "cartesian")
+REFERENCES = ("flat", "cartesian1", "cartesian2")
 _SMALL_H = 1e-6
 
 
@@ -124,8 +152,27 @@ def mean_radius(h, d):
     raise ValueError(f"dimension must be one of {DIMENSIONS}")
 
 
-def cartesian_mean_radius(h, d):
-    """E[r | theta] under the cartesian reference: the mean of |N(w, I_d)| with |w| = h."""
+def cartesian1_mean_radius(h, d):
+    """E|v| for v ~ N(w, I_d) with |w| = h: the mean of a noncentral chi variable.
+
+    Under the cartesian1 reference the latent vector v is Gaussian around w at
+    fixed theta, so this is E[r | theta].
+    """
+    h = np.abs(np.asarray(h, dtype=float))
+    if d == 1:
+        return math.sqrt(2 / math.pi) * np.exp(-0.5 * h * h) + h * erf(h / SQRT2)
+    if d == 2:
+        return mean_radius(h, 2)
+    if d == 3:
+        safe = np.where(h > _SMALL_H, h, 1.0)
+        return np.where(h > _SMALL_H,
+                        math.sqrt(2 / math.pi) * np.exp(-0.5 * h * h) + (safe + 1.0 / safe) * erf(safe / SQRT2),
+                        2 * math.sqrt(2 / math.pi) * (1.0 + h * h / 6.0))
+    raise ValueError(f"dimension must be one of {DIMENSIONS}")
+
+
+def cartesian2_mean_radius(h, d):
+    """E[r | theta] under the cartesian2 reference: the mean of |N(w, I_d)| with |w| = h."""
     h = np.abs(np.asarray(h, dtype=float))
     h2 = h * h
     if d == 1:
@@ -143,18 +190,28 @@ def radial_terms(h, d, reference):
     """(log K, E[r | theta]) for the named reference measure."""
     if reference == "flat":
         return log_radial_kernel(h, d), mean_radius(h, d)
-    if reference == "cartesian":
+    if reference == "cartesian1":
+        return 0.5 * h * h, cartesian1_mean_radius(h, d)
+    if reference == "cartesian2":
         if d not in DIMENSIONS:
             raise ValueError(f"dimension must be one of {DIMENSIONS}")
         h = np.abs(np.asarray(h, dtype=float))
-        return 0.5 * h * h, cartesian_mean_radius(h, d)
-    raise ValueError(f"reference must be one of {REFERENCES}")
+        return 0.5 * h * h, cartesian2_mean_radius(h, d)
+    raise ValueError(reference_error(reference))
+
+
+def reference_error(reference):
+    """The refusal for an unknown reference; the retired name says why it was split."""
+    if reference == "cartesian":
+        return ("reference 'cartesian' was split on 2026-09-25 into two independent implementations, "
+                "cartesian1 (665a321) and cartesian2 (7081a44); name the one you mean")
+    return f"reference must be one of {REFERENCES}"
 
 
 def nuisance_power(d, reference):
     """The power of the latent magnitude in the acceleration/force nuisance measures:
-    2 for the flat reference (alpha d(alpha)), d for the cartesian one (d^d a*)."""
-    return 2 if reference == "flat" else d
+    2 for flat and cartesian1 (alpha d(alpha)), d for cartesian2 (d^d a*)."""
+    return d if reference == "cartesian2" else 2
 
 
 def standardize(force, acceleration, force_sd, acceleration_sd):
@@ -223,8 +280,9 @@ class ReadingSet:
     def reading_terms(self, u, nuisance, *, reference):
         """Per-reading curves on log-mass grids u of shape (B, G).
 
-        reference: 'flat' (21 Sept, df d(alpha) dOmega) or 'cartesian' (24 Sept,
-        flat in the vector). Returns (log_like, log_ref, cond_alpha), each (B, N, G):
+        reference: 'flat' (21 Sept, df d(alpha) dOmega), or 'cartesian1' / 'cartesian2'
+        (24 Sept, flat in the vector; two implementations, see the module docstring).
+        Returns (log_like, log_ref, cond_alpha), each (B, N, G):
           log_like   log-likelihood of mass with this reading's nuisance integrated,
           log_ref    the mass factor the single-reading reference implies (density in u),
           cond_alpha E[alpha | m] for this reading.
@@ -232,7 +290,7 @@ class ReadingSet:
         if nuisance not in NUISANCES:
             raise ValueError(f"nuisance must be one of {NUISANCES}")
         if reference not in REFERENCES:
-            raise ValueError(f"reference must be one of {REFERENCES}")
+            raise ValueError(reference_error(reference))
         u = np.asarray(u, dtype=float)[:, None, :]
         z = u - np.log(self.s)[:, :, None]
         log_sin = -0.5 * np.logaddexp(0.0, -2.0 * z)

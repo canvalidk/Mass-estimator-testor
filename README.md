@@ -68,7 +68,7 @@ world:
 estimators:
   - name: symmetric
     reduce: none               # or pool_pair
-    law: {reference: flat, nuisance: radius}      # reference: flat | cartesian; nuisance: radius | acceleration | force
+    law: {reference: flat, nuisance: radius}      # reference: flat | cartesian1 | cartesian2; nuisance: radius | acceleration | force
     combine:
       rule: likelihood_product # single | likelihood_product | posterior_product | sequential | hierarchical
       prior: [{uniform_angle: {center: first_reading}}]
@@ -124,27 +124,50 @@ matters only when readings are combined:
 | `acceleration` | α dα dΩ | flat in m |
 | `force` | f df dΩ | flat in 1/m |
 
-#### The `cartesian` reference (24 September)
+#### The two cartesian references: `cartesian1` and `cartesian2` (24 September)
 
-`reference: cartesian` is the law of `excitation_weighting_premise_2026-09-24`:
+Both implement the premise of `excitation_weighting_premise_2026-09-24`:
 flat in the true pair **as a vector**, d^d v dθ, with v the pair in noise
-units and θ = atan(m/s) uniform. It is the flat measure times r^(d−2),
+units and θ = atan(m/s) uniform. That is the flat measure times r^(d−2),
 r² = (f/σ_F)² + (α/σ_a)², so it is identical to `flat` in 2D. Its radial
 kernel is exp(h²/2) in every dimension, so a reading's law of mass is the
 flat law's 2D form whatever d is (E[α | m], the noncentral chi mean, still
-depends on d). The nuisance measures become d-dimensional volumes:
+depends on d).
 
-| nuisance | nuisance measure | implied reference factor on mass |
-|---|---|---|
-| `radius` | d^d v | uniform angle (as for `flat`) |
-| `acceleration` | d^d a* = α^(d−1) dα dΩ | m · cos(θ)^(2−d) |
-| `force` | d^d F* | (1/m) · sin(θ)^(2−d) |
+Two sessions wrote this independently on the same day, and both versions are
+kept so they can be checked against each other:
 
-So properness depends on d under this reference: `validate` checks it per
-cell. The premise fixes the weighting only up to a factor in m; other
-completions are this law times an `angle_power` prior (below), e.g.
-`{sin: 0, cos: d−2}` for flat in m and `{sin: (d−2)/2, cos: (d−2)/2}` for the
-σ-free (fα)^((d−2)/2) df dα dΩ.
+- `cartesian1`: Line A, commit 665a321 (18:13). Used by the `hierarchical`
+  rule and Line A's presets.
+- `cartesian2`: Line B, commit 7081a44 (23:27). Used by Line B's presets and
+  the ours24/ours25 work.
+
+The two give the same single-reading law, and the same combined law under the
+`radius` nuisance. They differ only in how the `acceleration` and `force`
+nuisances split a reading's law when readings are combined:
+
+| nuisance | `cartesian1` nuisance measure | `cartesian2` nuisance measure | `cartesian2` reference factor on mass |
+|---|---|---|---|
+| `radius` | d^d v | d^d v | uniform angle (as for `flat`) |
+| `acceleration` | α dα dΩ (as for `flat`) | d^d a* = α^(d−1) dα dΩ | m · cos(θ)^(2−d) |
+| `force` | f df dΩ (as for `flat`) | d^d F* | (1/m) · sin(θ)^(2−d) |
+
+Per reading, `cartesian1`'s likelihood is `cartesian2`'s times cos(θ)^(2−d)
+(acceleration) or sin(θ)^(2−d) (force). `cartesian1` keeps `flat`'s reference
+factors (flat in m, flat in 1/m). `cartesian2`'s splits are the integrals over
+the nuisance under the stated measure, so its properness depends on d, and
+`validate` checks it per cell.
+
+The plain name `cartesian` is refused with a message naming both. Recorded
+work from before the split (24–25 September) says `cartesian` and cites the
+commit it ran at, which still reproduces it. Every study run so far used the
+`radius` nuisance, and those studies give bit-identical values under either
+reference.
+
+The premise fixes the weighting only up to a factor in m. Other completions
+are `cartesian2` times an `angle_power` prior (below): for example,
+`{sin: 0, cos: d−2}` gives flat in m, and `{sin: (d−2)/2, cos: (d−2)/2}`
+gives the σ-free (fα)^((d−2)/2) df dα dΩ.
 
 ### Combination rules
 
@@ -167,7 +190,7 @@ Named combinations from the earlier work:
 With many readings sharing only the mass, the declared law is too narrow:
 its curvature H understates the spread of its own peak, whose variance is
 J/H², with J the variance of the summed per-reading score. For the
-`cartesian` law, per reading, J = d + r*² and H = r*² exactly (r* is the true
+cartesian law (`radius` nuisance), per reading, J = d + r*² and H = r*² exactly (r* is the true
 pair's noise-unit length), so the law is too narrow by 1 + d/r*² in variance.
 `likelihood_product` accepts
 
@@ -216,7 +239,7 @@ series by series.
 `vonmises_state` needs the old rule to be `likelihood_product` with nuisance
 `radius`. With a common instrument ratio s, all the old readings reduce to one
 vector Σ c_i, c_i = ¼ Σ_k (y_k + i x_k)². The state is exact under the
-`cartesian` reference in every dimension and under `flat` in 2D. Under `flat`
+cartesian reference (either one) in every dimension and under `flat` in 2D. Under `flat`
 in 1D and 3D it drops a factor of about h^(2−d) (tested both ways). Its peak
 is the total-least-squares direction of the standardised scatter.
 
@@ -225,12 +248,12 @@ is the total-least-squares direction of the standardised scatter.
 `rule: hierarchical` gives every reading's standardised latent vector a shared
 prior N(0, ω² I) instead of a flat one. With n = N d and β = ω²/(1+ω²),
 integrating every latent vector out leaves (1 − β)^(n/2) exp(β H(θ)/2), with
-H = Σ_i h_i(θ)². The `cartesian` reference is the β → 1 limit. β ~ Beta(1, b)
+H = Σ_i h_i(θ)². The `cartesian1` reference is the β → 1 limit. β ~ Beta(1, b)
 is integrated out exactly (a lower incomplete gamma function), so the
 excitation scale is learned from the readings:
 
 ```yaml
-law: {reference: cartesian, nuisance: radius}     # required by this rule
+law: {reference: cartesian1, nuisance: radius}    # required by this rule
 combine:
   rule: hierarchical
   prior: [{uniform_angle: {center: first_reading}}]
@@ -328,19 +351,26 @@ the data of the other cells.
 - very precise data (SNR up to 10⁶) resolved: log SD and interval against
   the normal limit;
 - pooling against the N-reading same-pair law integrated by brute force;
-- the `cartesian` reference (`tests/test_cartesian.py`): kernel and mean
-  radius against radial quadrature; the whole law against brute force in the
-  21 September coordinates with weight r^(d−2), and in 1D against brute force
-  in the record's own variables (a*, m); the record's section 3 formulas term
-  by term; 2D identical to `flat`; a 3D reading equal to three 1D readings;
-  the σ-free completion by brute force; its d-dependent tail slopes;
-- the sequential rule's `vonmises_state` carry: exact in 2D and under `cartesian`
+- the cartesian references (`tests/test_cartesian.py`), each by the checks
+  its own line wrote. `cartesian2`: kernel and mean radius against radial
+  quadrature; the whole law against brute force in the 21 September
+  coordinates with weight r^(d−2), and in 1D against brute force in the
+  record's own variables (a*, m); the record's section 3 formulas term by
+  term; 2D identical to `flat`; a 3D reading equal to three 1D readings; the
+  σ-free completion by brute force; its d-dependent tail slopes.
+  `cartesian1`: mean radius by 2D quadrature; the whole estimator identical to
+  `flat` in 2D; the single-reading law by per-component brute force;
+- `cartesian1` against `cartesian2`: mean radii, radius-nuisance terms,
+  single-reading laws under every split and combined radius-nuisance laws
+  agree to rounding. The acceleration and force splits differ by exactly
+  cos(θ)^(2−d) and sin(θ)^(2−d), and not at all in 2D. The old name is refused;
+- the sequential rule's `vonmises_state` carry: exact in 2D and under `cartesian1`
   in every dimension, approximate under `flat` in 1D and 3D, peak at the
   total-least-squares direction (`tests/test_sequential.py`,
   `tests/test_cartesian.py`);
 - the `hierarchical` rule (`tests/test_hierarchical.py`): the β integral's
   closed form, the law against brute force, the E[α | m] quadrature, the
-  strong-excitation limit approaching `cartesian`, and the Gaussian-excitation
+  strong-excitation limit approaching `cartesian1`, and the Gaussian-excitation
   world;
 - `calibrate: sandwich` (`tests/test_sandwich.py`): the weight against the
   exact large-N factor, the tempered density, and its refusals;
@@ -353,7 +383,7 @@ the data of the other cells.
 
 ## Not built yet
 
-- Reference measures other than `flat` and `cartesian` (the tube/Jeffreys
+- Reference measures other than `flat`, `cartesian1` and `cartesian2` (the tube/Jeffreys
   measure).
 - General or anisotropic covariance, correlated channels, and a known
   direction.

@@ -12,7 +12,7 @@ import math
 
 import numpy as np
 
-from .law import NUISANCES, REFERENCES, ReadingSet, nuisance_power
+from .law import NUISANCES, REFERENCES, ReadingSet, nuisance_power, reference_error
 
 REDUCES = ("none", "pool_pair")
 RULES = ("single", "likelihood_product", "posterior_product", "sequential", "hierarchical")
@@ -134,8 +134,8 @@ def validate_prior(factors, rule):
 # Tail slopes of the joint log density in u = log m, as u -> +inf and u -> -inf.
 # The radial kernel tends to a constant at both ends whatever the data, so
 # whether a law can be normalised is decided by the settings, N and d alone.
-# k is the nuisance power: 2 for the flat reference, d for the cartesian one
-# (so the table depends on the dimension only under the cartesian reference).
+# k is the nuisance power: 2 for flat and cartesian1, d for cartesian2
+# (so the table depends on the dimension only under cartesian2).
 def _like_slopes(nuisance, k):
     return {"radius": (0, 0), "acceleration": (-k, 0), "force": (0, k)}[nuisance]
 
@@ -247,7 +247,7 @@ def joint_log_density(readings, u, law, combine):
 # With many readings sharing only the mass, the declared law's curvature H
 # understates the spread of its own peak: the peak's variance is J / H^2, the
 # law's is 1 / H, where J is the variance of the summed per-reading score. For
-# the cartesian law, per reading, J = d + r*^2 and H = r*^2 exactly (r* the true
+# either cartesian law (radius nuisance), per reading, J = d + r*^2 and H = r*^2 exactly (r* the true
 # pair's noise-unit length). The calibrated law raises the likelihood to the
 # power w = H / J, so its width matches the peak's spread; the prior is not
 # tempered. J and H are estimated from the readings at the likelihood's peak:
@@ -324,7 +324,7 @@ def sandwich_weight(readings, law, combine):
 #                      log L_i ~ ((Q_i - P_i)/4) cos 2theta_i + (D_i/2) sin 2theta_i,
 #                  i.e. the complex number c_i = (1/4) sum_k (y_k + i x_k)^2, times the old prior.
 #                  With a common s the old state is the single vector sum_i c_i. Exact
-#                  under the cartesian reference in every d, and under the flat
+#                  under either cartesian reference in every d, and under the flat
 #                  reference in d = 2; with flat in d = 1, 3 it drops the factor
 #                  ~ h^(2-d). Needs the old rule to be likelihood_product, radius.
 #
@@ -414,7 +414,7 @@ def _sequential_log_density(readings, u, law, combine):
 #
 #     L(theta, beta) = (1 - beta)^(n/2) exp(beta H(theta) / 2),   H = sum_i h_i(theta)^2.
 #
-# The flat (cartesian) excitation prior is the beta -> 1 limit. The excitation scale is
+# The flat (cartesian1) excitation prior is the beta -> 1 limit. The excitation scale is
 # learned: beta ~ Beta(1, b) is integrated out exactly,
 #
 #     int_0^1 (1-beta)^(n/2+b-1) e^(beta z) d(beta) = e^z int_0^1 g^(c-1) e^(-g z) dg,
@@ -455,7 +455,7 @@ def _log_lower_gamma_integral(c, z):
 def _hierarchical_log_density(readings, u, law, combine):
     from scipy.special import gammainc, gammaincinv
     b = float(combine["excitation"]["beta_b"])
-    like, _, _ = readings.reading_terms(u, "radius", reference="cartesian")
+    like, _, _ = readings.reading_terms(u, "radius", reference="cartesian1")
     h2 = 2.0 * like                                  # (B, N, G): h_i(theta)^2
     z = 0.5 * np.sum(h2, axis=1)                     # (B, G): H/2
     n = readings.readings * readings.dimension
@@ -478,10 +478,10 @@ def _hierarchical_log_density(readings, u, law, combine):
             gam = np.where(frac > 1e-280, gammaincinv(c, frac) / np.maximum(zs, 1e-300)[..., None],
                            _HIER_NODES ** (1.0 / c))
         beta = np.clip(1.0 - gam, 0.0, 1.0)          # (B, S, 24)
-    from .law import cartesian_mean_radius
+    from .law import cartesian1_mean_radius
     h = np.sqrt(np.maximum(h2[:, :, idx], 0.0))      # (B, N, S)
     sq = np.sqrt(beta)[:, None, :, :]                # (B, 1, S, 24)
-    radius = np.mean(sq * cartesian_mean_radius(sq * h[..., None], readings.dimension), axis=3)
+    radius = np.mean(sq * cartesian1_mean_radius(sq * h[..., None], readings.dimension), axis=3)
     zrel = u[:, idx][:, None, :] - np.log(readings.s)[:, :, None]
     cos = np.exp(-0.5 * np.logaddexp(0.0, 2.0 * zrel))
     acc_sub = np.sum(readings.acceleration_sd[:, :, None] * cos * radius, axis=1)   # (B, S)
@@ -772,7 +772,7 @@ class Estimator:
         if not isinstance(law, dict) or set(law) != {"reference", "nuisance"}:
             raise ValueError(f"{where}: law needs exactly reference and nuisance")
         if law["reference"] not in REFERENCES:
-            raise ValueError(f"{where}: reference must be one of {REFERENCES}")
+            raise ValueError(f"{where}: {reference_error(law['reference'])}")
         if law["nuisance"] not in NUISANCES:
             raise ValueError(f"{where}: nuisance must be one of {NUISANCES}")
         combine = spec["combine"]
@@ -797,9 +797,9 @@ class Estimator:
             self._validate_combine(combine, where)
             if self.oracle == "known_beta" and rule != "hierarchical":
                 raise ValueError(f"{where}: the known_beta oracle is the hierarchical rule with beta given")
-            if rule == "hierarchical" and (law["reference"] != "cartesian" or law["nuisance"] != "radius"):
-                raise ValueError(f"{where}: the hierarchical rule is built on the cartesian reference "
-                                 "(it is its proper version), so it needs reference cartesian and nuisance radius")
+            if rule == "hierarchical" and (law["reference"] != "cartesian1" or law["nuisance"] != "radius"):
+                raise ValueError(f"{where}: the hierarchical rule is built on the cartesian1 reference "
+                                 "(it is its proper version), so it needs reference cartesian1 and nuisance radius")
         readouts = spec["readouts"]
         if not isinstance(readouts, list) or not readouts:
             raise ValueError(f"{where}: readouts must be a nonempty list")

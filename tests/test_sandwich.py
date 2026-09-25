@@ -6,7 +6,7 @@ import pytest
 from met.analyst import Estimator, joint_log_density, sandwich_weight
 from met.law import ReadingSet
 
-CART = {"reference": "cartesian", "nuisance": "radius"}
+CART = {"reference": "cartesian2", "nuisance": "radius"}
 PRIOR = [{"uniform_angle": {"center": "first_reading"}}]
 
 
@@ -38,7 +38,7 @@ def test_calibrated_density_is_the_tempered_likelihood_times_the_prior():
     lp1, acc1 = joint_log_density(readings, u, CART, calibrated)
     w = sandwich_weight(readings, CART, calibrated)[0]
     prior = joint_log_density(readings, u, CART, plain)[0] - np.sum(
-        readings.reading_terms(u, "radius", reference="cartesian")[0], axis=1)
+        readings.reading_terms(u, "radius", reference="cartesian2")[0], axis=1)
     assert 0 < w <= 1
     assert np.allclose(lp1, w * (lp0 - prior) + prior, atol=1e-9)
     assert np.array_equal(acc0, acc1)
@@ -50,7 +50,7 @@ def test_calibrate_is_refused_where_it_cannot_apply():
     with pytest.raises(ValueError, match="at least two"):
         est.check_world({"readings": 1, "design": "new_excitation", "dimension": 3})
     est.check_world({"readings": 5, "design": "new_excitation", "dimension": 3})
-    acc = Estimator(dict(base, law={"reference": "cartesian", "nuisance": "acceleration"},
+    acc = Estimator(dict(base, law={"reference": "cartesian2", "nuisance": "acceleration"},
                          combine={"rule": "likelihood_product", "prior": ["flat_mass"], "calibrate": "sandwich"}))
     with pytest.raises(ValueError, match="nuisance radius"):
         acc.check_world({"readings": 5, "design": "new_excitation", "dimension": 3})

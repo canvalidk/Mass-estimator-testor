@@ -1,4 +1,7 @@
-"""The cartesian reference (24 September): flat in the pair as a vector.
+"""The two cartesian references (24 September): flat in the pair as a vector.
+
+cartesian2 (7081a44) is checked first, cartesian1 (665a321) after it, each by the
+checks its own line wrote; then the two are checked against each other.
 
 Each closed form is checked against an integral done a different way:
 the radial kernel and mean radius by direct radial quadrature; the whole
@@ -17,9 +20,9 @@ from scipy.integrate import dblquad, quad
 from scipy.special import i0e, roots_legendre
 
 from met.analyst import Estimator, estimate, joint_log_density, posterior_summaries, tail_slopes
-from met.law import ReadingSet, cartesian_mean_radius, mean_radius, radial_terms
+from met.law import ReadingSet, cartesian1_mean_radius, cartesian2_mean_radius, mean_radius, radial_terms
 
-CART = {"reference": "cartesian", "nuisance": "radius"}
+CART = {"reference": "cartesian2", "nuisance": "radius"}
 FLAT = {"reference": "flat", "nuisance": "radius"}
 SINGLE = {"rule": "single", "prior": []}
 READOUTS = ["ratio_of_means", "median", "log_sd", "interval_95"]
@@ -53,7 +56,7 @@ def test_kernel_and_mean_radius_match_direct_integration(d, h):
     k0 = quad(integrand, 0, np.inf, args=(d - 1,), limit=400, epsabs=0, epsrel=1e-13)[0]
     k1 = quad(integrand, 0, np.inf, args=(d,), limit=400, epsabs=0, epsrel=1e-13)[0]
     constant = {1: math.sqrt(math.pi / 2), 2: 1.0, 3: math.sqrt(math.pi / 2)}[d]
-    log_k, radius = radial_terms(h, d, "cartesian")
+    log_k, radius = radial_terms(h, d, "cartesian2")
     assert math.log(k0 / constant) + h * h / 2 == pytest.approx(float(log_k), abs=1e-11)
     assert k1 / k0 == pytest.approx(float(radius), rel=1e-11)
 
@@ -66,7 +69,7 @@ def test_two_dimensions_is_the_21_september_law():
     u = np.tile(np.linspace(-6, 6, 121), (3, 1))
     for nuisance in ("radius", "acceleration", "force"):
         flat = readings.reading_terms(u, nuisance, reference="flat")
-        cart = readings.reading_terms(u, nuisance, reference="cartesian")
+        cart = readings.reading_terms(u, nuisance, reference="cartesian2")
         for a, b in zip(flat, cart):
             assert np.allclose(a, b, rtol=1e-13, atol=1e-13)
 
@@ -75,7 +78,7 @@ def test_two_dimensions_is_the_21_september_law():
 def test_mean_radius_is_continuous_at_zero(d):
     hs = np.array([0.0, 1e-9, 1e-7, 1e-6, 1.0001e-6, 1e-5])
     at_zero = {1: math.sqrt(2 / math.pi), 3: 2 * math.sqrt(2 / math.pi)}[d]
-    assert np.allclose(cartesian_mean_radius(hs, d), at_zero, rtol=1e-9)
+    assert np.allclose(cartesian2_mean_radius(hs, d), at_zero, rtol=1e-9)
 
 
 # ---------------------------------------------------------------- the record's section 3
@@ -98,7 +101,7 @@ def test_single_reading_law_is_the_records_closed_form(d):
         assert np.ptp(diff) < 1e-11
         a_hat = (m[:, None] * sa**2 * f[None] + sf**2 * a[None]) / var[:, None]
         sigma_e = sf * sa / np.sqrt(var)
-        chi = cartesian_mean_radius(np.linalg.norm(a_hat, axis=1) / sigma_e, d)
+        chi = cartesian2_mean_radius(np.linalg.norm(a_hat, axis=1) / sigma_e, d)
         assert np.allclose(acc[0], sigma_e * chi, rtol=1e-12)
 
 
@@ -207,7 +210,7 @@ def test_plain_flat_in_mass_completion_by_brute_force():
     nuisance acceleration and a flat_mass prior. Brute force in the flat coordinates
     with weight alpha^(d-2) = alpha."""
     f, a, sf, sa = np.array([2.0, 0.5, -0.3]), np.array([0.8, 0.1, 0.2]), 1.0, 0.7
-    law = {"reference": "cartesian", "nuisance": "acceleration"}
+    law = {"reference": "cartesian2", "nuisance": "acceleration"}
     combine = {"rule": "likelihood_product", "prior": ["flat_mass"]}
     mine = posterior_summaries(_series(f, a, sf, sa), law, combine, ["ratio_of_means"])
     x, w = roots_legendre(400)
@@ -268,7 +271,7 @@ def test_static_tail_slopes_match_the_computed_density(d, nuisance, rule, prior,
     rng = np.random.default_rng(zlib.crc32(f"{d}{nuisance}{rule}{n}{prior}".encode()))
     readings = ReadingSet(rng.normal(size=(1, n, d)) * 2 + 1, rng.normal(size=(1, n, d)) + 0.5,
                           rng.uniform(0.5, 2, size=(1, n)), rng.uniform(0.5, 2, size=(1, n)))
-    law = {"reference": "cartesian", "nuisance": nuisance}
+    law = {"reference": "cartesian2", "nuisance": nuisance}
     u = np.array([[-80.0, -70.0, 70.0, 80.0]])
     lp, _ = joint_log_density(readings, u, law, combine)
     expected_plus, expected_minus, _ = tail_slopes(law, combine, n, d)
@@ -279,7 +282,7 @@ def test_static_tail_slopes_match_the_computed_density(d, nuisance, rule, prior,
 def test_flat_in_mass_completion_is_refused_in_1d_only():
     """Record section 2: alpha^(d-2) df d(alpha) dOmega leaves the 1D single-reading law improper."""
     est = Estimator({"name": "plain", "reduce": "none",
-                     "law": {"reference": "cartesian", "nuisance": "acceleration"},
+                     "law": {"reference": "cartesian2", "nuisance": "acceleration"},
                      "combine": {"rule": "likelihood_product", "prior": ["flat_mass"]},
                      "readouts": ["ratio_of_means"]})
     world = {"readings": 1, "design": "same_pair"}
@@ -297,7 +300,7 @@ def test_unknown_reference_is_refused():
 
 def test_mean_radius_2d_is_shared():
     h = np.linspace(0, 10, 11)
-    assert np.array_equal(cartesian_mean_radius(h, 2), mean_radius(h, 2))
+    assert np.array_equal(cartesian2_mean_radius(h, 2), mean_radius(h, 2))
 
 
 def test_angle_power_contains_uniform_angle_and_converts_between_completions():
@@ -311,7 +314,7 @@ def test_angle_power_contains_uniform_angle_and_converts_between_completions():
     two = joint_log_density(readings, u, FLAT, {"rule": "likelihood_product",
                                                 "prior": [{"angle_power": {"sin": 1, "cos": 1, "center": 2.0}}]})[0]
     assert np.ptp(one - two) < 1e-12
-    plain = posterior_summaries(readings, {"reference": "cartesian", "nuisance": "acceleration"},
+    plain = posterior_summaries(readings, {"reference": "cartesian2", "nuisance": "acceleration"},
                                 {"rule": "likelihood_product", "prior": ["flat_mass"]}, READOUTS)
     tilted = posterior_summaries(readings, CART, {"rule": "single", "prior": [
         {"angle_power": {"sin": 0, "cos": 1, "center": "first_reading"}}]}, READOUTS)
@@ -385,10 +388,14 @@ def test_axis_splitting_holds_for_cartesian_and_fails_for_flat_and_the_sigma_fre
     free1 = prior + [{"angle_power": {"sin": -0.5, "cos": -0.5, "center": 1.0}}]
     assert gap(CART, free3, free1) > 0.1
 
-# ---------------------------------------------------------------- checks from the parallel line (665a321)
+
+# ---------------------------------------------------------------- cartesian1: checks from its own line (665a321)
 # Written independently of the checks above: the mean radius by 2D quadrature about
 # w's axis, the whole-estimator 2D identity, the single-reading law by per-component
-# brute force, and the von Mises state being exact under the cartesian reference.
+# brute force, and the von Mises state being exact under the cartesian1 reference.
+
+CART1 = {"reference": "cartesian1", "nuisance": "radius"}
+
 
 @pytest.mark.parametrize("d", [1, 2, 3])
 @pytest.mark.parametrize("h", [0.0, 0.4, 1.5, 4.0])
@@ -402,14 +409,14 @@ def test_mean_radius_is_the_noncentral_chi_mean(d, h):
     else:
         ref = dblquad(lambda c, r: r ** 3 * math.exp(-(r * r - 2 * r * h * c + h * h) / 2),
                       0, 12 + h, -1, 1)[0] * 2 * math.pi / (2 * math.pi) ** 1.5
-    assert float(cartesian_mean_radius(h, d)) == pytest.approx(ref, rel=1e-7)
+    assert float(cartesian1_mean_radius(h, d)) == pytest.approx(ref, rel=1e-7)
 
 
 def test_cartesian_equals_flat_in_two_dimensions():
     for seed in range(3):
         rng = np.random.default_rng(seed)
         f, a = rng.normal(size=2) * 3, rng.normal(size=2)
-        law_c = estimate(f, a, 0.8, 1.1, READOUTS, law=CART)
+        law_c = estimate(f, a, 0.8, 1.1, READOUTS, law=CART1)
         law_f = estimate(f, a, 0.8, 1.1, READOUTS, law=FLAT)
         for key in READOUTS:
             assert np.allclose(law_c[key], law_f[key], rtol=1e-10), key
@@ -418,7 +425,7 @@ def test_cartesian_equals_flat_in_two_dimensions():
 @pytest.mark.parametrize("d", [1, 3])
 def test_cartesian_differs_from_flat_outside_two_dimensions(d):
     f, a = np.full(d, 1.0), np.full(d, 0.6)
-    assert estimate(f, a, 1, 1, law=CART)["ratio_of_means"] != pytest.approx(
+    assert estimate(f, a, 1, 1, law=CART1)["ratio_of_means"] != pytest.approx(
         estimate(f, a, 1, 1, law=FLAT)["ratio_of_means"], rel=1e-6)
 
 
@@ -439,7 +446,7 @@ def test_single_reading_law_by_brute_force(d):
         brute.append(math.log(val))
     readings = ReadingSet(x[None, None], y[None, None], [[1.0]], [[1.0]])
     u = np.log(np.tan(theta))[None]
-    like, _, _ = readings.reading_terms(u, "radius", reference="cartesian")
+    like, _, _ = readings.reading_terms(u, "radius", reference="cartesian1")
     diff = np.array(brute) - like[0, 0]
     assert np.ptp(diff) < 1e-8
 
@@ -453,7 +460,92 @@ def test_vonmises_state_is_exact_under_cartesian_in_every_dimension(d):
     r = ReadingSet(2.0 * v + rng.normal(size=(b, n, d)), v + 0.6 * rng.normal(size=(b, n, d)),
                    np.full((b, n), 1.0), np.full((b, n), 0.6))
     old = {"rule": "likelihood_product", "prior": [{"uniform_angle": {"center": "first_reading"}}]}
-    a = posterior_summaries(r, CART, {"rule": "sequential", "old": old, "carry": "curve_only"}, READOUTS)
-    b_ = posterior_summaries(r, CART, {"rule": "sequential", "old": old, "carry": "vonmises_state"}, READOUTS)
+    a = posterior_summaries(r, CART1, {"rule": "sequential", "old": old, "carry": "curve_only"}, READOUTS)
+    b_ = posterior_summaries(r, CART1, {"rule": "sequential", "old": old, "carry": "vonmises_state"}, READOUTS)
     for key in READOUTS:
         assert np.allclose(a[key], b_[key], rtol=1e-9), key
+
+
+# ---------------------------------------------------------------- cartesian1 against cartesian2
+# The two implementations were written independently on 24 September, each
+# believing it was the cartesian reference. Where the maths says they agree they
+# must agree to rounding; where it says they differ, the difference must be
+# exactly the predicted factor, and nothing else.
+
+def _random_readings(seed, b, n, d):
+    rng = np.random.default_rng(seed)
+    v = rng.normal(size=(b, n, d))
+    return ReadingSet(1.7 * v + rng.normal(size=(b, n, d)), v + 0.8 * rng.normal(size=(b, n, d)),
+                      rng.uniform(0.5, 2.0, size=(b, n)), rng.uniform(0.5, 2.0, size=(b, n)))
+
+
+@pytest.mark.parametrize("d", [1, 2, 3])
+def test_the_two_mean_radii_agree(d):
+    h = np.concatenate([[0.0, 1e-9, 1e-7, 1e-6, 2e-6], np.linspace(0.0, 40.0, 4001)])
+    assert np.allclose(cartesian1_mean_radius(h, d), cartesian2_mean_radius(h, d), rtol=1e-14, atol=0)
+
+
+@pytest.mark.parametrize("d", [1, 2, 3])
+def test_radius_nuisance_terms_agree(d):
+    r = _random_readings(60 + d, 4, 6, d)
+    u = np.log(r.s[:, :1]) + np.linspace(-8, 8, 801)[None, :]
+    one = r.reading_terms(u, "radius", reference="cartesian1")
+    two = r.reading_terms(u, "radius", reference="cartesian2")
+    for a, b in zip(one, two):
+        assert np.allclose(a, b, rtol=1e-14, atol=1e-14)
+
+
+@pytest.mark.parametrize("d", [1, 2, 3])
+@pytest.mark.parametrize("nuisance", ["radius", "acceleration", "force"])
+def test_single_reading_law_agrees_under_every_split(d, nuisance):
+    r = _random_readings(70 + d, 4, 3, d)
+    u = np.log(r.s[:, :1]) + np.linspace(-8, 8, 801)[None, :]
+    l1, f1, c1 = r.reading_terms(u, nuisance, reference="cartesian1")
+    l2, f2, c2 = r.reading_terms(u, nuisance, reference="cartesian2")
+    assert np.allclose(l1 + f1, l2 + f2, rtol=1e-12, atol=1e-12)
+    assert np.allclose(c1, c2, rtol=1e-14, atol=0)
+
+
+@pytest.mark.parametrize("d", [1, 2, 3])
+@pytest.mark.parametrize("nuisance", ["acceleration", "force"])
+def test_the_splits_differ_by_exactly_the_predicted_factor(d, nuisance):
+    """cartesian1's likelihood is cartesian2's times cos^(2-d) (acceleration) or sin^(2-d) (force)."""
+    r = _random_readings(80 + d, 4, 5, d)
+    u = np.log(r.s[:, :1]) + np.linspace(-8, 8, 801)[None, :]
+    l1 = r.reading_terms(u, nuisance, reference="cartesian1")[0]
+    l2 = r.reading_terms(u, nuisance, reference="cartesian2")[0]
+    z = u[:, None, :] - np.log(r.s)[:, :, None]
+    log_trig = -0.5 * np.logaddexp(0.0, 2.0 * z) if nuisance == "acceleration" else -0.5 * np.logaddexp(0.0, -2.0 * z)
+    assert np.allclose(l1 - l2, (2 - d) * log_trig, rtol=1e-12, atol=1e-12)
+
+
+@pytest.mark.parametrize("d", [1, 3])
+def test_combined_laws_agree_for_radius_and_part_for_the_other_splits(d):
+    """With several readings: identical under the radius nuisance (and in 2D always);
+    different under the acceleration and force nuisances outside 2D."""
+    r = _random_readings(90 + d, 3, 6, d)
+    prior = [{"uniform_angle": {"center": "first_reading"}}]
+    combine = {"rule": "likelihood_product", "prior": prior}
+    law = lambda ref, nuisance: {"reference": ref, "nuisance": nuisance}
+    one = posterior_summaries(r, law("cartesian1", "radius"), combine, READOUTS)
+    two = posterior_summaries(r, law("cartesian2", "radius"), combine, READOUTS)
+    for key in READOUTS:
+        assert np.allclose(one[key], two[key], rtol=1e-12), key
+    flat_mass = {"rule": "likelihood_product", "prior": ["flat_mass"]}
+    one = posterior_summaries(r, law("cartesian1", "acceleration"), flat_mass, ["median"])
+    two = posterior_summaries(r, law("cartesian2", "acceleration"), flat_mass, ["median"])
+    assert np.all(np.isfinite(one["median"])) and np.all(np.isfinite(two["median"]))
+    assert not np.allclose(one["median"], two["median"], rtol=1e-6)
+    r2 = _random_readings(99, 3, 6, 2)
+    one = posterior_summaries(r2, law("cartesian1", "acceleration"), flat_mass, READOUTS)
+    two = posterior_summaries(r2, law("cartesian2", "acceleration"), flat_mass, READOUTS)
+    for key in READOUTS:
+        assert np.all(np.isfinite(one[key])), key
+        assert np.allclose(one[key], two[key], rtol=1e-12), key
+
+
+def test_the_old_name_is_refused_with_the_reason():
+    base = {"name": "e", "reduce": "none", "readouts": ["median"],
+            "combine": {"rule": "likelihood_product", "prior": [{"uniform_angle": {"center": "first_reading"}}]}}
+    with pytest.raises(ValueError, match="cartesian1 .*cartesian2"):
+        Estimator(dict(base, law={"reference": "cartesian", "nuisance": "radius"}))
