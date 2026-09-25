@@ -18,6 +18,7 @@ REDUCES = ("none", "pool_pair")
 RULES = ("single", "likelihood_product", "posterior_product", "sequential")
 CARRIES = ("exact", "curve_only", "lognormal_fit", "tilt_fit")
 COORDINATES = ("mass", "log_mass")
+CALIBRATIONS = ("sandwich",)
 POINT_READOUTS = ("ratio_of_means", "median", "geometric", "reciprocal_root")
 DIRECT_RULES = ("norm_ratio", "dot_acceleration", "dot_force")
 PRIOR_FLAT = ("flat_mass", "flat_log_mass", "flat_inverse_mass")
@@ -222,6 +223,8 @@ def joint_log_density(readings, u, law, combine):
         lp = log_like[:, 0] + log_ref[:, 0]
     elif rule == "likelihood_product":
         lp = np.sum(log_like, axis=1)
+        if combine.get("calibrate") == "sandwich":
+            lp = sandwich_weight(readings, law, combine)[:, None] * lp
     elif rule == "posterior_product":
         lp = np.sum(log_like + log_ref, axis=1)
         if combine["coordinate"] == "mass":
@@ -230,6 +233,66 @@ def joint_log_density(readings, u, law, combine):
         raise ValueError(f"unknown rule {rule!r}")
     lp = lp + prior_log_density(combine["prior"], u, readings)
     return lp, np.sum(cond_alpha, axis=1)
+
+
+# ---------------------------------------------------------------- sandwich calibration (our25)
+#
+# With many readings sharing only the mass, the declared law's curvature H
+# understates the spread of its own peak: the peak's variance is J / H^2, the
+# law's is 1 / H, where J is the variance of the summed per-reading score. For
+# the cartesian law, per reading, J = d + r*^2 and H = r*^2 exactly (r* the true
+# pair's noise-unit length). The calibrated law raises the likelihood to the
+# power w = H / J, so its width matches the peak's spread; the prior is not
+# tempered. J and H are estimated from the readings at the likelihood's peak:
+#
+#     H = -sum_i l_i''(u*),   J = N/(N-1) sum_i (l_i'(u*) - mean l')^2,
+#
+# (centred scores, so a grid-sized miss of the peak does not bias J). The ratio
+# does not depend on the coordinate. w is clipped to [W_FLOOR, 1]: never narrower
+# than the declared law, and if the readings show no curvature (H <= 0: the
+# mass is not identified) the law falls back to the prior alone.
+
+W_FLOOR = 1e-6
+
+
+def _likelihood_total(readings, u, law):
+    log_like, _, _ = readings.reading_terms(u, law["nuisance"], reference=law["reference"])
+    return log_like
+
+
+def sandwich_weight(readings, law, combine):
+    """Per-series tempering power w = H/J (cached on the readings)."""
+    key = ("sandwich", id(combine))
+    if key in readings.series_data:
+        return readings.series_data[key]
+    b = readings.series
+    center = np.log(readings.s[:, 0])
+    coarse = center[:, None] + np.arange(-30.0, 30.0001, 0.05)[None, :]
+    total = np.sum(_likelihood_total(readings, coarse, law), axis=1)
+    peak = coarse[np.arange(b), np.argmax(total, axis=1)]
+    for width in (0.1, 0.002):
+        local = peak[:, None] + np.linspace(-width, width, 201)[None, :]
+        total = np.sum(_likelihood_total(readings, local, law), axis=1)
+        k = np.clip(np.argmax(total, axis=1), 1, 199)
+        rows = np.arange(b)
+        y0, y1, y2 = total[rows, k - 1], total[rows, k], total[rows, k + 1]
+        step = local[0, 1] - local[0, 0]
+        curv = y0 - 2 * y1 + y2
+        shift = np.where(curv < 0, 0.5 * (y0 - y2) / np.where(curv < 0, curv, -1.0), 0.0)
+        peak = local[rows, k] + np.clip(shift, -1, 1) * step
+    h = 1e-3
+    stencil = peak[:, None] + np.array([-h, 0.0, h])[None, :]
+    ll = _likelihood_total(readings, stencil, law)                    # (B, N, 3)
+    grad = (ll[:, :, 2] - ll[:, :, 0]) / (2 * h)
+    hess = (ll[:, :, 2] - 2 * ll[:, :, 1] + ll[:, :, 0]) / h**2
+    n = readings.readings
+    H = -np.sum(hess, axis=1)
+    J = n / (n - 1) * np.sum((grad - grad.mean(axis=1, keepdims=True)) ** 2, axis=1)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        w = np.where((H > 0) & (J > 0), H / J, W_FLOOR)
+    w = np.clip(w, W_FLOOR, 1.0)
+    readings.series_data[key] = w
+    return w
 
 
 # ---------------------------------------------------------------- the sequential rule
@@ -540,6 +603,8 @@ class Estimator:
             if not isinstance(old, dict) or old.get("rule") not in ("single", "likelihood_product", "posterior_product"):
                 raise ValueError(f"{where}: combine.old must be a non-sequential combine block")
             self._validate_combine(old, f"{where} (old readings)")
+            if "calibrate" in old:
+                raise ValueError(f"{where}: calibrate is not supported inside a sequential rule")
         else:
             self._validate_combine(combine, where)
         readouts = spec["readouts"]
@@ -567,8 +632,12 @@ class Estimator:
         if rule not in RULES or rule == "sequential":
             raise ValueError(f"{where}: rule must be one of {RULES}")
         allowed = {"rule", "prior"} | ({"coordinate"} if rule == "posterior_product" else set())
-        if set(combine) != allowed:
-            raise ValueError(f"{where}: combine for {rule} needs exactly {sorted(allowed)}")
+        optional = {"calibrate"} if rule == "likelihood_product" else set()
+        if not (allowed <= set(combine) <= allowed | optional):
+            raise ValueError(f"{where}: combine for {rule} needs exactly {sorted(allowed)}"
+                             + (f" (optional: {sorted(optional)})" if optional else ""))
+        if "calibrate" in combine and combine["calibrate"] not in CALIBRATIONS:
+            raise ValueError(f"{where}: calibrate must be one of {CALIBRATIONS}")
         if rule == "posterior_product" and combine["coordinate"] not in COORDINATES:
             raise ValueError(f"{where}: coordinate must be one of {COORDINATES}")
         try:
@@ -596,6 +665,13 @@ class Estimator:
                 check_proper(self.spec["law"], self.spec["combine"], n, world["dimension"])
             except ValueError as error:
                 raise ValueError(f"{where}: {error}") from None
+            if self.spec["combine"].get("calibrate"):
+                if n < 2:
+                    raise ValueError(f"{where}: calibrate estimates a spread across readings, so it needs "
+                                     f"at least two readings after reduce (this world gives {n})")
+                if self.spec["law"]["nuisance"] != "radius":
+                    raise ValueError(f"{where}: calibrate needs nuisance radius (the per-reading "
+                                     "likelihood must carry no mass factor)")
 
     def evaluate(self, readings):
         if self.direct is not None:

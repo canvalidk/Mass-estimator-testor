@@ -1,0 +1,44 @@
+name: ours21-ours24-ours25-repeated
+question: >-
+  With many readings sharing only the mass, does the sandwich-calibrated law
+  (ours25) restore interval coverage where ours21 and ours24 undercover, and
+  what does it cost the point estimates?
+notes: >-
+  ours21 is the 21 September law (reference flat); ours24 is the 24 September
+  law (reference cartesian, justified by axis splitting on 25 September);
+  ours25 is ours24 with the likelihood tempered by w = H/J estimated from the
+  readings (calibrate: sandwich). All three use the symmetric rule: likelihood
+  product, radius nuisance, uniform-angle prior at the instrument ratio,
+  counted once. Large-N prediction: ours24's 80% intervals cover
+  2 Phi(1.2816 / sqrt(1 + d / r*^2)) - 1 with r*^2 = snr^2 (1 + m^2 / s^2);
+  ours25 should approach 80%.
+world:
+  dimension: [1, 3]
+  design: new_excitation
+  mass: [0.25, 1, 4]
+  acceleration_snr: [1, 3]
+  direction: random
+  readings: [20, 200]
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: ours21
+    reduce: none
+    law: {reference: flat, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: ours24
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: ours25
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}], calibrate: sandwich}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+scores:
+  within_factor: [1.1, 1.25, 1.5]
+  compare_to: ours24
+replicates: 400
+seed: 20260925

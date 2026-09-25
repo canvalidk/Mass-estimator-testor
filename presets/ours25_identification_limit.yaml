@@ -1,0 +1,37 @@
+name: ours25-identification-limit
+question: >-
+  As the excitation vanishes, can any bounded interval keep its coverage? The
+  Gleser-Hwang (1987) result says no: in errors-in-variables and ratio problems
+  every procedure that always returns a bounded interval has worst-case
+  coverage zero. This study shows where ours24 and ours25 lose coverage as the
+  true pair's noise-unit length r* goes to zero, and that where they lose it
+  is decided by whether the true mass sits near s.
+notes: >-
+  3D, 50 readings, new excitation per reading. Masses s/16, s, 16s; the
+  acceleration SNRs are chosen so r*^2 = snr^2 (1 + m^2/s^2) runs from about
+  1e-4 to about 60. At m = s the prior's median is the truth, so coverage there
+  is flattering; the far masses show the limit.
+world:
+  dimension: 3
+  design: new_excitation
+  mass: [0.0625, 1, 16]
+  acceleration_snr: [0.01, 0.1, 0.5]
+  direction: random
+  readings: 50
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: ours24
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+  - name: ours25
+    reduce: none
+    law: {reference: cartesian, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}], calibrate: sandwich}
+    readouts: [ratio_of_means, median, interval_95, interval_80]
+scores:
+  within_factor: [1.25, 2, 4]
+replicates: 400
+seed: 20260925
