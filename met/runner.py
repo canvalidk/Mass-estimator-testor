@@ -40,6 +40,11 @@ def code_version():
             "python": platform.python_version(), "numpy": np.__version__}
 
 
+# ratio_of_means (ours24's plain sum of sizes) and ratio_of_means_rss (ours25b's stacked
+# length): when a reference has only one of them, the other is compared against it.
+RATIO_OF_MEANS_KINDS = ("ratio_of_means", "ratio_of_means_rss")
+
+
 def run_cell(cell, estimators, replicates, seed, factors, batch_elements, progress=None, compare_to=None):
     readings, truth = generate(cell["world"], series_rngs(seed, cell["world"], replicates))
     n = readings.readings
@@ -47,6 +52,8 @@ def run_cell(cell, estimators, replicates, seed, factors, batch_elements, progre
     for est in estimators:
         start = time.perf_counter()
         per_reading = 1 if (est.direct or est.spec.get("reduce") == "pool_pair") else n
+        if est.spec.get("reduce") == "split_axes":
+            per_reading = n * readings.dimension
         grid = est.numerics["grid_points"] if est.numerics else 1
         batch = max(1, int(batch_elements // max(1, per_reading * grid)))
         parts = []
@@ -74,8 +81,12 @@ def run_cell(cell, estimators, replicates, seed, factors, batch_elements, progre
             if est.name == compare_to:
                 continue
             for name in est.point_readouts() + est.interval_readouts():
-                if name in ref:
-                    scores["agreement"][f"{est.name}.{name}"] = agreement(values[est.name][name], ref[name])
+                key = name if name in ref else None
+                if key is None and name in RATIO_OF_MEANS_KINDS:
+                    # the two poolings of the ratio of means are one quantity, compared across equations
+                    key = next((k for k in RATIO_OF_MEANS_KINDS if k in ref), None)
+                if key is not None:
+                    scores["agreement"][f"{est.name}.{name}"] = agreement(values[est.name][name], ref[key])
     return {"id": cell["id"], "axes": cell["axes"], "world": cell["world"],
             "cell_key": cell_key(cell["world"]), "scores": scores,
             "seconds": seconds}, values

@@ -1,0 +1,45 @@
+name: ours25b-axis-splitting
+question: >-
+  Does a 3D series give the same mass as the same series recorded as 3N
+  one-dimensional axis readings? ours24's readout (the plain sum of per-reading
+  sizes) should not; ours25b's (the length of the stacked vector) should, to
+  rounding.
+notes: >-
+  ours24 and ours25b share one law (reference cartesian2, radius nuisance, the
+  symmetric rule: likelihood product, uniform-angle prior at the instrument
+  ratio, counted once). They differ only in the readout: ratio_of_means is
+  ours24's, E[sum_i |F*_i|] / E[sum_i |a*_i|] (contribution 11 eq. 28);
+  ratio_of_means_rss is ours25b's, E[|F*|] / E[|a*|] with F*, a* the N readings'
+  true vectors stacked into one of 3N components (25 September: axis splitting
+  applied to the answer, given one rule for joining sets of readings). Both
+  estimators below carry both readouts; `vector` sees the 3D readings, `axes`
+  the same readings split with reduce split_axes. The agreement rows compare
+  each readout with itself across the two recordings: axes.ratio_of_means is
+  ours24's split mismatch (the 0.3-1.4% of the 25 September record), and
+  axes.ratio_of_means_rss is ours25b's (it must be zero to rounding). The
+  medians must agree too, since the law already passed axis splitting.
+world:
+  dimension: 3
+  design: new_excitation
+  mass: [0.25, 1, 4]
+  acceleration_snr: [1, 3]
+  direction: random
+  readings: [1, 5]
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: vector
+    reduce: none
+    law: {reference: cartesian2, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, ratio_of_means_rss, median]
+  - name: axes
+    reduce: split_axes
+    law: {reference: cartesian2, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, ratio_of_means_rss, median]
+scores:
+  within_factor: [1.25, 2]
+  compare_to: vector
+replicates: 400
+seed: 20260925

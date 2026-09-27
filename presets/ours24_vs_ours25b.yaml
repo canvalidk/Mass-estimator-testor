@@ -1,0 +1,39 @@
+name: ours24-vs-ours25b
+question: >-
+  With many readings sharing only the mass, what does changing the readout's
+  pooling from the plain sum of sizes (ours24) to the stacked vector's length
+  (ours25b) do to the point estimates, series by series and in accuracy?
+notes: >-
+  Same law for both (reference cartesian2, radius nuisance, symmetric rule);
+  only the ratio-of-means readout differs, so the medians and intervals are
+  identical and only the points are compared. For one reading the two are the
+  same readout. The 25 September standalone study (400 series per cell) found
+  series-by-series gaps of at most 0.56% at the median and 1.4% at the 90th
+  percentile, largest at N = 2 and weak signal, shrinking with N and SNR, and
+  within-factor scores equal to within a point. ours25b is adopted because axis
+  splitting forces it, not for accuracy.
+world:
+  dimension: [1, 3]
+  design: new_excitation
+  mass: [0.25, 1, 4]
+  acceleration_snr: [1, 3, {uniform: [0, 4]}]
+  direction: random
+  readings: [2, 10, 50]
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: ours24
+    reduce: none
+    law: {reference: cartesian2, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median]
+  - name: ours25b
+    reduce: none
+    law: {reference: cartesian2, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means_rss, median]
+scores:
+  within_factor: [1.25, 1.5, 2]
+  compare_to: ours24
+replicates: 400
+seed: 20260925

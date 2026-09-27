@@ -12,15 +12,19 @@ import math
 
 import numpy as np
 
-from .law import NUISANCES, REFERENCES, ReadingSet, nuisance_power, reference_error
+from .law import NUISANCES, REFERENCES, ReadingSet, StackedState, nuisance_power, reference_error
+from .world import per_axis_noise
 
-REDUCES = ("none", "pool_pair")
+REDUCES = ("none", "pool_pair", "split_axes")
 RULES = ("single", "likelihood_product", "posterior_product", "sequential", "hierarchical")
-CARRIES = ("exact", "curve_only", "lognormal_fit", "tilt_fit", "vonmises_state")
+CARRIES = ("exact", "curve_only", "lognormal_fit", "tilt_fit", "vonmises_state", "stacked_state")
 COORDINATES = ("mass", "log_mass")
 CALIBRATIONS = ("sandwich",)
-POINT_READOUTS = ("ratio_of_means", "median", "geometric", "reciprocal_root")
+POINT_READOUTS = ("ratio_of_means", "ratio_of_means_rss", "median", "geometric", "reciprocal_root")
 DIRECT_RULES = ("norm_ratio", "dot_acceleration", "dot_force")
+# ratio_of_means_rss (ours25b) pools the readings' sizes as the length of the stacked
+# vector; defined where the joint law is a plain product over readings.
+RSS_RULES = ("single", "likelihood_product", "posterior_product")
 PRIOR_FLAT = ("flat_mass", "flat_log_mass", "flat_inverse_mass")
 PRIOR_PARAMETRIC = ("uniform_angle", "sech_tilt", "lognormal", "angle_power")
 
@@ -57,10 +61,31 @@ def validate_numerics(numerics):
 
 # ---------------------------------------------------------------- priors
 
+CENTERS = ("first_reading", "first_reading_geometric")
+
+
 def _center(value, readings):
-    """log of a prior's centre: a positive number, or 'first_reading' = log s of reading 1."""
-    if value == "first_reading":
-        return np.log(readings.s[:, 0])[:, None]
+    """log of a prior's centre (B, 1) or a number:
+
+      a positive number
+      first_reading            log s of reading 1: the instrument ratio sigma_F / sigma_a. Forced
+                               only when that reading has one ratio on every axis; with per-axis
+                               ratios (ours26) it is refused, since no single ratio is singled out
+      first_reading_geometric  the mean over reading 1's axes of log(sigma_F,k / sigma_a,k): a
+                               declared choice for per-axis noise; equal to first_reading when
+                               the axes share one ratio
+    """
+    if value in CENTERS:
+        ratios = readings.first_reading_log_ratios()
+        if value == "first_reading_geometric":
+            return np.mean(ratios, axis=1)[:, None]
+        if np.any(np.ptp(ratios, axis=1) > 0):
+            raise ValueError("prior centre 'first_reading' is the first reading's noise ratio sigma_F/sigma_a, "
+                             "but that reading has a different ratio on each axis, so the centre is not forced "
+                             "(ours26): declare center: first_reading_geometric, or a number")
+        if readings.isotropic:
+            return np.log(readings.s[:, 0])[:, None]
+        return ratios[:, :1]
     return math.log(float(value))
 
 
@@ -118,10 +143,10 @@ def validate_prior(factors, rule):
         if not isinstance(params, dict) or set(params) != required:
             raise ValueError(f"prior factor {kind} needs exactly: {', '.join(sorted(required))}")
         center = params["center"]
-        if center != "first_reading" and not (
+        if center not in CENTERS and not (
                 not isinstance(center, bool) and isinstance(center, (int, float))
                 and math.isfinite(center) and center > 0):
-            raise ValueError(f"prior centre must be a positive number or 'first_reading', got {center!r}")
+            raise ValueError(f"prior centre must be a positive number or one of {CENTERS}, got {center!r}")
         if kind == "sech_tilt":
             _number(params["lambda"], "sech_tilt lambda")
         if kind == "angle_power":
@@ -218,6 +243,10 @@ def check_proper(law, combine, n, d):
 def joint_log_density(readings, u, law, combine):
     """Joint log density in u (up to a constant) and A(u) = sum_i E[alpha_i | m]."""
     rule = combine["rule"]
+    if not readings.isotropic and rule != "likelihood_product":
+        raise ValueError(f"rule {rule!r} is not built for per-axis noise: ours26 is the likelihood product "
+                         "with the prior counted once (a per-reading reference factor would need a centre "
+                         "that per-axis noise does not force)")
     if rule == "sequential":
         return _sequential_log_density(readings, u, law, combine)
     if rule == "hierarchical":
@@ -239,7 +268,7 @@ def joint_log_density(readings, u, law, combine):
     else:
         raise ValueError(f"unknown rule {rule!r}")
     lp = lp + prior_log_density(combine["prior"], u, readings)
-    return lp, np.sum(cond_alpha, axis=1)
+    return lp, (None if cond_alpha is None else np.sum(cond_alpha, axis=1))
 
 
 # ---------------------------------------------------------------- sandwich calibration (our25)
@@ -273,7 +302,7 @@ def sandwich_weight(readings, law, combine):
     if key in readings.series_data:
         return readings.series_data[key]
     b = readings.series
-    center = np.log(readings.s[:, 0])
+    center = readings.search_center()
     coarse = center[:, None] + np.arange(-30.0, 30.0001, 0.05)[None, :]
     total = np.sum(_likelihood_total(readings, coarse, law), axis=1)
     peak = coarse[np.arange(b), np.argmax(total, axis=1)]
@@ -328,6 +357,14 @@ def sandwich_weight(readings, law, combine):
 #                  reference in d = 2; with flat in d = 1, 3 it drops the factor
 #                  ~ h^(2-d). Needs the old rule to be likelihood_product, radius.
 #
+#   stacked_state  ours25b's exact state: the old readings' sums (C, T, M) (met.law.StackedState),
+#                  C the von Mises vector above, T = sum (P_i + Q_i), M the component count.
+#                  The new reading adds its own (c, T, d): the combination equation. It carries
+#                  the law AND the ratio_of_means_rss readout exactly, in every dimension, under
+#                  either cartesian reference (radius nuisance, likelihood product, prior once,
+#                  one s and one sigma_a per series). It does not carry eq. 28's A_old, so the
+#                  plain ratio_of_means is refused with it.
+#
 # The fits keep two numbers of the old information, in the slots the prior
 # parameters occupy. A_old is dropped by every carry except `exact`.
 
@@ -376,6 +413,13 @@ def _old_fit(readings, law, combine):
     return readings.series_data[key]
 
 
+def combined_stacked_state(readings):
+    """The combination equation: the old readings' carried state plus the new reading's."""
+    n = readings.readings
+    old = StackedState.from_readings(readings.take_readings(slice(0, n - 1)))
+    return old.add(StackedState.from_readings(readings.take_readings(slice(n - 1, n))))
+
+
 def _sequential_log_density(readings, u, law, combine):
     carry = combine["carry"]
     n = readings.readings
@@ -390,6 +434,9 @@ def _sequential_log_density(readings, u, law, combine):
         if carry == "exact":
             acc = acc + acc_old
         return lp, acc
+    if carry == "stacked_state":
+        state = combined_stacked_state(readings)
+        return state.log_likelihood(u) + prior_log_density(combine["old"]["prior"], u, readings), acc
     if carry == "vonmises_state":
         old = readings.take_readings(slice(0, n - 1))
         z_old = u[:, None, :] - np.log(old.s)[:, :, None]
@@ -562,7 +609,7 @@ def posterior_summaries(readings, law, combine, readouts, numerics=None):
     """
     num = dict(DEFAULT_NUMERICS, **(numerics or {}))
     b = readings.series
-    center = np.log(readings.s[:, 0])
+    center = readings.search_center()
     offsets = np.arange(-num["span"], num["span"] + num["coarse_step"] / 2, num["coarse_step"])
     coarse = center[:, None] + offsets[None, :]
     lo, hi, span_steps, unresolved = _support(readings, coarse, law, combine, num["cutoff"])
@@ -591,8 +638,19 @@ def posterior_summaries(readings, law, combine, readouts, numerics=None):
 
     out = {"unresolved": unresolved}
     wanted = set(readouts)
+    if "ratio_of_means" in wanted and acc is None:
+        raise ValueError("ratio_of_means (ours24's plain sum of per-reading sizes) is not built for per-axis "
+                         "noise; ours26's readout is ratio_of_means_rss")
     if "ratio_of_means" in wanted:
         out["ratio_of_means"] = np.sum(w * mass * acc, axis=1) / np.sum(w * acc, axis=1)
+    if "ratio_of_means_rss" in wanted:
+        if combine["rule"] == "sequential" and combine.get("carry") == "stacked_state":
+            acc_rss = combined_stacked_state(readings).cond_alpha(u)
+        elif combine["rule"] not in RSS_RULES:
+            raise ValueError(f"ratio_of_means_rss is not defined for rule {combine['rule']!r}")
+        else:
+            acc_rss = readings.stacked_cond_alpha(u, reference=law["reference"])
+        out["ratio_of_means_rss"] = np.sum(w * mass * acc_rss, axis=1) / np.sum(w * acc_rss, axis=1)
     if "geometric" in wanted or "log_sd" in wanted:
         mean_u = np.sum(w * u, axis=1)
         if "geometric" in wanted:
@@ -679,6 +737,8 @@ def world_beta(world):
     omega^2 is the per-component variance of the standardised latent vector:
     R^2 (1 + (m/s)^2) / d, with R the RMS acceleration SNR of the pushes.
     """
+    if any(isinstance(v, dict) for v in world["noise"].values()):
+        raise ValueError("the known_beta oracle needs one noise ratio for the world, not per-axis noise")
     spec = world["acceleration_snr"]
     if isinstance(spec, dict) and "normal_rms" in spec:
         r2 = float(spec["normal_rms"]) ** 2
@@ -694,9 +754,14 @@ def world_beta(world):
 
 def known_excitation_summaries(readings, true_acceleration, readouts):
     from scipy.stats import truncnorm
-    w = 1.0 / readings.force_sd ** 2                                    # (B, N)
-    prec = np.sum(w * np.sum(true_acceleration ** 2, axis=2), axis=1)   # (B,)
-    num = np.sum(w * np.sum(readings.force * true_acceleration, axis=2), axis=1)
+    if readings.isotropic:
+        w = 1.0 / readings.force_sd ** 2                                    # (B, N)
+        prec = np.sum(w * np.sum(true_acceleration ** 2, axis=2), axis=1)   # (B,)
+        num = np.sum(w * np.sum(readings.force * true_acceleration, axis=2), axis=1)
+    else:                                                                   # per-axis noise
+        w = 1.0 / readings.force_sd_axes ** 2                               # (B, N, d)
+        prec = np.sum(w * true_acceleration ** 2, axis=(1, 2))
+        num = np.sum(w * readings.force * true_acceleration, axis=(1, 2))
     ok = prec > 0
     mu = np.where(ok, num / np.where(ok, prec, 1.0), 0.0)
     sd = np.where(ok, 1.0 / np.sqrt(np.where(ok, prec, 1.0)), 1.0)
@@ -789,6 +854,14 @@ class Estimator:
             self._validate_combine(old, f"{where} (old readings)")
             if "calibrate" in old:
                 raise ValueError(f"{where}: calibrate is not supported inside a sequential rule")
+            if combine["carry"] == "stacked_state":
+                if old["rule"] != "likelihood_product" or law["nuisance"] != "radius" \
+                        or law["reference"] not in ("cartesian1", "cartesian2"):
+                    raise ValueError(f"{where}: stacked_state is ours25b's exact state, so it needs reference "
+                                     "cartesian1 or cartesian2, nuisance radius and old rule likelihood_product")
+                if "ratio_of_means" in spec["readouts"]:
+                    raise ValueError(f"{where}: stacked_state does not carry eq. 28's A_old; "
+                                     "use ratio_of_means_rss (ours25b's readout)")
             if combine["carry"] == "vonmises_state" and (
                     old["rule"] != "likelihood_product" or law["nuisance"] != "radius"):
                 raise ValueError(f"{where}: vonmises_state approximates the radius-nuisance likelihood "
@@ -810,6 +883,13 @@ class Estimator:
                 interval_content(name)
                 continue
             raise ValueError(f"{where}: unknown readout {name!r}")
+        if "ratio_of_means_rss" in readouts:
+            if law["reference"] not in ("cartesian1", "cartesian2"):
+                raise ValueError(f"{where}: ratio_of_means_rss needs reference cartesian1 or cartesian2 "
+                                 "(the stacked latent is Gaussian only under a flat-in-the-vector weighting)")
+            if rule not in RSS_RULES and not (rule == "sequential" and combine.get("carry") == "stacked_state"):
+                raise ValueError(f"{where}: ratio_of_means_rss needs rule one of {RSS_RULES}, "
+                                 "or the sequential rule with carry stacked_state")
         self.readouts = list(readouts)
         try:
             validate_numerics(spec.get("numerics", {}))
@@ -863,14 +943,18 @@ class Estimator:
         if self.oracle == "known_excitation":
             return
         n = 1 if self.pools else world["readings"]
+        d = world["dimension"]
+        if self.spec.get("reduce") == "split_axes":
+            n, d = n * d, 1
         if self.pools and world["design"] == "new_excitation" and world["readings"] > 1 \
                 and self.declared_mismatch is None:
             raise ValueError(
                 f"{where} pools readings, which assumes they share one latent pair, but the world's design is "
                 f"new_excitation. If that mismatch is intended, add `declared_mismatch: <why>` to the estimator.")
         if self.direct is None:
+            self._check_per_axis(world, where)
             try:
-                check_proper(self.spec["law"], self.spec["combine"], n, world["dimension"])
+                check_proper(self.spec["law"], self.spec["combine"], n, d)
             except ValueError as error:
                 raise ValueError(f"{where}: {error}") from None
             if self.spec["combine"].get("calibrate"):
@@ -880,6 +964,34 @@ class Estimator:
                 if self.spec["law"]["nuisance"] != "radius":
                     raise ValueError(f"{where}: calibrate needs nuisance radius (the per-reading "
                                      "likelihood must carry no mass factor)")
+
+    def _check_per_axis(self, world, where):
+        """ours26: what per-axis noise leaves defined. Readings that keep their axes (reduce
+        none or pool_pair) need the per-axis law (cartesian, radius, likelihood product) and
+        the stacked readout; a prior centred on 'first_reading' needs one ratio on all axes."""
+        if "noise" not in world:            # a partial world (tests check other settings)
+            return
+        axes_differ, ratios_differ = per_axis_noise(world)
+        if not axes_differ:
+            return
+        law, combine = self.spec["law"], self.spec["combine"]
+        if self.spec["reduce"] != "split_axes" and world["dimension"] > 1:
+            if law["reference"] not in ("cartesian1", "cartesian2") or law["nuisance"] != "radius" \
+                    or combine["rule"] != "likelihood_product":
+                raise ValueError(f"{where}: this world has per-axis noise, and the law for it (ours26) is "
+                                 "built for reference cartesian1 or cartesian2, nuisance radius and rule "
+                                 "likelihood_product (or reduce split_axes first)")
+            if "ratio_of_means" in self.readouts:
+                raise ValueError(f"{where}: this world has per-axis noise; ratio_of_means (ours24's plain sum "
+                                 "of per-reading sizes) is not built for it; use ratio_of_means_rss")
+        if ratios_differ:
+            blocks = [combine] + ([combine["old"]] if "old" in combine else [])
+            for block in blocks:
+                for factor in block.get("prior", []):
+                    if isinstance(factor, dict) and next(iter(factor.values())).get("center") == "first_reading":
+                        raise ValueError(f"{where}: this world's axes have different noise ratios, so a prior "
+                                         "centred on 'first_reading' has no single ratio to sit on (the centre "
+                                         "is not forced under ours26); declare first_reading_geometric or a number")
 
     def evaluate(self, readings, truth=None, world=None):
         if self.oracle == "known_excitation":
@@ -892,6 +1004,8 @@ class Estimator:
                     "unresolved": np.zeros(readings.series, dtype=bool)}
         if self.spec["reduce"] == "pool_pair":
             readings = readings.pooled()
+        elif self.spec["reduce"] == "split_axes":
+            readings = readings.split_axes()
         return posterior_summaries(readings, self.spec["law"], self.spec["combine"],
                                    self.readouts, self.numerics)
 
@@ -908,12 +1022,19 @@ class Estimator:
 
 def estimate(force, acceleration, force_sd, acceleration_sd, readouts=("ratio_of_means",),
              law=None, combine=None, numerics=None):
-    """Convenience call for one series of readings (N x d arrays, or d for one reading)."""
+    """Convenience call for one series of readings (N x d arrays, or d for one reading).
+
+    The SDs are numbers (every reading and axis), or per axis (ours26): a length-d array,
+    or an N x d array."""
     force = np.atleast_2d(np.asarray(force, dtype=float))
     acceleration = np.atleast_2d(np.asarray(acceleration, dtype=float))
     n = force.shape[0]
-    readings = ReadingSet(force[None], acceleration[None], np.full((1, n), force_sd),
-                          np.full((1, n), acceleration_sd))
+
+    def sds(sd):
+        sd = np.asarray(sd, dtype=float)
+        return np.full((1, n), sd) if sd.ndim == 0 else np.broadcast_to(sd, force.shape)[None]
+
+    readings = ReadingSet(force[None], acceleration[None], sds(force_sd), sds(acceleration_sd))
     law = law or {"reference": "flat", "nuisance": "radius"}
     combine = combine or {"rule": "single", "prior": []}
     result = posterior_summaries(readings, law, combine, list(readouts), numerics)

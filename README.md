@@ -63,11 +63,12 @@ world:
                                # or {normal_rms: v} (a* ~ N(0, tau^2 I), RMS length v sigma_a; needs direction: random)
   direction: fixed             # or random (drawn per latent pair)
   readings: 50                 # per series
-  noise: {force_sd: 1, acceleration_sd: 1}      # true per-coordinate SDs
+  noise: {force_sd: 1, acceleration_sd: 1}      # true per-coordinate SDs; either may be
+                               # {per_axis: [s_1, ..., s_d]} (ours26: one SD per axis)
   supplied_noise: exact        # or {force_scale: k, acceleration_scale: k}
 estimators:
   - name: symmetric
-    reduce: none               # or pool_pair
+    reduce: none               # or pool_pair, or split_axes (each d-dim reading as d 1D readings)
     law: {reference: flat, nuisance: radius}      # reference: flat | cartesian1 | cartesian2; nuisance: radius | acceleration | force
     combine:
       rule: likelihood_product # single | likelihood_product | posterior_product | sequential | hierarchical
@@ -218,7 +219,7 @@ before it as old, and `carry` says what of the old information is kept:
 ```yaml
 combine:
   rule: sequential
-  carry: exact            # exact | curve_only | lognormal_fit | tilt_fit | vonmises_state
+  carry: exact            # exact | curve_only | lognormal_fit | tilt_fit | vonmises_state | stacked_state
   old: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
 ```
 
@@ -229,6 +230,7 @@ combine:
 | `lognormal_fit` | two numbers: the mean and SD of log m under p_old, as a normal law in log m |
 | `tilt_fit` | two numbers: m₀ and λ of sech(z)·exp(λ(sech z − 1)), z = log(m/m₀), matched to the same mean and SD |
 | `vonmises_state` | one doubled-angle vector: each old likelihood replaced by its von Mises part ((Q−P)/4) cos 2θ + (D/2) sin 2θ, m = s tan θ |
+| `stacked_state` | ours25b's exact state, three running sums (C, T, M): the von Mises vector, the total energy T = Σ(P+Q), the component count M. Carries the law and `ratio_of_means_rss` exactly in every dimension (tested) |
 
 The tilt family contains the zero-reading law (λ = 0, m₀ = s), and for large
 λ it is close to normal with variance 1/(1+λ) in log m. So m₀ is the slot
@@ -242,6 +244,19 @@ vector Σ c_i, c_i = ¼ Σ_k (y_k + i x_k)². The state is exact under the
 cartesian reference (either one) in every dimension and under `flat` in 2D. Under `flat`
 in 1D and 3D it drops a factor of about h^(2−d) (tested both ways). Its peak
 is the total-least-squares direction of the standardised scatter.
+
+`stacked_state` (26 September) is the combination equation for ours25b. Under
+either cartesian reference, with the radius nuisance, the prior counted once,
+and one s and one σ_a per series, everything ours25b computes depends on the
+data only through
+
+    H(θ)² = T/2 + 2 Re[C e^(−2iθ)],   C = Σ ((Q−P) + 2iD)/4,   T = Σ (P+Q),
+
+and the component count M = N·d: the log-likelihood is H²/2 and the readout's
+weight is σ_a cos θ · μ_M(H). Combining sets of readings is adding their
+(C, T, M), in any order and grouping (`met.law.StackedState`). It needs the
+readout `ratio_of_means_rss`; it does not carry eq. 28's A_old, so the plain
+`ratio_of_means` is refused with it. See `presets/old_info_stacked_state.yaml`.
 
 ### The hierarchical rule: a learned excitation scale
 
@@ -285,7 +300,13 @@ A prior is a list of factors, multiplied together:
 `{lognormal: {center: C, width: w}}`,
 `{angle_power: {sin: p, cos: q, center: C}}` (sin^p θ cos^q θ with
 tan θ = m/C; `{sin: 1, cos: 1}` is `uniform_angle`). A centre `C` is a positive number or
-`first_reading` (the instrument ratio s of the series' first reading).
+`first_reading` (the instrument ratio s of the series' first reading), or
+`first_reading_geometric` (the geometric mean of the first reading's axis ratios
+σ_F,k/σ_a,k; the same as `first_reading` when the axes share one ratio). With
+per-axis noise whose axes have different ratios, `first_reading` is refused: no
+single ratio is singled out, so the centre is not forced and must be declared
+(ours26, below). After `split_axes` the first reading is still the original
+one, so both spellings mean the same centre whether or not the axes are split.
 `likelihood_product` refuses an empty prior. For `single` and
 `posterior_product`, `[]` means no factor beyond the reference already in
 the law.
@@ -299,7 +320,61 @@ unresolved: every readout is NaN and counts as a failure.
 
 `ratio_of_means` is E[Σf]/E[Σα] under the joint law, computed as
 ∫ m A(m) p(m) dm / ∫ A(m) p(m) dm with A = Σ_i E[α_i | m] (contribution 11,
-eq. 28). For one reading it is E[f]/E[α]. Also `median`, `geometric`
+eq. 28). For one reading it is E[f]/E[α].
+
+`ratio_of_means_rss` ("ours25b", 25 September) pools the readings' sizes as the
+length of the stacked vector instead of their plain sum: E[|F*|]/E[|a*|], with
+F*, a* the N readings' true vectors stacked into one of N·d components, so
+A = E[|a*| | m] = σ_a cos θ · E|N(W, I_{Nd})| with |W|² = Σ_i h_i² (the
+noncentral chi mean in N·d dimensions, `stacked_mean_radius` in `met/law.py`).
+The pooling happens on each candidate, before the average; pooling the averages
+instead would break lumping. Why this pooling: axis splitting applied to the
+answer (a 2D reading and its two axes must have the same size), given one rule
+for joining sets of readings, forces √(p² + q²); the plain sum fails. For one
+reading it equals `ratio_of_means`; the medians and intervals are unchanged.
+Consequences, all tested: a d-dimensional series and its N·d axis readings
+give the same answer to rounding; the recording frame does not matter; and
+under `cartesian1`/`cartesian2` N readings in d dimensions are exactly one
+reading in N·d dimensions, so the answer depends on the data only through
+Σ|x_i|², Σ|y_i|², Σ x_i·y_i (noise units) and N·d. It needs a cartesian
+reference and rule `single`, `likelihood_product` or `posterior_product`. See
+`presets/ours25b_axis_splitting.yaml` and `presets/ours24_vs_ours25b.yaml`.
+
+**Per-axis noise ("ours26", 26 September).** A world may give each axis its own
+SD (`noise: {acceleration_sd: {per_axis: [...]}}`), and a reading set may carry
+SDs per axis, shape (B, N, d). ours26 is ours25b on such data, with nothing
+changed where ours25b was defined (tested to 1e-12 on isotropic data):
+
+- the law is the per-axis Beale sum
+  Σ_i Σ_k −(F_ik − m a_ik)² / (2(σ_F,ik² + m² σ_a,ik²)), i.e. each axis as its own
+  one-dimensional cartesian reading (axis splitting); only the radius nuisance
+  with the likelihood product has this form, so other laws on per-axis readings
+  are refused (split the axes first to use them);
+- the readout keeps its definition, E|F*_stack|/E|a*_stack|; its weight is
+  E√(Σ_c σ_a,c² cos²θ_c v_c²), v_c ~ N(w_c, 1), a weighted noncentral chi mean
+  (`weighted_stacked_mean` in `met/law.py`: the Laplace transform of the
+  weighted sum is closed, and the mean is one quadrature in log t, about 1e-10;
+  components sharing a noise pair are grouped). On the posterior grid it is
+  computed at nodes at most 0.02 apart in log m and carried by a cubic spline.
+  The same weighted mean handles SDs that differ between readings of a series,
+  which ours25b refused;
+- the prior's centre is not forced when the axes' ratios differ, so it is
+  declared (`first_reading_geometric` or a number);
+- the answer depends on the data only through the three sums P, Q, D and the
+  component count of each noise pair (tested), so the exact combination state
+  becomes one (C, T, M) per noise pair; the `stacked_state` carry is not built
+  for that yet, and neither is the plain `ratio_of_means` (ours24's sum of sizes);
+- with zero readings the median is still the prior's centre, but the readout is
+  not (the axes weigh differently): 1.76 against a centre of 2 for one zero
+  reading with axis ratios 5, 2, 0.8, drifting with N.
+
+When σ_F,k/σ_a,k is the same on every axis but the SDs are not, the angle is
+common and `first_reading` is allowed again. See
+`presets/ours26_per_axis_noise.yaml`.
+
+With `scores.compare_to`, a ratio-of-means readout is compared with the
+reference's same-named readout, or else with its other ratio-of-means readout
+(so ours25b's `ratio_of_means_rss` is compared with ours24's `ratio_of_means`). Also `median`, `geometric`
 (exp E[log m]), `reciprocal_root` (E[√m]/E[1/√m]), `log_sd`, and equal-tail
 intervals `interval_<pct>` (e.g. `interval_95`).
 
@@ -372,6 +447,26 @@ the data of the other cells.
   closed form, the law against brute force, the E[α | m] quadrature, the
   strong-excitation limit approaching `cartesian1`, and the Gaussian-excitation
   world;
+- `ratio_of_means_rss` (`tests/test_stacked.py`): the noncentral chi mean in
+  k dimensions against its closed forms (k ≤ 3) and a two-dimensional quadrature
+  (k up to 150); the readout against an independent Gauss–Legendre quadrature in
+  θ; equal to `ratio_of_means` for one reading; s at zero readings; reciprocal
+  symmetry; `cartesian1` = `cartesian2`; a 3D series equal to its axis readings
+  (and `ratio_of_means` not); `split_axes` against splitting by hand; no
+  dependence on the recording frame; only the three sums matter; its refusals;
+- ours26, per-axis noise (`tests/test_ours26.py`): the weighted mean against the
+  closed forms (one group), polar-coordinate integration and nested quadrature
+  (two groups); the readout for a 2D reading with two ratios against an
+  independent quadrature; the law against the Beale formula; isotropic data
+  equal to ours25b; a vector series equal to its axes; only the per-noise-pair
+  sums matter; units and reciprocal symmetry; per-axis pooling and the known-excitation oracle; the world's
+  per-axis draws and its SNR reference; its refusals, world-level and
+  data-level;
+- the `stacked_state` carry (`tests/test_stacked_state.py`): equal to the rule
+  on all readings (law, intervals and `ratio_of_means_rss`) in 1D, 2D and 3D
+  under both cartesian references; order- and grouping-free; its H²/2 equals
+  the summed per-reading likelihood and its weight the stacked one; states of
+  different instruments refuse to add; its refusals;
 - `calibrate: sandwich` (`tests/test_sandwich.py`): the weight against the
   exact large-N factor, the tempered density, and its refusals;
 - the oracles (`tests/test_oracles.py`): `known_excitation` against a
@@ -383,12 +478,23 @@ the data of the other cells.
 
 ## Not built yet
 
+- `calibrate: sandwich` (ours25) estimates J from per-reading scores, so it
+  depends on how a series is grouped (a 3D reading against its three axes give
+  different J, and one reading gives none). Found reading the code on 25
+  September; not yet measured or addressed.
+- The readout's drift when zero readings are appended (the law and median do
+  not move; both poolings drift to the same limit). Forced under ours25b; no
+  world generates coasting readings yet.
 - Reference measures other than `flat`, `cartesian1` and `cartesian2` (the tube/Jeffreys
   measure).
-- General or anisotropic covariance, correlated channels, and a known
-  direction.
+- Correlated errors (between axes, or between the force and acceleration
+  channels), and a known direction. Per-axis (diagonal) noise is ours26; a
+  correlation that is the same for every reading can be whitened away first,
+  but that is not built.
+- ours26's prior centre: open, like the prior's shape. The preset measures how
+  far the answer moves between centres; nothing yet chooses one.
 - Calibration estimated from samples, and calibration uncertainty.
-- Readings from different instruments within one series (the law supports
-  per-reading SDs; the world does not generate them yet).
+- Readings from different instruments within one series (the law and the
+  ours26 readout support per-reading SDs; the world does not generate them yet).
 - Paired-difference tests between estimators (the values are saved, so
   these can be added without rerunning).

@@ -1,0 +1,78 @@
+name: old-info-stacked-state
+question: >-
+  Under ours25b, does carrying the old readings as three running sums (C, T, M)
+  reproduce the answer from all readings exactly, law and readout, in 1D, 2D
+  and 3D, where the earlier compact carries were approximate?
+notes: >-
+  Reruns old-info-as-prior and old-info-vonmises (which used the 21 September
+  law, reference flat) under ours25b: reference cartesian2, radius nuisance,
+  the symmetric rule with the uniform-angle prior counted once. `full` applies
+  the rule to all readings and carries both readouts: ratio_of_means (eq. 28,
+  plain sum) and ratio_of_means_rss (ours25b, stacked length). `stacked_state`
+  is the combination equation: the old readings' (C, T, M) plus the new
+  reading's, exact for the law and for ratio_of_means_rss (compared with
+  full.ratio_of_means_rss). The older carries keep the law exactly
+  (curve_only, and vonmises_state, which is exact under cartesian2 in every
+  dimension) or approximately (the two-number fits), and none carries the
+  readout's old weight: their ratio_of_means is compared with
+  full.ratio_of_means, so its gap is what dropping A_old costs.
+world:
+  dimension: [1, 2, 3]
+  design: new_excitation
+  mass: [0.25, 1, 4]
+  acceleration_snr: [1, 3]
+  direction: random
+  readings: [2, 6, 21]
+  noise: {force_sd: 1, acceleration_sd: 1}
+  supplied_noise: exact
+estimators:
+  - name: full
+    reduce: none
+    law: {reference: cartesian2, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, ratio_of_means_rss, median, interval_95]
+  - name: stacked_state
+    reduce: none
+    law: {reference: cartesian2, nuisance: radius}
+    combine:
+      rule: sequential
+      carry: stacked_state
+      old: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means_rss, median, interval_95]
+  - name: vonmises_state
+    reduce: none
+    law: {reference: cartesian2, nuisance: radius}
+    combine:
+      rule: sequential
+      carry: vonmises_state
+      old: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95]
+  - name: curve_only
+    reduce: none
+    law: {reference: cartesian2, nuisance: radius}
+    combine:
+      rule: sequential
+      carry: curve_only
+      old: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95]
+  - name: lognormal_fit
+    reduce: none
+    law: {reference: cartesian2, nuisance: radius}
+    combine:
+      rule: sequential
+      carry: lognormal_fit
+      old: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95]
+  - name: tilt_fit
+    reduce: none
+    law: {reference: cartesian2, nuisance: radius}
+    combine:
+      rule: sequential
+      carry: tilt_fit
+      old: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}]}
+    readouts: [ratio_of_means, median, interval_95]
+scores:
+  within_factor: [1.1, 1.25, 1.5]
+  compare_to: full
+replicates: 400
+seed: 20260926

@@ -17,7 +17,11 @@ A cell of a study is one fully specified world. Its settings:
   direction         fixed (the first axis) or random (uniform on the sphere),
                     drawn per latent pair
   readings          N readings per series
-  noise             {force_sd, acceleration_sd}: true per-coordinate SDs
+  noise             {force_sd, acceleration_sd}: true per-coordinate SDs. Each is a number
+                    (every axis the same) or {per_axis: [s_1, ..., s_d]} (ours26: one SD
+                    per axis, the same for every reading). With per-axis acceleration
+                    noise, acceleration_snr is measured against the RMS of the axes' SDs,
+                    sqrt(mean_k sigma_a,k^2), so |a*| / that is the SNR.
   supplied_noise    exact (the analyst is told the true SDs) or
                     {force_scale, acceleration_scale}: supplied = scale x true
 """
@@ -84,13 +88,37 @@ def validate_cell(cell):
     if not isinstance(noise, dict) or set(noise) != {"force_sd", "acceleration_sd"}:
         raise ValueError("world.noise needs exactly force_sd and acceleration_sd")
     for key in noise:
-        _positive(noise[key], f"world.noise.{key}")
+        value = noise[key]
+        if isinstance(value, dict):
+            per_axis = value.get("per_axis")
+            if set(value) != {"per_axis"} or not isinstance(per_axis, list) or len(per_axis) != cell["dimension"]:
+                raise ValueError(f"world.noise.{key} per axis must be {{per_axis: [one SD per axis]}} "
+                                 f"with {cell['dimension']} entries")
+            for v in per_axis:
+                _positive(v, f"world.noise.{key}.per_axis")
+        else:
+            _positive(value, f"world.noise.{key}")
     supplied = cell["supplied_noise"]
     if supplied != "exact":
         if not isinstance(supplied, dict) or set(supplied) != {"force_scale", "acceleration_scale"}:
             raise ValueError("world.supplied_noise must be 'exact' or {force_scale, acceleration_scale}")
         for key in supplied:
             _positive(supplied[key], f"world.supplied_noise.{key}")
+
+
+def axis_sds(value, d):
+    """A world noise setting as its per-axis SDs (d,)."""
+    if isinstance(value, dict):
+        return np.asarray(value["per_axis"], dtype=float)
+    return np.full(d, float(value))
+
+
+def per_axis_noise(world):
+    """Whether the world's noise differs between axes: (SDs differ, ratios differ)."""
+    d = world["dimension"]
+    sf, sa = axis_sds(world["noise"]["force_sd"], d), axis_sds(world["noise"]["acceleration_sd"], d)
+    ratio = sf / sa
+    return bool(np.ptp(sf) > 0 or np.ptp(sa) > 0), bool(np.ptp(ratio) > 0)
 
 
 def _directions(rng, count, d, rule):
@@ -131,7 +159,13 @@ def generate(cell, rngs):
     Returns (ReadingSet as the analyst sees it, truth dict).
     """
     d, n = cell["dimension"], cell["readings"]
-    sf, sa = cell["noise"]["force_sd"], cell["noise"]["acceleration_sd"]
+    per_axis = any(isinstance(v, dict) for v in cell["noise"].values())
+    if per_axis:
+        sf, sf_axes = None, axis_sds(cell["noise"]["force_sd"], d)
+        sa_axes = axis_sds(cell["noise"]["acceleration_sd"], d)
+        sa = float(np.sqrt(np.mean(sa_axes ** 2)))      # the SNR's reference
+    else:
+        sf, sa = cell["noise"]["force_sd"], cell["noise"]["acceleration_sd"]
     mass = float(cell["mass"])
     same = cell["design"] == "same_pair"
     series = len(rngs)
@@ -148,9 +182,17 @@ def generate(cell, rngs):
             direction = _directions(rng, pairs, d, cell["direction"])
             a = (_snrs(rng, pairs, spec) * sa)[:, None] * direction
         true_a[i] = np.repeat(a, n, axis=0) if same else a
-        force[i] = mass * true_a[i] + sf * rng.standard_normal((n, d))
-        acceleration[i] = true_a[i] + sa * rng.standard_normal((n, d))
+        if per_axis:
+            force[i] = mass * true_a[i] + sf_axes * rng.standard_normal((n, d))
+            acceleration[i] = true_a[i] + sa_axes * rng.standard_normal((n, d))
+        else:
+            force[i] = mass * true_a[i] + sf * rng.standard_normal((n, d))
+            acceleration[i] = true_a[i] + sa * rng.standard_normal((n, d))
     supplied = cell["supplied_noise"]
     ksf, ksa = (1.0, 1.0) if supplied == "exact" else (supplied["force_scale"], supplied["acceleration_scale"])
-    readings = ReadingSet(force, acceleration, np.full((series, n), sf * ksf), np.full((series, n), sa * ksa))
+    if per_axis:
+        readings = ReadingSet(force, acceleration, np.broadcast_to(sf_axes * ksf, (series, n, d)),
+                              np.broadcast_to(sa_axes * ksa, (series, n, d)))
+    else:
+        readings = ReadingSet(force, acceleration, np.full((series, n), sf * ksf), np.full((series, n), sa * ksa))
     return readings, {"mass": mass, "true_force": mass * true_a, "true_acceleration": true_a}
