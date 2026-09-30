@@ -19,7 +19,8 @@ REDUCES = ("none", "pool_pair", "split_axes")
 RULES = ("single", "likelihood_product", "posterior_product", "sequential", "hierarchical")
 CARRIES = ("exact", "curve_only", "lognormal_fit", "tilt_fit", "vonmises_state", "stacked_state")
 COORDINATES = ("mass", "log_mass")
-CALIBRATIONS = ("sandwich",)
+CALIBRATIONS = ("sandwich", "bartlett")
+MISFITS = ("kink", "smooth")
 POINT_READOUTS = ("ratio_of_means", "ratio_of_means_rss", "median", "geometric", "reciprocal_root")
 DIRECT_RULES = ("norm_ratio", "dot_acceleration", "dot_force")
 # ratio_of_means_rss (ours25b) pools the readings' sizes as the length of the stacked
@@ -258,9 +259,13 @@ def joint_log_density(readings, u, law, combine):
             raise ValueError("rule 'single' needs exactly one reading per series after reduce")
         lp = log_like[:, 0] + log_ref[:, 0]
     elif rule == "likelihood_product":
+        if combine.get("misfit"):
+            log_like = misfit_weights(readings, combine)[:, :, None] * log_like
         lp = np.sum(log_like, axis=1)
         if combine.get("calibrate") == "sandwich":
             lp = sandwich_weight(readings, law, combine)[:, None] * lp
+        elif combine.get("calibrate") == "bartlett":
+            lp = bartlett_weight(readings, combine)[:, None] * lp
     elif rule == "posterior_product":
         lp = np.sum(log_like + log_ref, axis=1)
         if combine["coordinate"] == "mass":
@@ -329,6 +334,145 @@ def sandwich_weight(readings, law, combine):
     w = np.clip(w, W_FLOOR, 1.0)
     readings.series_data[key] = w
     return w
+
+
+# ---------------------------------------------------------------- ours29: the Bartlett power and the misfit weight
+#
+# ours29 (30 September) is the cartesian likelihood product (radius nuisance, prior once) with two
+# tempering steps, both read from the readings alone:
+#
+#   misfit (L21, T30)  each reading's log-likelihood is multiplied by g_i = g(Q_i), Q_i its off-line
+#                      misfit at its own best line, nu = d - 1 (the reading's codirectionality
+#                      conditions):  kink  g = min(1, nu/Q),  smooth  g = 1/(1 + Q/nu).  g = 1 in 1D.
+#   bartlett           the summed (misfit-weighted) log-likelihood is raised to
+#                          eta = min(1, curv / J),  curv = -sum_i l_i'',  J = sum_i l_i'^2,
+#                      at the series' best line on the WHOLE projective line of slopes (negative and
+#                      infinite m included), so every series has one; J is the raw sum (the
+#                      Bessel-corrected J of `sandwich` counts readings, which Z forbids: an exact
+#                      zero reading has l_i' = l_i'' = 0 and must leave eta alone); J = 0 (one
+#                      reading, or no reading that disagrees) gives eta = 1.
+#
+# Neither changes a reading's candidate cloud, so E[alpha | m] and the stacked weight are unchanged
+# (shrinking candidates by eta would infer signal size from the series). The ratio curv/J does not
+# depend on how the slope is parametrised, because the series' score is zero at its best line.
+#
+# The per-reading log-likelihood used here is the cartesian radius-nuisance one, written for any
+# slope m = s0 tan(phi), phi in (-pi/2, pi/2]:
+#     l_i(phi) = -1/2 sum_k (F_ik cos phi - s0 sin phi a_ik)^2 / (sF_ik^2 cos^2 phi + s0^2 sin^2 phi sa_ik^2)
+# (plus a constant). With one noise ratio per series and isotropic noise it is
+#     l_i = T_i/4 + (1/4) Re(C_i e^{-2 i theta}),  C_i = (Q_i - P_i) + 2 i D_i,  m = s tan(theta),
+# and everything is closed form: theta_hat = arg(sum g_i C_i)/2, curv = |sum g_i C_i|,
+# l_i' = -(1/2) g_i Im(conj(C_i) e^{2 i theta_hat}), and Q_i = lambda_min of the whitened Gram
+# matrix = (T_i - |C_i|)/2.
+
+_PHI_COARSE = 721
+
+
+def _slope_misfit(readings, phi, s0):
+    """Per-reading off-line misfit q_i(phi) at slopes m = s0 tan(phi); phi (B, K) -> (B, N, K)."""
+    cp, sp = np.cos(phi)[:, None, :, None], np.sin(phi)[:, None, :, None]
+    s0 = s0[:, None, None, None]
+    f, a = readings.force[:, :, None, :], readings.acceleration[:, :, None, :]
+    sf, sa = readings.force_sd_axes[:, :, None, :], readings.acceleration_sd_axes[:, :, None, :]
+    return np.sum((f * cp - s0 * sp * a) ** 2 / (sf ** 2 * cp ** 2 + (s0 * sp * sa) ** 2), axis=3)
+
+
+def _slope_misfit_each(readings, phi, s0):
+    """Each reading's misfit at its own slope: phi (B, N) -> (B, N)."""
+    cp, sp = np.cos(phi)[:, :, None], np.sin(phi)[:, :, None]
+    s0 = s0[:, None, None]
+    f, a = readings.force, readings.acceleration
+    sf, sa = readings.force_sd_axes, readings.acceleration_sd_axes
+    return np.sum((f * cp - s0 * sp * a) ** 2 / (sf ** 2 * cp ** 2 + (s0 * sp * sa) ** 2), axis=2)
+
+
+def _golden_max(fun, lo, hi, iterations=48):
+    """Vectorised golden-section search for the maximum of fun on [lo, hi] (arrays of any shape)."""
+    r = 0.6180339887498949
+    for _ in range(iterations):
+        a1, a2 = hi - r * (hi - lo), lo + r * (hi - lo)
+        up = fun(a2) > fun(a1)
+        lo, hi = np.where(up, a1, lo), np.where(up, hi, a2)
+    return 0.5 * (lo + hi)
+
+
+def _common_ratio(readings):
+    return readings.isotropic and bool(np.all(readings.s == readings.s[:, :1]))
+
+
+def misfit_weights(readings, combine):
+    """g_i per reading (B, N), from each reading's own off-line misfit (cached)."""
+    key = ("misfit", id(combine))
+    if key in readings.series_data:
+        return readings.series_data[key]
+    b, n, d = readings.force.shape
+    nu = d - 1
+    if nu == 0:
+        g = np.ones((b, n))
+    else:
+        if readings.isotropic:
+            P, Q, D = readings.P, readings.Q, readings.D
+            q = 0.5 * (P + Q - np.sqrt((Q - P) ** 2 + 4 * D * D))
+        else:                                      # per-axis noise: minimise each reading's misfit
+            s0 = np.exp(readings.search_center())
+            q = np.empty((b, n))
+            grid = np.linspace(-np.pi / 2, np.pi / 2, _PHI_COARSE, endpoint=False)
+            step = grid[1] - grid[0]
+            for i in range(b):
+                one = readings.subset(slice(i, i + 1))
+                vals = _slope_misfit(one, grid[None, :], s0[i:i + 1])[0]          # (N, K)
+                j = np.argmin(vals, axis=1)
+                lo, hi = (grid[j] - step)[None, :], (grid[j] + step)[None, :]
+                best = _golden_max(lambda t: -_slope_misfit_each(one, t, s0[i:i + 1]), lo, hi)
+                q[i] = _slope_misfit_each(one, best, s0[i:i + 1])[0]
+        q = np.maximum(q, 0.0)
+        form = combine["misfit"]
+        with np.errstate(divide="ignore", invalid="ignore"):
+            if form == "kink":
+                g = np.where(q > nu, nu / q, 1.0)
+            else:
+                g = 1.0 / (1.0 + q / nu)
+    readings.series_data[key] = g
+    return g
+
+
+def bartlett_weight(readings, combine):
+    """Per-series power eta = min(1, curv/J) at the series' best line on the whole projective line (cached)."""
+    key = ("bartlett", id(combine))
+    if key in readings.series_data:
+        return readings.series_data[key]
+    b, n, d = readings.force.shape
+    g = misfit_weights(readings, combine) if combine.get("misfit") else np.ones((b, n))
+    if _common_ratio(readings):
+        C = (readings.Q - readings.P) + 2j * readings.D                       # (B, N)
+        total = np.sum(g * C, axis=1)
+        curv = np.abs(total)
+        e2 = np.exp(1j * np.angle(total))                                    # e^{2 i theta_hat}
+        psi = -0.5 * g * np.imag(np.conj(C) * e2[:, None])
+        J = np.sum(psi ** 2, axis=1)
+    else:
+        s0 = np.exp(readings.search_center())
+        grid = np.linspace(-np.pi / 2, np.pi / 2, _PHI_COARSE, endpoint=False)
+        step = grid[1] - grid[0]
+        curv, J = np.empty(b), np.empty(b)
+        for i in range(b):
+            one = readings.subset(slice(i, i + 1))
+            gi = g[i:i + 1, :, None]
+            tot = lambda t: -0.5 * np.sum(gi * _slope_misfit(one, np.atleast_1d(t)[None, :], s0[i:i + 1]), axis=1)[0]
+            vals = tot(grid)
+            j = int(np.argmax(vals))
+            best = _golden_max(lambda t: np.array([tot(np.array([x]))[0] for x in np.atleast_1d(t)]),
+                               np.array([grid[j] - step]), np.array([grid[j] + step]))[0]
+            h = 1e-4
+            per = -0.5 * gi[0] * _slope_misfit(one, np.array([[best - h, best, best + h]]), s0[i:i + 1])[0]
+            psi = (per[:, 2] - per[:, 0]) / (2 * h)
+            curv[i] = -np.sum(per[:, 2] - 2 * per[:, 1] + per[:, 0]) / h ** 2
+            J[i] = np.sum(psi ** 2)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        eta = np.where(J > 1e-300, np.clip(curv / np.where(J > 1e-300, J, 1.0), 0.0, 1.0), 1.0)
+    eta = np.where(curv > 0, eta, 1.0)
+    readings.series_data[key] = eta
+    return eta
 
 
 # ---------------------------------------------------------------- the sequential rule
@@ -988,12 +1132,14 @@ class Estimator:
                 raise ValueError(f"{where}: {error}") from None
             return
         allowed = {"rule", "prior"} | ({"coordinate"} if rule == "posterior_product" else set())
-        optional = {"calibrate"} if rule == "likelihood_product" else set()
+        optional = {"calibrate", "misfit"} if rule == "likelihood_product" else set()
         if not (allowed <= set(combine) <= allowed | optional):
             raise ValueError(f"{where}: combine for {rule} needs exactly {sorted(allowed)}"
                              + (f" (optional: {sorted(optional)})" if optional else ""))
         if "calibrate" in combine and combine["calibrate"] not in CALIBRATIONS:
             raise ValueError(f"{where}: calibrate must be one of {CALIBRATIONS}")
+        if "misfit" in combine and combine["misfit"] not in MISFITS:
+            raise ValueError(f"{where}: misfit must be one of {MISFITS}")
         if rule == "posterior_product" and combine["coordinate"] not in COORDINATES:
             raise ValueError(f"{where}: coordinate must be one of {COORDINATES}")
         try:
@@ -1027,7 +1173,14 @@ class Estimator:
                 check_proper(self.spec["law"], self.spec["combine"], n, d)
             except ValueError as error:
                 raise ValueError(f"{where}: {error}") from None
-            if self.spec["combine"].get("calibrate"):
+            combine = self.spec["combine"]
+            if combine.get("calibrate") == "bartlett" or combine.get("misfit"):
+                law = self.spec["law"]
+                if law["reference"] not in ("cartesian1", "cartesian2") or law["nuisance"] != "radius":
+                    raise ValueError(f"{where}: calibrate bartlett and misfit are ours29's tempering of the "
+                                     "cartesian likelihood product: they need reference cartesian1 or "
+                                     "cartesian2 and nuisance radius")
+            elif combine.get("calibrate"):
                 if n < 2:
                     raise ValueError(f"{where}: calibrate estimates a spread across readings, so it needs "
                                      f"at least two readings after reduce (this world gives {n})")

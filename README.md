@@ -208,6 +208,52 @@ excitation. No bounded interval can hold its coverage uniformly as the
 excitation vanishes (Gleser & Hwang 1987); see
 `presets/ours25_identification_limit.yaml`.
 
+### ours29: the misfit weight and the Bartlett power (`misfit`, `calibrate: bartlett`, 30 September)
+
+ours29 is the cartesian likelihood product (radius nuisance, prior counted once)
+with two tempering steps, both computed from the readings alone:
+
+```yaml
+law: {reference: cartesian2, nuisance: radius}      # or cartesian1
+combine:
+  rule: likelihood_product
+  prior: [{uniform_angle: {center: first_reading}}]
+  misfit: kink          # or smooth; each reading's log-likelihood times g_i
+  calibrate: bartlett   # the summed log-likelihood raised to eta
+```
+
+- **`misfit`** ("the readings are evidence, just less", 29 September): reading
+  i's log-likelihood is multiplied by g_i = g(Q_i), where Q_i is its off-line
+  misfit at its own best line (the smaller eigenvalue of its whitened Gram
+  matrix, (T_i − |C_i|)/2) and ν = d − 1. `kink`: g = min(1, ν/Q);
+  `smooth`: g = 1/(1 + Q/ν). g = 1 in 1D and for Q ≤ ν (kink). A reading no
+  mass can explain is worth a bounded amount, ν a/(1 − a) nats with
+  a = |C_i|/T_i, however small its noise.
+- **`calibrate: bartlett`**: the summed (misfit-weighted) log-likelihood is
+  raised to η = min(1, curv/J), curv = −Σ l_i'', J = Σ l_i'², at the series'
+  best line on the **whole projective line** of slopes (negative and infinite m
+  included, so every series has one). J is the raw sum: an exact zero reading
+  has l_i' = l_i'' = 0 and leaves η alone (Z). ours25's `sandwich` differs in
+  two places, both deliberate: its J carries the Bessel factor N/(N − 1), which
+  counts readings and so moves when zero readings are appended, and it searches
+  m > 0 only, so when a series' best line is at negative mass it falls back to
+  the prior (w = 10⁻⁶; 3 of 40 pure-noise 3D series of 12 readings in one check). One
+  reading, or no reading that disagrees (J = 0), gives η = 1. η never exceeds 1.
+
+Neither step changes a reading's candidate cloud, so E[α | m] and the stacked
+weight of `ratio_of_means_rss` are unchanged (shrinking the candidates by η
+would infer signal size from the series). With one noise ratio per series
+(isotropic noise) everything is closed form in C_i = (Q_i − P_i) + 2iD_i: the
+best line is arg(Σ g_i C_i)/2, curv = |Σ g_i C_i|, l_i' = −½ g_i Im(C̄_i e^{2iθ̂});
+otherwise (per-axis noise, mixed ratios) both are found numerically on the
+projective line (golden section after a 721-point scan). The two paths agree to
+about 10⁻⁸, and both agree with a 200 001-point brute-force grid and with the
+reference implementation in VD-docs (`noise_vs_signal/ours29_reference.py`).
+
+To report both the raw law and the quoted width (his ruling of 30 September),
+run ours29 twice in one preset, with and without `calibrate: bartlett`; the
+estimators see the same readings. See `presets/ours29_noise_vs_signal.yaml`.
+
 ### The sequential rule: old information in the prior slot
 
 Under `likelihood_product` the exact law of N+1 readings factorises as
@@ -485,6 +531,14 @@ the data of the other cells.
   different instruments refuse to add; its refusals;
 - `calibrate: sandwich` (`tests/test_sandwich.py`): the weight against the
   exact large-N factor, the tempered density, and its refusals;
+- ours29 (`tests/test_ours29.py`): η's closed form against the numerical path
+  and a brute-force grid on the projective line (1D, 2D, 3D); g against the Gram
+  eigenvalue rule; Z (exact zero readings leave η, the median and the interval
+  unchanged) and the sandwich's Bessel factor moving where η does not; η = 1 for
+  one reading; rotation of each reading, the swap and units; the impossible
+  pair's tilt, 1.5 nats at every σ ≤ 1 against 1.5/σ² untempered; η against the
+  sandwich up to N/(N − 1) where the peak is inside m > 0; the readout weight
+  unchanged; its refusals;
 - the oracles (`tests/test_oracles.py`): `known_excitation` against a
   truncated normal done by quadrature; β from the world; oracles only by name;
 - world designs and noise; per-series streams (a quick run is a prefix of the
@@ -497,7 +551,10 @@ the data of the other cells.
 - `calibrate: sandwich` (ours25) estimates J from per-reading scores, so it
   depends on how a series is grouped (a 3D reading against its three axes give
   different J, and one reading gives none). Found reading the code on 25
-  September; not yet measured or addressed.
+  September. Since the 29 September ruling that one reading is one completeness
+  claim, this dependence is intended; `calibrate: bartlett` (ours29) keeps it
+  and removes the two things that were not (the Bessel factor, and the m > 0
+  search).
 - The readout's drift when zero readings are appended (the law and median do
   not move; both poolings drift to the same limit). Forced under ours25b; no
   world generates coasting readings yet.
