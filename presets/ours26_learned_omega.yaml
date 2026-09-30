@@ -1,0 +1,49 @@
+name: ours26-learned-omega
+question: >-
+  Does learning the push scale omega in noise units (the hierarchical rule, extended to
+  ours26 on 27 September) bring ours26's many-reading intervals back to their stated
+  coverage, while keeping ours26's point and giving one answer for a 3D series and its
+  axes?
+notes: >-
+  The flat push weighting is the omega -> infinity limit of a shared Gaussian N(0, omega^2 I)
+  on every standardised push. With the same omega for every component, each in its own noise
+  pair's units, the law is ours26's likelihood raised to beta = omega^2/(1+omega^2): the peak
+  does not move and the law widens by 1/beta. Learned (beta ~ Beta(1, 1), integrated out),
+  beta is about R*^2/(M + R*^2), so 1/beta is about 1 + M/R*^2, the factor by which ours26's
+  law is too narrow. Prediction before running (from a standalone check, same record): in 3D
+  at SNR 1 with 21 readings, ours26's 95% intervals cover about 78% and the learned ones about
+  96%. Two noise settings: one pair for every axis (ours25b's ground), and ours26's per-axis
+  SDs (ratios 5, 2, 0.8). Pushes have fixed length and random direction, not the Gaussian the
+  learned rule assumes. The agreement rows compare `learned` with `ours26` series by series.
+  Axis splitting for the learned rule is checked exactly in tests/test_hierarchical_ours26.py.
+  acceleration_snr is measured against the RMS of the axes' acceleration SDs.
+world:
+  dimension: 3
+  design: new_excitation
+  mass: [0.5, 2, 8]
+  acceleration_snr: [1, 3]
+  direction: random
+  readings: [2, 6, 21]
+  noise:
+    force_sd: {per_axis: [1, 1, 1]}
+    acceleration_sd: [{per_axis: [1, 1, 1]}, {per_axis: [0.2, 0.5, 1.25]}]
+  supplied_noise: exact
+estimators:
+  - name: ours26
+    reduce: none
+    law: {reference: cartesian1, nuisance: radius}
+    combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading_geometric}}]}
+    readouts: [ratio_of_means_rss, median, interval_95, interval_80]
+  - name: learned
+    reduce: none
+    law: {reference: cartesian1, nuisance: radius}
+    combine:
+      rule: hierarchical
+      prior: [{uniform_angle: {center: first_reading_geometric}}]
+      excitation: {beta_b: 1}
+    readouts: [ratio_of_means_rss, median, interval_95, interval_80]
+scores:
+  within_factor: [1.25, 2]
+  compare_to: ours26
+replicates: 400
+seed: 20260927

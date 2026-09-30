@@ -606,8 +606,32 @@ class ReadingSet:
             sf[i, :len(values)], sa[i, :len(values)] = values[:, 0], values[:, 1]
         return onehot, onehot.sum(axis=1), sf, sa
 
-    def _weighted_cond_alpha_at(self, u):
-        """E|a*_stack| given m, evaluated directly at every point of u (B, S)."""
+    def stacked_cond_alpha_at(self, u, beta=None):
+        """E|a*_stack| given m at every point of u (B, S), directly (no spline).
+
+        beta (B, S), optional: the hierarchical rule's excitation shrinkage. Given theta and
+        beta = omega^2 / (1 + omega^2), each standardised push is N(beta w, beta I) instead
+        of N(w, I), so the stacked mean length is taken of sqrt(beta) times a noncentral chi
+        variable with noncentrality beta |W|^2. beta = 1 (or None) is the flat weighting.
+        """
+        u = np.asarray(u, dtype=float)
+        if not (self.isotropic and np.all(self.force_sd == self.force_sd[:, :1])
+                and np.all(self.acceleration_sd == self.acceleration_sd[:, :1])):
+            return self._weighted_cond_alpha_at(u, beta)
+        z = u - np.log(self.s[:, :1])
+        sn = np.exp(-0.5 * np.logaddexp(0.0, -2.0 * z))
+        cs = np.exp(-0.5 * np.logaddexp(0.0, 2.0 * z))
+        P, Q, D = (np.sum(v, axis=1)[:, None] for v in (self.P, self.Q, self.D))
+        big_h = np.sqrt(np.maximum(0.0, P * sn * sn + Q * cs * cs + 2.0 * D * sn * cs))
+        k = self.readings * self.dimension
+        if beta is None:
+            return self.acceleration_sd[:, :1] * cs * stacked_mean_radius(big_h, k)
+        root = np.sqrt(np.asarray(beta, dtype=float))
+        return self.acceleration_sd[:, :1] * cs * root * stacked_mean_radius(root * big_h, k)
+
+    def _weighted_cond_alpha_at(self, u, beta=None):
+        """E|a*_stack| given m, evaluated directly at every point of u (B, S); with per-axis or
+        per-reading SDs (ours26). beta (B, S), optional: see stacked_cond_alpha_at."""
         b, n, d = self.force.shape
         onehot, dof, sf, sa = self._noise_groups()
         z = u[:, None, :] - np.log(sf / sa)[:, :, None]                          # (B, G, S)
@@ -619,6 +643,9 @@ class ReadingSet:
         cs_c = np.einsum("bkg,bgs->bks", onehot, cs)
         w2 = np.einsum("bkg,bks->bgs", onehot, (x[:, :, None] * sn_c + y[:, :, None] * cs_c) ** 2)
         c2 = (sa[:, :, None] * cs) ** 2
+        if beta is not None:
+            beta = np.asarray(beta, dtype=float)[:, None, :]            # (B, 1, S)
+            c2, w2 = c2 * beta, w2 * beta
         mean = weighted_stacked_mean(np.moveaxis(c2, 1, -1), np.moveaxis(w2, 1, -1), dof[:, None, :])
         return mean
 

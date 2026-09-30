@@ -182,10 +182,11 @@ def test_refuses_the_flat_reference():
         Estimator(_spec(law={"reference": "flat", "nuisance": "radius"}))
 
 
-def test_refuses_sequential_and_hierarchical_rules():
-    with pytest.raises(ValueError, match="ratio_of_means_rss needs rule"):
-        Estimator(_spec(law=CART1, combine={"rule": "hierarchical", "prior": [{"uniform_angle": {
-            "center": "first_reading"}}], "excitation": {"beta_b": 1}}))
+def test_refuses_sequential_rule_accepts_hierarchical():
+    """The hierarchical rule's stacked readout was added on 27 September
+    (tests/test_hierarchical_ours26.py); the sequential rule without stacked_state is refused."""
+    Estimator(_spec(law=CART1, combine={"rule": "hierarchical", "prior": [{"uniform_angle": {
+        "center": "first_reading"}}], "excitation": {"beta_b": 1}}))
     with pytest.raises(ValueError, match="ratio_of_means_rss needs rule"):
         Estimator(_spec(combine={"rule": "sequential", "carry": "exact", "old": PRODUCT}))
 

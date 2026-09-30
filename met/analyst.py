@@ -243,10 +243,10 @@ def check_proper(law, combine, n, d):
 def joint_log_density(readings, u, law, combine):
     """Joint log density in u (up to a constant) and A(u) = sum_i E[alpha_i | m]."""
     rule = combine["rule"]
-    if not readings.isotropic and rule != "likelihood_product":
+    if not readings.isotropic and rule not in ("likelihood_product", "hierarchical"):
         raise ValueError(f"rule {rule!r} is not built for per-axis noise: ours26 is the likelihood product "
-                         "with the prior counted once (a per-reading reference factor would need a centre "
-                         "that per-axis noise does not force)")
+                         "(or its hierarchical version) with the prior counted once (a per-reading reference "
+                         "factor would need a centre that per-axis noise does not force)")
     if rule == "sequential":
         return _sequential_log_density(readings, u, law, combine)
     if rule == "hierarchical":
@@ -471,6 +471,14 @@ def _sequential_log_density(readings, u, law, combine):
 # E[alpha_i | theta, beta] = sigma_a cos(theta) sqrt(beta) chi_d(sqrt(beta) h_i); the beta
 # average uses 24 quantile midpoints of beta's conditional law (1 - beta is a Gamma(c, z)
 # truncated to (0, 1)).
+#
+# Per-axis noise (ours26, 27 September): each component's push is standardised in its own
+# noise pair's units and all share one omega (isotropy in noise units, the reading that
+# keeps the peak where ours26 has it for every omega). The law is unchanged in form, with
+# H = sum over the noise pairs of H_g(theta_g)^2 = 2 x ours26's log-likelihood. The plain-sum
+# weight is not built for it; the stacked readout ratio_of_means_rss is
+# (`_hierarchical_rss_alpha`): given theta and beta the stacked push is N(beta W, beta I),
+# and E|a*_stack| is averaged over beta | theta by tanh-sinh nodes in beta's quantile.
 
 _HIER_NODES = (np.arange(24) + 0.5) / 24
 
@@ -513,6 +521,8 @@ def _hierarchical_log_density(readings, u, law, combine):
         lp = 0.5 * n * math.log1p(-fixed) + fixed * z + prior_log_density(combine["prior"], u, readings)
     else:
         lp = z + _log_lower_gamma_integral(c, z) + prior_log_density(combine["prior"], u, readings)
+    if not readings.isotropic:
+        return lp, None                              # ours26: only the stacked readout is built
     # A(theta): average over beta | theta, on a sub-grid, interpolated in u (it is smooth)
     g = u.shape[1]
     idx = np.unique(np.linspace(0, g - 1, min(g, 201)).round().astype(int))
@@ -537,6 +547,63 @@ def _hierarchical_log_density(readings, u, law, combine):
     else:
         acc = np.stack([np.interp(u[i], u[i, idx], acc_sub[i]) for i in range(u.shape[0])])
     return lp, acc
+
+
+_RSS_TS_STEP, _RSS_TS_REACH = 0.3, 3.2   # tanh-sinh nodes in beta's conditional quantile (22 nodes)
+_RSS_SPACING = 0.05           # sub-grid spacing in log m for the stacked weight (spline between;
+                              # 5e-9 on the readout against 0.02, 27 Sept)
+_RSS_MIN_POINTS = 41
+
+
+def _beta_quantile_nodes(z, c, fixed, nodes):
+    """beta at quantile nodes (in (0, 1)) of its law given theta: 1 - beta is Gamma(c, rate z)
+    truncated to (0, 1). z (B, S) is H/2. Returns (B, S, K)."""
+    from scipy.special import gammainc, gammaincinv
+    if fixed is not None:
+        return np.full(z.shape + (1,), float(fixed))
+    frac = gammainc(c, np.maximum(z, 1e-300))[..., None] * nodes
+    with np.errstate(divide="ignore", invalid="ignore"):
+        gam = np.where(frac > 1e-280, gammaincinv(c, frac) / np.maximum(z, 1e-300)[..., None],
+                       nodes ** (1.0 / c))
+    return np.clip(1.0 - gam, 0.0, 1.0)
+
+
+def _hierarchical_rss_alpha(readings, u, combine):
+    """E|a*_stack| given m under the hierarchical rule, on grids u (B, G): the average over
+    beta | theta of the stacked mean length with the pushes shrunk to N(beta W, beta I)."""
+    b = float(combine["excitation"]["beta_b"])
+    fixed = combine.get("_fixed_beta")
+    n = readings.readings * readings.dimension
+    c = 0.5 * n + b
+    # tanh-sinh in the quantile p: beta(p) has algebraic singularities at both ends
+    # (1 - p^(1/c) near p = 0, sqrt(beta) in the weight near p = 1), which the double-
+    # exponential rule absorbs (about 1e-11 against direct quadrature over beta, tested)
+    tt = np.arange(-_RSS_TS_REACH, _RSS_TS_REACH + _RSS_TS_STEP / 2, _RSS_TS_STEP)
+    ss = 0.5 * math.pi * np.sinh(tt)
+    p = 0.5 * (1.0 + np.tanh(ss))
+    wts = _RSS_TS_STEP * 0.25 * math.pi * np.cosh(tt) / np.cosh(ss) ** 2
+    keep = wts > 1e-13                               # the far tail nodes carry nothing
+    p, wts = p[keep], wts[keep]
+    u = np.asarray(u, dtype=float)
+    g = u.shape[1]
+    span = u[:, -1] - u[:, 0]
+    t = (u - u[:, :1]) / np.where(span > 0, span, 1.0)[:, None]
+    uniform = np.allclose(t, np.linspace(0.0, 1.0, g)[None, :], rtol=0.0, atol=1e-12)
+    points = int(min(g, max(_RSS_MIN_POINTS, math.ceil(float(np.max(span)) / _RSS_SPACING) + 1)))
+    if uniform and points < g:
+        nodes_t = np.linspace(0.0, 1.0, points)
+        us = u[:, :1] + span[:, None] * nodes_t[None, :]
+    else:
+        us = u
+    like, _, _ = readings.reading_terms(us, "radius", reference="cartesian1")
+    z = np.sum(like, axis=1)                         # (B, S): H/2
+    beta = _beta_quantile_nodes(z, c, fixed, p)      # (B, S, K)
+    weights = np.ones(1) if fixed is not None else wts
+    acc = sum(weights[k] * readings.stacked_cond_alpha_at(us, beta[..., k]) for k in range(beta.shape[2]))
+    if us is u:
+        return acc
+    from scipy.interpolate import CubicSpline
+    return CubicSpline(nodes_t, acc, axis=1)(np.linspace(0.0, 1.0, g))
 
 
 def _trapezoid_weights(n):
@@ -646,6 +713,8 @@ def posterior_summaries(readings, law, combine, readouts, numerics=None):
     if "ratio_of_means_rss" in wanted:
         if combine["rule"] == "sequential" and combine.get("carry") == "stacked_state":
             acc_rss = combined_stacked_state(readings).cond_alpha(u)
+        elif combine["rule"] == "hierarchical":
+            acc_rss = _hierarchical_rss_alpha(readings, u, combine)
         elif combine["rule"] not in RSS_RULES:
             raise ValueError(f"ratio_of_means_rss is not defined for rule {combine['rule']!r}")
         else:
@@ -887,8 +956,9 @@ class Estimator:
             if law["reference"] not in ("cartesian1", "cartesian2"):
                 raise ValueError(f"{where}: ratio_of_means_rss needs reference cartesian1 or cartesian2 "
                                  "(the stacked latent is Gaussian only under a flat-in-the-vector weighting)")
-            if rule not in RSS_RULES and not (rule == "sequential" and combine.get("carry") == "stacked_state"):
-                raise ValueError(f"{where}: ratio_of_means_rss needs rule one of {RSS_RULES}, "
+            if rule not in RSS_RULES + ("hierarchical",) and not (
+                    rule == "sequential" and combine.get("carry") == "stacked_state"):
+                raise ValueError(f"{where}: ratio_of_means_rss needs rule one of {RSS_RULES + ('hierarchical',)}, "
                                  "or the sequential rule with carry stacked_state")
         self.readouts = list(readouts)
         try:
@@ -977,10 +1047,10 @@ class Estimator:
         law, combine = self.spec["law"], self.spec["combine"]
         if self.spec["reduce"] != "split_axes" and world["dimension"] > 1:
             if law["reference"] not in ("cartesian1", "cartesian2") or law["nuisance"] != "radius" \
-                    or combine["rule"] != "likelihood_product":
+                    or combine["rule"] not in ("likelihood_product", "hierarchical"):
                 raise ValueError(f"{where}: this world has per-axis noise, and the law for it (ours26) is "
                                  "built for reference cartesian1 or cartesian2, nuisance radius and rule "
-                                 "likelihood_product (or reduce split_axes first)")
+                                 "likelihood_product or hierarchical (or reduce split_axes first)")
             if "ratio_of_means" in self.readouts:
                 raise ValueError(f"{where}: this world has per-axis noise; ratio_of_means (ours24's plain sum "
                                  "of per-reading sizes) is not built for it; use ratio_of_means_rss")

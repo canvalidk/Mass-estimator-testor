@@ -279,6 +279,22 @@ E[α_i | m] averages over β's conditional law at 24 quantile midpoints. The
 matching world is `acceleration_snr: {normal_rms: v}` with `direction: random`.
 Its excitation law matches the rule's prior.
 
+**With ours26 and the stacked readout (27 September).** The rule also takes
+per-axis noise and the readout `ratio_of_means_rss`. Each component's push is
+standardised in its own noise pair's units and all share one ω (isotropy in
+noise units). Then, at fixed β, the law is ours26's likelihood raised to the
+power β (the tempering identity): its peak is ours26's for every β, and it is
+wider by 1/β. Learned, β ≈ R*²/(M + R*²), so 1/β ≈ 1 + M/R*², the factor by
+which ours26's law is too narrow. Given θ and β the stacked push is
+N(βW, βI), so the stacked readout's weight is E|a*| of that, averaged over
+β | θ by tanh-sinh nodes in β's conditional quantile (about 1e-11 against
+direct quadrature). The plain-sum `ratio_of_means` is not built for per-axis
+noise, as for ours26. Tests: `tests/test_hierarchical_ours26.py` (the
+tempering identity, the fixed peak, the law against brute-force integration
+with per-axis noise, the shrunk weight against Monte Carlo, the β average
+against quadrature, β → 1 gives ours26, axis splitting, the swap, units).
+Study: `presets/ours26_learned_omega.yaml`.
+
 ### Declared oracles
 
 An oracle is the one place an estimator is shown part of the truth. It is only
