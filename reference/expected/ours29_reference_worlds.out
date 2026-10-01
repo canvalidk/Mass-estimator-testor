@@ -1,0 +1,6 @@
+Coverage of the 95% interval (percent)
+(a) rescue: 20 x signal 3 + one impossible reading, 2D ours27   3.3  ours29_law  95.3  ours29  95.3   median eta 1.00   (150 series)
+(b) one signal-6 reading among 100 nulls, 3D         ours27  65.0  ours29_law  62.0  ours29 100.0   median eta 0.19   (100 series)
+(c) every reading its own instrument and signal, 3D  ours27  92.0  ours29_law  93.0  ours29  94.0   median eta 1.00   (100 series)
+(d) pure noise, mass drawn from pi, 2D, N = 100      ours27  53.0  ours29_law  50.0  ours29  83.0   median eta 0.18   (100 series)
+(d) pure noise, mass drawn from pi, 3D, N = 100      ours27  42.0  ours29_law  40.0  ours29  75.0   median eta 0.17   (100 series)

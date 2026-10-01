@@ -1,0 +1,44 @@
+1. BOTH STEPS OFF IS ours27 (against the ours28 reference's flat branch)
+  R1: ours28_reference(flat) readout 4.1939083766 median 4.2756674345 | ours29(off) 4.1939083766 4.2756674345
+  R2: ours28_reference(flat) readout 2.2066228241 median 2.2376558796 | ours29(off) 2.2066228241 2.2376558796
+
+2. 1D: eta against the carried-state closed form (raw J, cap at 1)
+  numeric 0.2615655097  closed form 0.2615655024
+
+3. THE WEAK 3D SERIES (40 readings of pure noise, full covariance with cross-channel correlation)
+  ours29                                             readout 3.598252  median 3.953299  95% [1.2987, 57.7714]  eta 0.4032
+  ours29, eta = 1 (the raw law)                      readout 3.974713  median 4.072736  95% [1.8733, 34.0097]  eta 1.0000
+  ours27                                             readout 3.132929  median 3.151038  95% [1.6259, 15.0354]  eta 1.0000
+  misfit weights: min 0.622, 4 of 40 below 1
+  each reading rotated with its covariance: eta diff -3.8e-08, readout diff -6.8e-08, median diff -3.6e-08
+  swap: eta diff -6.5e-10, readout product 1.000000, median product 1.000000
+  units (force x3): readout ratio 3.000000, median ratio 3.000000
+  + ten exact zero readings: eta diff +0.0e+00, law max change 0.0e+00, median 3.953299 -> 3.953299, readout 3.598252 -> 3.601691 (T29: the cloud readout counts them)
+
+4. DECLARED SUBSPACE: one 3D reading along x (F = 4, a = 2, unit noise), transverse axes read 0
+  k = 3                                              readout 1.937240  median 1.962619  95% [0.7360, 13.0698]  eta 1.0000
+  k = 1 along x                                      readout 1.938420  median 1.962619  95% [0.7360, 13.0698]  eta 1.0000
+  a 1D reading with the same numbers                 readout 1.938420  median 1.962619  95% [0.7360, 13.0698]  eta 1.0000
+  a misaligned 3D reading: Q = 2.3438, g = 0.8533; declared k = 1 along x: Q = 7.11e-15, g = 1
+
+5. ONE READING: eta = 1 whatever it is
+  y = [1. 0. 0. 0. 1. 0.]: eta 1.0
+  y = [ 0.3 -0.2  0.1  0.1  0.2 -0.4]: eta 1.0
+  y = [0. 0. 0. 0. 0. 0.]: eta 1.0
+
+6. THE IMPOSSIBLE PAIR (2D, F = (2, 0), a = (0, 1), sigma -> 0): tilt of the log law, kink form; limit nu a/(1-a) = 1.5
+  sigma 1.0    Q        1.0  g 1.00000  tilt 1.500
+  sigma 0.5    Q        4.0  g 0.25000  tilt 1.500
+  sigma 0.1    Q      100.0  g 0.01000  tilt 1.500
+  sigma 0.005  Q    40000.0  g 0.00003  tilt 1.500
+
+7. TOTALITY: awkward single readings (unit noise, c = 1), and the all-zero experiment
+  perpendicular        readout 1.7605  median 1.9659  g 1.000  finite: True
+  anti-parallel        readout 2.1589  median 2.7287  g 1.000  finite: True
+  force only           readout 3.4380  median 3.9784  g 1.000  finite: True
+  acceleration only    readout 0.2909  median 0.2514  g 1.000  finite: True
+  all-zero experiment (3 readings): median 2.000000 (c = 2), readout 1.590423, eta 1.0
+
+8. AXIS SPLITTING: a 3D series and its axes read as separate 1D readings (intended to differ)
+  30 x 3D: eta 0.4582, median 0.4665, 95% [0.043, 1.606]
+  90 x 1D: eta 0.4446, median 0.4600, 95% [0.042, 1.581]

@@ -1,0 +1,23 @@
+ONE PAIR, six 3D readings, c = 2
+  ours28b                                      readout 3.265680  median 3.223722  95% [0.2211, 51.8855]
+  ours27 (flat limit)                          readout 4.193908  median 4.275568  95% [1.6129, 31.3884]
+  swap: readout product 1.000000, median product 1.000000
+  units (force x3): readout ratio 3.000000
+  each reading rotated in its own frame: readout 3.265680 (diff +4.4e-14)
+  axis splitting (6 x 3D as 18 x 1D): readout 3.265680 (diff +0.0e+00)
+  strong zero-reading property: + one exact 3D zero reading -> readout 3.054271, median 2.970173, 95% [0.1701, 52.7038]
+  weak zero-reading property: zero experiment alone -> median 2.000000 (starting law median 2), readout 2.000000 (s = 2)
+
+PER-AXIS, three 3D readings, sigma_F = 1, sigma_a = (0.2, 0.5, 1.25), c = 2
+  ours28b                                      readout 1.908661  median 1.945427  95% [0.5818, 4.3382]
+  ours27 (flat limit)                          readout 1.922566  median 1.970608  95% [0.8415, 3.9283]
+  each reading rotated with its covariance: readout 1.908661 (diff -5.4e-13)
+  swap: readout product 1.000000
+  classes: [(np.float64(1.0), np.float64(0.2), 3), (np.float64(1.0), np.float64(0.5), 3), (np.float64(1.0), np.float64(1.25), 3)]
+
+PRECISE NULLS -> KNOWN EMPTY: active 1D reading F=3, a=1 (unit noise), plus two 0/0 axes with noise eps (both channels)
+  1D declared                                  readout 2.114011  median 2.125000  95% [0.2449, 35.1943]
+  3D, empty axes noise 1.0                     readout 1.872312  median 1.821731  95% [0.1231, 33.2734]
+  3D, empty axes noise 0.1                     readout 2.112552  median 2.125000  95% [0.2449, 35.1943]
+  3D, empty axes noise 0.01                    readout 2.113978  median 2.125000  95% [0.2449, 35.1943]
+  3D, empty axes noise 0.001                   readout 2.114011  median 2.125000  95% [0.2449, 35.1943]

@@ -25,6 +25,32 @@ A run writes `results/<preset>/<timestamp>/` (not committed):
 A run is reproducible from its preset alone (see Numerics for the seeding).
 All estimators in a cell see the same readings, so their scores are paired.
 
+## How work gets into the tester
+
+The tester exists so that every mass-estimator study can be rerun. A number in a
+record is only as good as what can regenerate it. So, for any session (human or
+AI) adding work:
+
+1. **Code lands here, as commits.** A new law, rule, readout or world goes into
+   `met/` with tests in `tests/`, committed and pushed. Code written elsewhere
+   (a sandbox, a scratch folder, a local clone) is not kept until it is committed
+   here. If you cannot push, hand the work over as a git bundle based on a pushed
+   commit (`git bundle create x.bundle origin/main..HEAD`), never as loose files.
+2. **Every study is a preset.** A table or coverage figure a record reports comes
+   from `python -m met run presets/<file>.yaml`, whose seed is in the preset. A
+   study run another way is not reproducible.
+3. **A reference implementation written outside the tester goes into
+   `reference/`**, byte for byte, with its checks script, its expected output in
+   `reference/expected/`, and its hash in `reference/SHA256SUMS` (see below).
+   Scripts that draw random numbers state their seed.
+4. **Records cite what regenerates their numbers:** the tester commit (pushed,
+   so it exists on GitHub) and the preset, test or script, with the seed. A
+   sandbox commit hash is not a citation.
+5. **Nothing here is edited to agree with a record, and no record is edited to
+   agree with the code.** If they disagree, that is a finding: record it (a
+   test marked `xfail(strict=True)` naming both numbers), and leave both as they
+   are.
+
 ## The pipeline
 
 ```
@@ -466,6 +492,22 @@ the cell's world settings. So `--replicates 50` sees exactly the first 50
 series of the full run, and adding a value to a grid axis does not change
 the data of the other cells.
 
+## Reference implementations (`reference/`)
+
+`reference/` holds, byte for byte, the reference implementations written beside
+the records: `ours27/ours28_reference.py` (with its checks and its study
+script), `noise_vs_signal/ours29_reference.py` (with its checks and its worlds
+study), `noise_vs_signal/ours28b/ours28b.py` (withdrawn, kept as record) and the
+21 September `mass_estimator_equation/mass_estimator.py` with its example.
+They are independent of `met/` and never edited here; `reference/README.md`
+lists each file, the record that defines it, how to run it, and what was found
+when it was carried over.
+
+```sh
+cd reference/noise_vs_signal && python ours29_reference_checks.py   # as the record says to run it
+MET_SLOW=1 python -m pytest -q tests/test_reference_outputs.py       # includes the two ~20-minute studies
+```
+
 ## Tests
 
 `tests/` holds exact checks of the code, never studies:
@@ -545,6 +587,13 @@ the data of the other cells.
   full run; grid position does not change a cell's data);
 - presets refusing every missing required setting and each validation hole
   found in review; grid expansion; a reproducible end-to-end run.
+- the reference implementations (`tests/test_reference_outputs.py`,
+  `tests/test_reference_records_*.py`): each script still has the hash it was
+  carried over with and still prints what it printed; and it reproduces the
+  numbers its records state, to the precision they are printed with. A record
+  number the code does not reproduce is kept as `xfail(strict=True)` naming both
+  numbers. Tests that take minutes are marked `slow` and run only with
+  `MET_SLOW=1`.
 
 ## Not built yet
 

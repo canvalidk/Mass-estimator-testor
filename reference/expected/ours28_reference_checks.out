@@ -1,0 +1,32 @@
+1. EVIDENCE against the closed form 1F1(1/2; 1+k/2; H/2) (arcsine)
+  H=0.5    k=3: grid 0.05146061  closed form 0.05146058
+  H=7.0    k=3: grid 1.06757902  closed form 1.06757873
+  H=40.0   k=1: grid 16.33792204  closed form 16.33792174
+  H=200.0  k=2: grid 92.52749598  closed form 92.52749560
+
+2. ONE PAIR, six weak 3D readings, c = 2
+  ours28                                               readout 3.732789  median 4.013718  95% [0.4866, 64.7191]
+  ours27 (flat)                                        readout 4.193908  median 4.275667  95% [1.6128, 31.3879]
+  swap: readout product 1.000000, median product 1.000000
+  + one exact 3D zero reading: law max change 6.6e-17; readout 3.732789 -> 3.722316
+  zero experiment alone: median 2.000000 (c = 2), readout 2.000000 (s = 2)
+  axis split into 18 separate 1D readings (scale NOT carried) readout 4.080734  median 4.369639  95% [0.8374, 62.0450]
+
+3. FULL COVARIANCE with cross-channel correlation; third reading declares a 1D subspace
+  ours28                                               readout 2.248458  median 2.359702  95% [0.7543, 25.2093]
+  ours27 (flat)                                        readout 2.206623  median 2.237656  95% [0.9914, 12.3906]
+  each reading rotated with its covariance and subspace: readout diff +1.7e-12, median diff +4.4e-16
+  swap: readout product 1.000000, median product 1.000000
+  units (force x3): readout ratio 3.000000, median ratio 3.000000
+  + exact zero reading: law max change 3.7e-16
+
+4. DECLARED SUBSPACE: one 3D reading, push along x (F = 4, a = 2, unit noise), transverse axes read 0
+  k = 3 (direction undeclared)                         readout 1.883591  median 1.910895  95% [0.5524, 16.4808]
+  k = 1 along x (declared)                             readout 1.917353  median 1.943862  95% [0.6640, 14.6381]
+  a 1D reading with the same numbers                   readout 1.917353  median 1.943862  95% [0.6640, 14.6381]
+
+5. TOTALITY: awkward single readings (unit noise, c = 1)
+  perpendicular        readout 1.3015  median 1.2230  finite: True
+  anti-parallel        readout 1.3300  median 1.2256  finite: True
+  force only           readout 2.2914  median 2.1216  finite: True
+  acceleration only    readout 0.4364  median 0.4713  finite: True

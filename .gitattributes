@@ -1,0 +1,3 @@
+# reference/ holds byte-for-byte copies of research scripts and their recorded outputs:
+# store them exactly as they are, with no line-ending conversion.
+reference/** -text
