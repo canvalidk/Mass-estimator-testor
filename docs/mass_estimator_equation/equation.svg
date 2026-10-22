@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="700" viewBox="0 0 1400 700" role="img" aria-label="Mass equals the ratio of mean compatible force and acceleration magnitudes; Gaussian flat-magnitude law fully specified below.">
+<rect width="100%" height="100%" fill="white"/>
+<text x="46" y="52" font-family="Calibri, Arial, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#087F80">THE COMPACT EQUATION  /  GAUSSIAN ERRORS + FLAT POSITIVE MAGNITUDES</text>
+<text x="136" y="206" font-family="Times New Roman, serif" font-size="66" font-style="italic" font-weight="400" fill="#162B3D">m</text>
+<line x1="140" y1="157" x2="157.5" y2="149" stroke="#162B3D" stroke-width="2"/>
+<line x1="157.5" y1="149" x2="175" y2="157" stroke="#162B3D" stroke-width="2"/>
+<text x="210" y="206" font-family="Times New Roman, serif" font-size="53" font-style="normal" font-weight="400" fill="#162B3D">=</text>
+<text x="296" y="157" font-family="Times New Roman, serif" font-size="51" font-style="normal" font-weight="400" fill="#162B3D">E</text>
+<text x="330" y="168" font-family="Times New Roman, serif" font-size="26" font-style="italic" font-weight="400" fill="#162B3D">P</text>
+<text x="352" y="157" font-family="Times New Roman, serif" font-size="51" font-style="normal" font-weight="400" fill="#162B3D">[f]</text>
+<line x1="280" y1="180" x2="419" y2="180" stroke="#162B3D" stroke-width="2.3"/>
+<text x="291" y="235" font-family="Times New Roman, serif" font-size="51" font-style="normal" font-weight="400" fill="#162B3D">E</text>
+<text x="325" y="246" font-family="Times New Roman, serif" font-size="26" font-style="italic" font-weight="400" fill="#162B3D">P</text>
+<text x="347" y="235" font-family="Times New Roman, serif" font-size="51" font-style="normal" font-weight="400" fill="#162B3D">[α]</text>
+<text x="466" y="206" font-family="Times New Roman, serif" font-size="53" font-style="normal" font-weight="400" fill="#162B3D">=</text>
+<text x="574" y="156" font-family="Times New Roman, serif" font-size="65" font-style="normal" font-weight="400" fill="#162B3D">∫</text>
+<text x="596" y="168" font-family="Times New Roman, serif" font-size="26" font-style="italic" font-weight="400" fill="#162B3D">C</text>
+<text x="639" y="149" font-family="Times New Roman, serif" font-size="50" font-style="italic" font-weight="400" fill="#162B3D">f</text>
+<text x="693" y="149" font-family="Times New Roman, serif" font-size="50" font-style="italic" font-weight="400" fill="#162B3D">e</text>
+<text x="719" y="122" font-family="Times New Roman, serif" font-size="29" font-style="italic" font-weight="400" fill="#162B3D">−Q/2</text>
+<text x="814" y="149" font-family="Times New Roman, serif" font-size="46" font-style="italic" font-weight="400" fill="#162B3D">dν</text>
+<line x1="555" y1="180" x2="936" y2="180" stroke="#162B3D" stroke-width="2.3"/>
+<text x="574" y="245" font-family="Times New Roman, serif" font-size="65" font-style="normal" font-weight="400" fill="#162B3D">∫</text>
+<text x="596" y="257" font-family="Times New Roman, serif" font-size="26" font-style="italic" font-weight="400" fill="#162B3D">C</text>
+<text x="639" y="238" font-family="Times New Roman, serif" font-size="50" font-style="italic" font-weight="400" fill="#162B3D">α</text>
+<text x="693" y="238" font-family="Times New Roman, serif" font-size="50" font-style="italic" font-weight="400" fill="#162B3D">e</text>
+<text x="719" y="211" font-family="Times New Roman, serif" font-size="29" font-style="italic" font-weight="400" fill="#162B3D">−Q/2</text>
+<text x="814" y="238" font-family="Times New Roman, serif" font-size="46" font-style="italic" font-weight="400" fill="#162B3D">dν</text>
+<text x="995" y="162" font-family="Calibri, Arial, sans-serif" font-size="28" font-style="normal" font-weight="400" fill="#162B3D">Average the</text>
+<text x="995" y="199" font-family="Calibri, Arial, sans-serif" font-size="28" font-style="normal" font-weight="400" fill="#162B3D">magnitudes,</text>
+<text x="995" y="236" font-family="Calibri, Arial, sans-serif" font-size="28" font-style="normal" font-weight="700" fill="#087F80">then divide.</text>
+<line x1="46" y1="286" x2="1354" y2="286" stroke="#D8E3E6" stroke-width="1.2"/>
+<text x="64" y="339" font-family="Times New Roman, serif" font-size="37" font-style="italic" font-weight="400" fill="#162B3D">C = (0, ∞)</text>
+<text x="236" y="320" font-family="Times New Roman, serif" font-size="23" font-style="normal" font-weight="400" fill="#162B3D">2</text>
+<text x="265" y="339" font-family="Times New Roman, serif" font-size="37" font-style="normal" font-weight="400" fill="#162B3D">× S</text>
+<text x="333" y="320" font-family="Times New Roman, serif" font-size="23" font-style="italic" font-weight="400" fill="#162B3D">d−1</text>
+<text x="492" y="339" font-family="Times New Roman, serif" font-size="37" font-style="italic" font-weight="400" fill="#162B3D">dν = df dα dΩ(u)</text>
+<text x="1000" y="339" font-family="Times New Roman, serif" font-size="34" font-style="italic" font-weight="400" fill="#162B3D">d = 1, 2 or 3</text>
+<text x="64" y="406" font-family="Times New Roman, serif" font-size="37" font-style="italic" font-weight="400" fill="#162B3D">dP = Z</text>
+<text x="183" y="386" font-family="Times New Roman, serif" font-size="23" font-style="normal" font-weight="400" fill="#162B3D">−1</text>
+<text x="224" y="406" font-family="Times New Roman, serif" font-size="37" font-style="italic" font-weight="400" fill="#162B3D">e</text>
+<text x="245" y="386" font-family="Times New Roman, serif" font-size="23" font-style="italic" font-weight="400" fill="#162B3D">−Q/2</text>
+<text x="321" y="406" font-family="Times New Roman, serif" font-size="37" font-style="italic" font-weight="400" fill="#162B3D">dν</text>
+<text x="493" y="406" font-family="Times New Roman, serif" font-size="37" font-style="italic" font-weight="400" fill="#162B3D">Z =</text>
+<text x="565" y="411" font-family="Times New Roman, serif" font-size="46" font-style="normal" font-weight="400" fill="#162B3D">∫</text>
+<text x="585" y="419" font-family="Times New Roman, serif" font-size="22" font-style="italic" font-weight="400" fill="#162B3D">C</text>
+<text x="622" y="406" font-family="Times New Roman, serif" font-size="37" font-style="italic" font-weight="400" fill="#162B3D">e</text>
+<text x="644" y="386" font-family="Times New Roman, serif" font-size="23" font-style="italic" font-weight="400" fill="#162B3D">−Q/2</text>
+<text x="725" y="406" font-family="Times New Roman, serif" font-size="37" font-style="italic" font-weight="400" fill="#162B3D">dν</text>
+<text x="64" y="478" font-family="Times New Roman, serif" font-size="40" font-style="italic" font-weight="400" fill="#162B3D">Q = (y − x)</text>
+<text x="260" y="455" font-family="Times New Roman, serif" font-size="24" font-style="normal" font-weight="400" fill="#162B3D">T</text>
+<text x="288" y="478" font-family="Times New Roman, serif" font-size="40" font-style="normal" font-weight="400" fill="#162B3D">Σ</text>
+<text x="317" y="455" font-family="Times New Roman, serif" font-size="24" font-style="normal" font-weight="400" fill="#162B3D">−1</text>
+<text x="354" y="478" font-family="Times New Roman, serif" font-size="40" font-style="italic" font-weight="400" fill="#162B3D">(y − x)</text>
+<text x="644" y="478" font-family="Calibri, Arial, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#162B3D">Σ: symmetric positive-definite covariance</text>
+<text x="67" y="573" font-family="Times New Roman, serif" font-size="39" font-style="italic" font-weight="400" fill="#162B3D">y =</text>
+<line x1="145" y1="522" x2="155" y2="522" stroke="#162B3D" stroke-width="1.5"/>
+<line x1="145" y1="522" x2="145" y2="598" stroke="#162B3D" stroke-width="1.5"/>
+<line x1="145" y1="598" x2="155" y2="598" stroke="#162B3D" stroke-width="1.5"/>
+<line x1="226" y1="522" x2="216" y2="522" stroke="#162B3D" stroke-width="1.5"/>
+<line x1="226" y1="522" x2="226" y2="598" stroke="#162B3D" stroke-width="1.5"/>
+<line x1="226" y1="598" x2="216" y2="598" stroke="#162B3D" stroke-width="1.5"/>
+<text x="169" y="550" font-family="Times New Roman, serif" font-size="34" font-style="normal" font-weight="700" fill="#162B3D">F</text>
+<text x="169" y="526" font-family="Times New Roman, serif" font-size="26" font-style="normal" font-weight="400" fill="#162B3D">~</text>
+<text x="171" y="587" font-family="Times New Roman, serif" font-size="34" font-style="normal" font-weight="700" fill="#162B3D">a</text>
+<text x="169" y="563" font-family="Times New Roman, serif" font-size="26" font-style="normal" font-weight="400" fill="#162B3D">~</text>
+<text x="351" y="573" font-family="Times New Roman, serif" font-size="39" font-style="italic" font-weight="400" fill="#162B3D">x =</text>
+<line x1="432" y1="522" x2="442" y2="522" stroke="#162B3D" stroke-width="1.5"/>
+<line x1="432" y1="522" x2="432" y2="598" stroke="#162B3D" stroke-width="1.5"/>
+<line x1="432" y1="598" x2="442" y2="598" stroke="#162B3D" stroke-width="1.5"/>
+<line x1="537" y1="522" x2="527" y2="522" stroke="#162B3D" stroke-width="1.5"/>
+<line x1="537" y1="522" x2="537" y2="598" stroke="#162B3D" stroke-width="1.5"/>
+<line x1="537" y1="598" x2="527" y2="598" stroke="#162B3D" stroke-width="1.5"/>
+<text x="455" y="549" font-family="Times New Roman, serif" font-size="34" font-style="italic" font-weight="400" fill="#162B3D">fu</text>
+<text x="451" y="586" font-family="Times New Roman, serif" font-size="34" font-style="italic" font-weight="400" fill="#162B3D">αu</text>
+<text x="661" y="548" font-family="Times New Roman, serif" font-size="34" font-style="italic" font-weight="400" fill="#162B3D">f &gt; 0, α &gt; 0, ||u|| = 1</text>
+<text x="661" y="589" font-family="Calibri, Arial, sans-serif" font-size="29" font-style="normal" font-weight="400" fill="#162B3D">Uniform direction; flat in f and α.</text>
+<line x1="46" y1="624" x2="1354" y2="624" stroke="#D8E3E6" stroke-width="1.2"/>
+<text x="64" y="670" font-family="Calibri, Arial, sans-serif" font-size="27" font-style="normal" font-weight="400" fill="#50616F">P is the normalized law over compatible latent pairs.  F and a above are measured vectors.</text>
+</svg>

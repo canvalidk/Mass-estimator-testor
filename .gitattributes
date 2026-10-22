@@ -1,3 +1,6 @@
 # reference/ holds byte-for-byte copies of research scripts and their recorded outputs:
 # store them exactly as they are, with no line-ending conversion.
 reference/** -text
+# docs/ holds documents carried from VD-docs with recorded hashes (docs/SHA256SUMS):
+# store them exactly as they are, too.
+docs/** -text

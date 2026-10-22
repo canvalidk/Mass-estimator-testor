@@ -2,3 +2,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 results/
+# Published papers stay local: this repo is public and we may not redistribute
+# them. docs/papers/README.md carries the citations. docs/SHA256SUMS still lists
+# their hashes, so `sha256sum -c` reports them missing in a fresh clone.
+docs/papers/*.pdf

@@ -50,6 +50,10 @@ AI) adding work:
    agree with the code.** If they disagree, that is a finding: record it (a
    test marked `xfail(strict=True)` naming both numbers), and leave both as they
    are.
+6. **Documents live in `docs/`.** Records, studies and notes about the
+   estimator are written there (see `docs/README.md`). Only decisions go to
+   VD-docs: a ruling record or a new draft of the lemma or equation note, put
+   in `outbox/VD-docs/` (its README says what qualifies).
 
 ## The pipeline
 
@@ -274,7 +278,8 @@ best line is arg(Σ g_i C_i)/2, curv = |Σ g_i C_i|, l_i' = −½ g_i Im(C̄_i e
 otherwise (per-axis noise, mixed ratios) both are found numerically on the
 projective line (golden section after a 721-point scan). The two paths agree to
 about 10⁻⁸, and both agree with a 200 001-point brute-force grid and with the
-reference implementation in VD-docs (`noise_vs_signal/ours29_reference.py`).
+reference implementation (`docs/noise_vs_signal/ours29_reference.py`, byte-copied
+into `reference/`).
 
 To report both the raw law and the quoted width (his ruling of 30 September),
 run ours29 twice in one preset, with and without `calibrate: bartlett`; the
