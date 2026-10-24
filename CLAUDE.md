@@ -35,5 +35,5 @@ python -m met run presets/ours29_noise_vs_signal.yaml --replicates 50
 `docs/STATE.md` has a five-line example that calls ours29 from Python.
 
 The golden-output tests in `tests/test_reference_outputs.py` compare printed numbers,
-so a different numpy or scipy can move a value that is only rounding noise. Check
+so a different numpy can move a value that is only rounding noise. Check
 which value moved before treating a failure as real.
