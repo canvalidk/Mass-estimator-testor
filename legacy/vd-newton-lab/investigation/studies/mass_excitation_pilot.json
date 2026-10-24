@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "name": "Mass and excitation: fixed-truth exploratory pilot",
+  "phase": "exploratory_pilot",
+  "ademp": {
+    "aims": [
+      "Map how positive-mass accuracy and conditional interval coverage depend jointly on true mass, excitation and the number of stable repeated readings.",
+      "Verify the reusable experiment workflow and estimate the cost and fixed replication count of a subsequent study; do not select an overall winning estimator from this pilot."
+    ],
+    "data_generating_mechanisms": [
+      "Newton II is assumed correct: latent force equals positive true mass times latent acceleration, with a common direction [1,0,0]. Direction is used only by the simulator.",
+      "True masses 0.25, 1 and 4 are crossed with per-reading acceleration SNR 0, 0.5, 2 and 8. Force is derived from mass times acceleration. Each channel has known independent Gaussian component noise with standard deviation 1.",
+      "Separate experiments use n=1 and n=4 independent readings of the same unchanged latent pair. Estimators receive the sample means and known mean standard deviations 1/sqrt(n). No changing excitation or shared estimated calibration is modeled.",
+      "R=512 independent simulated experiments are generated per cell. Training noise is shared across the cells within each n experiment; the two n experiments use distinct random seeds. Held-out observations use independent random streams."
+    ],
+    "estimands": [
+      "The fixed positive physical mass m in force-units/acceleration-units, varied independently of latent excitation.",
+      "For each method and each cell separately: repeated-experiment expected bounded point loss and probability of factor-two failure.",
+      "For each flat and tube conditional mass law separately: repeated-experiment coverage of its central 95% interval at the stipulated fixed mass."
+    ],
+    "methods": [
+      "Evaluate every method already supplied by the configured comparison engine on the same observations within each cell; record its existing method metadata. The repeated-reading engine may include additional covariance-aware and RMS-approximation baselines.",
+      "Preserve the flat joint mass point E[f]/E[alpha] and the Newton-II premise. No law-rejection gate is introduced.",
+      "Evaluate flat and tube conditional probability laws separately from their point summaries. Deterministic baselines are not assigned invented uncertainty intervals.",
+      "Use existing numerical refinement checks. A failed numerical experiment remains explicitly failed; completed trial counts are never substituted for planned counts."
+    ],
+    "performance_measures": [
+      "Primary point loss: min(log(m_hat/m)^2, log(2)^2), with invalid estimates assigned the cap. Primary factor-two failure: m_hat outside [m/2,2m], including invalid estimates.",
+      "Primary uncertainty measure: 95% central interval coverage for each of the flat and tube laws. Monte Carlo precision targets are 0.005 for capped loss and coverage and 0.01 for factor-two failure; these are planning targets, not stopping rules.",
+      "Report paired flat-minus-comparator point differences and their directly calculated paired MCSEs. Do not approximate paired uncertainty from independent-method standard errors.",
+      "Retain existing secondary losses, interval widths, scores, invalid-output counts and numerical diagnostics. Ordinary MCSE interpretation for unbounded scores requires the relevant moments to exist.",
+      "Use all attempted trials under the declared failure policy. Inapplicable zero-denominator relative force-prediction scores remain explicitly unavailable."
+    ]
+  },
+  "provenance": {
+    "managed_repository": "https://github.com/canvalidk/VD-docs",
+    "managed_commit": "8782a293297330f7a354d87ebe62792018fa8866",
+    "managed_paths": [
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_law_assumed_correct_steering_2026-09-07.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_additional_derivations_2026-09-05.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimation_zero_zero_two_cases.md"
+    ],
+    "methodology": [
+      {
+        "title": "Morris, White and Crowther: Using simulation studies to evaluate statistical methods (ADEMP and Monte Carlo uncertainty)",
+        "url": "https://doi.org/10.1002/sim.8086"
+      },
+      {
+        "title": "Chipman and Bingham: Planning and interpreting simulation studies with design and analysis of experiments (factor interactions)",
+        "url": "https://arxiv.org/abs/2111.13737"
+      },
+      {
+        "title": "Pawel et al.: Handling Missingness, Failures, and Non-Convergence in Simulation Studies (failure-aware evaluation)",
+        "url": "https://arxiv.org/abs/2409.18527"
+      }
+    ]
+  },
+  "interpretation": [
+    "Exploratory pilot only: report cell-specific evidence and uncertainty, without a global winner or a confirmatory performance claim.",
+    "The number of readings n within an experiment is distinct from the number R of independent simulated experiments. Increasing n changes the measurement problem; increasing R reduces Monte Carlo uncertainty.",
+    "At zero excitation, force and acceleration truth are both zero but mass remains a stipulated positive estimand. With the declared mass-independent measurement noise, the observation distribution is identical for every true mass: this experiment contains no information about mass. Distinct fixed-mass scores are assessments against different stipulated truths, not evidence that the data distinguish those masses.",
+    "Repeated-experiment interval coverage is a property to measure. Nominal 95% conditional probability does not guarantee 95% fixed-truth coverage.",
+    "Keep all 512 trials per cell regardless of apparent performance or precision. Do not stop early or automatically extend a run. A later study should predeclare its fixed R and use fresh seeds.",
+    "Pilot-variance R calculations are uncertain, especially if no failures occur. Also report conservative bounded-variance planning values. Neither number is a simultaneous-confidence guarantee across all methods and cells.",
+    "Checkpointing is at completed-experiment granularity. Resume verifies the normalized specification, source hashes, runtime versions and completed output hashes. An incomplete experiment restarts in a fresh attempt directory; earlier partial output is retained."
+  ],
+  "fixed_replicates_per_cell": 512,
+  "primary_metrics": [
+    {"scope": "point", "name": "capped_squared_log_factor_2", "target_mcse": 0.005},
+    {"scope": "point", "name": "outside_factor_2", "target_mcse": 0.01},
+    {"scope": "uncertainty", "name": "coverage_95", "target_mcse": 0.005}
+  ],
+  "experiments": [
+    {
+      "id": "stable_n1",
+      "config": {
+        "name": "Mass-excitation pilot: one reading",
+        "samples": 512,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092001,
+        "heldout_seed": 2026092002,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {"type": "mass_excitation", "masses": [0.25, 1, 4], "acceleration_snrs": [0, 0.5, 2, 8]},
+        "measurement": {"repeats": 1, "calibration": {"mode": "known"}}
+      }
+    },
+    {
+      "id": "stable_n4",
+      "config": {
+        "name": "Mass-excitation pilot: four stable readings",
+        "samples": 512,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092003,
+        "heldout_seed": 2026092004,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {"type": "mass_excitation", "masses": [0.25, 1, 4], "acceleration_snrs": [0, 0.5, 2, 8]},
+        "measurement": {"repeats": 4, "calibration": {"mode": "known"}}
+      }
+    }
+  ]
+}

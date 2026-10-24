@@ -1,0 +1,365 @@
+{
+  "schema_version": 1,
+  "name": "Mass estimator: fresh operating-range assessment",
+  "phase": "main_assessment",
+  "ademp": {
+    "aims": [
+      "Validate on fresh draws the archive-derived contrasts between relative estimator advantage and absolute accuracy, without tuning a point rule or selecting a global winner.",
+      "Map cell-specific performance over effective force and acceleration SNR, retaining both channel orientations and same-law point summaries.",
+      "Assess stated accuracy benchmarks and their simultaneous Monte Carlo uncertainty; benchmarks are not application requirements supplied by the user."
+    ],
+    "data_generating_mechanisms": [
+      "Newton II is assumed correct. One compatible latent 3D pair has true force=[F,0,0], true acceleration=[A,0,0], positive physical mass F/A. Common direction is used only by the simulator and remains unknown to inference.",
+      "Independently cross effective force and acceleration SNR values [1,2,3,4,6,8,12,16] for 64 cells, using known independent isotropic Gaussian coordinate SD 1 in both channels.",
+      "Simulate one effective reading per channel. This is also the sufficient-mean experiment for independent stable repeated Gaussian readings with known SDs after standardization; no extra effective sample size is claimed. Held-out predictions belong to the configured effective-reading experiment and are secondary, not a recreation of earlier raw-reading prediction tasks.",
+      "Use R=10000 independent replicates per cell, with a fresh training seed and independent held-out seed. The same replicate-index noise is shared across cells to aid comparisons; cells cannot be pooled as independent evidence.",
+      "The grid excludes true-null and subunit effective SNR, whose nonidentification and weak-signal limits were already analyzed. It is a focused positive-signal assessment, not robustness to unknown calibration, correlation, non-Gaussian noise or varying excitation."
+    ],
+    "estimands": [
+      "Fixed true mass F/A separately for each truth cell. Changing one channel SNR with the other fixed also changes physical mass. Constant-ratio rays distinguish changing signal strength at fixed mass.",
+      "Probability of a positive mass estimate lying in [m/K,K*m], including all attempted trials, for fixed factors K=1.25,1.5,2. Report success and failure, not only a method ranking.",
+      "Repeated-experiment mean capped squared log loss with cap factor 2, and paired flat-minus-comparator differences in each cell.",
+      "Reference absolute-accuracy benchmarks are at least 90% and at least 95% success for each K. Classify each cell as supported, below_target or unresolved using simultaneous Monte Carlo bounds; passing the benchmark is not a claim of application adequacy.",
+      "Conditional mass-law coverage, interval width and both miss directions are retained secondary outputs; point accuracy does not validate conditional intervals."
+    ],
+    "methods": [
+      "Use the existing isotropic comparison engine unchanged, retaining every implemented method and the existing quadrature refinement checks.",
+      "Primary interpretation compares flat_joint E[f]/E[alpha], flat_median, flat_geometric and norm_ratio; norm_floor and positive_profile remain secondary comparators. Same-law alternatives distinguish benefits shared by the conditional law from the particular readout.",
+      "Predeclared follow-up contrasts: flat-minus-norm failure at factor 1.5 is expected negative at effective (F,A)=(1,4) and positive at (4,4), based on earlier archived observations. Both are reevaluated with new noise.",
+      "Every invalid/nonpositive/nonfinite output is retained as a tolerance failure and maximum capped loss. No law-rejection gate, output clipping, failed-trial deletion, adaptive stopping or parameter tuning is introduced."
+    ],
+    "performance_measures": [
+      "Use paired method differences on identical replicate IDs. Pointwise MCSE is the sample SD of the paired difference divided by sqrt(R), separate from numerical refinement error.",
+      "Freeze a single 95% simultaneous DKW family over all archived point methods in all 64 cells. For the expected 11 methods L=704 marginal error CDFs; use the actual saved method inventory and epsilon=sqrt(log(2*L/.05)/(2*R)).",
+      "Absolute success bands are empirical success plus/minus epsilon, clipped to [0,1]. A target is supported if the lower bound reaches it, below_target if the upper bound is below it, otherwise unresolved. The event covers all error thresholds and both target levels without an additional multiplicity factor.",
+      "Paired survival-difference bands have halfwidth 2*epsilon. Normalized capped squared-log loss is an integral of survival with positive weights summing to 1, so the same family event covers these risk differences. Raw cap-2 loss bounds multiply by log(2)^2.",
+      "At R=10000 and L=704, marginal epsilon is about .02263 and difference halfwidth about .04527. These deliberately conservative bounds may leave near-target cells unresolved; zero observed failures never implies zero risk.",
+      "Registry precision fields retain the runner's existing factor-two/cap-two/coverage metrics. The broader factor-1.25/1.5/2 accuracy ladder and simultaneous rules above are frozen scientific analysis choices and are computed from the saved outputs.",
+      "Report only sampled cells. Do not infer a continuous boundary, monotonic accuracy beyond a cut, an observed-data acceptance rule, or an overall average over arbitrary cells. Performance uncertainty here is Monte Carlo error for the fixed implemented methods, excluding quadrature bias and model misspecification."
+    ]
+  },
+  "provenance": {
+    "managed_repository": "https://github.com/canvalidk/VD-docs",
+    "managed_commit": "8782a293297330f7a354d87ebe62792018fa8866",
+    "managed_paths": [
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_law_assumed_correct_steering_2026-09-07.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_additional_derivations_2026-09-05.md"
+    ],
+    "methodology": [
+      {
+        "title": "Morris, White and Crowther: Using simulation studies to evaluate statistical methods",
+        "url": "https://doi.org/10.1002/sim.8086"
+      },
+      {
+        "title": "Gneiting: Making and Evaluating Point Forecasts",
+        "url": "https://arxiv.org/abs/0912.0902"
+      },
+      {
+        "title": "Reeve: A short proof of the Dvoretzky-Kiefer-Wolfowitz-Massart inequality",
+        "url": "https://arxiv.org/html/2403.16651v1"
+      }
+    ]
+  },
+  "interpretation": [
+    "Designed after exploratory archived-data sensitivity analysis at .tools/loss_sensitivity_20260921/main-reviewed/analysis.json. Fresh observations supply a follow-up, not a claim that the grid was chosen without earlier evidence.",
+    "Carried-forward managed context is the coherent snapshot used by the investigation; this protocol does not refresh, reorganize or alter managed sources.",
+    "Benchmark thresholds are explicit reference levels. An application-specific target and its observed-data assessment remain open.",
+    "All 64 cells, all implemented methods and all failures remain visible. The same simultaneous family covers selected subsets; no winner count is a scientific endpoint.",
+    "Accuracy in weak balanced-signal cells can reflect shrinkage toward the noise-ratio mass scale 1. Do not treat accuracy at that selected mass as identification or apply a true-SNR map as an observed-data acceptance rule.",
+    "Keep the fixed R even if an interim cell looks decisive or inconclusive. Resume interrupted experiments under the unchanged source/configuration contract."
+  ],
+  "fixed_replicates_per_cell": 10000,
+  "primary_metrics": [
+    {
+      "scope": "point",
+      "name": "outside_factor_2",
+      "target_mcse": 0.005
+    },
+    {
+      "scope": "point",
+      "name": "capped_squared_log_factor_2",
+      "target_mcse": 0.005
+    },
+    {
+      "scope": "uncertainty",
+      "name": "coverage_95",
+      "target_mcse": 0.005
+    }
+  ],
+  "experiments": [
+    {
+      "id": "effective_snr_grid",
+      "config": {
+        "name": "Known-noise effective force/acceleration SNR grid",
+        "samples": 10000,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092501,
+        "heldout_seed": 2026092502,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "pairs",
+          "pairs": [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              1,
+              16
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              16
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              3,
+              16
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              4,
+              12
+            ],
+            [
+              4,
+              16
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              16
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              8,
+              4
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              8,
+              12
+            ],
+            [
+              8,
+              16
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              12,
+              2
+            ],
+            [
+              12,
+              3
+            ],
+            [
+              12,
+              4
+            ],
+            [
+              12,
+              6
+            ],
+            [
+              12,
+              8
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              12,
+              16
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              16,
+              2
+            ],
+            [
+              16,
+              3
+            ],
+            [
+              16,
+              4
+            ],
+            [
+              16,
+              6
+            ],
+            [
+              16,
+              8
+            ],
+            [
+              16,
+              12
+            ],
+            [
+              16,
+              16
+            ]
+          ]
+        }
+      }
+    }
+  ]
+}

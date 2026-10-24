@@ -1,0 +1,1096 @@
+{
+  "meaning": "Own Gaussian-vector/lognormal-scale specialization, not a printed competitor estimate.",
+  "prior": "v~N3(0,I), log(m)~N(0,1), independent; fixed across cases",
+  "covariances": {
+    "small_isotropic": [
+      [
+        0.0625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0625,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0625,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0625,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0625,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0625
+      ]
+    ],
+    "large_isotropic": [
+      [
+        4.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        4.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        4.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        4.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        4.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        4.0
+      ]
+    ],
+    "full_correlated": [
+      [
+        0.16000000000000003,
+        0.04000000000000001,
+        -0.04000000000000001,
+        0.08000000000000002,
+        0.0,
+        0.04000000000000001
+      ],
+      [
+        0.04000000000000001,
+        0.49999999999999994,
+        0.13,
+        0.09,
+        -0.13999999999999999,
+        0.010000000000000002
+      ],
+      [
+        -0.04000000000000001,
+        0.13,
+        0.8600000000000001,
+        -1.6653345369377347e-18,
+        0.05,
+        -0.1
+      ],
+      [
+        0.08000000000000002,
+        0.09,
+        -1.6653345369377347e-18,
+        0.41,
+        0.06999999999999999,
+        0.020000000000000004
+      ],
+      [
+        0.0,
+        -0.13999999999999999,
+        0.05,
+        0.06999999999999999,
+        0.7125000000000001,
+        0.15000000000000002
+      ],
+      [
+        0.04000000000000001,
+        0.010000000000000002,
+        -0.1,
+        0.020000000000000004,
+        0.15000000000000002,
+        1.2700000000000002
+      ]
+    ]
+  },
+  "cases": [
+    {
+      "covariance": "small_isotropic",
+      "case": "both_zero",
+      "force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 0.619297201454351,
+        "quantiles": [
+          0.09959987123609206,
+          0.49194912652060147,
+          1.889394135094601
+        ],
+        "log_normalizer_without_constants": 4.114894803643674,
+        "grid_edge_density": [
+          5.133431391182861e-32,
+          1.304066749388805e-47
+        ]
+      },
+      "refinement_relative": 3.0472558543159778e-06
+    },
+    {
+      "covariance": "small_isotropic",
+      "case": "force_zero",
+      "force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 0.2986643519089236,
+        "quantiles": [
+          0.06775099063315321,
+          0.26338347419135794,
+          0.7328395719225941
+        ],
+        "log_normalizer_without_constants": 2.5411654452053343,
+        "grid_edge_density": [
+          1.5470197723940334e-31,
+          2.110600043992548e-50
+        ]
+      },
+      "refinement_relative": 5.603090874828354e-06
+    },
+    {
+      "covariance": "small_isotropic",
+      "case": "acceleration_zero",
+      "force": [
+        2.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 4.3790917362191575,
+        "quantiles": [
+          2.1383692026028522,
+          3.974443106017363,
+          9.01201798078445
+        ],
+        "log_normalizer_without_constants": -3.1616802231640135,
+        "grid_edge_density": [
+          9.400711459819664e-43,
+          1.8857156366046135e-44
+        ]
+      },
+      "refinement_relative": 8.229317218111376e-06
+    },
+    {
+      "covariance": "small_isotropic",
+      "case": "aligned",
+      "force": [
+        2.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 1.862725927584891,
+        "quantiles": [
+          1.1392189063425717,
+          1.7843337841718852,
+          3.045518449475646
+        ],
+        "log_normalizer_without_constants": 0.6412753000055958,
+        "grid_edge_density": [
+          1.309979852218061e-44,
+          1.4112473430903544e-49
+        ]
+      },
+      "refinement_relative": 8.54064927502396e-06
+    },
+    {
+      "covariance": "small_isotropic",
+      "case": "perpendicular",
+      "force": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 3.8394170597854043,
+        "quantiles": [
+          1.8073286255526468,
+          3.4737534767672966,
+          8.034882609826278
+        ],
+        "log_normalizer_without_constants": -10.540604148555747,
+        "grid_edge_density": [
+          9.406169318476268e-40,
+          1.013319243904479e-44
+        ]
+      },
+      "refinement_relative": 1.1993332612147967e-05
+    },
+    {
+      "covariance": "small_isotropic",
+      "case": "anti_aligned",
+      "force": [
+        -2.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 8.703933587681224,
+        "quantiles": [
+          3.827422036322979,
+          7.800855720444027,
+          18.894954854849097
+        ],
+        "log_normalizer_without_constants": -16.584945275560674,
+        "grid_edge_density": [
+          3.966033922059721e-37,
+          4.272527826138221e-42
+        ]
+      },
+      "refinement_relative": 9.378380240177009e-06
+    },
+    {
+      "covariance": "large_isotropic",
+      "case": "both_zero",
+      "force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 0.8761962863307301,
+        "quantiles": [
+          0.11853314806024785,
+          0.6729753564103136,
+          2.8089830158943228
+        ],
+        "log_normalizer_without_constants": -3.9937759718629104,
+        "grid_edge_density": [
+          3.263827339711736e-32,
+          8.464100938069034e-47
+        ]
+      },
+      "refinement_relative": 3.2060523527110973e-06
+    },
+    {
+      "covariance": "large_isotropic",
+      "case": "force_zero",
+      "force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 0.8732279235890704,
+        "quantiles": [
+          0.11836160601074809,
+          0.6710486722736889,
+          2.797381439153527
+        ],
+        "log_normalizer_without_constants": -4.097418287954466,
+        "grid_edge_density": [
+          3.2757369065876326e-32,
+          8.285244128063219e-47
+        ]
+      },
+      "refinement_relative": 5.139878599180747e-06
+    },
+    {
+      "covariance": "large_isotropic",
+      "case": "acceleration_zero",
+      "force": [
+        2.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 0.9406145590150361,
+        "quantiles": [
+          0.12221796217649661,
+          0.7152866596169882,
+          3.0559321695521042
+        ],
+        "log_normalizer_without_constants": -4.417224849286564,
+        "grid_edge_density": [
+          3.02330140498123e-32,
+          1.2926541495812526e-46
+        ]
+      },
+      "refinement_relative": 3.871837950919499e-06
+    },
+    {
+      "covariance": "large_isotropic",
+      "case": "aligned",
+      "force": [
+        2.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 0.9562010994568556,
+        "quantiles": [
+          0.1248585401550766,
+          0.733041147193152,
+          3.0690966787637213
+        ],
+        "log_normalizer_without_constants": -4.455802996354432,
+        "grid_edge_density": [
+          2.843194307430727e-32,
+          1.1856353652852558e-46
+        ]
+      },
+      "refinement_relative": 5.356582889470829e-06
+    },
+    {
+      "covariance": "large_isotropic",
+      "case": "perpendicular",
+      "force": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 0.9371525949592882,
+        "quantiles": [
+          0.1220214529010111,
+          0.7129859427332619,
+          3.0429064985281338
+        ],
+        "log_normalizer_without_constants": -4.5212280885801635,
+        "grid_edge_density": [
+          3.0354286619213215e-32,
+          1.2657955581821418e-46
+        ]
+      },
+      "refinement_relative": 3.200789973734075e-06
+    },
+    {
+      "covariance": "large_isotropic",
+      "case": "anti_aligned",
+      "force": [
+        -2.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 0.9182021634534359,
+        "quantiles": [
+          0.11929921849279354,
+          0.6934041238614149,
+          3.0154775177532596
+        ],
+        "log_normalizer_without_constants": -4.585703182128885,
+        "grid_edge_density": [
+          3.237583224739118e-32,
+          1.3500921450264497e-46
+        ]
+      },
+      "refinement_relative": 2.933997802045951e-06
+    },
+    {
+      "covariance": "full_correlated",
+      "case": "both_zero",
+      "force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 0.5975831075199337,
+        "quantiles": [
+          0.09811926853954231,
+          0.4754931858544747,
+          1.8208796675661305
+        ],
+        "log_normalizer_without_constants": 0.5829173819593835,
+        "grid_edge_density": [
+          5.312189558755766e-32,
+          1.168166103917718e-47
+        ]
+      },
+      "refinement_relative": 4.608893978796935e-06
+    },
+    {
+      "covariance": "full_correlated",
+      "case": "force_zero",
+      "force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 0.48771429474779504,
+        "quantiles": [
+          0.0840533412381731,
+          0.3805256817385561,
+          1.5413336042873347
+        ],
+        "log_normalizer_without_constants": -0.23090408576168941,
+        "grid_edge_density": [
+          8.288309522055859e-32,
+          7.625160411641127e-48
+        ]
+      },
+      "refinement_relative": 3.386138359706692e-06
+    },
+    {
+      "covariance": "full_correlated",
+      "case": "acceleration_zero",
+      "force": [
+        2.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 2.484173682977975,
+        "quantiles": [
+          1.128313397922582,
+          2.2282381157752322,
+          5.358875214971887
+        ],
+        "log_normalizer_without_constants": -4.057381726831941,
+        "grid_edge_density": [
+          8.567834634544655e-36,
+          1.2099318177978417e-45
+        ]
+      },
+      "refinement_relative": 7.752066333854835e-06
+    },
+    {
+      "covariance": "full_correlated",
+      "case": "aligned",
+      "force": [
+        2.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 1.7218299947506335,
+        "quantiles": [
+          0.8245114409690688,
+          1.5689560763514816,
+          3.528547134734814
+        ],
+        "log_normalizer_without_constants": -2.463395730029828,
+        "grid_edge_density": [
+          2.3701733703787665e-36,
+          7.109204804563719e-47
+        ]
+      },
+      "refinement_relative": 6.243611351708367e-06
+    },
+    {
+      "covariance": "full_correlated",
+      "case": "perpendicular",
+      "force": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 0.986628762735366,
+        "quantiles": [
+          0.14222498657878796,
+          0.7884292960628843,
+          2.9927658955209306
+        ],
+        "log_normalizer_without_constants": -2.967189783602691,
+        "grid_edge_density": [
+          1.90004500995989e-32,
+          1.1765258534830515e-46
+        ]
+      },
+      "refinement_relative": 3.289375051229726e-06
+    },
+    {
+      "covariance": "full_correlated",
+      "case": "anti_aligned",
+      "force": [
+        -2.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "result": {
+        "mean": 3.451973312341702,
+        "quantiles": [
+          1.5206780158902016,
+          3.0759355446970504,
+          7.608577313117841
+        ],
+        "log_normalizer_without_constants": -7.56407350470508,
+        "grid_edge_density": [
+          1.0026469855794215e-34,
+          1.166784788184925e-44
+        ]
+      },
+      "refinement_relative": 8.151946135459553e-06
+    }
+  ],
+  "paths": [
+    {
+      "path": "angle_degrees",
+      "at": 0.0,
+      "result": {
+        "mean": 1.7218299947506344,
+        "quantiles": [
+          0.8244994421825791,
+          1.56895767610215,
+          3.528580007884414
+        ],
+        "log_normalizer_without_constants": -2.463395730029828,
+        "grid_edge_density": [
+          2.3701733703787816e-36,
+          7.109204804563764e-47
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 15.0,
+      "result": {
+        "mean": 1.6816072897414232,
+        "quantiles": [
+          0.7872396871574104,
+          1.5311026448632368,
+          3.4716621658436218
+        ],
+        "log_normalizer_without_constants": -2.4250153825206775,
+        "grid_edge_density": [
+          7.726986771718074e-36,
+          6.841508453068201e-47
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 30.0,
+      "result": {
+        "mean": 1.5726674958371312,
+        "quantiles": [
+          0.6819751551425632,
+          1.427094327291578,
+          3.3299125647638936
+        ],
+        "log_normalizer_without_constants": -2.3347623740597925,
+        "grid_edge_density": [
+          5.487474133204713e-35,
+          6.25106264038686e-47
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 45.0,
+      "result": {
+        "mean": 1.3914499112820304,
+        "quantiles": [
+          0.4913982725014409,
+          1.2537070861756878,
+          3.108947330616927
+        ],
+        "log_normalizer_without_constants": -2.200732357551904,
+        "grid_edge_density": [
+          4.929837456394925e-34,
+          5.466923331999225e-47
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 60.0,
+      "result": {
+        "mean": 1.1544684017115425,
+        "quantiles": [
+          0.27472012990131955,
+          1.0201087133572122,
+          2.8416576397573734
+        ],
+        "log_normalizer_without_constants": -2.073732288829119,
+        "grid_edge_density": [
+          3.1209218409583026e-33,
+          4.814870463030928e-47
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 75.0,
+      "result": {
+        "mean": 0.9676595996794619,
+        "quantiles": [
+          0.1730981167051271,
+          0.8138315359213438,
+          2.6889509632528346
+        ],
+        "log_normalizer_without_constants": -2.1943499535902817,
+        "grid_edge_density": [
+          1.0227316764485948e-32,
+          5.432063922877987e-47
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 90.0,
+      "result": {
+        "mean": 0.986628762735366,
+        "quantiles": [
+          0.14222415154594095,
+          0.7884288329578031,
+          2.9927768389955016
+        ],
+        "log_normalizer_without_constants": -2.967189783602691,
+        "grid_edge_density": [
+          1.9000450099598904e-32,
+          1.1765258534830519e-46
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 105.0,
+      "result": {
+        "mean": 1.3937054422857678,
+        "quantiles": [
+          0.15528779980429747,
+          1.1760867994328843,
+          4.023540608883405
+        ],
+        "log_normalizer_without_constants": -4.389441064594722,
+        "grid_edge_density": [
+          2.0109392131386502e-32,
+          4.878361454167571e-46
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 120.0,
+      "result": {
+        "mean": 2.162811879111839,
+        "quantiles": [
+          0.35741236860243375,
+          1.9147984601683683,
+          5.3647272227032925
+        ],
+        "log_normalizer_without_constants": -5.758598523349628,
+        "grid_edge_density": [
+          8.347439111688876e-33,
+          1.918175944827373e-45
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 135.0,
+      "result": {
+        "mean": 2.7728851834855353,
+        "quantiles": [
+          1.032746975423556,
+          2.4565409232379185,
+          6.389059095514712
+        ],
+        "log_normalizer_without_constants": -6.645169908444485,
+        "grid_edge_density": [
+          1.556343080670716e-33,
+          4.65499226378958e-45
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 150.0,
+      "result": {
+        "mean": 3.156749777760134,
+        "quantiles": [
+          1.3232817520683438,
+          2.8040836297361227,
+          7.078862023247329
+        ],
+        "log_normalizer_without_constants": -7.186588315858167,
+        "grid_edge_density": [
+          2.870257816923297e-34,
+          7.999303106722829e-45
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 165.0,
+      "result": {
+        "mean": 3.3782867780016206,
+        "quantiles": [
+          1.4707026646708028,
+          3.0071706039981883,
+          7.482239053634937
+        ],
+        "log_normalizer_without_constants": -7.481446303961325,
+        "grid_edge_density": [
+          1.0184671596301003e-34,
+          1.0742524148651676e-44
+        ]
+      }
+    },
+    {
+      "path": "angle_degrees",
+      "at": 180.0,
+      "result": {
+        "mean": 3.4519733123417016,
+        "quantiles": [
+          1.5206594812898735,
+          3.075937237981097,
+          7.608652559818409
+        ],
+        "log_normalizer_without_constants": -7.564073504705079,
+        "grid_edge_density": [
+          1.002646985579416e-34,
+          1.1667847881849185e-44
+        ]
+      }
+    },
+    {
+      "path": "force_through_zero",
+      "at": -0.1,
+      "result": {
+        "mean": 0.48320054516798305,
+        "quantiles": [
+          0.08048050238285978,
+          0.36836415570147957,
+          1.5829827987695424
+        ],
+        "log_normalizer_without_constants": -0.45193840268741226,
+        "grid_edge_density": [
+          9.665405778204517e-32,
+          9.511353140919398e-48
+        ]
+      }
+    },
+    {
+      "path": "acceleration_through_zero",
+      "at": -0.1,
+      "result": {
+        "mean": 2.5721046972805572,
+        "quantiles": [
+          1.1635442559905567,
+          2.304780517904776,
+          5.56665912151337
+        ],
+        "log_normalizer_without_constants": -4.318282805056489,
+        "grid_edge_density": [
+          1.0354642348685868e-35,
+          1.5512454989341226e-45
+        ]
+      }
+    },
+    {
+      "path": "force_through_zero",
+      "at": -0.01,
+      "result": {
+        "mean": 0.48698872030911,
+        "quantiles": [
+          0.08367197957479444,
+          0.3791564464743896,
+          1.5442787934206486
+        ],
+        "log_normalizer_without_constants": -0.2504816780249237,
+        "grid_edge_density": [
+          8.420757083907292e-32,
+          7.775912384765918e-48
+        ]
+      }
+    },
+    {
+      "path": "acceleration_through_zero",
+      "at": -0.01,
+      "result": {
+        "mean": 2.4928743495423076,
+        "quantiles": [
+          1.1317897137733606,
+          2.235808612569465,
+          5.3795204552079525
+        ],
+        "log_normalizer_without_constants": -4.082603822633031,
+        "grid_edge_density": [
+          8.726994992845632e-36,
+          1.2406826610293939e-45
+        ]
+      }
+    },
+    {
+      "path": "force_through_zero",
+      "at": 0.0,
+      "result": {
+        "mean": 0.48771429474779493,
+        "quantiles": [
+          0.08405305103285651,
+          0.3805255994440317,
+          1.5413412727876543
+        ],
+        "log_normalizer_without_constants": -0.23090408576168941,
+        "grid_edge_density": [
+          8.288309522055903e-32,
+          7.625160411641168e-48
+        ]
+      }
+    },
+    {
+      "path": "acceleration_through_zero",
+      "at": 0.0,
+      "result": {
+        "mean": 2.484173682977975,
+        "quantiles": [
+          1.1283003012276558,
+          2.2282402148193325,
+          5.358930464319171
+        ],
+        "log_normalizer_without_constants": -4.057381726831941,
+        "grid_edge_density": [
+          8.567834634544664e-36,
+          1.209931817797843e-45
+        ]
+      }
+    },
+    {
+      "path": "force_through_zero",
+      "at": 0.01,
+      "result": {
+        "mean": 0.48849837795483264,
+        "quantiles": [
+          0.08443955160344833,
+          0.381929174831061,
+          1.5386640224505264
+        ],
+        "log_normalizer_without_constants": -0.2118849981730604,
+        "grid_edge_density": [
+          8.157046829625181e-32,
+          7.481508364761285e-48
+        ]
+      }
+    },
+    {
+      "path": "acceleration_through_zero",
+      "at": 0.01,
+      "result": {
+        "mean": 2.4754936496000512,
+        "quantiles": [
+          1.1248201368159059,
+          2.220690467975928,
+          5.338381809561031
+        ],
+        "log_normalizer_without_constants": -4.032351704687282,
+        "grid_edge_density": [
+          8.412571957109299e-36,
+          1.179877067503528e-45
+        ]
+      }
+    },
+    {
+      "path": "force_through_zero",
+      "at": 0.1,
+      "result": {
+        "mean": 0.49812012750913737,
+        "quantiles": [
+          0.08818665198164449,
+          0.3961502130777178,
+          1.5253442099175027
+        ],
+        "log_normalizer_without_constants": -0.0656600299518032,
+        "grid_edge_density": [
+          7.029152076735554e-32,
+          6.4637576502935e-48
+        ]
+      }
+    },
+    {
+      "path": "acceleration_through_zero",
+      "at": 0.1,
+      "result": {
+        "mean": 2.398305906386364,
+        "quantiles": [
+          1.0939462656229264,
+          2.1535963097123343,
+          5.155334800480553
+        ],
+        "log_normalizer_without_constants": -3.815687207074349,
+        "grid_edge_density": [
+          7.173703710127914e-36,
+          9.384447032407426e-46
+        ]
+      }
+    }
+  ],
+  "well_measured_aligned": {
+    "mean": 1.9979901163759852,
+    "quantiles": [
+      1.8717137911665211,
+      1.9962042149555348,
+      2.1343977774069565
+    ],
+    "log_normalizer_without_constants": 4.889003558064233,
+    "grid_edge_density": [
+      0.0,
+      1.8740557203502397e-286
+    ]
+  },
+  "target_2d_prior_identity": [
+    {
+      "case": "both_zero",
+      "max_angle_density_absolute_error": 6.661338147750939e-16
+    },
+    {
+      "case": "force_zero",
+      "max_angle_density_absolute_error": 1.5543122344752192e-15
+    },
+    {
+      "case": "acceleration_zero",
+      "max_angle_density_absolute_error": 3.108624468950438e-14
+    },
+    {
+      "case": "aligned",
+      "max_angle_density_absolute_error": 1.6431300764452317e-14
+    },
+    {
+      "case": "perpendicular",
+      "max_angle_density_absolute_error": 4.440892098500626e-15
+    },
+    {
+      "case": "anti_aligned",
+      "max_angle_density_absolute_error": 9.769962616701378e-14
+    }
+  ],
+  "source_sha256": "14c4ccae2a9612fc9761d6b5cff9555c1c0750386b852b3f8e9265e75ee16d60",
+  "limits": "Numerical refinement is not a certified error bound or an everywhere proof."
+}

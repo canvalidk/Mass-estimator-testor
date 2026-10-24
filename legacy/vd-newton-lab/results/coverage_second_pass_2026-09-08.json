@@ -1,0 +1,969 @@
+{
+  "date": "2026-09-08",
+  "managed_commit": "adfe14bbaafb29856f0a30da088495b7c9d483d2",
+  "scope": "Scalar Gaussian only. Correlation extension, positive conditioning and quotient are explicitly our adaptations.",
+  "oracle": "Conditional-normal Cartesian integration; acceleration truncated beyond 12 sigma; 300 vs 600 nodes.",
+  "quantile_probabilities": [
+    0.025,
+    0.5,
+    0.975
+  ],
+  "scalar_cases": [
+    {
+      "z_force": 0.0,
+      "z_acceleration": 0.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          -0.546
+        ],
+        [
+          -0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": -0.6,
+      "point": 0.5384615384615383,
+      "quantiles": [
+        0.015882518426978395,
+        0.5384615384615361,
+        18.25534342902821
+      ],
+      "oracle": {
+        "same_sign_probability": 0.2951672353009067,
+        "mass": 0.5384615384616352,
+        "cdf_at_supplied_masses": [
+          0.025000002950248377,
+          0.4999999999999221,
+          0.9749999970496387
+        ]
+      },
+      "point_relative_error": 1.7996715229173788e-13,
+      "quantile_cdf_absolute_error": 2.9503612886117025e-09,
+      "oracle_quadrature_cdf_change": 1.653122083666858e-13
+    },
+    {
+      "z_force": 0.0,
+      "z_acceleration": 0.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.0
+        ],
+        [
+          0.0,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.0,
+      "point": 0.5384615384615384,
+      "quantiles": [
+        0.021156211465666035,
+        0.5384615384614861,
+        13.70476131196063
+      ],
+      "oracle": {
+        "same_sign_probability": 0.5000000000000369,
+        "mass": 0.5384615384615867,
+        "cdf_at_supplied_masses": [
+          0.024999999999995113,
+          0.49999999999992417,
+          0.9749999999999251
+        ]
+      },
+      "point_relative_error": 8.970602038971265e-14,
+      "quantile_cdf_absolute_error": 7.582823258189819e-14,
+      "oracle_quadrature_cdf_change": 1.1035616864774056e-13
+    },
+    {
+      "z_force": 0.0,
+      "z_acceleration": 0.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.546
+        ],
+        [
+          0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.6,
+      "point": 0.5384615384615383,
+      "quantiles": [
+        0.035809647959446946,
+        0.5384615384615394,
+        8.096723786022904
+      ],
+      "oracle": {
+        "same_sign_probability": 0.704832764699167,
+        "mass": 0.5384615384615625,
+        "cdf_at_supplied_masses": [
+          0.024999997682659054,
+          0.49999999999996897,
+          0.9750000023172831
+        ]
+      },
+      "point_relative_error": 4.496403249731884e-14,
+      "quantile_cdf_absolute_error": 2.317340947605162e-09,
+      "oracle_quadrature_cdf_change": 8.293365993949919e-14
+    },
+    {
+      "z_force": 0.0,
+      "z_acceleration": 2.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          -0.546
+        ],
+        [
+          -0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": -0.6,
+      "point": 0.2566185638487877,
+      "quantiles": [
+        0.008145975274518612,
+        0.2227616930896415,
+        3.504672734077038
+      ],
+      "oracle": {
+        "same_sign_probability": 0.4791414041517495,
+        "mass": 0.25661856384879395,
+        "cdf_at_supplied_masses": [
+          0.025000003904636598,
+          0.5000000066197081,
+          0.975000000298311
+        ]
+      },
+      "point_relative_error": 2.4424906541753444e-14,
+      "quantile_cdf_absolute_error": 6.61970811499657e-09,
+      "oracle_quadrature_cdf_change": 2.1760371282653068e-14
+    },
+    {
+      "z_force": 0.0,
+      "z_acceleration": 2.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.0
+        ],
+        [
+          0.0,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.0,
+      "point": 0.21300649922196438,
+      "quantiles": [
+        0.008367083930398013,
+        0.19050251827801853,
+        1.9883876789717254
+      ],
+      "oracle": {
+        "same_sign_probability": 0.49999999999999845,
+        "mass": 0.21300649922196743,
+        "cdf_at_supplied_masses": [
+          0.02500000044854767,
+          0.5000000145404566,
+          0.9750000012737942
+        ]
+      },
+      "point_relative_error": 1.432187701766452e-14,
+      "quantile_cdf_absolute_error": 1.4540456616529696e-08,
+      "oracle_quadrature_cdf_change": 2.020605904817785e-14
+    },
+    {
+      "z_force": 0.0,
+      "z_acceleration": 2.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.546
+        ],
+        [
+          0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.6,
+      "point": 0.18612588007661943,
+      "quantiles": [
+        0.00869092474462902,
+        0.16234353907424345,
+        2.0659743267844486
+      ],
+      "oracle": {
+        "same_sign_probability": 0.5208585958482473,
+        "mass": 0.18612588007662337,
+        "cdf_at_supplied_masses": [
+          0.024999995439640023,
+          0.5000000114369881,
+          0.9749999996507255
+        ]
+      },
+      "point_relative_error": 2.120525977034049e-14,
+      "quantile_cdf_absolute_error": 1.1436988134327919e-08,
+      "oracle_quadrature_cdf_change": 1.9095836023552692e-14
+    },
+    {
+      "z_force": 2.0,
+      "z_acceleration": 0.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          -0.546
+        ],
+        [
+          -0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": -0.6,
+      "point": 1.129851340658325,
+      "quantiles": [
+        0.08272978688799643,
+        1.3015740021588513,
+        35.593138774841144
+      ],
+      "oracle": {
+        "same_sign_probability": 0.4791414041517875,
+        "mass": 1.129851340658458,
+        "cdf_at_supplied_masses": [
+          0.024999999701671195,
+          0.49999999338023804,
+          0.9749999960952807
+        ]
+      },
+      "point_relative_error": 1.176836406102666e-13,
+      "quantile_cdf_absolute_error": 6.619761960813264e-09,
+      "oracle_quadrature_cdf_change": 1.2390088954816747e-13
+    },
+    {
+      "z_force": 2.0,
+      "z_acceleration": 0.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.0
+        ],
+        [
+          0.0,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.0,
+      "point": 1.3611830130132911,
+      "quantiles": [
+        0.14581705140734494,
+        1.5219789797173617,
+        34.652554081475444
+      ],
+      "oracle": {
+        "same_sign_probability": 0.5000000000000369,
+        "mass": 1.3611830130134148,
+        "cdf_at_supplied_masses": [
+          0.024999998726187904,
+          0.49999998545949154,
+          0.9749999995513733
+        ]
+      },
+      "point_relative_error": 9.08162434143378e-14,
+      "quantile_cdf_absolute_error": 1.4540508463944946e-08,
+      "oracle_quadrature_cdf_change": 1.1757261830780408e-13
+    },
+    {
+      "z_force": 2.0,
+      "z_acceleration": 0.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.546
+        ],
+        [
+          0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.6,
+      "point": 1.5577674006592288,
+      "quantiles": [
+        0.1403409638945713,
+        1.7859708495684028,
+        33.36133230028794
+      ],
+      "oracle": {
+        "same_sign_probability": 0.5208585958482862,
+        "mass": 1.5577674006593412,
+        "cdf_at_supplied_masses": [
+          0.02500000034925909,
+          0.49999998856296446,
+          0.9750000045602825
+        ]
+      },
+      "point_relative_error": 7.216449660063518e-14,
+      "quantile_cdf_absolute_error": 1.143703554085107e-08,
+      "oracle_quadrature_cdf_change": 1.162403506782539e-13
+    },
+    {
+      "z_force": 3.0,
+      "z_acceleration": 2.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          -0.546
+        ],
+        [
+          -0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": -0.6,
+      "point": 0.7794778876995088,
+      "quantiles": [
+        0.17011072548144393,
+        0.7916636724960426,
+        6.664300065622477
+      ],
+      "oracle": {
+        "same_sign_probability": 0.9758999713219653,
+        "mass": 0.7794778876995173,
+        "cdf_at_supplied_masses": [
+          0.02499999438976617,
+          0.49999999611640256,
+          0.9750000119632156
+        ]
+      },
+      "point_relative_error": 1.099120794378905e-14,
+      "quantile_cdf_absolute_error": 1.196321564034264e-08,
+      "oracle_quadrature_cdf_change": 1.0658141036401503e-14
+    },
+    {
+      "z_force": 3.0,
+      "z_acceleration": 2.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.0
+        ],
+        [
+          0.0,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.0,
+      "point": 0.7871409589506368,
+      "quantiles": [
+        0.23539797286685193,
+        0.794803456258445,
+        5.088333193262101
+      ],
+      "oracle": {
+        "same_sign_probability": 0.9759613907368532,
+        "mass": 0.7871409589506431,
+        "cdf_at_supplied_masses": [
+          0.02499999132659674,
+          0.49999999726974004,
+          0.9750000071700461
+        ]
+      },
+      "point_relative_error": 7.882583474838611e-15,
+      "quantile_cdf_absolute_error": 8.673403262965396e-09,
+      "oracle_quadrature_cdf_change": 1.0658141036401503e-14
+    },
+    {
+      "z_force": 3.0,
+      "z_acceleration": 2.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.546
+        ],
+        [
+          0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.6,
+      "point": 0.7947837389901989,
+      "quantiles": [
+        0.38153623765793787,
+        0.7987614215997785,
+        3.4425718096132334
+      ],
+      "oracle": {
+        "same_sign_probability": 0.9772078798319039,
+        "mass": 0.7947837389902029,
+        "cdf_at_supplied_masses": [
+          0.024999987931513295,
+          0.5000000128989254,
+          0.9750000068640932
+        ]
+      },
+      "point_relative_error": 4.9960036108132044e-15,
+      "quantile_cdf_absolute_error": 1.2898925372262227e-08,
+      "oracle_quadrature_cdf_change": 1.0658141036401503e-14
+    },
+    {
+      "z_force": -2.0,
+      "z_acceleration": -3.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          -0.546
+        ],
+        [
+          -0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": -0.6,
+      "point": 0.37196799675495057,
+      "quantiles": [
+        0.04350656866397869,
+        0.3662424315722479,
+        1.7044241483408662
+      ],
+      "oracle": {
+        "same_sign_probability": 0.9758999713219577,
+        "mass": 0.3719679967549516,
+        "cdf_at_supplied_masses": [
+          0.024999988036776256,
+          0.5000000038835916,
+          0.975000005610231
+        ]
+      },
+      "point_relative_error": 2.886579864025407e-15,
+      "quantile_cdf_absolute_error": 1.1963223744970719e-08,
+      "oracle_quadrature_cdf_change": 1.1102230246251565e-15
+    },
+    {
+      "z_force": -2.0,
+      "z_acceleration": -3.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.0
+        ],
+        [
+          0.0,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.0,
+      "point": 0.36834676826993773,
+      "quantiles": [
+        0.05698149421234857,
+        0.3647956310699378,
+        1.231704865047259
+      ],
+      "oracle": {
+        "same_sign_probability": 0.9759613907368457,
+        "mass": 0.3683467682699382,
+        "cdf_at_supplied_masses": [
+          0.02499999282994637,
+          0.5000000027302557,
+          0.9750000086734015
+        ]
+      },
+      "point_relative_error": 1.2212453270876722e-15,
+      "quantile_cdf_absolute_error": 8.673401552528048e-09,
+      "oracle_quadrature_cdf_change": 1.1102230246251565e-15
+    },
+    {
+      "z_force": -2.0,
+      "z_acceleration": -3.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.546
+        ],
+        [
+          0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.6,
+      "point": 0.3648046810453708,
+      "quantiles": [
+        0.08422215844349892,
+        0.3629880219073003,
+        0.7599299877310969
+      ],
+      "oracle": {
+        "same_sign_probability": 0.9772078798318963,
+        "mass": 0.36480468104537084,
+        "cdf_at_supplied_masses": [
+          0.024999993135899637,
+          0.49999998710106996,
+          0.9750000120684853
+        ]
+      },
+      "point_relative_error": 1.1102230246251565e-16,
+      "quantile_cdf_absolute_error": 1.289893003519893e-08,
+      "oracle_quadrature_cdf_change": 9.992007221626409e-16
+    },
+    {
+      "z_force": 1.0,
+      "z_acceleration": -1.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          -0.546
+        ],
+        [
+          -0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": -0.6,
+      "point": 0.5384615384615382,
+      "quantiles": [
+        0.013707358192444603,
+        0.5384615384615415,
+        21.152203388263217
+      ],
+      "oracle": {
+        "same_sign_probability": 0.17225876448316818,
+        "mass": 0.5384615384616561,
+        "cdf_at_supplied_masses": [
+          0.02500000623815721,
+          0.49999999999991507,
+          0.9749999937617204
+        ]
+      },
+      "point_relative_error": 2.1893598045608087e-13,
+      "quantile_cdf_absolute_error": 6.2382795595894436e-09,
+      "oracle_quadrature_cdf_change": 1.800781745942004e-13
+    },
+    {
+      "z_force": 1.0,
+      "z_acceleration": -1.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.0
+        ],
+        [
+          0.0,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.0,
+      "point": 0.5384615384615382,
+      "quantiles": [
+        0.012978655677557134,
+        0.5384615384615308,
+        22.339819747567113
+      ],
+      "oracle": {
+        "same_sign_probability": 0.266967528662829,
+        "mass": 0.5384615384616153,
+        "cdf_at_supplied_masses": [
+          0.025000006609892447,
+          0.499999999999942,
+          0.9749999933900185
+        ]
+      },
+      "point_relative_error": 1.4310774787418268e-13,
+      "quantile_cdf_absolute_error": 6.609981451077829e-09,
+      "oracle_quadrature_cdf_change": 1.3133938381315602e-13
+    },
+    {
+      "z_force": 1.0,
+      "z_acceleration": -1.0,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.546
+        ],
+        [
+          0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.6,
+      "point": 0.5384615384615382,
+      "quantiles": [
+        0.010911430627681249,
+        0.5384615384615348,
+        26.572210216578835
+      ],
+      "oracle": {
+        "same_sign_probability": 0.31387274797236064,
+        "mass": 0.5384615384616053,
+        "cdf_at_supplied_masses": [
+          0.025000004647549177,
+          0.4999999999999521,
+          0.9749999953523674
+        ]
+      },
+      "point_relative_error": 1.2456702336294256e-13,
+      "quantile_cdf_absolute_error": 4.647632612098107e-09,
+      "oracle_quadrature_cdf_change": 1.2212453270876722e-13
+    },
+    {
+      "z_force": -2.0,
+      "z_acceleration": 0.5,
+      "covariance": [
+        [
+          0.48999999999999994,
+          -0.546
+        ],
+        [
+          -0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": -0.6,
+      "point": 1.2620356437440758,
+      "quantiles": [
+        0.07764899222307058,
+        1.4831595848617647,
+        43.82938257551944
+      ],
+      "oracle": {
+        "same_sign_probability": 0.2917526482309418,
+        "mass": 1.2620356437442897,
+        "cdf_at_supplied_masses": [
+          0.024999999858321045,
+          0.4999999953709766,
+          0.9749999947999372
+        ]
+      },
+      "point_relative_error": 1.694200335577989e-13,
+      "quantile_cdf_absolute_error": 5.200062824783913e-09,
+      "oracle_quadrature_cdf_change": 1.566524687746096e-13
+    },
+    {
+      "z_force": -2.0,
+      "z_acceleration": 0.5,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.0
+        ],
+        [
+          0.0,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.0,
+      "point": 1.6103671564484392,
+      "quantiles": [
+        0.10202089620706965,
+        1.8885437654879362,
+        47.869711389554986
+      ],
+      "oracle": {
+        "same_sign_probability": 0.31724913124023696,
+        "mass": 1.610367156448656,
+        "cdf_at_supplied_masses": [
+          0.024999999819865053,
+          0.49999997949072295,
+          0.9749999877951377
+        ]
+      },
+      "point_relative_error": 1.3455903058456897e-13,
+      "quantile_cdf_absolute_error": 2.0509277054436836e-08,
+      "oracle_quadrature_cdf_change": 1.56097357262297e-13
+    },
+    {
+      "z_force": -2.0,
+      "z_acceleration": 0.5,
+      "covariance": [
+        [
+          0.48999999999999994,
+          0.546
+        ],
+        [
+          0.546,
+          1.6900000000000002
+        ]
+      ],
+      "rho": 0.6,
+      "point": 1.865274565371934,
+      "quantiles": [
+        0.05672951077101265,
+        2.428785076601427,
+        52.70465026020078
+      ],
+      "oracle": {
+        "same_sign_probability": 0.33085574808879603,
+        "mass": 1.865274565372147,
+        "cdf_at_supplied_masses": [
+          0.025000002840879863,
+          0.4999999745977115,
+          0.9749999981024056
+        ]
+      },
+      "point_relative_error": 1.141309269314661e-13,
+      "quantile_cdf_absolute_error": 2.5402288494902336e-08,
+      "oracle_quadrature_cdf_change": 1.5309975509580909e-12
+    }
+  ],
+  "known_direction_cases": [
+    {
+      "z_force": 0.0,
+      "z_acceleration": 0.0,
+      "katz_quotient": 0.5384615384615384,
+      "vd_point": 0.5384615384615384,
+      "relative_error": 0.0
+    },
+    {
+      "z_force": 0.0,
+      "z_acceleration": 2.0,
+      "katz_quotient": 0.20904055220113563,
+      "vd_point": 0.20904055220113568,
+      "relative_error": 2.220446049250313e-16
+    },
+    {
+      "z_force": 2.0,
+      "z_acceleration": 0.0,
+      "katz_quotient": 1.3870075702985618,
+      "vd_point": 1.387007570298561,
+      "relative_error": 6.661338147750939e-16
+    },
+    {
+      "z_force": 3.0,
+      "z_acceleration": 2.0,
+      "katz_quotient": 0.7871431229291899,
+      "vd_point": 0.7871431229291896,
+      "relative_error": 3.3306690738754696e-16
+    },
+    {
+      "z_force": -2.0,
+      "z_acceleration": -3.0,
+      "katz_quotient": 0.7098663539426299,
+      "vd_point": 0.7098663539426021,
+      "relative_error": 3.907985046680551e-14
+    },
+    {
+      "z_force": 1.0,
+      "z_acceleration": -1.0,
+      "katz_quotient": 1.320275160989952,
+      "vd_point": 1.3202751609899512,
+      "relative_error": 5.551115123125783e-16
+    },
+    {
+      "z_force": -2.0,
+      "z_acceleration": 0.5,
+      "katz_quotient": 0.19913801933100972,
+      "vd_point": 0.1991380193310093,
+      "relative_error": 2.1094237467877974e-15
+    }
+  ],
+  "correlated_null_cauchy_checks": [
+    {
+      "rho": -0.6,
+      "location": -0.32307692307692304,
+      "scale": 0.4307692307692308,
+      "quantile_cdf_absolute_error": 2.9502528198221967e-09
+    },
+    {
+      "rho": 0.0,
+      "location": 0.0,
+      "scale": 0.5384615384615384,
+      "quantile_cdf_absolute_error": 3.086420008457935e-14
+    },
+    {
+      "rho": 0.6,
+      "location": 0.32307692307692304,
+      "scale": 0.4307692307692308,
+      "quantile_cdf_absolute_error": 2.317339365537352e-09
+    }
+  ],
+  "correlation_witness": {
+    "force": 1.4,
+    "acceleration": 1.3,
+    "covariance": [
+      [
+        0.48999999999999994,
+        0.546
+      ],
+      [
+        0.546,
+        1.6900000000000002
+      ]
+    ],
+    "joint_point": 0.9125850968251009,
+    "cartesian_point": 0.9125850968251213,
+    "independent_katz_quotient": 0.8594842738701745,
+    "note": "The independent quotient discards the supplied correlation."
+  },
+  "known_covariance_fieller": [
+    {
+      "case": "zero_zero",
+      "force": 0.0,
+      "acceleration": 0.0,
+      "covariance": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "quadratic": [
+        -3.8414588206941254,
+        -0.0,
+        -3.8414588206941254
+      ],
+      "positive_fieller_set": {
+        "type": "all_positive"
+      },
+      "point_ratio": null
+    },
+    {
+      "case": "force_zero",
+      "force": 0.0,
+      "acceleration": 4.0,
+      "covariance": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "quadratic": [
+        12.158541179305875,
+        -0.0,
+        -3.8414588206941254
+      ],
+      "positive_fieller_set": {
+        "type": "upper_bounded",
+        "upper": 0.5620919376023213
+      },
+      "point_ratio": 0.0
+    },
+    {
+      "case": "acceleration_zero",
+      "force": 4.0,
+      "acceleration": 0.0,
+      "covariance": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "quadratic": [
+        -3.8414588206941254,
+        -0.0,
+        12.158541179305875
+      ],
+      "positive_fieller_set": {
+        "type": "lower_bounded",
+        "lower": 1.779068392735954
+      },
+      "point_ratio": null
+    },
+    {
+      "case": "aligned",
+      "force": 4.0,
+      "acceleration": 4.0,
+      "covariance": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "quadratic": [
+        12.158541179305875,
+        -32.0,
+        12.158541179305875
+      ],
+      "positive_fieller_set": {
+        "type": "bounded",
+        "bounds": [
+          0.4605425191858666,
+          2.171352173449197
+        ]
+      },
+      "point_ratio": 1.0
+    },
+    {
+      "case": "opposite_sign",
+      "force": -4.0,
+      "acceleration": 4.0,
+      "covariance": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "quadratic": [
+        12.158541179305875,
+        32.0,
+        12.158541179305875
+      ],
+      "positive_fieller_set": {
+        "type": "empty"
+      },
+      "point_ratio": -1.0
+    }
+  ],
+  "anti_aligned_tls": [
+    {
+      "mass": 0.001,
+      "profile": 1.0019999980000018
+    },
+    {
+      "mass": 0.01,
+      "profile": 1.01999800019998
+    },
+    {
+      "mass": 0.1,
+      "profile": 1.1980198019801982
+    },
+    {
+      "mass": 1.0,
+      "profile": 2.0
+    },
+    {
+      "mass": 10.0,
+      "profile": 1.198019801980198
+    },
+    {
+      "mass": 100.0,
+      "profile": 1.01999800019998
+    },
+    {
+      "mass": 1000.0,
+      "profile": 1.001999998000002
+    }
+  ],
+  "summary": {
+    "correlated_scalar_cases": 21,
+    "known_direction_independent_cases": 7,
+    "max_cartesian_point_relative_error": 2.1893598045608087e-13,
+    "max_quantile_cdf_absolute_error": 2.5402288494902336e-08,
+    "max_oracle_quadrature_cdf_change": 1.5309975509580909e-12,
+    "max_liseo_independent_density_relative_error": 4.884981308350689e-15,
+    "max_katz_quotient_relative_error": 3.907985046680551e-14,
+    "max_correlated_null_cauchy_cdf_error": 2.9502528198221967e-09,
+    "all_assertions": "passed"
+  },
+  "source_sha256": {
+    "coverage_second_pass.py": "3c0dc0d203d530bd73c7e27918b461fbd6b32f4b065352a5b4bcccf33ccf1ee7",
+    "estimator.py": "950786e8b6a71216c454c9450707489880aa87042056bb3a2a48cd5735863c46",
+    "literature_equivalence_check.py": "1ed7ac9cae2cd0a4014a60ec56631db8ac0e763e577acb754144148b5c661471"
+  }
+}

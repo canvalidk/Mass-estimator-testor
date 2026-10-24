@@ -1,0 +1,370 @@
+{
+  "schema_version": 1,
+  "name": "Mass estimator: off-grid and shifted-mass cells for prior-factor validation",
+  "phase": "main_assessment",
+  "ademp": {
+    "aims": [
+      "Test a sech-tilt prior parameter fitted on the operating-range archive at effective SNRs between and beyond the fitting grid.",
+      "Test whether the best centre of a two-parameter tilt exp(lam*(sech(log(M/m0))-1)) follows the distribution of true masses, using grids whose masses lie systematically above or below the noise-ratio scale sigma_F/sigma_a."
+    ],
+    "data_generating_mechanisms": [
+      "Newton II is assumed correct. One compatible latent 3D pair per replicate; common direction is used only by the simulator and remains unknown to inference.",
+      "Known independent isotropic Gaussian coordinate SD 1 in both channels, one effective reading per channel, R=10000 replicates per cell with fresh seeds. The same replicate-index noise is shared across cells; cells cannot be pooled as independent evidence.",
+      "Off-grid: effective SNRs cross [0.5,1.5,2.5,5,10,20] (36 cells); 0.5 lies below the fitting range.",
+      "Shifted: heavy cells (F,A)=(A*r,A) and light cells (A,A*r) for A in [0.5,1,1.5,2,3] and r in [2,4,8] (30 cells), so true mass is 2, 4 or 8 times the noise ratio, or its reciprocal."
+    ],
+    "estimands": [
+      "Per cell and K in {1.25,1.5,2}: success probability of each archived rule and of each prior-weighted law; regret against the best archived rule."
+    ],
+    "methods": [
+      "Existing isotropic comparison engine unchanged, saving all trials.",
+      "prior_weight_study.py scores declared parameter grids afterwards. For the shifted cells a grid is fitted on replicates [0,5000) and evaluated on [5000,10000); the halves share no replicate."
+    ],
+    "performance_measures": [
+      "Largest cell regret per tolerance and its mean over tolerances; success changes against the unweighted law. Monte Carlo precision per cell success is at most 0.005 at R=10000 and 0.007 for each half."
+    ]
+  },
+  "provenance": {
+    "managed_repository": "https://github.com/canvalidk/VD-docs",
+    "managed_commit": "8782a293297330f7a354d87ebe62792018fa8866",
+    "managed_paths": [
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_law_assumed_correct_steering_2026-09-07.md",
+      "Newton-analysis/_dscn_mass_estimator/what_forces_the_ratio_of_means_readout.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_additional_derivations_2026-09-05.md"
+    ],
+    "methodology": [
+      {
+        "title": "Morris, White and Crowther: Using simulation studies to evaluate statistical methods",
+        "url": "https://doi.org/10.1002/sim.8086"
+      },
+      {
+        "title": "Gneiting: Making and Evaluating Point Forecasts",
+        "url": "https://arxiv.org/abs/0912.0902"
+      }
+    ]
+  },
+  "interpretation": [
+    "The shifted grids deliberately break the symmetry of the operating-range grid about the noise-ratio mass; results on them are not averages over any realistic population of experiments.",
+    "Every result is conditional on the declared Gaussian isotropic known-noise model."
+  ],
+  "fixed_replicates_per_cell": 10000,
+  "primary_metrics": [
+    {
+      "scope": "point",
+      "name": "outside_factor_2",
+      "target_mcse": 0.005
+    },
+    {
+      "scope": "point",
+      "name": "capped_squared_log_factor_2",
+      "target_mcse": 0.005
+    },
+    {
+      "scope": "uncertainty",
+      "name": "coverage_95",
+      "target_mcse": 0.005
+    }
+  ],
+  "experiments": [
+    {
+      "id": "offgrid_snr_grid",
+      "config": {
+        "name": "Known-noise off-grid effective SNR cells",
+        "samples": 10000,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092343,
+        "heldout_seed": 2026092344,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "pairs",
+          "pairs": [
+            [
+              0.5,
+              0.5
+            ],
+            [
+              0.5,
+              1.5
+            ],
+            [
+              0.5,
+              2.5
+            ],
+            [
+              0.5,
+              5
+            ],
+            [
+              0.5,
+              10
+            ],
+            [
+              0.5,
+              20
+            ],
+            [
+              1.5,
+              0.5
+            ],
+            [
+              1.5,
+              1.5
+            ],
+            [
+              1.5,
+              2.5
+            ],
+            [
+              1.5,
+              5
+            ],
+            [
+              1.5,
+              10
+            ],
+            [
+              1.5,
+              20
+            ],
+            [
+              2.5,
+              0.5
+            ],
+            [
+              2.5,
+              1.5
+            ],
+            [
+              2.5,
+              2.5
+            ],
+            [
+              2.5,
+              5
+            ],
+            [
+              2.5,
+              10
+            ],
+            [
+              2.5,
+              20
+            ],
+            [
+              5,
+              0.5
+            ],
+            [
+              5,
+              1.5
+            ],
+            [
+              5,
+              2.5
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              5,
+              20
+            ],
+            [
+              10,
+              0.5
+            ],
+            [
+              10,
+              1.5
+            ],
+            [
+              10,
+              2.5
+            ],
+            [
+              10,
+              5
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              10,
+              20
+            ],
+            [
+              20,
+              0.5
+            ],
+            [
+              20,
+              1.5
+            ],
+            [
+              20,
+              2.5
+            ],
+            [
+              20,
+              5
+            ],
+            [
+              20,
+              10
+            ],
+            [
+              20,
+              20
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "shifted_mass_grids",
+      "config": {
+        "name": "Known-noise heavy and light mass cells",
+        "samples": 10000,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092345,
+        "heldout_seed": 2026092346,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "pairs",
+          "pairs": [
+            [
+              1.0,
+              0.5
+            ],
+            [
+              2.0,
+              0.5
+            ],
+            [
+              4.0,
+              0.5
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              3.0,
+              1.5
+            ],
+            [
+              6.0,
+              1.5
+            ],
+            [
+              12.0,
+              1.5
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              16,
+              2
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              12,
+              3
+            ],
+            [
+              24,
+              3
+            ],
+            [
+              0.5,
+              1.0
+            ],
+            [
+              0.5,
+              2.0
+            ],
+            [
+              0.5,
+              4.0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              1.5,
+              3.0
+            ],
+            [
+              1.5,
+              6.0
+            ],
+            [
+              1.5,
+              12.0
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              16
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              3,
+              24
+            ]
+          ]
+        }
+      }
+    }
+  ]
+}

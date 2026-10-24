@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "name": "Mass and excitation: fixed-size main assessment",
+  "phase": "main_assessment",
+  "ademp": {
+    "aims": [
+      "Measure cell-specific accuracy, systematic log error, invalid outputs and repeated-experiment interval coverage for the mass estimator and existing comparators.",
+      "Determine how true mass, excitation and stable repeated readings jointly affect performance; distinguish no information from statistical and numerical error.",
+      "Use fresh random numbers and a fixed 10000 replicates per cell to improve Monte Carlo precision after the exploratory pilot. No estimator or loss is tuned from the main results."
+    ],
+    "data_generating_mechanisms": [
+      "Newton II is assumed correct: the fixed positive physical mass satisfies true force = mass times true acceleration, with a common unknown direction [1,0,0]. The simulator uses that direction; inference does not receive it.",
+      "Cross masses 0.25, 1 and 4 with per-reading acceleration SNR 0, 0.5, 2 and 8. Each force and acceleration coordinate has independent Gaussian noise with known SD1. The force SNR equals mass times acceleration SNR in these units.",
+      "Separate experiments use n=1 and n=4 independent readings of the same latent pair. Their means have SD1/sqrt(n). R=10000 independently simulated experiments per condition is distinct from n readings in an experiment.",
+      "Training noise is shared across conditions within an experiment to support matched comparisons. Independent seeds are used across n experiments and for held-out observations. Neither noise realization nor data from the pilot is reused."
+    ],
+    "estimands": [
+      "Fixed positive physical mass for each condition, rather than a distribution averaging mass values or conditions.",
+      "Repeated-experiment expected bounded squared log loss and probability of a factor-two error, including invalid positive-mass estimates.",
+      "Repeated-experiment coverage, lower and upper noncoverage, and mean log-width of each flat and tube law central interval. 95% coverage is primary; 50% and other saved levels diagnose calibration.",
+      "Null-excitation diagnostic: re-evaluate the same saved null estimates and interval endpoints at stipulated masses [1/64, 1/16, 1/4, 1, 4, 16, 64]. The null observation law is exactly independent of mass, so these are valid additional fixed-truth assessments without fitting again."
+    ],
+    "methods": [
+      "Retain all methods supplied by the existing comparison engine and their assumptions. Focus interpretation on flat_joint, flat_geometric, flat_median, norm_ratio, norm_floor and the positive Gaussian profile/TLS comparator. The n=4 engine includes covariance-aware controls, so inventories may differ.",
+      "Keep the flat-joint point E[f]/E[alpha] unchanged. Compare it with other point summaries of the same law separately from comparing flat and tube probability laws.",
+      "Apply the existing quadrature refinement checks. They check selected trials and detect tested discrepancies; passing them is not a numerical error bound for every replicate.",
+      "No law-rejection gate, output clipping, failed-trial deletion or selection of favorable conditions is introduced."
+    ],
+    "performance_measures": [
+      "Primary point loss: min(log(m_hat/m)^2, log(2)^2), assigning the cap to invalid estimates. Primary failure: m_hat outside [m/2, 2m] including invalid estimates. Factor two is an explicit exploratory multiplicative tolerance, not a domain-specific requirement or a guarantee of practical usefulness.",
+      "Primary uncertainty metric: fixed-truth coverage of the 95% central interval. Report interval log-width and both miss directions alongside coverage; broad intervals and the no-information boundary must not be treated as successful identification.",
+      "Use paired flat-minus-comparator differences and directly computed paired MCSEs within each cell. Interpret n=1 versus n=4 differences as independent Monte Carlo comparisons because the experiments use distinct seeds.",
+      "R10000 gives worst-case population MCSE at most 0.005 for individual probabilities, 0.01 for paired probability differences, log(2)^2/200 for individual capped loss and log(2)^2/100 for paired capped loss. Empirical ddof1 MCSE may differ slightly. These are pointwise precision bounds, not simultaneous confidence intervals.",
+      "Report signed log error, log-error variance, tolerance curves and invalid counts as diagnostics. Retain established population moment warnings for unbounded losses; their finite simulation averages do not establish finite risk.",
+      "Relative prediction scores are inapplicable at zero true force. Bounded mass losses and fixed-truth interval coverage remain applicable there."
+    ]
+  },
+  "provenance": {
+    "managed_repository": "https://github.com/canvalidk/VD-docs",
+    "managed_commit": "8782a293297330f7a354d87ebe62792018fa8866",
+    "managed_paths": [
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_law_assumed_correct_steering_2026-09-07.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_additional_derivations_2026-09-05.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimation_zero_zero_two_cases.md"
+    ],
+    "methodology": [
+      {
+        "title": "Morris, White and Crowther: Using simulation studies to evaluate statistical methods (ADEMP and Monte Carlo uncertainty)",
+        "url": "https://doi.org/10.1002/sim.8086"
+      },
+      {
+        "title": "Chipman and Bingham: Planning and interpreting simulation studies with design and analysis of experiments (factor interactions)",
+        "url": "https://arxiv.org/abs/2111.13737"
+      },
+      {
+        "title": "Pawel et al.: Handling Missingness, Failures, and Non-Convergence in Simulation Studies (failure-aware evaluation)",
+        "url": "https://arxiv.org/abs/2409.18527"
+      }
+    ]
+  },
+  "interpretation": [
+    "This is a fixed-size descriptive assessment chosen after a pilot, not a confirmatory global-winner claim. No stopping, extension or tuning in response to observed main-study scores.",
+    "Pilot used for design: .tools/mass_estimator_studies/assessment-pilot-20260920, study_checkpoint.json SHA256=b2dd6bc86acb1a6c4d149bff392802d9ee06c980c476a59f9e56056fb706151c",
+    "All numerical output remains condition-specific. Conditions and null-truth diagnostic points share random draws, so they cannot be pooled as independent observations.",
+    "At zero excitation the measurements contain no information about mass. High coverage around one noise-defined mass scale cannot demonstrate calibration for every positive mass.",
+    "Nominal conditional probability is not a guarantee of fixed-truth frequentist coverage. Compare both 50% and 95% interval coverage with width and tail asymmetry.",
+    "The core grid covers known independent Gaussian noise and stable readings only. Calibration sensitivity is assessed in a separate exploratory protocol; correlation, changing excitation and non-Gaussian noise remain outside this study.",
+    "Preserve all attempted trials under the declared failure policy and retain failed numerical experiments explicitly. Resume only completed experiments after integrity checks; incomplete experiments restart in a new attempt."
+  ],
+  "fixed_replicates_per_cell": 10000,
+  "primary_metrics": [
+    {
+      "scope": "point",
+      "name": "capped_squared_log_factor_2",
+      "target_mcse": 0.005
+    },
+    {
+      "scope": "point",
+      "name": "outside_factor_2",
+      "target_mcse": 0.01
+    },
+    {
+      "scope": "uncertainty",
+      "name": "coverage_95",
+      "target_mcse": 0.005
+    }
+  ],
+  "experiments": [
+    {
+      "id": "stable_n1",
+      "config": {
+        "name": "Main mass-excitation assessment: 1 stable reading(s)",
+        "samples": 10000,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092101,
+        "heldout_seed": 2026092102,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "mass_excitation",
+          "masses": [
+            0.25,
+            1,
+            4
+          ],
+          "acceleration_snrs": [
+            0,
+            0.5,
+            2,
+            8
+          ]
+        },
+        "measurement": {
+          "repeats": 1,
+          "calibration": {
+            "mode": "known"
+          }
+        }
+      }
+    },
+    {
+      "id": "stable_n4",
+      "config": {
+        "name": "Main mass-excitation assessment: 4 stable reading(s)",
+        "samples": 10000,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092103,
+        "heldout_seed": 2026092104,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "mass_excitation",
+          "masses": [
+            0.25,
+            1,
+            4
+          ],
+          "acceleration_snrs": [
+            0,
+            0.5,
+            2,
+            8
+          ]
+        },
+        "measurement": {
+          "repeats": 4,
+          "calibration": {
+            "mode": "known"
+          }
+        }
+      }
+    }
+  ]
+}

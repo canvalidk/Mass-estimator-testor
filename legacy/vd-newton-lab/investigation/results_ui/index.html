@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mass estimator · Results laboratory</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="brand"><span class="brand-mark" aria-hidden="true">m</span><span>Mass estimator <small>RESULTS LABORATORY</small></span></a>
+    <div class="header-actions"><span class="local-badge"><i></i> Local workspace</span><button class="button primary" id="new-run">+ New experiment</button></div>
+  </header>
+  <div class="workspace">
+    <aside class="sidebar" aria-label="Saved experiments">
+      <div class="sidebar-heading"><h2>Experiments</h2><button class="icon-button" id="refresh-runs" aria-label="Refresh experiment list" title="Refresh experiment list">↻</button></div>
+      <p class="sidebar-intro">One place to compare scores, inspect regimes, and reproduce a run.</p>
+      <label class="library-search">Find an experiment<input id="run-search" type="search" placeholder="Name or study type…" autocomplete="off"></label>
+      <p id="run-count" class="library-count" aria-live="polite"></p>
+      <div id="run-list" class="run-list"><p class="muted">Loading experiments…</p></div>
+      <div class="sidebar-foot"><strong>A shared comparison</strong><p>Within each scenario, all estimators receive the same trials. Paired differences preserve that comparison.</p></div>
+    </aside>
+    <main id="main-content">
+      <div id="global-error" class="notice error" role="alert" hidden></div>
+      <div id="job-banner" class="job-banner" aria-live="polite" hidden></div>
+      <section id="empty-state" class="empty-state" hidden><span class="eyebrow">Start here</span><h1>Your experiment library</h1><p>Create a run to compare estimators across a chosen range of signals.</p><button class="button primary" id="empty-new-run">Create an experiment</button></section>
+      <div id="results-content" hidden>
+        <section class="page-heading">
+          <div><div class="eyebrow" id="run-kind">Saved experiment</div><h1 id="run-title">Mass estimator comparison</h1><p id="run-subtitle" class="subtitle"></p></div>
+          <div class="export-actions"><button class="button quiet" id="export-csv">Export view · CSV</button><button class="button quiet" id="download-raw">Raw results ↓</button></div>
+        </section>
+        <div class="run-facts" id="run-facts"></div>
+        <section class="controls panel" aria-label="Comparison controls">
+          <label>Score<select id="metric-select"></select></label>
+          <label>Compare our equation with<select id="method-select"></select></label>
+          <label>Signal path<select id="path-select"></select></label>
+          <label>Horizontal axis<select id="axis-select"><option value="a">Acceleration signal / noise</option><option value="strength">Total signal / noise</option><option value="f">Force signal / noise</option><option value="mass">True mass ratio</option></select></label>
+          <p id="metric-description" class="control-description"></p>
+        </section>
+        <div id="score-warning" class="notice" hidden></div>
+        <section class="charts-grid" aria-label="Comparison charts">
+          <article class="panel chart-panel"><div class="panel-heading"><div><h2 id="risk-heading">Average score</h2><p id="risk-subheading">Lower values indicate smaller loss.</p></div><div id="risk-legend" class="legend"></div></div><div id="risk-chart" class="chart-host"></div></article>
+          <article class="panel chart-panel"><div class="panel-heading"><div><h2>Paired difference</h2><p>Our equation − comparator · below zero favors ours for loss scores</p></div></div><div id="paired-chart" class="chart-host"></div></article>
+        </section>
+        <p class="chart-footnote">Select a point to inspect its scenario. Whiskers show ±1.96 empirical Monte Carlo standard errors where available; they describe simulation precision, not confidence intervals for mass. Separate signal paths are never joined.</p>
+        <section class="panel scenario-panel">
+          <div class="panel-heading"><div><span class="eyebrow">Inspect a scenario</span><h2 id="scenario-title">Estimator scores</h2><p id="scenario-detail"></p></div><label class="scenario-picker">Scenario<select id="scenario-select"></select></label></div>
+          <div class="table-scroll"><table><thead><tr><th scope="col">Estimator</th><th scope="col" id="table-score-label">Average score</th><th scope="col">Empirical MCSE</th><th scope="col">Our − estimator</th><th scope="col">Validity / interpretation</th></tr></thead><tbody id="scenario-table"></tbody></table></div>
+          <div id="scenario-notes" class="scenario-notes"></div>
+        </section>
+        <section class="lower-grid">
+          <details class="panel details-panel" id="method-details"><summary>Equations & assumptions <span>Understand the estimators</span></summary><div class="details-body" id="method-cards"></div></details>
+          <details class="panel details-panel"><summary>Run provenance <span>Data, settings & reproducibility</span></summary><div class="details-body" id="provenance"></div></details>
+        </section>
+
+      </div>
+    </main>
+  </div>
+  <dialog id="experiment-dialog" aria-labelledby="experiment-title">
+    <form id="experiment-form">
+      <div class="dialog-heading"><div><span class="eyebrow">Reproducible experiments</span><h2 id="experiment-title">Set up a run</h2></div><button type="button" class="icon-button" id="close-dialog" aria-label="Close setup">×</button></div>
+      <p class="dialog-intro">Choose the signal conditions once. The same trials are scored by every supported estimator.</p>
+      <div id="form-error" class="notice error" role="alert" hidden></div>
+      <div class="form-grid">
+        <label class="full">Experiment name<input id="config-name" type="text" maxlength="100" value="Force 8 · signal sweep" required></label>
+        <label>Trials per scenario<input id="config-samples" type="number" min="2" max="1048576" step="1" value="4096" required><small>Larger runs reduce simulation noise.</small></label>
+        <label>Signal design<select id="config-type"><option value="force_path">Fixed force, varying acceleration</option><option value="preset">Existing benchmark</option><option value="fixed_mass">Fixed masses, varying total signal</option><option value="mass_excitation">Fixed masses, varying acceleration including zero</option><option value="pairs">Explicit force / acceleration pairs</option></select></label>
+        <div class="full conditional form-grid" data-type="force_path"><label>Force signal / noise<input id="config-force" type="number" min="0.000001" step="any" value="8"></label><label>Acceleration signal / noise<input id="config-accelerations" type="text" value="0.1, 0.25, 0.5, 1, 1.5, 2, 2.25, 3, 5, 8"><small>Comma-separated positive values.</small></label></div>
+        <div class="full conditional" data-type="preset" hidden><label>Benchmark scenarios<select id="config-preset"><option value="all">All benchmark scenarios · 46</option><option value="original">Original signal comparisons · 16</option><option value="fixed_mass">Fixed-mass signal comparisons · 30</option></select></label></div>
+        <div class="full conditional form-grid" data-type="fixed_mass" hidden><label>True physical masses<input id="config-masses" type="text" value="0.25, 1, 4, 16, 32"></label><label>Total signal / noise<input id="config-signals" type="text" value="0.5, 1, 2, 4, 8, 16"></label></div>
+        <div class="full conditional form-grid" data-type="mass_excitation" hidden><label>True physical masses<input id="config-excitation-masses" type="text" value="0.25, 1, 4"><small>Comma-separated positive masses.</small></label><label>Acceleration signal / noise<input id="config-excitation-accelerations" type="text" value="0, 0.25, 0.5, 1, 2, 4"><small>Comma-separated values, including zero. Every mass is tested at every value.</small></label><p class="noise-hint full">Force equals the declared mass times acceleration. At zero excitation both true vectors are zero; the declared mass is retained for assessment. Measured vectors still include noise.</p></div>
+        <div class="full conditional" data-type="pairs" hidden><label>Force, acceleration pairs<textarea id="config-pairs" rows="4">8, 0.25
+8, 1
+8, 2
+8, 4</textarea><small>One pair per line, both in signal / noise units.</small></label></div>
+        <label class="full">Noise model<select id="config-noise"><option value="isotropic_unit_3d">Independent unit Gaussian noise · equal across coordinates</option><option value="diagonal_gaussian_3d">Independent Gaussian noise · different standard deviations per coordinate</option></select><small id="noise-explanation">Unit standard deviation in every coordinate of both channels.</small></label>
+        <section id="diagonal-noise-settings" class="full noise-settings" aria-label="Coordinate noise and true signal direction" hidden>
+          <div class="noise-presets"><span>Start with a profile</span><button type="button" class="button quiet" data-noise-profile="equal">Equal noise</button><button type="button" class="button quiet" data-noise-profile="transverse">Noisy transverse</button><button type="button" class="button quiet" data-noise-profile="parallel">Noisy parallel</button><button type="button" class="button quiet" data-noise-profile="crossed">Crossed channels</button></div>
+          <div class="coordinate-grid">
+            <span></span><span>x</span><span>y</span><span>z</span>
+            <span class="coordinate-label">Force noise SD</span><input id="noise-force-x" aria-label="Force noise standard deviation x" type="number" min="0" step="any" value="1" required><input id="noise-force-y" aria-label="Force noise standard deviation y" type="number" min="0" step="any" value="1" required><input id="noise-force-z" aria-label="Force noise standard deviation z" type="number" min="0" step="any" value="1" required>
+            <span class="coordinate-label">Acceleration noise SD</span><input id="noise-acceleration-x" aria-label="Acceleration noise standard deviation x" type="number" min="0" step="any" value="1" required><input id="noise-acceleration-y" aria-label="Acceleration noise standard deviation y" type="number" min="0" step="any" value="1" required><input id="noise-acceleration-z" aria-label="Acceleration noise standard deviation z" type="number" min="0" step="any" value="1" required>
+            <span class="coordinate-label">True signal direction</span><input id="direction-x" aria-label="True signal direction x" type="number" step="any" value="1" required><input id="direction-y" aria-label="True signal direction y" type="number" step="any" value="0" required><input id="direction-z" aria-label="True signal direction z" type="number" step="any" value="0" required>
+          </div>
+          <p class="noise-hint">Direction is normalized to unit length and controls the simulated truth only; estimators must infer it. Orientation matters when the noise differs by coordinate.</p>
+          <p class="noise-hint">Profiles set each channel’s RMS noise SD to 1 and the true direction to x. Manual SDs keep their absolute values. Signal / noise means magnitude divided by the channel’s RMS component SD; fixed masses remain physical masses.</p>
+          <p id="noise-summary" class="noise-summary"></p>
+        </section>
+        <section class="full measurement-settings" aria-label="Repeated readings and noise calibration">
+          <h3>Repeated readings & noise calibration</h3>
+          <div class="form-grid">
+            <label>Readings per trial<input id="config-repeats" type="number" min="1" max="1000" step="1" value="1" required><small>Independent readings of the same force and acceleration, combined before estimating mass.</small></label>
+            <label>Noise information given to estimators<select id="config-calibration"><option value="known">Exact noise standard deviations</option><option value="scaled">Deliberately miscalibrated</option><option value="estimated">Estimated separately per coordinate</option><option value="pooled_isotropic">Pooled calibration: compare uncertainty integration</option></select><small>The actual measurement noise stays as set above.</small></label>
+            <div id="scaled-calibration-settings" class="full noise-settings" hidden>
+              <div class="coordinate-grid">
+                <span>Supplied SD / true SD</span><span>x</span><span>y</span><span>z</span>
+                <span class="coordinate-label">Force factor</span><input id="calibration-force-x" aria-label="Force calibration factor x" type="number" min="0" step="any" value="1" required><input id="calibration-force-y" aria-label="Force calibration factor y" type="number" min="0" step="any" value="1" required><input id="calibration-force-z" aria-label="Force calibration factor z" type="number" min="0" step="any" value="1" required>
+                <span class="coordinate-label">Acceleration factor</span><input id="calibration-acceleration-x" aria-label="Acceleration calibration factor x" type="number" min="0" step="any" value="1" required><input id="calibration-acceleration-y" aria-label="Acceleration calibration factor y" type="number" min="0" step="any" value="1" required><input id="calibration-acceleration-z" aria-label="Acceleration calibration factor z" type="number" min="0" step="any" value="1" required>
+              </div>
+              <p class="noise-hint">A factor of 0.75 understates the noise SD by 25%; 1.25 overstates it by 25%. All methods that use noise information receive the same supplied values.</p>
+            </div>
+            <div id="estimated-calibration-settings" class="full form-grid" hidden>
+              <label>Calibration vectors per channel<input id="config-calibration-samples" type="number" min="4" max="100000" step="1" value="20" required></label>
+              <label>Calibration seed<input id="config-calibration-seed" type="number" min="0" max="4294967295" step="1" value="2026091903" required><small>Must differ from the training and held-out seeds.</small></label>
+              <label id="calibration-order-setting" hidden>Calibration quadrature order<input id="config-calibration-order" type="number" min="8" max="96" step="1" value="24" required></label>
+              <p id="calibration-model-hint" class="noise-hint full">Each trial receives an independent noise calibration. Its estimated standard deviations are treated as fixed during mass estimation; uncertainty in calibration is not included in the reported mass intervals.</p>
+            </div>
+          </div>
+          <p id="measurement-summary" class="noise-summary"></p>
+          <p class="noise-hint">Signal / noise settings describe a single reading. Repeats preserve the same true force and acceleration; their mean has noise SD divided by √(readings). This tests repeated readings at one fixed excitation.</p>
+        </section>
+      </div>
+      <details class="advanced"><summary>Advanced settings & reproducibility</summary><div class="form-grid">
+        <label>Training seed<input id="config-training" type="number" min="0" max="4294967295" step="1" value="2026091601" required></label>
+        <label>Held-out seed<input id="config-heldout" type="number" min="0" max="4294967295" step="1" value="2026091702" required></label>
+        <label>Quadrature order<input id="config-order" type="number" min="48" max="384" step="1" value="96" required></label>
+        <label>Batch size<input id="config-batch" type="number" min="1" max="4096" step="1" value="256" required></label>
+        <label class="checkbox-label full"><input id="config-save" type="checkbox"> Save individual trial outputs <small>Uses additional disk space.</small></label>
+      </div></details>
+      <div class="config-actions"><button type="button" class="text-button" id="load-config">Load configuration</button><button type="button" class="text-button" id="save-config">Save configuration ↓</button><button type="button" class="text-button" id="reuse-config" hidden>Use selected run’s settings</button><input type="file" id="config-file" accept="application/json,.json" hidden></div>
+      <div class="dialog-footer"><p id="setup-size">10 scenarios · 40,960 training trials</p><button type="submit" class="button primary" id="start-run">Run experiment →</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

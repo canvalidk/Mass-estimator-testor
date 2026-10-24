@@ -1,0 +1,345 @@
+{
+  "schema_version": 1,
+  "name": "Mass estimator: fresh validation grid for prior factors, dominance and switch rules",
+  "phase": "main_assessment",
+  "ademp": {
+    "aims": [
+      "Provide fresh observations on the operating-range grid to validate conclusions first drawn from the 21 September operating-range archive: where the ratio of means beats every archived point rule, how two-branch switch rules compare with it, and whether a sech-tilt prior parameter fitted on that archive keeps its worst-case regret reduction.",
+      "No estimator, parameter or score is tuned on these observations. The fitted parameter is frozen before this study is analyzed."
+    ],
+    "data_generating_mechanisms": [
+      "Newton II is assumed correct. One compatible latent 3D pair per replicate; common direction is used only by the simulator and remains unknown to inference.",
+      "Known independent isotropic Gaussian coordinate SD 1 in both channels, one effective reading per channel, R=10000 replicates per cell with fresh seeds. The same replicate-index noise is shared across cells; cells cannot be pooled as independent evidence.",
+      "Effective force and acceleration SNRs cross [1,2,3,4,6,8,12,16] (64 cells), identical to the operating-range protocol; only the seeds differ."
+    ],
+    "estimands": [
+      "Per cell and tolerance factor K in {1.25,1.5,2}: probability that a positive estimate lies in [m/K,K*m], all attempted trials included.",
+      "Per cell: paired failure differences between point rules on identical replicates, and regret against the best archived rule."
+    ],
+    "methods": [
+      "Existing isotropic comparison engine unchanged; all eleven archived point rules and posterior summaries are saved.",
+      "Prior-weighted laws, switch rules and dominance classifications are computed afterwards from the saved observations and points by prior_weight_study.py, switch_rules.py and paired_dominance.py; nothing is refitted or discarded."
+    ],
+    "performance_measures": [
+      "Paired MCSE is the sample SD of the paired difference over sqrt(R). Classifications use a two-sided Bonferroni normal bound over the declared family, stated in each analysis output.",
+      "Report only sampled cells; do not infer an observed-data rule from a truth-indexed map."
+    ]
+  },
+  "provenance": {
+    "managed_repository": "https://github.com/canvalidk/VD-docs",
+    "managed_commit": "8782a293297330f7a354d87ebe62792018fa8866",
+    "managed_paths": [
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_law_assumed_correct_steering_2026-09-07.md",
+      "Newton-analysis/_dscn_mass_estimator/what_forces_the_ratio_of_means_readout.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_additional_derivations_2026-09-05.md"
+    ],
+    "methodology": [
+      {
+        "title": "Morris, White and Crowther: Using simulation studies to evaluate statistical methods",
+        "url": "https://doi.org/10.1002/sim.8086"
+      },
+      {
+        "title": "Gneiting: Making and Evaluating Point Forecasts",
+        "url": "https://arxiv.org/abs/0912.0902"
+      }
+    ]
+  },
+  "interpretation": [
+    "Designed after exploratory analysis of the operating-range archive on 23 September 2026; this study supplies fresh draws for that follow-up, not independent discovery.",
+    "Every result is conditional on the declared Gaussian isotropic known-noise model and one effective reading per channel."
+  ],
+  "fixed_replicates_per_cell": 10000,
+  "primary_metrics": [
+    {
+      "scope": "point",
+      "name": "outside_factor_2",
+      "target_mcse": 0.005
+    },
+    {
+      "scope": "point",
+      "name": "capped_squared_log_factor_2",
+      "target_mcse": 0.005
+    },
+    {
+      "scope": "uncertainty",
+      "name": "coverage_95",
+      "target_mcse": 0.005
+    }
+  ],
+  "experiments": [
+    {
+      "id": "validation_snr_grid",
+      "config": {
+        "name": "Known-noise effective SNR grid, fresh validation seeds",
+        "samples": 10000,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092341,
+        "heldout_seed": 2026092342,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "pairs",
+          "pairs": [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              1,
+              16
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              16
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              3,
+              16
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              4,
+              12
+            ],
+            [
+              4,
+              16
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              16
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              8,
+              4
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              8,
+              12
+            ],
+            [
+              8,
+              16
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              12,
+              2
+            ],
+            [
+              12,
+              3
+            ],
+            [
+              12,
+              4
+            ],
+            [
+              12,
+              6
+            ],
+            [
+              12,
+              8
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              12,
+              16
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              16,
+              2
+            ],
+            [
+              16,
+              3
+            ],
+            [
+              16,
+              4
+            ],
+            [
+              16,
+              6
+            ],
+            [
+              16,
+              8
+            ],
+            [
+              16,
+              12
+            ],
+            [
+              16,
+              16
+            ]
+          ]
+        }
+      }
+    }
+  ]
+}

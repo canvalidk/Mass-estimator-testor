@@ -4,3 +4,5 @@ reference/** -text
 # docs/ holds documents carried from VD-docs with recorded hashes (docs/SHA256SUMS):
 # store them exactly as they are, too.
 docs/** -text
+# legacy/ holds earlier programs with recorded hashes (legacy/*/SHA256SUMS): store them as they are.
+legacy/** -text

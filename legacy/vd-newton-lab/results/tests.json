@@ -1,0 +1,20 @@
+{
+  "tests_run": 67,
+  "passed": true,
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "elapsed_seconds": 38.875,
+  "source_sha256": {
+    "estimator.py": "950786e8b6a71216c454c9450707489880aa87042056bb3a2a48cd5735863c46",
+    "test_estimator.py": "11b73f83dc434ddaddc7bf5164e264283f6f621e789e2be8801a93a475a2e33d",
+    "experiments.py": "8563931e99b58b41527d5502bd1436a35ff5afd88f5a22013bd482a9b5c74983",
+    "uncertainty_walkthrough.py": "69f7e13bacb0ac455939502f356566a6852da3b33f33f5af3f1686516b5c8d38",
+    "test_uncertainty_walkthrough.py": "57903959e1260fd268e9ba8df6679abdeda78b23f47fc47d9e54611fcd9e2ead",
+    "practical_formulas.py": "766bb8cca3458f2d1c97a8d17cdd414575dfc233eb2d598a9e344262ee39c41e",
+    "test_practical_formulas.py": "cbab7fccb25eb402e0c1bebd8ab75e57120557e40797264d11e8a43b28c3d234",
+    "practical_examples.py": "3e11c40de95d2ba6a6c0c7258a3a55f6613c3bc23553d6595412265f65f15cb1"
+  }
+}

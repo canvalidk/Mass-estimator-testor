@@ -1,0 +1,121 @@
+{
+  "force_vector_N": [
+    -9.263757613822884,
+    0.10731543814088151,
+    0.1799368764010154
+  ],
+  "acceleration_force_sign_m_s2": [
+    -9.759301911041314,
+    0.08592417392937485,
+    -0.10063694064016664
+  ],
+  "covariance": [
+    [
+      0.019026967896616186,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0027125233051137287,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.008992980203058483,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.012449988764422144,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0029690993175647737,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.017314640388382235
+    ]
+  ],
+  "component_example": {
+    "label": "1-baseline_first_weak",
+    "force_N": 0.1799368764010154,
+    "acceleration_m_s2": -0.10063694064016664,
+    "sigma_force_N": 0.0948313250095056,
+    "sigma_acceleration_m_s2": 0.13158510701588624,
+    "ordinary_ratio_kg": -1.7879803902663378,
+    "extended_mass_kg": 2.0799570312897946,
+    "law_q025_kg": 0.07177162480710338,
+    "law_q975_kg": 68.50059045370146,
+    "quadrature_order": 2048,
+    "q_at_reference": 3.1171597800807374,
+    "time_s": 0.002113,
+    "imu_csv_data_row": 3
+  },
+  "ordinary_vector_OLS_mass_kg": 0.9489556089350468,
+  "extended_mass_kg": 0.9496078344899047,
+  "law_q025_kg": 0.915107597197053,
+  "law_q975_kg": 0.9850663266838104,
+  "q_at_calibration_mass": 4.170020016098572,
+  "angular_convergence": [
+    {
+      "direction_order": 32,
+      "ratio_order": 1024,
+      "mass_kg": 0.9469155891292337,
+      "quantiles_kg": [
+        0.9123078892447216,
+        0.9824992659180016
+      ],
+      "seconds": 1.4370000001508743
+    },
+    {
+      "direction_order": 64,
+      "ratio_order": 1024,
+      "mass_kg": 0.9496080616118465,
+      "quantiles_kg": [
+        0.9149694126069311,
+        0.9852249612853065
+      ],
+      "seconds": 9.296999999787658
+    },
+    {
+      "direction_order": 128,
+      "ratio_order": 1024,
+      "mass_kg": 0.9496078344899052,
+      "quantiles_kg": [
+        0.9149715263487416,
+        0.9852214720683479
+      ],
+      "seconds": 39.42200000002049
+    }
+  ],
+  "ratio_refinement_relative_change": [
+    -4.440892098500626e-16,
+    0.00014871593748333467,
+    -0.00015747259772136424
+  ],
+  "caveat": "Specific-acceleration/support-force convention; dynamic model and covariance provisional.",
+  "conventional_same_covariance_profile_mass_kg": 0.9496708690633602
+}

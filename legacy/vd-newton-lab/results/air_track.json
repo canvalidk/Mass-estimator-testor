@@ -1,0 +1,314 @@
+{
+  "source": {
+    "citation": "Hessel, Canola and Vollet (2013), An experimental verification of Newton's second law, Revista Brasileira de Ensino de Fisica 35, 2504",
+    "doi": "10.1590/S1806-11172013000200024",
+    "pdf_url": "https://sbfisica.org.br/rbef/pdf/352504.pdf",
+    "article_url": "https://www.scielo.br/j/rbef/a/dMqbfswLR36bCCMW3968tKN/?lang=en",
+    "retrieved": "2026-09-06",
+    "transcription": "Table 1, PDF page 3; reference mass, g, and fitted line in section 4.1, pages 3-4. Web PDF text checked against the article's HTML discussion and Table 2 first-run rounded speeds; table images were not available through the web screenshot service.",
+    "post_spacing_m": 0.12,
+    "clock_frequency_Hz": 1000,
+    "g_m_s2": 9.76,
+    "reference_system_mass_kg": 1.502,
+    "reported_fitted_mass_kg": 1.518,
+    "reported_acceleration_fit_cm_s2": {
+      "intercept": -1.594,
+      "slope_per_g_hanging_load": 0.643
+    },
+    "hanging_load_g": [
+      50,
+      100,
+      150,
+      200,
+      250
+    ],
+    "intervals_ms": [
+      [
+        406,
+        297,
+        245,
+        214,
+        193
+      ],
+      [
+        292,
+        212,
+        175,
+        152,
+        136
+      ],
+      [
+        242,
+        173,
+        142,
+        124,
+        111
+      ],
+      [
+        220,
+        154,
+        126,
+        109,
+        97
+      ],
+      [
+        159,
+        122,
+        103,
+        92,
+        82
+      ]
+    ],
+    "first_run_table_2_speed_cm_s": [
+      29.6,
+      40.4,
+      49.0,
+      56.1,
+      62.2
+    ],
+    "uncertainty_status": "No complete force/acceleration uncertainty budget, covariance, or repeated-run data supplied. Timing resolution is given; the distribution of timing error is not. Added uncertainty models in the analysis are assumptions, not reported error bars."
+  },
+  "analysis_date": "2026-09-06",
+  "model": "1D string-travel generalized force/acceleration; flat positive magnitudes and uniform S^0 direction; independent Gaussian contrast inputs",
+  "assumptions": [
+    "Massless inextensible string, negligible pulley inertia, common string-travel acceleration; constant resistance across the five runs",
+    "Force-error scenarios are a common multiplicative scale error independent of timing, not independent errors on all hanging loads",
+    "Independent uniform crossing-time errors and a shared uniform spacing error are analyst assumptions; Gaussian summary used only at the estimator input",
+    "No complete systematic uncertainty budget, no calibrated coverage claim, and no 3D vector admission claim"
+  ],
+  "contrast_weights": [
+    -0.2,
+    -0.1,
+    0.0,
+    0.1,
+    0.2
+  ],
+  "contrast_force_N": 0.488,
+  "contrast_acceleration_m_s2": 0.3216976730429004,
+  "reconstructed_slope_cm_s2_per_g": 0.6433953460858008,
+  "reconstructed_intercept_cm_s2": -1.5953159737985945,
+  "reconstructed_mass_kg": 1.5169522222031184,
+  "mass_from_published_rounded_slope_kg": 1.5178849144634525,
+  "fitted_resistance_N": 0.024200181115699097,
+  "residual_accelerations_m_s2": [
+    0.0042221708538090486,
+    -0.002129804349759068,
+    0.000531127056908054,
+    -0.011561524479775986,
+    0.008938030918817619
+  ],
+  "timing_mc_draws": 100000,
+  "timing_mc_seed": 20260906,
+  "timing_sigma_contrast_m_s2": 0.002333476260483657,
+  "scatter_sigma_contrast_m_s2": 0.0028059587442903614,
+  "scenarios": [
+    {
+      "acceleration_uncertainty_model": "timing_and_spacing_scenario",
+      "assumed_relative_force_sigma": 0.001,
+      "sigma_force_N": 0.000488,
+      "sigma_acceleration_m_s2": 0.002333476260483657,
+      "ordinary_ratio_kg": 1.5169522222031184,
+      "integral_mass_kg": 1.5169522222031244,
+      "analytic_mass_kg": 1.5169522222031184,
+      "integral_minus_ratio_g": 5.995204332975845e-12,
+      "ratio_distribution_equal_tail_95_percent_kg": [
+        1.4954836231588367,
+        1.5390341985212883
+      ]
+    },
+    {
+      "acceleration_uncertainty_model": "timing_and_spacing_scenario",
+      "assumed_relative_force_sigma": 0.01,
+      "sigma_force_N": 0.00488,
+      "sigma_acceleration_m_s2": 0.002333476260483657,
+      "ordinary_ratio_kg": 1.5169522222031184,
+      "integral_mass_kg": 1.516952222203115,
+      "analytic_mass_kg": 1.5169522222031184,
+      "integral_minus_ratio_g": -3.3306690738754696e-12,
+      "ratio_distribution_equal_tail_95_percent_kg": [
+        1.4805220666197423,
+        1.5539957433729115
+      ]
+    },
+    {
+      "acceleration_uncertainty_model": "timing_and_spacing_scenario",
+      "assumed_relative_force_sigma": 0.05,
+      "sigma_force_N": 0.0244,
+      "sigma_acceleration_m_s2": 0.002333476260483657,
+      "ordinary_ratio_kg": 1.5169522222031184,
+      "integral_mass_kg": 1.5169522222031115,
+      "analytic_mass_kg": 1.5169522222031184,
+      "integral_minus_ratio_g": -6.8833827526759706e-12,
+      "ratio_distribution_equal_tail_95_percent_kg": [
+        1.3670276200099003,
+        1.6674901031020937
+      ]
+    },
+    {
+      "acceleration_uncertainty_model": "force_line_residual_scenario",
+      "assumed_relative_force_sigma": 0.001,
+      "sigma_force_N": 0.000488,
+      "sigma_acceleration_m_s2": 0.0028059587442903614,
+      "ordinary_ratio_kg": 1.5169522222031184,
+      "integral_mass_kg": 1.5169522222031986,
+      "analytic_mass_kg": 1.5169522222031184,
+      "integral_minus_ratio_g": 8.01581023779363e-11,
+      "ratio_distribution_equal_tail_95_percent_kg": [
+        1.4912844308252322,
+        1.5435070031645166
+      ]
+    },
+    {
+      "acceleration_uncertainty_model": "force_line_residual_scenario",
+      "assumed_relative_force_sigma": 0.01,
+      "sigma_force_N": 0.00488,
+      "sigma_acceleration_m_s2": 0.0028059587442903614,
+      "ordinary_ratio_kg": 1.5169522222031184,
+      "integral_mass_kg": 1.516952222203119,
+      "analytic_mass_kg": 1.5169522222031184,
+      "integral_minus_ratio_g": 6.661338147750939e-13,
+      "ratio_distribution_equal_tail_95_percent_kg": [
+        1.4779346648528051,
+        1.5568568506344773
+      ]
+    },
+    {
+      "acceleration_uncertainty_model": "force_line_residual_scenario",
+      "assumed_relative_force_sigma": 0.05,
+      "sigma_force_N": 0.0244,
+      "sigma_acceleration_m_s2": 0.0028059587442903614,
+      "ordinary_ratio_kg": 1.5169522222031184,
+      "integral_mass_kg": 1.5169522222031162,
+      "analytic_mass_kg": 1.5169522222031184,
+      "integral_minus_ratio_g": -2.220446049250313e-12,
+      "ratio_distribution_equal_tail_95_percent_kg": [
+        1.3664684056387095,
+        1.6683227392679263
+      ]
+    }
+  ],
+  "per_run_diagnostics": [
+    {
+      "hanging_load_g": 50.0,
+      "driving_force_N": 0.488,
+      "acceleration_m_s2": 0.3099666841587235,
+      "assumed_sigma_acceleration_m_s2": 0.0008171151945852083,
+      "uncorrected_ratio_mass_g": 1574.3627458688804,
+      "uncorrected_integral_mass_g": 1574.362745868904
+    },
+    {
+      "hanging_load_g": 100.0,
+      "driving_force_N": 0.976,
+      "acceleration_m_s2": 0.6253123819980558,
+      "assumed_sigma_acceleration_m_s2": 0.0022938006983906235,
+      "uncorrected_ratio_mass_g": 1560.8198847452768,
+      "uncorrected_integral_mass_g": 1560.8198847452804
+    },
+    {
+      "hanging_load_g": 150.0,
+      "driving_force_N": 1.464,
+      "acceleration_m_s2": 0.9496709864476234,
+      "assumed_sigma_acceleration_m_s2": 0.0041912338523387455,
+      "uncorrected_ratio_mass_g": 1541.5865293266418,
+      "uncorrected_integral_mass_g": 1541.5865293266365
+    },
+    {
+      "hanging_load_g": 200.0,
+      "driving_force_N": 1.952,
+      "acceleration_m_s2": 1.2592760079538396,
+      "assumed_sigma_acceleration_m_s2": 0.006127838996582513,
+      "uncorrected_ratio_mass_g": 1550.0970300956874,
+      "uncorrected_integral_mass_g": 1550.0970300956812
+    },
+    {
+      "hanging_load_g": 250.0,
+      "driving_force_N": 2.44,
+      "acceleration_m_s2": 1.6014732363953337,
+      "assumed_sigma_acceleration_m_s2": 0.011158787611791801,
+      "uncorrected_ratio_mass_g": 1523.5971133005378,
+      "uncorrected_integral_mass_g": 1523.5971133005376
+    }
+  ],
+  "hypothetical_error_sensitivity_not_measured": [
+    {
+      "hypothetical_relative_acceleration_sigma": 0.05,
+      "mass_kg": 1.5169522222031184,
+      "change_percent": 0.0
+    },
+    {
+      "hypothetical_relative_acceleration_sigma": 0.1,
+      "mass_kg": 1.5169522222031184,
+      "change_percent": 0.0
+    },
+    {
+      "hypothetical_relative_acceleration_sigma": 0.2,
+      "mass_kg": 1.516951771146629,
+      "change_percent": -2.9734389972446706e-05
+    },
+    {
+      "hypothetical_relative_acceleration_sigma": 0.5,
+      "mass_kg": 1.4761744797299436,
+      "change_percent": -2.6881362429432287
+    },
+    {
+      "hypothetical_relative_acceleration_sigma": 1.0,
+      "mass_kg": 1.1781238400437752,
+      "change_percent": -22.336127479826086
+    }
+  ],
+  "numerical_checks": [
+    {
+      "model": "timing_and_spacing_scenario",
+      "force_fraction": 0.001,
+      "relative_analytic_error": 3.9968028886505635e-15,
+      "relative_refinement_change": 8.881784197001252e-15,
+      "final_ratio_order": 131072,
+      "max_quantile_refinement_change_kg": 1.579029377030139e-06
+    },
+    {
+      "model": "timing_and_spacing_scenario",
+      "force_fraction": 0.01,
+      "relative_analytic_error": 2.220446049250313e-15,
+      "relative_refinement_change": 8.881784197001252e-16,
+      "final_ratio_order": 16384,
+      "max_quantile_refinement_change_kg": 4.8616383012678455e-06
+    },
+    {
+      "model": "timing_and_spacing_scenario",
+      "force_fraction": 0.05,
+      "relative_analytic_error": 4.551914400963142e-15,
+      "relative_refinement_change": 2.6645352591003757e-15,
+      "final_ratio_order": 32768,
+      "max_quantile_refinement_change_kg": 4.617018358077374e-06
+    },
+    {
+      "model": "force_line_residual_scenario",
+      "force_fraction": 0.001,
+      "relative_analytic_error": 5.284661597215745e-14,
+      "relative_refinement_change": 1.9984014443252818e-15,
+      "final_ratio_order": 131072,
+      "max_quantile_refinement_change_kg": 1.9626298342068083e-06
+    },
+    {
+      "model": "force_line_residual_scenario",
+      "force_fraction": 0.01,
+      "relative_analytic_error": 4.440892098500626e-16,
+      "relative_refinement_change": 1.3322676295501878e-15,
+      "final_ratio_order": 32768,
+      "max_quantile_refinement_change_kg": 1.1906626868896097e-06
+    },
+    {
+      "model": "force_line_residual_scenario",
+      "force_fraction": 0.05,
+      "relative_analytic_error": 1.4432899320127035e-15,
+      "relative_refinement_change": 2.4424906541753444e-15,
+      "final_ratio_order": 32768,
+      "max_quantile_refinement_change_kg": 2.3381253819731995e-06
+    }
+  ],
+  "sha256": {
+    "air_track_source.json": "9300b3558635e731ea2be2f95d6c3fb36f120629e3a803f39304e6e6b53b9cdb",
+    "air_track_experiment.py": "31e4ac40b3e9be4c304fec429b4d442b0fc5a783349692c63a36b76459f94ca4",
+    "estimator.py": "950786e8b6a71216c454c9450707489880aa87042056bb3a2a48cd5735863c46"
+  }
+}

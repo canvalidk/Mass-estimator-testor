@@ -1,0 +1,285 @@
+{
+  "schema_version": 1,
+  "name": "Mass estimator: calibration sensitivity pilot",
+  "phase": "exploratory_pilot",
+  "ademp": {
+    "aims": [
+      "Assess sensitivity to supplied noise calibration while keeping Newton II correct and the physical observation model fixed.",
+      "Distinguish point-estimator sensitivity, interval coverage and uncertainty about those simulation results. This fixed pilot informs later robustness studies; it is not comprehensive validation."
+    ],
+    "data_generating_mechanisms": [
+      "Use the same 3 positive masses and 4 per-reading acceleration SNRs as the main assessment; true coordinate errors are independent Gaussian SD1 in both channels.",
+      "All experiments have n=4 stable readings of the same latent pair, R=1024 independent replicates per condition and independent training/held-out seeds across calibration regimes. Cross-regime comparisons are independent, not paired.",
+      "Calibration regimes: known SDs; both channels supplied at 0.75 times true SD; both at 1.25 times true SD; force at 1.25 and acceleration at 0.75 times true SD; and estimated coordinate SDs from 30 independent calibration observations with estimated mean.",
+      "Estimated calibration is independently redrawn per replicate and per coordinate, using Gaussian sample variance with 29 degrees of freedom. This represents repeated deployments with fresh calibration, not repeated measurements conditional on one shared calibration.",
+      "Estimation uses these supplied SDs as plug-in inputs. Calibration uncertainty is not integrated into the conditional mass law. Unsupported realized calibration or numerical refinement failure fails the experiment explicitly without dropping trials."
+    ],
+    "estimands": [
+      "Fixed positive physical mass for each condition, rather than a distribution averaging mass values or conditions.",
+      "Repeated-experiment expected bounded squared log loss and probability of a factor-two error, including invalid positive-mass estimates.",
+      "Repeated-experiment coverage, lower and upper noncoverage, and mean log-width of each flat and tube law central interval. 95% coverage is primary; 50% and other saved levels diagnose calibration."
+    ],
+    "methods": [
+      "Retain all methods supplied by the existing comparison engine and their assumptions. Focus interpretation on flat_joint, flat_geometric, flat_median, norm_ratio, norm_floor and the positive Gaussian profile/TLS comparator. The n=4 engine includes covariance-aware controls, so inventories may differ.",
+      "Keep the flat-joint point E[f]/E[alpha] unchanged. Compare it with other point summaries of the same law separately from comparing flat and tube probability laws.",
+      "Apply the existing quadrature refinement checks. They check selected trials and detect tested discrepancies; passing them is not a numerical error bound for every replicate.",
+      "No law-rejection gate, output clipping, failed-trial deletion or selection of favorable conditions is introduced."
+    ],
+    "performance_measures": [
+      "Primary point loss: min(log(m_hat/m)^2, log(2)^2), assigning the cap to invalid estimates. Primary failure: m_hat outside [m/2, 2m] including invalid estimates. Factor two is an explicit exploratory multiplicative tolerance, not a domain-specific requirement or a guarantee of practical usefulness.",
+      "Primary uncertainty metric: fixed-truth coverage of the 95% central interval. Report interval log-width and both miss directions alongside coverage; broad intervals and the no-information boundary must not be treated as successful identification.",
+      "Within each regime use paired flat-minus-comparator differences. Across calibration regimes use independent-simulation uncertainty; no common random numbers or paired regime comparisons are claimed.",
+      "Report signed log error, log-error variance, tolerance curves and invalid counts as diagnostics. Retain established population moment warnings for unbounded losses; their finite simulation averages do not establish finite risk.",
+      "Relative prediction scores are inapplicable at zero true force. Bounded mass losses and fixed-truth interval coverage remain applicable there.",
+      "R1024 is fixed before execution. Worst-case individual probability MCSE is 1.5625 percentage points and paired probability MCSE 3.125 points. Treat small differences as unresolved and use the pilot for future size planning; no automatic extension."
+    ]
+  },
+  "provenance": {
+    "managed_repository": "https://github.com/canvalidk/VD-docs",
+    "managed_commit": "8782a293297330f7a354d87ebe62792018fa8866",
+    "managed_paths": [
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_law_assumed_correct_steering_2026-09-07.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_additional_derivations_2026-09-05.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimation_zero_zero_two_cases.md"
+    ],
+    "methodology": [
+      {
+        "title": "Morris, White and Crowther: Using simulation studies to evaluate statistical methods (ADEMP and Monte Carlo uncertainty)",
+        "url": "https://doi.org/10.1002/sim.8086"
+      },
+      {
+        "title": "Chipman and Bingham: Planning and interpreting simulation studies with design and analysis of experiments (factor interactions)",
+        "url": "https://arxiv.org/abs/2111.13737"
+      },
+      {
+        "title": "Pawel et al.: Handling Missingness, Failures, and Non-Convergence in Simulation Studies (failure-aware evaluation)",
+        "url": "https://arxiv.org/abs/2409.18527"
+      }
+    ]
+  },
+  "interpretation": [
+    "Exploratory calibration sensitivity only; the physical law remains correct. All settings and seeds were fixed before this study ran.",
+    "Factor-two tolerance is an illustrative scale. Report the existing tighter tolerance curves as secondary context rather than a binary declaration of practical adequacy.",
+    "Null cells contain no mass information. Calibration can change the estimator preferred mass scale without making mass identifiable.",
+    "Repeated n=4 physical observations and the within-regime truth grid share the same conventions as the main protocol. Different calibration regimes use independent Monte Carlo seeds.",
+    "Keep all 1024 trials and report invalid outputs, explicit experiment failures and both nominal interval levels. No tuning or global ranking.",
+    "Known-covariance anisotropy, correlated channels, changing excitation, shared calibration errors and non-Gaussian data are not covered by this pilot."
+  ],
+  "fixed_replicates_per_cell": 1024,
+  "primary_metrics": [
+    {
+      "scope": "point",
+      "name": "capped_squared_log_factor_2",
+      "target_mcse": 0.015
+    },
+    {
+      "scope": "point",
+      "name": "outside_factor_2",
+      "target_mcse": 0.032
+    },
+    {
+      "scope": "uncertainty",
+      "name": "coverage_95",
+      "target_mcse": 0.016
+    }
+  ],
+  "experiments": [
+    {
+      "id": "known",
+      "config": {
+        "name": "Calibration sensitivity: known",
+        "samples": 1024,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092031,
+        "heldout_seed": 2026092032,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "mass_excitation",
+          "masses": [
+            0.25,
+            1,
+            4
+          ],
+          "acceleration_snrs": [
+            0,
+            0.5,
+            2,
+            8
+          ]
+        },
+        "measurement": {
+          "repeats": 4,
+          "calibration": {
+            "mode": "known"
+          }
+        }
+      }
+    },
+    {
+      "id": "both_under",
+      "config": {
+        "name": "Calibration sensitivity: both_under",
+        "samples": 1024,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092033,
+        "heldout_seed": 2026092034,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "mass_excitation",
+          "masses": [
+            0.25,
+            1,
+            4
+          ],
+          "acceleration_snrs": [
+            0,
+            0.5,
+            2,
+            8
+          ]
+        },
+        "measurement": {
+          "repeats": 4,
+          "calibration": {
+            "mode": "scaled",
+            "force_scale": [
+              0.75,
+              0.75,
+              0.75
+            ],
+            "acceleration_scale": [
+              0.75,
+              0.75,
+              0.75
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "both_over",
+      "config": {
+        "name": "Calibration sensitivity: both_over",
+        "samples": 1024,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092035,
+        "heldout_seed": 2026092036,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "mass_excitation",
+          "masses": [
+            0.25,
+            1,
+            4
+          ],
+          "acceleration_snrs": [
+            0,
+            0.5,
+            2,
+            8
+          ]
+        },
+        "measurement": {
+          "repeats": 4,
+          "calibration": {
+            "mode": "scaled",
+            "force_scale": [
+              1.25,
+              1.25,
+              1.25
+            ],
+            "acceleration_scale": [
+              1.25,
+              1.25,
+              1.25
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "differential",
+      "config": {
+        "name": "Calibration sensitivity: differential",
+        "samples": 1024,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092037,
+        "heldout_seed": 2026092038,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "mass_excitation",
+          "masses": [
+            0.25,
+            1,
+            4
+          ],
+          "acceleration_snrs": [
+            0,
+            0.5,
+            2,
+            8
+          ]
+        },
+        "measurement": {
+          "repeats": 4,
+          "calibration": {
+            "mode": "scaled",
+            "force_scale": [
+              1.25,
+              1.25,
+              1.25
+            ],
+            "acceleration_scale": [
+              0.75,
+              0.75,
+              0.75
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "estimated_k30",
+      "config": {
+        "name": "Calibration sensitivity: estimated_k30",
+        "samples": 1024,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092039,
+        "heldout_seed": 2026092040,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "mass_excitation",
+          "masses": [
+            0.25,
+            1,
+            4
+          ],
+          "acceleration_snrs": [
+            0,
+            0.5,
+            2,
+            8
+          ]
+        },
+        "measurement": {
+          "repeats": 4,
+          "calibration": {
+            "mode": "estimated",
+            "samples": 30,
+            "seed": 2026092055
+          }
+        }
+      }
+    }
+  ]
+}

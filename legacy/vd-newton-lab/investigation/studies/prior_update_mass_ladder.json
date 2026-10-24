@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "name": "Mass estimator: mass ladder for prior-width and sequential-update analyses",
+  "phase": "main_assessment",
+  "ademp": {
+    "aims": [
+      "Measure how a declared log-normal prior on mass changes point success when its centre is wrong by a stated factor, for several stated widths.",
+      "Measure the behaviour of three declared rules for combining independent readings of one mass (symmetric, contribution 11 eq. (18), eq. (20)), including readings with true zero excitation."
+    ],
+    "data_generating_mechanisms": [
+      "Newton II is assumed correct. One compatible latent 3D pair per replicate; common direction is used only by the simulator and remains unknown to inference.",
+      "Known independent isotropic Gaussian coordinate SD 1 in both channels, one effective reading per channel, R=10000 replicates per cell with fresh seeds. The same replicate-index noise is shared across cells; cells cannot be pooled as independent evidence.",
+      "Mass and excitation independent: masses [0.25,1,4] (in units of sigma_F/sigma_a) crossed with acceleration SNR [0,1,2,3,4,6]; force SNR is mass times acceleration SNR. Zero excitation gives true zero vectors, whose observations cannot depend on mass."
+    ],
+    "estimands": [
+      "Prior analysis: per cell with positive excitation and K in {1.25,1.5,2}, success change relative to the unweighted law.",
+      "Sequential analysis: consecutive series of 50 replicates of one cell treated as 50 independent readings of one mass, each with its own latent excitation; per rule and prefix N in {1,2,5,10,20,50}: readout and median relative to truth, 95% and 80% central-interval coverage, interval width. For zero excitation: location and width relative to the noise ratio."
+    ],
+    "methods": [
+      "Existing isotropic comparison engine unchanged, saving all trials.",
+      "prior_weight_study.py (log-normal grids centred at a stated multiple of each cell's true mass) and sequential_update.py compute the analyses afterwards."
+    ],
+    "performance_measures": [
+      "Coverage MCSE sqrt(c(1-c)/200) over 200 series per cell; success MCSE at most 0.005. Series within one cell share the cell's excitation magnitude; cells share replicate-index noise."
+    ]
+  },
+  "provenance": {
+    "managed_repository": "https://github.com/canvalidk/VD-docs",
+    "managed_commit": "8782a293297330f7a354d87ebe62792018fa8866",
+    "managed_paths": [
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_law_assumed_correct_steering_2026-09-07.md",
+      "Newton-analysis/_dscn_mass_estimator/what_forces_the_ratio_of_means_readout.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_additional_derivations_2026-09-05.md"
+    ],
+    "methodology": [
+      {
+        "title": "Morris, White and Crowther: Using simulation studies to evaluate statistical methods",
+        "url": "https://doi.org/10.1002/sim.8086"
+      },
+      {
+        "title": "Gneiting: Making and Evaluating Point Forecasts",
+        "url": "https://arxiv.org/abs/0912.0902"
+      }
+    ]
+  },
+  "interpretation": [
+    "The oracle centring of the prior at a multiple of the true mass is an analysis device for pricing a wrong prior, not an estimator.",
+    "A series of 50 replicates models repeated independent experiments on one object with equal excitation magnitude; it does not model shared calibration or changing excitation."
+  ],
+  "fixed_replicates_per_cell": 10000,
+  "primary_metrics": [
+    {
+      "scope": "point",
+      "name": "outside_factor_2",
+      "target_mcse": 0.005
+    },
+    {
+      "scope": "point",
+      "name": "capped_squared_log_factor_2",
+      "target_mcse": 0.005
+    },
+    {
+      "scope": "uncertainty",
+      "name": "coverage_95",
+      "target_mcse": 0.005
+    }
+  ],
+  "experiments": [
+    {
+      "id": "mass_excitation_ladder",
+      "config": {
+        "name": "Known-noise mass and excitation ladder",
+        "samples": 10000,
+        "order": 96,
+        "batch_size": 128,
+        "training_seed": 2026092347,
+        "heldout_seed": 2026092348,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "mass_excitation",
+          "masses": [
+            0.25,
+            1,
+            4
+          ],
+          "acceleration_snrs": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            6
+          ]
+        }
+      }
+    }
+  ]
+}

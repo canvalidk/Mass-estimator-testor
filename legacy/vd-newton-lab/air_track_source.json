@@ -1,0 +1,18 @@
+{
+  "citation": "Hessel, Canola and Vollet (2013), An experimental verification of Newton's second law, Revista Brasileira de Ensino de Fisica 35, 2504",
+  "doi": "10.1590/S1806-11172013000200024",
+  "pdf_url": "https://sbfisica.org.br/rbef/pdf/352504.pdf",
+  "article_url": "https://www.scielo.br/j/rbef/a/dMqbfswLR36bCCMW3968tKN/?lang=en",
+  "retrieved": "2026-09-06",
+  "transcription": "Table 1, PDF page 3; reference mass, g, and fitted line in section 4.1, pages 3-4. Web PDF text checked against the article's HTML discussion and Table 2 first-run rounded speeds; table images were not available through the web screenshot service.",
+  "post_spacing_m": 0.12,
+  "clock_frequency_Hz": 1000,
+  "g_m_s2": 9.76,
+  "reference_system_mass_kg": 1.502,
+  "reported_fitted_mass_kg": 1.518,
+  "reported_acceleration_fit_cm_s2": {"intercept": -1.594, "slope_per_g_hanging_load": 0.643},
+  "hanging_load_g": [50, 100, 150, 200, 250],
+  "intervals_ms": [[406, 297, 245, 214, 193], [292, 212, 175, 152, 136], [242, 173, 142, 124, 111], [220, 154, 126, 109, 97], [159, 122, 103, 92, 82]],
+  "first_run_table_2_speed_cm_s": [29.6, 40.4, 49.0, 56.1, 62.2],
+  "uncertainty_status": "No complete force/acceleration uncertainty budget, covariance, or repeated-run data supplied. Timing resolution is given; the distribution of timing error is not. Added uncertainty models in the analysis are assumptions, not reported error bars."
+}

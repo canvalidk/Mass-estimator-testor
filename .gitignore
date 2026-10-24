@@ -6,3 +6,14 @@ results/
 # them. docs/papers/README.md carries the citations. docs/SHA256SUMS still lists
 # their hashes, so `sha256sum -c` reports them missing in a fresh clone.
 docs/papers/*.pdf
+# legacy/ holds earlier programs. Their results/ folders are history, not output
+# of this tester, so they are tracked.
+!legacy/**/results/
+# Published papers, and text extracted from them, stay local as with docs/papers/.
+legacy/**/*.pdf
+legacy/vd-newton-tools/estimator_assessment_2026_09_19/paper.txt
+legacy/vd-newton-tools/robot_pmd_20260916/thesis_chapter3_text.txt
+legacy/vd-newton-tools/robot_pmd_20260916/paper_text.txt
+# The cart trial data came from a course web page with no stated licence: local only.
+# (The robot data in raw/robot/ is CC-BY 4.0, attributed in its record.json.)
+legacy/vd-newton-lab/raw/cart/

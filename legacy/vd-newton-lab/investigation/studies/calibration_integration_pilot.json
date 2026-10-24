@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "name": "Mass estimator: integrating external calibration uncertainty",
+  "phase": "exploratory_pilot",
+  "ademp": {
+    "aims": [
+      "Separate the cost of estimating noise from the effect of integrating its uncertainty, comparing all methods on identical simulated measurements.",
+      "Assess point loss, interval coverage, both miss directions, width and proper scores at fixed true masses; do not select a global winner."
+    ],
+    "data_generating_mechanisms": [
+      "Newton II holds exactly. Independent isotropic Gaussian coordinate errors have true per-reading SD1 in each channel. Observe means of n=4 stable readings; within-repeat scatter is unavailable to inference.",
+      "Cross true mass {0.25,1,4} with per-reading acceleration SNR {0,0.5,2,8}. There are R512 independent deployment replicates per cell, with common measurement and calibration draws reused across cells.",
+      "Use k=4 or k=30 independent calibration vectors per channel. Fit a calibration mean vector and pool its three coordinate residual sums of squares: nu=3(k-1). Independent pooled SD estimates are redrawn per replicate and channel.",
+      "The two calibration-size experiments have independent seeds. Within an experiment oracle, plug-in and integrated methods use identical mass measurements. This does not study one calibration reused across many measurement experiments."
+    ],
+    "estimands": [
+      "Fixed positive physical mass in each specified truth condition.",
+      "Expected bounded squared log loss and probability of a factor-two mass error.",
+      "Fixed-truth central-interval coverage, lower and upper noncoverage, mean log-width and distribution scores; 95% coverage is primary and 50% is diagnostic."
+    ],
+    "methods": [
+      "The existing flat_joint plug-in law uses supplied pooled SDs as fixed. Preserve all existing comparator methods and their risk annotations.",
+      "calibrated_joint integrates separate isotropic channel variances with explicit independent scale priors d(sigma^2)/sigma^2, retaining the physical df d(alpha) dOmega reference measure. It uses reading means and external calibration only.",
+      "oracle_joint is the same flat Gaussian law supplied true mean noise SDs. It is a simulation benchmark with additional information unavailable to the other two methods.",
+      "Compare corresponding ratios of latent first moments E[f]/E[alpha], geometric points and medians. The arithmetic posterior mean mass does not exist; the ratio of first moments remains meaningful.",
+      "Check mass quadrature and calibration quadrature refinement separately on a fixed initial subset plus calibration and standardized-strength extremes. Numerical failures stop the experiment explicitly."
+    ],
+    "performance_measures": [
+      "Point primary: min(log(m_hat/m)^2,log(2)^2) and fraction outside [m/2,2m], assigning invalid estimates maximal bounded losses.",
+      "Uncertainty: coverage at 50% and95%, both miss directions, mean log-width, log-mass CRPS, negative log density and interval scores.",
+      "Use paired flat-minus-comparator differences and their actual empirical MCSE within each cell, including coverage and proper-score differences. Across k regimes comparisons are independent.",
+      "Keep all R512 attempted trials. No performance-driven stopping, filtering or favorable-cell selection. Worst-case individual probability MCSE is2.21percentage points and paired probability MCSE is4.42points.",
+      "Null data contain no information about mass. Coverage near one preferred mass scale or a wider interval is not evidence of identification. Prediction scores relative to true force remain inapplicable at null."
+    ]
+  },
+  "provenance": {
+    "managed_repository": "https://github.com/canvalidk/VD-docs",
+    "managed_commit": "8782a293297330f7a354d87ebe62792018fa8866",
+    "managed_paths": [
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_law_assumed_correct_steering_2026-09-07.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimator_additional_derivations_2026-09-05.md",
+      "Newton-analysis/_dscn_mass_estimator/mass_estimation_zero_zero_two_cases.md"
+    ],
+    "methodology": [
+      {
+        "title": "Morris, White and Crowther: Using simulation studies to evaluate statistical methods",
+        "url": "https://doi.org/10.1002/sim.8086"
+      },
+      {
+        "title": "Murphy: Conjugate Bayesian analysis of the Gaussian distribution",
+        "url": "https://www.cs.ubc.ca/~murphyk/Papers/bayesGauss.pdf"
+      },
+      {
+        "title": "Talts et al.: Validating Bayesian Inference with Simulation-Based Calibration",
+        "url": "https://arxiv.org/abs/1804.06788"
+      },
+      {
+        "title": "NIST Digital Library of Mathematical Functions: Incomplete Beta Functions",
+        "url": "https://dlmf.nist.gov/8.17"
+      }
+    ]
+  },
+  "interpretation": [
+    "This fixed-truth frequentist performance study is not prior-predictive simulation-based calibration. The improper magnitude reference measure does not define a prior-predictive ensemble.",
+    "A conditional95% probability interval has no automatic uniform95% coverage guarantee across fixed truths. Integrating calibration uncertainty does not repair null identifiability.",
+    "This is an exploratory pilot of fresh pooled isotropic calibration, not the earlier six independent coordinate variance model. No paired comparison across those different studies is claimed.",
+    "Shared calibration across experiments, correlated/non-Gaussian errors, changing excitation and use of within-repeat scatter remain later extensions."
+  ],
+  "fixed_replicates_per_cell": 512,
+  "primary_metrics": [
+    {
+      "scope": "point",
+      "name": "capped_squared_log_factor_2",
+      "target_mcse": 0.022
+    },
+    {
+      "scope": "point",
+      "name": "outside_factor_2",
+      "target_mcse": 0.045
+    },
+    {
+      "scope": "uncertainty",
+      "name": "coverage_95",
+      "target_mcse": 0.023
+    }
+  ],
+  "experiments": [
+    {
+      "id": "calibration_k4",
+      "config": {
+        "name": "Integrated pooled calibration, k=4",
+        "samples": 512,
+        "order": 96,
+        "batch_size": 64,
+        "training_seed": 2026092301,
+        "heldout_seed": 2026092302,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "mass_excitation",
+          "masses": [
+            0.25,
+            1,
+            4
+          ],
+          "acceleration_snrs": [
+            0,
+            0.5,
+            2,
+            8
+          ]
+        },
+        "measurement": {
+          "repeats": 4,
+          "calibration": {
+            "mode": "pooled_isotropic",
+            "samples": 4,
+            "seed": 2026092303,
+            "calibration_order": 24
+          }
+        }
+      }
+    },
+    {
+      "id": "calibration_k30",
+      "config": {
+        "name": "Integrated pooled calibration, k=30",
+        "samples": 512,
+        "order": 96,
+        "batch_size": 64,
+        "training_seed": 2026092304,
+        "heldout_seed": 2026092305,
+        "save_trials": true,
+        "noise_model": "isotropic_unit_3d",
+        "scenario": {
+          "type": "mass_excitation",
+          "masses": [
+            0.25,
+            1,
+            4
+          ],
+          "acceleration_snrs": [
+            0,
+            0.5,
+            2,
+            8
+          ]
+        },
+        "measurement": {
+          "repeats": 4,
+          "calibration": {
+            "mode": "pooled_isotropic",
+            "samples": 30,
+            "seed": 2026092306,
+            "calibration_order": 24
+          }
+        }
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,62 @@
+{
+  "model": "Newton II assumed; Gaussian errors; flat positive magnitudes; uniform unknown 2D direction",
+  "uncertainty": "Conditional equal-tail 95% interval and SD(log M); no finite exact SD(M)",
+  "aligned_force_2_acceleration_1": [
+    {
+      "sigma": 1,
+      "mass": 1.520356039238513,
+      "lower": 0.1559533730059108,
+      "upper": 25.3883793811437,
+      "probability": 0.95,
+      "log_standard_deviation": 1.2291311740530182
+    },
+    {
+      "sigma": 0.5,
+      "mass": 1.93785032096828,
+      "lower": 0.7363093691872703,
+      "upper": 13.079364610364884,
+      "probability": 0.95,
+      "log_standard_deviation": 0.735871055216527
+    },
+    {
+      "sigma": 0.25,
+      "mass": 1.9999245802707186,
+      "lower": 1.2214075712363368,
+      "upper": 4.063309372105401,
+      "probability": 0.95,
+      "log_standard_deviation": 0.30784420131827045
+    },
+    {
+      "sigma": 0.125,
+      "mass": 1.9999999999999987,
+      "lower": 1.5478156035633484,
+      "upper": 2.708472700396187,
+      "probability": 0.95,
+      "log_standard_deviation": 0.14245033016985245
+    }
+  ],
+  "resolved_example": {
+    "force": 20,
+    "acceleration": 10,
+    "sigma_force": 0.6,
+    "sigma_acceleration": 0.2,
+    "mass": 2.0,
+    "lower": 1.8615782516930446,
+    "upper": 2.144579310710362,
+    "probability": 0.95,
+    "log_standard_deviation": 0.03609465491902851,
+    "local_mass_spread": 0.0721110255092798,
+    "local_relative_spread": 0.0360555127546399,
+    "local_log_interval": [
+      1.8635432973965802,
+      2.1464486527295112
+    ]
+  },
+  "zero_zero": {
+    "mass": 1.0,
+    "lower": 0.03929010700766983,
+    "upper": 25.451699579356895,
+    "probability": 0.95,
+    "log_standard_deviation": 1.5707963267957181
+  }
+}

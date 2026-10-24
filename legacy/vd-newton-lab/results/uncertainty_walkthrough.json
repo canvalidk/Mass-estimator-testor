@@ -1,0 +1,783 @@
+{
+  "date": "2026-09-07",
+  "managed_commit": "743f82b2aaa3cf09d6a1be45508b6da1c85bbfc6",
+  "model": "Gaussian independent isotropic errors; flat positive magnitudes; 2D unknown direction for numerical paths",
+  "null_reuse": {
+    "n": 1000000,
+    "seed": 20260907,
+    "independent_seed": 20260908,
+    "target": "positive latent magnitudes under measured zero-zero; unit scales",
+    "original_force": {
+      "quantiles": [
+        0.031061991558553482,
+        0.6738098953504196,
+        2.245705359133941
+      ],
+      "log_sd": 1.1142304356229462,
+      "probability_above_10": 0.0
+    },
+    "same_pair_force": {
+      "quantiles": [
+        0.031061991558553482,
+        0.6738098953504196,
+        2.245705359133941
+      ],
+      "log_sd": 1.1142304356229462,
+      "probability_above_10": 0.0
+    },
+    "incorrectly_detached_force": {
+      "quantiles": [
+        0.008298902395962824,
+        0.5854814649966589,
+        20.19755969484399
+      ],
+      "log_sd": 1.9264347173191283,
+      "probability_above_10": 0.050471
+    },
+    "point_substitution_force": {
+      "quantiles": [
+        0.031323558365510824,
+        0.6748376545846054,
+        2.2394025248438614
+      ],
+      "log_sd": 1.1094646660802878,
+      "probability_above_10": 0.0
+    },
+    "new_exact_unit_acceleration_force": {
+      "quantiles": [
+        0.03875805072095318,
+        0.998817593090896,
+        25.369751254573178
+      ],
+      "log_sd": 1.573197382418636,
+      "probability_above_10": 0.063576
+    },
+    "same_pair_max_relative_error": 2.220446049250313e-16,
+    "magnitude_correlation_original": -0.00034067290161979074,
+    "magnitude_correlation_point_substitution": 1.0,
+    "log_mass_acceleration_correlation": -0.7059535440046012,
+    "log_force_variance": 1.2415094636685007,
+    "log_force_variance_from_joint": 1.2415094636684985,
+    "log_force_variance_if_dependence_omitted": 3.7058618493294926,
+    "predicted_to_original_log_variance_ratio": 2.989224672622677,
+    "interval_products": {
+      "original_force_95": [
+        0.03133798202142658,
+        2.241402727604944
+      ],
+      "mass_95": [
+        0.03929010700766964,
+        25.45169957935704
+      ],
+      "marginal_95_endpoint_product": [
+        0.0012312726670262778,
+        57.04750885935248
+      ],
+      "note": "Endpoint products do not encode the dependence or define a central 95% interval."
+    },
+    "analytic_oracles": {
+      "log_force_variance": 1.2337005501361697,
+      "log_mass_variance": 2.4674011002723395,
+      "log_mass_acceleration_covariance": -1.2337005501361697,
+      "log_mass_acceleration_correlation": -0.7071067811865475,
+      "detached_log_force_variance": 3.7011016504085092,
+      "original_force_probability_above_10": 1.523970604832119e-23,
+      "detached_force_quantiles": [
+        0.00843765127444552,
+        0.5867509838711107,
+        20.285235871887053
+      ]
+    }
+  },
+  "paths": {
+    "shrink_readings_keep_noise": [
+      {
+        "factor": 1.0,
+        "mass": 1.9999999999999996,
+        "interval": [
+          1.625549929880939,
+          2.5345922489908173
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "force_interval_after_global_gate": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 2.524354896707238e-30
+      },
+      {
+        "factor": 0.3,
+        "mass": 1.9966480431457234,
+        "interval": [
+          1.0437071739787267,
+          5.92033649824308
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          3.13112152193618,
+          17.76100949472924
+        ],
+        "force_interval_after_global_gate": [
+          3.13112152193618,
+          17.76100949472924
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 2.027843894907409e-05
+      },
+      {
+        "factor": 0.1,
+        "mass": 1.5203560392385893,
+        "interval": [
+          0.15595322599259892,
+          25.38843959131576
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.46785967797779676,
+          76.16531877394728
+        ],
+        "force_interval_after_global_gate": [
+          0.46785967797779676,
+          76.16531877394728
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 0.06947291132116588
+      },
+      {
+        "factor": 0.03,
+        "mass": 1.0649613608122512,
+        "interval": [
+          0.044403895182108424,
+          25.762620021703217
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.1332116855463253,
+          77.28786006510965
+        ],
+        "force_interval_after_global_gate": [
+          0.1332116855463253,
+          77.28786006510965
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 0.0368704272253284
+      },
+      {
+        "factor": 0.01,
+        "mass": 1.007467361819848,
+        "interval": [
+          0.039823850639650556,
+          25.48992719260543
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.11947155191895167,
+          76.46978157781629
+        ],
+        "force_interval_after_global_gate": [
+          0.11947155191895167,
+          76.46978157781629
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 0.004888961238882469
+      },
+      {
+        "factor": 0.001,
+        "mass": 1.0000749967189257,
+        "interval": [
+          0.03929540365243975,
+          25.452086443576505
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.11788621095731924,
+          76.35625933072951
+        ],
+        "force_interval_after_global_gate": [
+          0.11788621095731924,
+          76.35625933072951
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 4.9988751476407844e-05
+      }
+    ],
+    "shrink_readings_and_noise": [
+      {
+        "factor": 1.0,
+        "mass": 1.9999999999999996,
+        "interval": [
+          1.625549929880939,
+          2.5345922489908173
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "force_interval_after_global_gate": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 2.524354896707238e-30
+      },
+      {
+        "factor": 0.3,
+        "mass": 2.0,
+        "interval": [
+          1.625549929880939,
+          2.5345922489908173
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "force_interval_after_global_gate": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 0.0
+      },
+      {
+        "factor": 0.1,
+        "mass": 1.9999999999999998,
+        "interval": [
+          1.625549929880939,
+          2.5345922489908173
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "force_interval_after_global_gate": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 3.9443045261050576e-30
+      },
+      {
+        "factor": 0.03,
+        "mass": 1.9999999999999996,
+        "interval": [
+          1.625549929880939,
+          2.5345922489908173
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "force_interval_after_global_gate": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 2.739100365350735e-30
+      },
+      {
+        "factor": 0.01,
+        "mass": 2.0,
+        "interval": [
+          1.625549929880939,
+          2.5345922489908173
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "force_interval_after_global_gate": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 0.0
+      },
+      {
+        "factor": 0.001,
+        "mass": 1.9999999999999996,
+        "interval": [
+          1.625549929880939,
+          2.5345922489908173
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "force_interval_after_global_gate": [
+          4.876649789642817,
+          7.603776746972452
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 2.4074124304840445e-30
+      }
+    ],
+    "keep_readings_improve_precision": [
+      {
+        "sigma": 2.0,
+        "mass": 1.5203560392385893,
+        "interval": [
+          0.15595322599259892,
+          25.38843959131576
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.46785967797779676,
+          76.16531877394728
+        ],
+        "force_interval_after_global_gate": [
+          0.46785967797779676,
+          76.16531877394728
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 0.06947291132116588
+      },
+      {
+        "sigma": 1.0,
+        "mass": 1.9378503209683906,
+        "interval": [
+          0.7363079872237874,
+          13.07946777876673
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          2.2089239616713625,
+          39.238403336300195
+        ],
+        "force_interval_after_global_gate": [
+          2.2089239616713625,
+          39.238403336300195
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 0.0032491005438934546
+      },
+      {
+        "sigma": 0.5,
+        "mass": 1.9999245802706174,
+        "interval": [
+          1.2214029762886758,
+          4.063337337242008
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          3.664208928866027,
+          12.190012011726026
+        ],
+        "force_interval_after_global_gate": [
+          3.664208928866027,
+          12.190012011726026
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 1.820313213604476e-08
+      },
+      {
+        "sigma": 0.25,
+        "mass": 1.9999999999999982,
+        "interval": [
+          1.5478090211903925,
+          2.7084890730651057
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          4.643427063571178,
+          8.125467219195317
+        ],
+        "force_interval_after_global_gate": [
+          4.643427063571178,
+          8.125467219195317
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 4.038967834731579e-29
+      }
+    ]
+  },
+  "angle_transitions": {
+    "strong_equal_channels": [
+      {
+        "degrees": 0,
+        "mass": 0.9999999999999997,
+        "interval": [
+          0.5480918915138716,
+          1.82451157457909
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          1.644275674541615,
+          5.47353472373727
+        ],
+        "force_interval_after_global_gate": [
+          1.644275674541615,
+          5.47353472373727
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 1.5777218104420243e-30
+      },
+      {
+        "degrees": 30,
+        "mass": 1.0,
+        "interval": [
+          0.5192778269512999,
+          1.925751395685488
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          1.5578334808538996,
+          5.777254187056464
+        ],
+        "force_interval_after_global_gate": [
+          1.5578334808538996,
+          5.777254187056464
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 3.3493649053890313,
+        "q_at_point": 3.3493649053890326
+      },
+      {
+        "degrees": 45,
+        "mass": 1.0,
+        "interval": [
+          0.4755425845079169,
+          2.102861095047424
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          1.4266277535237508,
+          6.308583285142272
+        ],
+        "force_interval_after_global_gate": [
+          1.4266277535237508,
+          6.308583285142272
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 7.322330470336315,
+        "q_at_point": 7.322330470336313
+      },
+      {
+        "degrees": 50,
+        "mass": 0.9999999999999998,
+        "interval": [
+          0.4536135615736129,
+          2.204519627964711
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          1.3608406847208387,
+          6.613558883894132
+        ],
+        "force_interval_after_global_gate": [
+          1.3608406847208387,
+          6.613558883894132
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 8.930309757836518,
+        "q_at_point": 8.930309757836516
+      },
+      {
+        "degrees": 50.2081805004,
+        "mass": 1.0,
+        "interval": [
+          0.4525930719580894,
+          2.209490294832881
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          1.357779215874268,
+          6.628470884498643
+        ],
+        "force_interval_after_global_gate": [
+          1.357779215874268,
+          6.628470884498643
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 8.999999999985658,
+        "q_at_point": 8.99999999998566
+      },
+      {
+        "degrees": 55,
+        "mass": 0.9999999999999998,
+        "interval": [
+          0.426238914939899,
+          2.346102068463192
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          1.278716744819697,
+          7.038306205389576
+        ],
+        "force_interval_after_global_gate": null,
+        "fit_status": "rejected_at_9",
+        "qmin": 10.660589091223843,
+        "q_at_point": 10.660589091223848
+      },
+      {
+        "degrees": 90,
+        "mass": 1.0000000000000002,
+        "interval": [
+          0.039290107007668745,
+          25.451699579355456
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.11787032102300624,
+          76.35509873806637
+        ],
+        "force_interval_after_global_gate": null,
+        "fit_status": "rejected_at_9",
+        "qmin": 25.0,
+        "q_at_point": 25.0
+      },
+      {
+        "degrees": 120,
+        "mass": 0.9999999999999997,
+        "interval": [
+          0.004244369203083319,
+          235.6062708384347
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.012733107609249956,
+          706.8188125153041
+        ],
+        "force_interval_after_global_gate": null,
+        "fit_status": "rejected_at_9",
+        "qmin": 25.0,
+        "q_at_point": 37.49999999999999
+      },
+      {
+        "degrees": 180,
+        "mass": 0.9999999999999991,
+        "interval": [
+          0.00206773901106826,
+          483.6200287595068
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.00620321703320478,
+          1450.8600862785204
+        ],
+        "force_interval_after_global_gate": null,
+        "fit_status": "rejected_at_9",
+        "qmin": 25.0,
+        "q_at_point": 50.00000000000001
+      }
+    ],
+    "moderate_equal_channels": [
+      {
+        "degrees": 0,
+        "mass": 1.0,
+        "interval": [
+          0.20001298134157036,
+          4.999675487523892
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.6000389440247111,
+          14.999026462571678
+        ],
+        "force_interval_after_global_gate": [
+          0.6000389440247111,
+          14.999026462571678
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 0.0,
+        "q_at_point": 0.0,
+        "intervals": [
+          [
+            0.0,
+            null
+          ]
+        ]
+      },
+      {
+        "degrees": 60,
+        "mass": 1.0000000000000002,
+        "interval": [
+          0.09722415263728762,
+          10.285510059734863
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.29167245791186286,
+          30.85653017920459
+        ],
+        "force_interval_after_global_gate": [
+          0.29167245791186286,
+          30.85653017920459
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 2.999999999999999,
+        "q_at_point": 2.999999999999999,
+        "intervals": [
+          [
+            0.0,
+            null
+          ]
+        ]
+      },
+      {
+        "degrees": 90,
+        "mass": 0.9999999999999999,
+        "interval": [
+          0.039290107007668724,
+          25.451699579355456
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.11787032102300618,
+          76.35509873806637
+        ],
+        "force_interval_after_global_gate": [
+          0.11787032102300618,
+          76.35509873806637
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 6.0,
+        "q_at_point": 5.999999999999999,
+        "intervals": [
+          [
+            0.0,
+            null
+          ]
+        ]
+      },
+      {
+        "degrees": 119,
+        "mass": 1.0000000000000002,
+        "interval": [
+          0.01773949089535569,
+          56.37140354810315
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.05321847268606707,
+          169.11421064430945
+        ],
+        "force_interval_after_global_gate": [
+          0.05321847268606707,
+          169.11421064430945
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 5.999999999999999,
+        "q_at_point": 8.908857721478022,
+        "intervals": [
+          [
+            0.0,
+            null
+          ]
+        ]
+      },
+      {
+        "degrees": 120,
+        "mass": 0.9999999999999997,
+        "interval": [
+          0.01735388203519344,
+          57.62399433002979
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.05206164610558032,
+          172.87198299008935
+        ],
+        "force_interval_after_global_gate": [
+          0.05206164610558032,
+          172.87198299008935
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 5.999999999999998,
+        "q_at_point": 8.999999999999996,
+        "intervals": [
+          [
+            0.0,
+            null
+          ]
+        ]
+      },
+      {
+        "degrees": 121,
+        "mass": 1.0000000000000002,
+        "interval": [
+          0.016983470200679467,
+          58.880781617880565
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.0509504106020384,
+          176.6423448536417
+        ],
+        "force_interval_after_global_gate": [
+          0.0509504106020384,
+          176.6423448536417
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 5.999999999999999,
+        "q_at_point": 9.090228449460323,
+        "intervals": [
+          [
+            0.0,
+            0.7829792570265772
+          ],
+          [
+            1.2771730426136385,
+            null
+          ]
+        ]
+      },
+      {
+        "degrees": 150,
+        "mass": 0.9999999999999998,
+        "interval": [
+          0.010838454725811441,
+          92.26407502708989
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.03251536417743432,
+          276.79222508126963
+        ],
+        "force_interval_after_global_gate": [
+          0.03251536417743432,
+          276.79222508126963
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 5.999999999999998,
+        "q_at_point": 11.19615242270663,
+        "intervals": [
+          [
+            0.0,
+            0.3178372451957825
+          ],
+          [
+            3.1462643699419712,
+            null
+          ]
+        ]
+      },
+      {
+        "degrees": 180,
+        "mass": 0.9999999999999998,
+        "interval": [
+          0.00937410061621869,
+          106.67690063725496
+        ],
+        "force_interval_at_exact_acceleration_3_if_model_assumed": [
+          0.02812230184865607,
+          320.0307019117649
+        ],
+        "force_interval_after_global_gate": [
+          0.02812230184865607,
+          320.0307019117649
+        ],
+        "fit_status": "passes_global_gate_at_9",
+        "qmin": 5.999999999999999,
+        "q_at_point": 12.0,
+        "intervals": [
+          [
+            0.0,
+            0.26794919243112286
+          ],
+          [
+            3.732050807568875,
+            null
+          ]
+        ]
+      }
+    ],
+    "strong_gate_angle_degrees": 50.20818050044277,
+    "moderate_point_leaves_set_angle_degrees": 120.0
+  }
+}
