@@ -577,11 +577,11 @@ class ReadingSet:
         instead of one per reading (ours25b's three sums; StackedState carries the same).
         Equal to summing reading_terms' log_like to rounding (tests/test_summed_law.py).
         weights (B, N), optional and >= 0: the misfit weights g_i.
-        Returns None when the sum does not reduce (flat reference, per-axis noise, or
-        readings in a series with different s); the caller then sums reading by reading."""
+        Returns None when the sum does not reduce for any series (flat reference, per-axis
+        noise); otherwise (B, G) with NaN rows for the series whose readings do not share
+        one s (common_ratio_series), which the caller sums reading by reading. The test is
+        per series, so a series' result does not depend on which series share its batch."""
         if reference not in ("cartesian1", "cartesian2") or not self.isotropic:
-            return None
-        if not np.all(self._s == self._s[:, :1]):
             return None
         u = np.asarray(u, dtype=float)
         w = 1.0 if weights is None else np.asarray(weights, dtype=float)
@@ -589,7 +589,13 @@ class ReadingSet:
         z = u - np.log(self._s[:, :1])
         sn = np.exp(-0.5 * np.logaddexp(0.0, -2.0 * z))
         cs = np.exp(-0.5 * np.logaddexp(0.0, 2.0 * z))
-        return 0.5 * np.maximum(0.0, P * sn * sn + Q * cs * cs + 2.0 * D * sn * cs)
+        out = 0.5 * np.maximum(0.0, P * sn * sn + Q * cs * cs + 2.0 * D * sn * cs)
+        out[~self.common_ratio_series()] = np.nan
+        return out
+
+    def common_ratio_series(self):
+        """(B,) bool: the series whose readings all have the same s, bit for bit."""
+        return np.all(self._s == self._s[:, :1], axis=1)
 
     def _per_axis_terms(self, u, nuisance, reference):
         """ours26's law for per-axis noise: each reading's log-likelihood is the sum of its

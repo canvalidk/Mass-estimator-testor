@@ -259,6 +259,11 @@ def joint_log_density(readings, u, law, combine, alpha=True):
         g = misfit_weights(readings, combine) if combine.get("misfit") else None
         lp = readings.summed_log_like(u, law["reference"], g)
         if lp is not None:                    # one curve per series from three sums
+            mixed = np.flatnonzero(~readings.common_ratio_series())
+            if mixed.size:                    # series with several s: reading by reading
+                like = readings.subset(mixed).reading_terms(np.asarray(u, dtype=float)[mixed], "radius",
+                                                            reference=law["reference"], alpha=False)[0]
+                lp[mixed] = np.sum(like if g is None else g[mixed][:, :, None] * like, axis=1)
             return _calibrated(lp, readings, law, combine) + prior_log_density(combine["prior"], u, readings), None
     log_like, log_ref, cond_alpha = readings.reading_terms(u, law["nuisance"], reference=law["reference"],
                                                            alpha=alpha)

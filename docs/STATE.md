@@ -210,6 +210,10 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
   faster; the sandwich's search was left reading by reading so its recorded numbers stay
   reproducible (`sandwich_weight`'s docstring). Not a fork of the definition: ours25 is not
   the equation.
+- `ratio_of_means_rss` in the batch pipeline depends on which series share a batch, at about
+  1e-12 relative: `stacked_cond_alpha` picks the weighted route for the whole batch when any
+  series has several noise pairs, so batch_elements can move a last digit. Older than the 24 Oct
+  speed work (found by its review); the law itself is now chosen per series.
 - The 10 Oct check script behind T32 is not yet kept (pending since 10 Oct).
 - The reproducibility inventory still cites VD-Newton paths for scripts now in `../legacy/`.
 
@@ -267,8 +271,10 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
   and 2.5 times faster. The ours29 study at 50 replicates: 50 s (the same cells took over
   10 minutes before); the robot table: 28 s to 12 s; the suite: 225 s to about 135 s
   (reference scripts now run side by side; test_stacked's oracle density written out).
-  Found on the way: ours25's fallback is decided by rounding (Gaps). Suite: 1,170 pass,
-  none fail, 13 xfail.
+  Found on the way: ours25's fallback is decided by rounding (Gaps). An independent review
+  confirmed the equivalences and found two faults, both fixed: the side-by-side reference
+  scripts were relaunched and orphaned, and the fast path was chosen per batch, not per
+  series. Suite: 1,173 pass, none fail, 13 xfail.
 - 2026-10-24 (night, last): the golden-output test checks printed zero differences against
   1e-7 instead of their digits (the old failure was one of them); requirements-lock.txt pins
   the versions last run. Suite: 1,114 pass, none fail, 13 xfail.

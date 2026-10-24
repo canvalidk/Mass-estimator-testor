@@ -71,9 +71,33 @@ def test_three_sums_refuse_where_the_sum_does_not_reduce():
     u = np.linspace(-3, 3, 11)[None].repeat(2, axis=0)
     same = _readings(rng, 2, 4, 3, 1.0)
     assert same.summed_log_like(u, "flat") is None
-    assert _readings(rng, 2, 4, 3, 1.0, same_s=False).summed_log_like(u, "cartesian2") is None
+    assert np.all(np.isnan(_readings(rng, 2, 4, 3, 1.0, same_s=False).summed_log_like(u, "cartesian2")))
     assert _readings(rng, 2, 4, 3, 1.0, per_axis=True).summed_log_like(u, "cartesian2") is None
-    assert same.summed_log_like(u, "cartesian2") is not None
+    assert np.all(np.isfinite(same.summed_log_like(u, "cartesian2")))
+
+
+@pytest.mark.parametrize("calibrate", [None, "bartlett", "sandwich"])
+def test_a_series_does_not_depend_on_its_batch(calibrate):
+    """A series with one s gets the same bits whether or not a series with several s shares
+    its batch (the fast path is chosen per series). Reproducer from the 24 Oct review."""
+    rng = np.random.default_rng(5)
+    b, n, d = 2, 20, 3
+    alpha = rng.normal(size=(b, n, d))
+    sf, sa = np.full((b, n), 0.91), np.full((b, n), 0.7)
+    sf[1, 3] = 0.5                                              # series 1: several s
+    f = 1.7 * alpha + sf[..., None] * rng.normal(size=(b, n, d))
+    a = alpha + sa[..., None] * rng.normal(size=(b, n, d))
+    law = {"reference": "cartesian2", "nuisance": "radius"}
+    combine = {"rule": "likelihood_product", "prior": PRIOR, "misfit": "kink"}
+    if calibrate:
+        combine["calibrate"] = calibrate
+    readouts = ["median", "log_sd", "interval_95"]
+    both = posterior_summaries(ReadingSet(f, a, sf, sa), law, combine, readouts)
+    alone = posterior_summaries(ReadingSet(f[:1], a[:1], sf[:1], sa[:1]), law, combine, readouts)
+    mixed = posterior_summaries(ReadingSet(f[1:], a[1:], sf[1:], sa[1:]), law, combine, readouts)
+    for name in readouts:
+        assert np.array_equal(both[name][:1], alone[name]), name
+        assert np.array_equal(both[name][1:], mixed[name]), name
 
 
 COMBINES = [

@@ -98,52 +98,65 @@ def compare_outputs(got, expected):
     return None
 
 
-_RUNNING = {}                           # relpath -> (process, stdout file, stderr file)
-
-
 def _launch(relpath):
     script = REFERENCE / relpath
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", PYTHONHASHSEED="0", PYTHONIOENCODING="utf-8")
     out, err = tempfile.TemporaryFile(), tempfile.TemporaryFile()
     proc = subprocess.Popen([sys.executable, "-u", script.name], cwd=script.parent, env=env,
                             stdout=out, stderr=err)
-    _RUNNING[relpath] = (proc, out, err)
+    return proc, out, err
 
 
-def _launch_all():
-    """Start every script this run will compare, side by side: they are independent
-    processes, so the run waits for the slowest, not for their sum. Each test then
-    waits for its own script only."""
-    slow_ok = bool(os.environ.get("MET_SLOW"))
-    for relpath, _, slow in SCRIPTS:
-        if relpath not in _RUNNING and (slow_ok or not slow):
-            _launch(relpath)
-
-
-def run_script(relpath):
-    if relpath not in _RUNNING:
-        _launch(relpath)
-    proc, out, err = _RUNNING.pop(relpath)
+def _finish(proc, out, err, timeout=7200):
+    """Wait for one script; return (returncode, stdout, stderr) and close its files.
+    On timeout or interruption the process is killed and the files closed."""
     try:
-        proc.wait(timeout=7200)
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        raise
-    out.seek(0)
-    err.seek(0)
-    stdout, stderr = out.read().decode("utf-8"), err.read().decode("utf-8", "replace")
-    out.close()
-    err.close()
-    assert proc.returncode == 0, stderr[-2000:]
+        proc.wait(timeout=timeout)
+        out.seek(0)
+        err.seek(0)
+        return proc.returncode, out.read().decode("utf-8"), err.read().decode("utf-8", "replace")
+    finally:
+        if proc.poll() is None:
+            proc.kill()
+            proc.wait()
+        out.close()
+        err.close()
+
+
+def run_script(relpath, running=None):
+    """Run one reference script from its own folder and return its stdout. `running` holds
+    scripts already started by the `launched` fixture; one not there is started now."""
+    started = (running or {}).pop(relpath, None) or _launch(relpath)
+    code, stdout, stderr = _finish(*started)
+    assert code == 0, stderr[-2000:]
     return stdout.replace("\r\n", "\n")
 
 
+@pytest.fixture(scope="module")
+def launched(request):
+    """Start, side by side and once each, the scripts this run will compare: those whose
+    test was selected (-k is honoured) and that are not skipped as slow. They are
+    independent processes, so the run waits for the slowest, not for their sum. Any still
+    running at teardown (a failure with -x, Ctrl-C) are killed."""
+    slow_ok = bool(os.environ.get("MET_SLOW"))
+    wanted = {item.callspec.params["relpath"] for item in request.session.items
+              if getattr(item, "originalname", None) == "test_reference_script_output_is_unchanged"}
+    running = {relpath: _launch(relpath) for relpath, _, slow in SCRIPTS
+               if relpath in wanted and (slow_ok or not slow)}
+    yield running
+    for proc, out, err in running.values():
+        if proc.poll() is None:
+            proc.kill()
+            proc.wait()
+        out.close()
+        err.close()
+
+
 @pytest.mark.parametrize("relpath,expected,slow", SCRIPTS, ids=[s[0] for s in SCRIPTS])
-def test_reference_script_output_is_unchanged(relpath, expected, slow, request):
+def test_reference_script_output_is_unchanged(relpath, expected, slow, launched):
     if slow and not os.environ.get("MET_SLOW"):
         pytest.skip("slow (over 5 minutes): set MET_SLOW=1 to run")
-    _launch_all()
-    got = run_script(relpath)
+    got = run_script(relpath, launched)
     want = (EXPECTED / expected).read_text(encoding="utf-8")
     problem = compare_outputs(got, want)
     assert problem is None, f"{relpath}: {problem}"
