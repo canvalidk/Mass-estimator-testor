@@ -43,7 +43,7 @@ matter most:
 ## Commands
 
 ```sh
-python -m pip install -r requirements.txt
+python -m pip install -r requirements.txt   # or requirements-lock.txt: the exact versions last run
 python tools/audit.py                    # what is out of order in the living layer
 python -m pytest -q                      # about 3.5 minutes; MET_SLOW=1 adds the slow ones
 python -m met list                       # presets and the question each answers
@@ -53,5 +53,7 @@ python -m met run presets/ours29_noise_vs_signal.yaml --replicates 50
 `docs/STATE.md` has a five-line example that calls ours29 from Python.
 
 The golden-output tests in `tests/test_reference_outputs.py` compare printed numbers,
-so a different numpy can move a value that is only rounding noise. Check
-which value moved before treating a failure as real.
+so a different numpy or CPU can move a value that is only rounding noise. Printed
+differences that are zero in exact arithmetic are checked against a bound (ZERO_BOUND), not
+their digits; anything else that moves, check which value before treating it as real. Never
+edit `reference/expected/` to make the test pass.

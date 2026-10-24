@@ -5,7 +5,7 @@ settings; a recorded study is a preset file; tests that share a stage share
 its code. The design and its reasons are in [DESIGN.md](DESIGN.md).
 
 ```sh
-python -m pip install -r requirements.txt
+python -m pip install -r requirements.txt            # requirements-lock.txt pins the last-run versions
 python -m met list                                   # presets and their questions
 python -m met validate presets/repetition_same_pair.yaml
 python -m met run presets/repetition_same_pair.yaml  # full run

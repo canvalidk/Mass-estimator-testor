@@ -8,6 +8,17 @@ and compares its output with that: every piece of text must be identical, and ev
 number must agree to REL_TOL (relative) or ABS_TOL (absolute), which absorbs last-digit
 floating-point differences between machines and nothing more.
 
+One exception, added 24 Oct: a printed difference that is zero in exact arithmetic (the
+number right after "diff" or "change", recorded below ZERO_BOUND) is the script's own
+numerical error, and its digits, even its sign, depend on the numpy build and on which
+OpenBLAS kernels the CPU selects. The ours29 checks take derivatives by finite differences
+with step 1e-4, so they know such a difference to about 1e-8. For those numbers the test
+checks what the line claims, |value| < ZERO_BOUND, instead of the recorded digits. The
+first case: ours29_reference_checks.out, "each reading rotated with its covariance: eta
+diff -3.8e-08", printed +3.3e-08 under numpy 2.5.3. Whether the record's own bound
+(3e-8) holds is a separate question, kept as strict xfails in
+tests/test_reference_records_ours29.py. The recorded outputs are not edited.
+
 This checks repeatability, not correctness: what each record claims about these numbers
 is checked in tests/test_reference_records.py.
 """
@@ -26,6 +37,8 @@ EXPECTED = REFERENCE / "expected"
 
 REL_TOL = 1e-6
 ABS_TOL = 1e-9
+ZERO_BOUND = 1e-7                       # see the module docstring
+_ZERO_LABEL = re.compile(r"(?:diff|change)\s*$")
 
 # (script path under reference/, expected-output file, slow)
 SCRIPTS = [
@@ -61,6 +74,13 @@ def _same_number(a, b):
     return abs(x - y) <= max(ABS_TOL, REL_TOL * max(abs(x), abs(y)))
 
 
+def _is_zero_difference(tokens, i):
+    """Token i is a number printed right after "diff" or "change" and recorded below ZERO_BOUND."""
+    value = float(tokens[i][1])
+    return (i > 0 and _ZERO_LABEL.search(tokens[i - 1][1]) is not None
+            and value == value and abs(value) < ZERO_BOUND)
+
+
 def compare_outputs(got, expected):
     """None if the outputs agree, else a description of the first difference."""
     g, e = _tokens(got.replace("\r\n", "\n")), _tokens(expected.replace("\r\n", "\n"))
@@ -69,7 +89,10 @@ def compare_outputs(got, expected):
     for i, ((gn, gv), (en, ev)) in enumerate(zip(g, e)):
         if gn != en or (not gn and gv != ev):
             return f"text differs at token {i}: {gv!r} against expected {ev!r}"
-        if gn and not _same_number(gv, ev):
+        if gn and _is_zero_difference(e, i):
+            if not abs(float(gv)) < ZERO_BOUND:
+                return f"difference at token {i} is {gv}, not below {ZERO_BOUND:g} (recorded {ev})"
+        elif gn and not _same_number(gv, ev):
             return f"number differs at token {i}: {gv} against expected {ev}"
     return None
 
@@ -115,3 +138,15 @@ def test_the_comparison_is_strict_where_it_should_be():
     assert compare_outputs("median 1.0 x", "readout 1.0 x") is not None
     assert compare_outputs("a 1 2", "a 1 2 3") is not None
     assert compare_outputs("eta nan", "eta nan") is None
+
+
+def test_zero_differences_are_checked_against_their_bound():
+    want = "  rotated: eta diff -3.8e-08, readout 3.132929, law max change 6.6e-17\n"
+    assert compare_outputs(want.replace("-3.8e-08", "+3.3e-08"), want) is None
+    assert compare_outputs(want.replace("6.6e-17", "-4.0e-16"), want) is None
+    assert "not below" in compare_outputs(want.replace("-3.8e-08", "+2.0e-07"), want)
+    # numbers not labelled as differences keep the ordinary tolerance
+    assert "number differs" in compare_outputs(want.replace("3.132929", "3.132939"), want)
+    # a difference recorded above the bound is compared digit by digit as before
+    big = "  eta diff +4.0e-03\n"
+    assert "number differs" in compare_outputs(big.replace("4.0e-03", "4.1e-03"), big)

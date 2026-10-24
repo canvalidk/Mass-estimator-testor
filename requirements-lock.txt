@@ -1,0 +1,14 @@
+# The environment the tests last passed in (2026-10-24), pinned exactly.
+# Python 3.13. Install with: python -m pip install -r requirements-lock.txt
+# requirements.txt keeps the loose lower bounds; this file says what was actually run.
+# OpenBLAS (bundled in the numpy and scipy wheels) picks its kernels by CPU, so even this
+# environment can move a last digit on another machine; tests/test_reference_outputs.py
+# allows for that (REL_TOL, ABS_TOL, ZERO_BOUND).
+numpy==2.5.3
+scipy==1.18.1
+PyYAML==6.0.3
+pytest==9.1.1
+iniconfig==2.3.1
+packaging==26.3
+pluggy==1.7.0
+Pygments==2.21.0

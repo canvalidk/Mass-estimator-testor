@@ -197,10 +197,10 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 - ours29 has been run on the robot data only (Zenodo 10.5281/zenodo.11096791, CC-BY 4.0,
   in `../legacy/vd-newton-lab/raw/robot/`), not on the cart data. The robot's dynamic
   readings carry error beyond the declared budget (O16); no budget is ruled.
-- One golden-output test fails under a newer numpy, on a number that is rounding noise
-  around zero (`ours29_reference_checks.py`, token 103: +3.3e-08 against −3.8e-08).
-  The three strict rotation xfails in `tests/test_reference_records_ours29.py` sit near
-  their 3e-8 bound for the same reason and could pass, and so fail, on another numpy.
+- The three strict rotation xfails in `tests/test_reference_records_ours29.py` sit near
+  their 3e-8 bound (numpy 2.5.3 gives eta +3.3e-8, readout +6.0e-8, median +3.2e-8), so on
+  another numpy or CPU one could pass, and so fail. The golden-output test no longer has
+  this problem: it checks zero differences against 1e-7 (`ZERO_BOUND`), not their digits.
 - The 10 Oct check script behind T32 is not yet kept (pending since 10 Oct).
 - The reproducibility inventory still cites VD-Newton paths for scripts now in `../legacy/`.
 
@@ -250,6 +250,9 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-24 (night, last): the golden-output test checks printed zero differences against
+  1e-7 instead of their digits (the old failure was one of them); requirements-lock.txt pins
+  the versions last run. Suite: 1,114 pass, none fail, 13 xfail.
 - 2026-10-24 (night, later): tests/test_theorems.py (25 tests) for T2–T4, T6, T7, T15–T20, T23,
   T26, T28; each file names its test. Found on the way: T15's condition is on g-weighted sums;
   T23's Z route needs independent channels, which no premise states (O4); eta's spread on one
