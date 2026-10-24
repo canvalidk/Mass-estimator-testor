@@ -309,6 +309,20 @@ def radial_terms(h, d, reference):
     raise ValueError(reference_error(reference))
 
 
+def radial_log_kernel(h, d, reference):
+    """log K alone: the first value of radial_terms, without the mean radius."""
+    if reference == "flat":
+        return log_radial_kernel(h, d)
+    if reference == "cartesian1":
+        return 0.5 * h * h
+    if reference == "cartesian2":
+        if d not in DIMENSIONS:
+            raise ValueError(f"dimension must be one of {DIMENSIONS}")
+        h = np.abs(np.asarray(h, dtype=float))
+        return 0.5 * h * h
+    raise ValueError(reference_error(reference))
+
+
 def reference_error(reference):
     """The refusal for an unknown reference; the retired name says why it was split."""
     if reference == "cartesian":
@@ -512,7 +526,7 @@ class ReadingSet:
     def readings(self):
         return self.force.shape[1]
 
-    def reading_terms(self, u, nuisance, *, reference):
+    def reading_terms(self, u, nuisance, *, reference, alpha=True):
         """Per-reading curves on log-mass grids u of shape (B, G).
 
         reference: 'flat' (21 Sept, df d(alpha) dOmega), or 'cartesian1' / 'cartesian2'
@@ -521,6 +535,9 @@ class ReadingSet:
           log_like   log-likelihood of mass with this reading's nuisance integrated,
           log_ref    the mass factor the single-reading reference implies (density in u),
           cond_alpha E[alpha | m] for this reading.
+        alpha=False skips cond_alpha (returned as None): it is the costly part (erf, Bessel)
+        and only the plain ratio_of_means readout uses it. log_like and log_ref are the same
+        either way, bit for bit.
         """
         if nuisance not in NUISANCES:
             raise ValueError(f"nuisance must be one of {NUISANCES}")
@@ -535,8 +552,11 @@ class ReadingSet:
         sn, cs = np.exp(log_sin), np.exp(log_cos)
         P, Q, D = (v[:, :, None] for v in (self.P, self.Q, self.D))
         h = np.sqrt(np.maximum(0.0, P * sn * sn + Q * cs * cs + 2.0 * D * sn * cs))
-        log_k, radius = radial_terms(h, self.dimension, reference)
-        cond_alpha = self.acceleration_sd[:, :, None] * cs * radius
+        if alpha:
+            log_k, radius = radial_terms(h, self.dimension, reference)
+            cond_alpha = self.acceleration_sd[:, :, None] * cs * radius
+        else:
+            log_k, cond_alpha = radial_log_kernel(h, self.dimension, reference), None
         k = nuisance_power(self.dimension, reference)
         if nuisance == "radius":
             log_like, log_ref = log_k, -np.logaddexp(z, -z)
@@ -547,6 +567,30 @@ class ReadingSet:
         log_ref = np.broadcast_to(log_ref, log_k.shape)
         return log_like, log_ref, cond_alpha
 
+    def summed_log_like(self, u, reference, weights=None):
+        """sum_i w_i log_like_i (radius nuisance) on grids u (B, G), straight from three sums.
+
+        Under either cartesian reference a reading's log-likelihood is h_i^2 / 2 with
+        h_i^2 = P_i sin^2 + Q_i cos^2 + 2 D_i sin cos at the reading's own angle. When every
+        reading of a series has the same s, the angle is common and the (weighted) sum is
+        (sum w P) sin^2 + (sum w Q) cos^2 + 2 (sum w D) sin cos: one curve per series
+        instead of one per reading (ours25b's three sums; StackedState carries the same).
+        Equal to summing reading_terms' log_like to rounding (tests/test_summed_law.py).
+        weights (B, N), optional and >= 0: the misfit weights g_i.
+        Returns None when the sum does not reduce (flat reference, per-axis noise, or
+        readings in a series with different s); the caller then sums reading by reading."""
+        if reference not in ("cartesian1", "cartesian2") or not self.isotropic:
+            return None
+        if not np.all(self._s == self._s[:, :1]):
+            return None
+        u = np.asarray(u, dtype=float)
+        w = 1.0 if weights is None else np.asarray(weights, dtype=float)
+        P, Q, D = (np.sum(w * v, axis=1)[:, None] for v in (self._P, self._Q, self._D))
+        z = u - np.log(self._s[:, :1])
+        sn = np.exp(-0.5 * np.logaddexp(0.0, -2.0 * z))
+        cs = np.exp(-0.5 * np.logaddexp(0.0, 2.0 * z))
+        return 0.5 * np.maximum(0.0, P * sn * sn + Q * cs * cs + 2.0 * D * sn * cs)
+
     def _per_axis_terms(self, u, nuisance, reference):
         """ours26's law for per-axis noise: each reading's log-likelihood is the sum of its
         axes' one-dimensional cartesian log-likelihoods (axis splitting). Only the radius
@@ -555,7 +599,7 @@ class ReadingSet:
         if reference not in ("cartesian1", "cartesian2") or nuisance != "radius":
             raise ValueError(PER_AXIS_ERROR)
         b, n, d = self.force.shape
-        like, _, _ = self.split_axes().reading_terms(u, "radius", reference=reference)
+        like, _, _ = self.split_axes().reading_terms(u, "radius", reference=reference, alpha=False)
         return like.reshape(b, n, d, -1).sum(axis=2), None, None
 
     def stacked_cond_alpha(self, u, *, reference):

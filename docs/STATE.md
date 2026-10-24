@@ -201,6 +201,15 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
   their 3e-8 bound (numpy 2.5.3 gives eta +3.3e-8, readout +6.0e-8, median +3.2e-8), so on
   another numpy or CPU one could pass, and so fail. The golden-output test no longer has
   this problem: it checks zero differences against 1e-7 (`ZERO_BOUND`), not their digits.
+- ours25 (the sandwich, kept only for comparison) decides between the full law and the
+  prior on rounding noise for some series. When a series' best line is at negative mass,
+  its peak search on m > 0 ends at the grid's edge, where the law is flat to about 1e-8 and
+  the finite-difference curvature H is the size of per-reading rounding (example: preset
+  ours29_noise_vs_signal, cell c065, 4 replicates, series 3: H = 4e-9, so w lands on the
+  1e-6 floor or on 1 depending on summation order). Found 24 Oct while making the batch law
+  faster; the sandwich's search was left reading by reading so its recorded numbers stay
+  reproducible (`sandwich_weight`'s docstring). Not a fork of the definition: ours25 is not
+  the equation.
 - The 10 Oct check script behind T32 is not yet kept (pending since 10 Oct).
 - The reproducibility inventory still cites VD-Newton paths for scripts now in `../legacy/`.
 
@@ -250,6 +259,16 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-24 (night, speed): no numbers changed beyond rounding. The batch law no longer
+  computes each reading's E[alpha | m] unless the plain ratio_of_means readout asks for it
+  (bit for bit the same), and with one s per series the likelihood product is summed from
+  three sums instead of reading by reading (every preset's readouts within 8e-14 relative of
+  before; tests/test_summed_law.py). met/full.py's readout integral is bit for bit the same
+  and 2.5 times faster. The ours29 study at 50 replicates: 50 s (the same cells took over
+  10 minutes before); the robot table: 28 s to 12 s; the suite: 225 s to about 135 s
+  (reference scripts now run side by side; test_stacked's oracle density written out).
+  Found on the way: ours25's fallback is decided by rounding (Gaps). Suite: 1,170 pass,
+  none fail, 13 xfail.
 - 2026-10-24 (night, last): the golden-output test checks printed zero differences against
   1e-7 instead of their digits (the old failure was one of them); requirements-lock.txt pins
   the versions last run. Suite: 1,114 pass, none fail, 13 xfail.

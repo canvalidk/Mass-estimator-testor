@@ -45,7 +45,7 @@ matter most:
 ```sh
 python -m pip install -r requirements.txt   # or requirements-lock.txt: the exact versions last run
 python tools/audit.py                    # what is out of order in the living layer
-python -m pytest -q                      # about 3.5 minutes; MET_SLOW=1 adds the slow ones
+python -m pytest -q                      # about 2.5 minutes; MET_SLOW=1 adds the slow ones
 python -m met list                       # presets and the question each answers
 python -m met run presets/ours29_noise_vs_signal.yaml --replicates 50
 ```

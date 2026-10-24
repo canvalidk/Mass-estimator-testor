@@ -241,8 +241,11 @@ def check_proper(law, combine, n, d):
 
 # ---------------------------------------------------------------- joint law
 
-def joint_log_density(readings, u, law, combine):
-    """Joint log density in u (up to a constant) and A(u) = sum_i E[alpha_i | m]."""
+def joint_log_density(readings, u, law, combine, alpha=True):
+    """Joint log density in u (up to a constant) and A(u) = sum_i E[alpha_i | m].
+
+    alpha=False returns A as None without computing it (the density is unchanged); the
+    sequential and hierarchical rules ignore the flag."""
     rule = combine["rule"]
     if not readings.isotropic and rule not in ("likelihood_product", "hierarchical"):
         raise ValueError(f"rule {rule!r} is not built for per-axis noise: ours26 is the likelihood product "
@@ -252,7 +255,13 @@ def joint_log_density(readings, u, law, combine):
         return _sequential_log_density(readings, u, law, combine)
     if rule == "hierarchical":
         return _hierarchical_log_density(readings, u, law, combine)
-    log_like, log_ref, cond_alpha = readings.reading_terms(u, law["nuisance"], reference=law["reference"])
+    if rule == "likelihood_product" and not alpha and law["nuisance"] == "radius":
+        g = misfit_weights(readings, combine) if combine.get("misfit") else None
+        lp = readings.summed_log_like(u, law["reference"], g)
+        if lp is not None:                    # one curve per series from three sums
+            return _calibrated(lp, readings, law, combine) + prior_log_density(combine["prior"], u, readings), None
+    log_like, log_ref, cond_alpha = readings.reading_terms(u, law["nuisance"], reference=law["reference"],
+                                                           alpha=alpha)
     n = readings.readings
     if rule == "single":
         if n != 1:
@@ -261,11 +270,7 @@ def joint_log_density(readings, u, law, combine):
     elif rule == "likelihood_product":
         if combine.get("misfit"):
             log_like = misfit_weights(readings, combine)[:, :, None] * log_like
-        lp = np.sum(log_like, axis=1)
-        if combine.get("calibrate") == "sandwich":
-            lp = sandwich_weight(readings, law, combine)[:, None] * lp
-        elif combine.get("calibrate") == "bartlett":
-            lp = bartlett_weight(readings, combine)[:, None] * lp
+        lp = _calibrated(np.sum(log_like, axis=1), readings, law, combine)
     elif rule == "posterior_product":
         lp = np.sum(log_like + log_ref, axis=1)
         if combine["coordinate"] == "mass":
@@ -274,6 +279,15 @@ def joint_log_density(readings, u, law, combine):
         raise ValueError(f"unknown rule {rule!r}")
     lp = lp + prior_log_density(combine["prior"], u, readings)
     return lp, (None if cond_alpha is None else np.sum(cond_alpha, axis=1))
+
+
+def _calibrated(lp, readings, law, combine):
+    """The likelihood product's summed log-likelihood raised to its calibration power."""
+    if combine.get("calibrate") == "sandwich":
+        return sandwich_weight(readings, law, combine)[:, None] * lp
+    if combine.get("calibrate") == "bartlett":
+        return bartlett_weight(readings, combine)[:, None] * lp
+    return lp
 
 
 # ---------------------------------------------------------------- sandwich calibration (our25)
@@ -297,12 +311,17 @@ W_FLOOR = 1e-6
 
 
 def _likelihood_total(readings, u, law):
-    log_like, _, _ = readings.reading_terms(u, law["nuisance"], reference=law["reference"])
+    log_like, _, _ = readings.reading_terms(u, law["nuisance"], reference=law["reference"], alpha=False)
     return log_like
 
 
 def sandwich_weight(readings, law, combine):
-    """Per-series tempering power w = H/J (cached on the readings)."""
+    """Per-series tempering power w = H/J (cached on the readings).
+
+    The peak search sums reading by reading on purpose, not through summed_log_like: when a
+    series' best line is at negative mass the search ends at the grid's edge, where the law
+    is flat and H is rounding noise, so w there (the 1e-6 floor or up to 1) follows the last
+    bits of the sum. Kept as it was so ours25's recorded numbers stay reproducible."""
     key = ("sandwich", id(combine))
     if key in readings.series_data:
         return readings.series_data[key]
@@ -799,7 +818,7 @@ def _support(readings, grid, law, combine, cutoff):
     Returns lo, hi (two grid steps outside the support), the support's width in
     grid steps, and whether the support touches either end of the grid.
     """
-    lp, _ = joint_log_density(readings, grid, law, combine)
+    lp, _ = joint_log_density(readings, grid, law, combine, alpha=False)
     top = np.max(lp, axis=1, keepdims=True)
     keep = lp > top - cutoff
     first = np.argmax(keep, axis=1)
@@ -838,7 +857,7 @@ def posterior_summaries(readings, law, combine, readouts, numerics=None):
     g = int(num["grid_points"])
     t = np.linspace(0.0, 1.0, g)
     u = lo[:, None] + (hi - lo)[:, None] * t[None, :]
-    lp, acc = joint_log_density(readings, u, law, combine)
+    lp, acc = joint_log_density(readings, u, law, combine, alpha="ratio_of_means" in set(readouts))
     dens = np.exp(lp - np.max(lp, axis=1, keepdims=True))
     h = (hi - lo) / (g - 1)
     w = dens * _trapezoid_weights(g)[None, :] * h[:, None]
