@@ -98,6 +98,15 @@ r["readout"], r["median"], r["interval"], r["raw_interval"], r["eta"], r["g"]
 The window is carried on each `Reading` but not used by the equation (T33). The batch
 pipeline, presets and world still take isotropic and per-axis noise only.
 
+**Real data.** `met/robot.py` turns VD-Newton's robot runs into `Reading`s: calibration
+re-derived (matches the lab's `robot_cart.json` to 1e-12), both channels averaged over one
+window each, IMU lag 8416 µs, budget = steady-state variance over the window's sample count
+plus the calibration residual as a floor (Claude's declaration). `python tools/robot_run.py`
+prints the table. On 1-baseline with 0.2 s windows ours29 gives median 0.9213,
+[0.9137, 0.9290], against the static calibration mass 0.9323 (strict xfail); static
+orientations held out give 0.9302 and 0.9320 and cover it. Why the dynamic runs miss is
+O16 and the two facts recorded there.
+
 ## Where the truth lives
 
 | Question | Authority |
@@ -165,6 +174,7 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 | O13 | ruling | Is anything more owed for readings that contradict each other? |
 | O14 | proof | eta at small N: a correction that counts effective readings |
 | O15 | proof | Is the bounded null floor the best any law can do? |
+| O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type; on the robot a shared floor averages down across windows |
 | L13, L18 | ruling | Confirm "the noise model is forced Gaussian, the data need not be"; is the subspace an input? |
 | E10 | ruling | Does the VD entry still name the estimator without supplying it, now that composition forces the readout? (ours26 sweep §3.2) |
 
@@ -173,7 +183,7 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 - The lemma list d4 still shows O1 open; the 29 Sept ruling closed it. The living layer
   records O1 as closed; d5 of the lemma list, when Can wants one, is generated from
   `definition/` (`python tools/audit.py --table`).
-- 20 of the 33 theorems name no test, or only a partial one (`python tools/audit.py`).
+- 16 of the 33 theorems name no test, or only a partial one (`python tools/audit.py`).
   Several are derivations with nothing to test (T2, T3, T21); the rest are work.
 - L3 (units covariance) is used by T14's argument but no theorem's From line cites it.
 - The current equation note in VD-docs states ours25b, four equation states behind
@@ -183,9 +193,9 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
   moves it (ln m 1.1181 with eta 0.403, 1.2181 with eta 1). The likelihood part alone
   peaks at ln m 1.3181 for both, so the peak moves only because eta changes pi's
   relative weight: the record's sentence is wrong, not the code. Strict xfail.
-- ours29 has never been run on real data. The robot data (Zenodo
-  10.5281/zenodo.11096791, CC-BY 4.0) is in `../legacy/vd-newton-lab/raw/robot/`;
-  `met/` has no file loader.
+- ours29 has been run on the robot data only (Zenodo 10.5281/zenodo.11096791, CC-BY 4.0,
+  in `../legacy/vd-newton-lab/raw/robot/`), not on the cart data. The robot's dynamic
+  readings carry error beyond the declared budget (O16); no budget is ruled.
 - One golden-output test fails under a newer numpy, on a number that is rounding noise
   around zero (`ours29_reference_checks.py`, token 103: +3.3e-08 against −3.8e-08).
   The three strict rotation xfails in `tests/test_reference_records_ours29.py` sit near
@@ -239,6 +249,10 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-24 (night): met/robot.py, tools/robot_run.py, tests/test_robot.py (7 tests, one
+  strict xfail: the baseline interval misses the calibration mass), tests/test_window.py (T33's
+  example; T33 now names its tests). O16 opened from the robot run. Suite: 1,087 pass,
+  1 fails (the old golden output), 13 xfail.
 - 2026-10-24 (evening): met/full.py, the full input type, with tests/test_full.py (34 tests:
   agreement with the reference and the batch pipeline; T1, T5, T13, T14, T22, T24, T25, T29, T32).
   Suite: 1,078 pass, 1 fails (the old golden output), 12 xfail.

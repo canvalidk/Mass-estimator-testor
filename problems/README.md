@@ -16,6 +16,7 @@ it. A conversation that works on an item edits its file; it does not write a rec
 | [O13](O13.md) | ruling | Is anything more owed for readings that contradict each other? |
 | [O14](O14.md) | proof | η at finite N: a correction that counts effective readings |
 | [O15](O15.md) | proof | Is the bounded null floor the best any law can do? |
+| [O16](O16.md) | fork (input, Claude's sort) | Errors shared across readings: the type has no slot for them (found on the robot data, 24 Oct) |
 
 Closed items keep their number and leave this folder; the closing ruling is in
 `../rulings.md` and the theorem it produced, if any, in `../definition/theorems/`.
