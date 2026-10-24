@@ -14,7 +14,7 @@ import numpy as np
 import pytest
 from scipy.integrate import quad
 from scipy.special import roots_legendre
-from scipy.stats import chi2
+from scipy.special import gammaln
 from scipy.spatial.transform import Rotation
 
 from met.analyst import Estimator, estimate
@@ -46,8 +46,16 @@ def test_series_matches_closed_forms(k):
 @pytest.mark.parametrize("h", [0.0, 0.8, 4.0, 25.0])
 def test_stacked_mean_radius_by_quadrature(k, h):
     """E sqrt((h + z)^2 + R^2), z ~ N(0, 1) along w, R^2 ~ chi^2_{k-1} across it."""
+    nu = k - 1
+    log_norm = -0.5 * nu * math.log(2.0) - float(gammaln(0.5 * nu))
+
+    def chi2_pdf(q):                     # the chi-square density, written out (scipy.stats'
+        if q <= 0.0:                     # per-call checks were ~90% of this test's time)
+            return 0.0
+        return math.exp(log_norm + (0.5 * nu - 1.0) * math.log(q) - 0.5 * q)
+
     def inner(z):
-        return quad(lambda q: math.sqrt((h + z) ** 2 + q) * chi2.pdf(q, k - 1), 0, np.inf, limit=200)[0]
+        return quad(lambda q: math.sqrt((h + z) ** 2 + q) * chi2_pdf(q), 0, np.inf, limit=200)[0]
     value = quad(lambda z: inner(z) * math.exp(-0.5 * z * z) / math.sqrt(2 * math.pi), -12, 12, limit=200)[0]
     assert stacked_mean_radius(np.array([h]), k)[0] == pytest.approx(value, rel=1e-8)
 

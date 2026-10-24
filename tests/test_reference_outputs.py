@@ -27,6 +27,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -97,19 +98,51 @@ def compare_outputs(got, expected):
     return None
 
 
-def run_script(relpath):
+_RUNNING = {}                           # relpath -> (process, stdout file, stderr file)
+
+
+def _launch(relpath):
     script = REFERENCE / relpath
-    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", PYTHONHASHSEED="0")
-    done = subprocess.run([sys.executable, "-u", script.name], cwd=script.parent, env=env,
-                          capture_output=True, text=True, timeout=7200)
-    assert done.returncode == 0, done.stderr[-2000:]
-    return done.stdout
+    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", PYTHONHASHSEED="0", PYTHONIOENCODING="utf-8")
+    out, err = tempfile.TemporaryFile(), tempfile.TemporaryFile()
+    proc = subprocess.Popen([sys.executable, "-u", script.name], cwd=script.parent, env=env,
+                            stdout=out, stderr=err)
+    _RUNNING[relpath] = (proc, out, err)
+
+
+def _launch_all():
+    """Start every script this run will compare, side by side: they are independent
+    processes, so the run waits for the slowest, not for their sum. Each test then
+    waits for its own script only."""
+    slow_ok = bool(os.environ.get("MET_SLOW"))
+    for relpath, _, slow in SCRIPTS:
+        if relpath not in _RUNNING and (slow_ok or not slow):
+            _launch(relpath)
+
+
+def run_script(relpath):
+    if relpath not in _RUNNING:
+        _launch(relpath)
+    proc, out, err = _RUNNING.pop(relpath)
+    try:
+        proc.wait(timeout=7200)
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        raise
+    out.seek(0)
+    err.seek(0)
+    stdout, stderr = out.read().decode("utf-8"), err.read().decode("utf-8", "replace")
+    out.close()
+    err.close()
+    assert proc.returncode == 0, stderr[-2000:]
+    return stdout.replace("\r\n", "\n")
 
 
 @pytest.mark.parametrize("relpath,expected,slow", SCRIPTS, ids=[s[0] for s in SCRIPTS])
 def test_reference_script_output_is_unchanged(relpath, expected, slow, request):
     if slow and not os.environ.get("MET_SLOW"):
         pytest.skip("slow (over 5 minutes): set MET_SLOW=1 to run")
+    _launch_all()
     got = run_script(relpath)
     want = (EXPECTED / expected).read_text(encoding="utf-8")
     problem = compare_outputs(got, want)
