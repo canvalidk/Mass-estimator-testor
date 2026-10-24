@@ -8,6 +8,9 @@ They moved here from VD-docs (`Newton-analysis/_dscn_mass_estimator/`) on
 **2026-10-22**, on his ruling that VD-docs holds made decisions only and that
 doing this work there had been a mistake.
 
+**Start with [`STATE.md`](STATE.md)**: what is current, what is open, and
+which files to read first. The rest of this README describes the layout.
+
 ## Layout
 
 `docs/` mirrors the old discussion root, so the relative paths the records use
@@ -16,7 +19,7 @@ that start `_dscn_mass_estimator/` or `Newton-analysis/` point at VD-docs and
 are stale for these files; the filename is the identifier.
 
 - `README_of_the_discussion_before_2026-10-22.md`: the map of this material as
-  it stood in VD-docs, with every relation recorded there. Start here.
+  it stood in VD-docs, with every relation recorded there, in date order.
 - `SHA256SUMS`: hash of every file as it left VD-docs (`sha256sum -c SHA256SUMS`
   from this folder).
 - `vd-docs-context/`: read-only copies of what stayed in VD-docs: the 12
