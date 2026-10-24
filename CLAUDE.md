@@ -1,12 +1,21 @@
 # Mass estimator tester
 
-This repo runs every test and study of the VD mass estimator, the function the
-project claims is the definition of inertial mass. The code is `met/`; the records
-are `docs/`; earlier programs are in `legacy/` (history, never run).
+This repo holds the VD mass estimator, the function the project claims is the
+definition of inertial mass, together with its proof and every test of it.
 
-**Start with `docs/STATE.md`.** It says what is current, what is open, and which
-five files to read first. Do not reconstruct the state from the records in date
-order; that is what the page is for.
+- `definition/`: the deliverable (type, premises, one file per theorem, the equation)
+- `problems/`: one file per open item
+- `rulings.md`: every ruling of Can's, dated, verbatim, append-only
+- `met/`, `tests/`, `presets/`, `reference/`: the code, its tests, the studies
+- `docs/`: archive, the records the living layer was built from
+- `legacy/`: earlier programs, history, never run
+
+**Start with `docs/STATE.md`**, then run `python tools/audit.py`. Do not reconstruct
+the state from the records; the living layer is the state.
+
+Write only into the living layer: a theorem file, a problem file's attempts list, a
+ruling appended to `rulings.md`, a test. Do not write a new record at the end of a
+conversation.
 
 ## Rules that are easy to break
 
@@ -22,11 +31,14 @@ matter most:
 - Only decisions go to VD-docs, through `outbox/VD-docs/`. Work stays in `docs/`.
 - When you change what `docs/STATE.md` describes, update it in the same commit,
   and add a line to its log at the end of a session.
+- A theorem is "proved" only when its file names the test that checks it. Mark
+  what is yours as yours; "forced" means forced from a named premise.
 
 ## Commands
 
 ```sh
 python -m pip install -r requirements.txt
+python tools/audit.py                    # what is out of order in the living layer
 python -m pytest -q                      # about 3.5 minutes; MET_SLOW=1 adds the slow ones
 python -m met list                       # presets and the question each answers
 python -m met run presets/ours29_noise_vs_signal.yaml --replicates 50

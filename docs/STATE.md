@@ -4,8 +4,20 @@
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
-open the five files under "Read first", and be working within the hour. Everything
-else in `docs/` is either reference or history.
+open the files under "Read first", and be working within the hour.
+
+**The living layer** (added 2026-10-24) is three folders and one file at the repo root:
+
+| Place | Holds | Rule |
+| --- | --- | --- |
+| `definition/` | the deliverable: type, premises (F, L, R), one file per theorem, the equation | edit in place; git is the history |
+| `problems/` | one file per open item: requirements, attempts, what killed each, questions for Can | a conversation's findings go here, not into a record |
+| `rulings.md` | every ruling of Can's, dated, verbatim, append-only | a status may say "ruled" only if its date is in here |
+| `tools/audit.py` | lists what is out of order across the three | run before committing |
+
+Everything in `docs/` is now **archive**: the records that produced the living layer, kept
+for citation and provenance. Read them when a theorem or problem file points at one; do
+not reconstruct the state from them.
 
 ## What the project is trying to do
 
@@ -149,7 +161,12 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Gaps (as of 2026-10-24)
 
-- The lemma list still shows O1 open; the 29 Sept ruling closed it.
+- The lemma list d4 still shows O1 open; the 29 Sept ruling closed it. The living layer
+  records O1 as closed; d5 of the lemma list, when Can wants one, is generated from
+  `definition/` (`python tools/audit.py --table`).
+- 20 of the 33 theorems name no test, or only a partial one (`python tools/audit.py`).
+  Several are derivations with nothing to test (T2, T3, T21); the rest are work.
+- L3 (units covariance) is used by T14's argument but no theorem's From line cites it.
 - The current equation note in VD-docs states ours25b, four equation states behind
   (ours26 to ours29), and its many-reading step rests on the strong form of axis
   splitting, ruled false on 29 Sept (L8).
@@ -170,12 +187,14 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 ## Read first
 
 1. This page.
-2. `vd-docs-context/mass_estimator_lemmas_2026-10-10.md`: the premises (L), what they
-   force (T), and what is open (O).
-3. `noise_vs_signal/ours29_misfit_weight_and_bartlett_power_2026-09-30.md`: the current law.
-4. `vd-docs-context/why_mass_cannot_be_undefined_2026-09-29.md`: the ruling that sets O2.
-5. `mass_as_force_paired_with_reciprocal_acceleration_2026-10-10.md`: the newest idea
-   (units and axes; aligned case only).
+2. `../definition/equation.md`, then `../definition/premises.md` and
+   `../definition/theorems/README.md`: what is claimed and what it rests on.
+3. `../problems/O2.md` and `../problems/O6.md`: the two items that need an idea.
+4. `../rulings.md`: what Can has decided, in his words.
+5. Then, only as the files above point at them: the lemma list d4
+   (`vd-docs-context/mass_estimator_lemmas_2026-10-10.md`, the source the living layer was
+   split from), the ours29 record, the undefined-mass record, and the 10 Oct units-and-axes
+   record (the newest idea; aligned case only).
 
 ## Map of docs/
 
@@ -201,6 +220,11 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 - When this page and a dated ruling disagree, the ruling wins: fix this page and say so
   in the commit message.
 - Add one line to the log below at the end of any working session.
+- A session writes into the living layer only: a theorem file, a problem file's attempts,
+  a ruling appended to `rulings.md`, a test. It does not write a new record. If a result
+  fits none of those slots, say so here under Gaps rather than inventing a fifth kind.
+- Start a session by reading this page and running `python tools/audit.py` and the tests;
+  say which mode the work is in (generation or pressure).
 
 ## Log
 
