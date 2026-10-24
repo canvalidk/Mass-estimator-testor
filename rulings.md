@@ -388,6 +388,12 @@ read. Line numbers refer to the files as they stood that day.
 - **Words:** "this space is going to be more for you. […] VD docs doesn't just record complete ideas, it also does it for me to get them. That means you can choose how you want mass estimator to be somewhat. […] The goal is to produce that equation + proof." On the plan: "Go ahead."
 - **Source:** the conversation of 2026-10-24 (this session); recorded here directly, no record was written.
 
+### R-2026-10-24-3 — The task is the function which is unique; what the readings cannot decide is input
+- **Decides:** The method of the whole project, written out in `TASK.md`. The search is for the function which is unique, not a function unique to Can's preferences. Every fork the readings cannot decide becomes an input, as a branch cut is an input to the complex logarithm; what survives is the definition, provided it agrees with experiment. Belief that the function exists is licensed and is the one assumption never dropped; it is what lets one choose when two networks of argument contradict.
+- **Replaces / closes:** Reframes F2 (free choices of the function are alternative mechanics; choices of the caller are inputs). Reframes O6 and O11 as questions about an input's admissible family and principal branch; their rows in Owed below stay until he confirms the reframing closes them.
+- **Words:** "Is the logarithm a unique function in hte complex plane? No. Once you pick the brach cut it is. Therefore, there is a logarithm function which is unique. If you want to hold on to that unique function, all you have to say is that the logarithm inputs a branch cut. Then its unique." — "I keep saying find me the unique function, you fail because you don't understand the task. […] Because you think you are looking for a function unique to me. No you are trying to find 'the unique function' as in the function which is unique. Despite the obstacles. What will be the definition will be whatever thing is unique at the end and agrees with experiment. And everything else will depend on the situation." — "You can drop every assumption, except the one that says the one I'm trying to do is possible. Which is an extra assumption you are licensed to accept." On recording it: "Right do that. But I want you to also have a place where this principle is explained with the logarithm example and more thoroughly. Cause like... this is the task."
+- **Source:** the conversation of 2026-10-24 (this session); recorded directly.
+
 ---
 
 ## Owed

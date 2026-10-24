@@ -10,7 +10,13 @@ definition of inertial mass, together with its proof and every test of it.
 - `docs/`: archive, the records the living layer was built from
 - `legacy/`: earlier programs, history, never run
 
-**Start with `docs/STATE.md`**, then run `python tools/audit.py`. Do not reconstruct
+**Read `TASK.md` first.** The task is to find the function which is unique: every fork
+the readings cannot decide becomes an input (as a branch cut is an input to the complex
+logarithm), and what survives, if it agrees with experiment, is the definition. At a
+fork, sort it as forced, input, or wrong premise; do not pick by test score and do not
+ask Can to choose a side.
+
+**Then `docs/STATE.md`**, then run `python tools/audit.py`. Do not reconstruct
 the state from the records; the living layer is the state.
 
 Write only into the living layer: a theorem file, a problem file's attempts list, a

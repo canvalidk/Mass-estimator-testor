@@ -186,6 +186,8 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Read first
 
+0. `../TASK.md`: the task itself (find the function which is unique; what the readings
+   cannot decide is input), with the logarithm example. Everything below assumes it.
 1. This page.
 2. `../definition/equation.md`, then `../definition/premises.md` and
    `../definition/theorems/README.md`: what is claimed and what it rests on.
@@ -228,6 +230,8 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-24 (evening): TASK.md added, the principle as the task (R-2026-10-24-3); CLAUDE.md
+  and this page now send readers there first.
 - 2026-10-24 (later): the living layer added: definition/ split from lemma list d4, problems/
   (O2 and O6 written out), rulings.md (62 entries extracted from the records, 28 quotes
   re-checked), tools/audit.py. docs/ relabelled as archive.
