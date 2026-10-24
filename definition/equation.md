@@ -102,8 +102,13 @@ was declared until 30 Sept and is now forced (T30, O12 closed).
 
 `law: {reference: cartesian2, nuisance: radius}` with
 `combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}], misfit: kink, calibrate: bartlett}`
-and readout `ratio_of_means_rss`. `met/` takes isotropic and per-axis noise only; the full
-input type above is implemented in `../reference/noise_vs_signal/ours29_reference.py`.
+and readout `ratio_of_means_rss`: the batch pipeline, isotropic and per-axis noise.
+
+The full input type above (any Σᵢ, a declared Nᵢ, the window carried) is `met/full.py`:
+`ours29(readings, c)` on a list of `Reading(force, acceleration, cov, subspace=None, window=None)`,
+with `c` required (π is an input). It agrees with the batch pipeline on isotropic noise and with
+`../reference/noise_vs_signal/ours29_reference.py` at its grid; `tests/test_full.py`. Presets and
+the world do not generate correlated noise yet.
 
 ## History
 

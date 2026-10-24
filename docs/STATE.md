@@ -84,10 +84,19 @@ estimate(F, a, 0.2, 0.1, ["ratio_of_means_rss", "median", "interval_95"],
 # all-zero readings return s = 0.2 / 0.1 = 2 (checked 2026-10-24)
 ```
 
-The returned dict also carries an `unresolved` flag. The full input type (any
-covariance, a declared subspace) exists only in the ours29 reference implementation,
-`noise_vs_signal/ours29_reference.py` (byte copy in `../reference/`). Nothing takes a
-window yet.
+The returned dict also carries an `unresolved` flag.
+
+**The full input type** (any covariance with cross-channel correlation, a declared subspace)
+is `met/full.py`, for one series:
+
+```python
+from met.full import Reading, isotropic, ours29
+r = ours29([Reading(F_i, a_i, Sigma_i) for ...], c=2.0)   # c is required: pi is an input
+r["readout"], r["median"], r["interval"], r["raw_interval"], r["eta"], r["g"]
+```
+
+The window is carried on each `Reading` but not used by the equation (T33). The batch
+pipeline, presets and world still take isotropic and per-axis noise only.
 
 ## Where the truth lives
 
@@ -230,6 +239,9 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-24 (evening): met/full.py, the full input type, with tests/test_full.py (34 tests:
+  agreement with the reference and the batch pipeline; T1, T5, T13, T14, T22, T24, T25, T29, T32).
+  Suite: 1,078 pass, 1 fails (the old golden output), 12 xfail.
 - 2026-10-24 (evening): TASK.md added, the principle as the task (R-2026-10-24-3); CLAUDE.md
   and this page now send readers there first.
 - 2026-10-24 (later): the living layer added: definition/ split from lemma list d4, problems/
