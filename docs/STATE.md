@@ -183,8 +183,9 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 - The lemma list d4 still shows O1 open; the 29 Sept ruling closed it. The living layer
   records O1 as closed; d5 of the lemma list, when Can wants one, is generated from
   `definition/` (`python tools/audit.py --table`).
-- 16 of the 33 theorems name no test, or only a partial one (`python tools/audit.py`).
-  Several are derivations with nothing to test (T2, T3, T21); the rest are work.
+- Three of the 33 theorems have no full test (`python tools/audit.py`): T6 (the Herschel–Maxwell
+  step is a derivation), T21 (a derivation; its representation step is O5) and T27 (needs a
+  declared world of signals, which ours29 does not have). Their files say why.
 - L3 (units covariance) is used by T14's argument but no theorem's From line cites it.
 - The current equation note in VD-docs states ours25b, four equation states behind
   (ours26 to ours29), and its many-reading step rests on the strong form of axis
@@ -249,6 +250,10 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-24 (night, later): tests/test_theorems.py (25 tests) for T2–T4, T6, T7, T15–T20, T23,
+  T26, T28; each file names its test. Found on the way: T15's condition is on g-weighted sums;
+  T23's Z route needs independent channels, which no premise states (O4); eta's spread on one
+  series of 400 is about 0.09 (O14). Suite: 1,112 pass, 1 fails (the old golden output), 13 xfail.
 - 2026-10-24 (night): met/robot.py, tools/robot_run.py, tests/test_robot.py (7 tests, one
   strict xfail: the baseline interval misses the calibration mass), tests/test_window.py (T33's
   example; T33 now names its tests). O16 opened from the robot run. Suite: 1,087 pass,
