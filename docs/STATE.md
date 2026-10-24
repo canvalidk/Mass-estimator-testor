@@ -228,6 +228,9 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-24 (later): the living layer added: definition/ split from lemma list d4, problems/
+  (O2 and O6 written out), rulings.md (62 entries extracted from the records, 28 quotes
+  re-checked), tools/audit.py. docs/ relabelled as archive.
 - 2026-10-24: page created from a full map of the tester, VD-docs and VD-Newton, then
   corrected after an independent fact-check (c = s qualifier on the cloud readout; the
   value c derived, not ruled; eta's J; the example replaced by one where the tempering
