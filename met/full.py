@@ -45,8 +45,12 @@ SUPPORT_NATS = 40.0    # the law's support: log density within this of its maxim
 FINE_NODES = 2001      # nodes on the law's support
 COARSE_HALF = 25.0     # first look at the law: log c +- this, in log m
 COARSE_NODES = 4001
-T_HALF = 40.0          # E|X| integral: log t within +- this of 1 / E|X|^2
-T_NODES = 801
+T_HALF = 60.0          # E|X| integral: log t within +- this of 1 / E|X|^2
+T_NODES = 401          # trapezoid nodes in log t (step 0.3)
+# 25 Oct: was +-40 with 801 nodes (step 0.1). Against a reference at +-90 with 9001 nodes,
+# on 30 random series with signal, A(m) was off by up to 6e-13 relative then and 8e-16 now,
+# with half the nodes; the error was the window, not the step (tests/test_full.py checks the
+# closed form). The readout moves by ~1e-13, since a near-constant factor in A cancels.
 
 
 @dataclass

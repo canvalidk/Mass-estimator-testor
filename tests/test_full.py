@@ -300,3 +300,20 @@ def test_the_type_refuses_what_it_should():
     with pytest.raises(ValueError, match="centre"):
         ours29([isotropic([1.0], [1.0], 1.0, 1.0)], 0.0)
     assert instrument_ratio(Reading([1.0, 0.0], [1.0, 0.0], np.diag([1.0, 2.0, 1.0, 1.0]))) is None
+
+
+@pytest.mark.parametrize("d", [1, 2, 3])
+@pytest.mark.parametrize("n", [1, 5, 40])
+def test_stacked_mean_length_closed_form(d, n):
+    """A(m) for all-zero readings: the stacked candidates are N(0, v(m) I_{nd}), so
+    E|X| = sqrt(2 v) Gamma((k+1)/2) / Gamma(k/2), k = nd. The integral's window and step
+    (T_HALF, T_NODES, set 25 Oct) give this to 3e-14 (rounding over up to 120 components);
+    the old +-40 window gave 6e-13."""
+    from scipy.special import gammaln
+    from met.full import _stacked_mean_length
+    readings = [isotropic(np.zeros(d), np.zeros(d), 0.2, 0.1) for _ in range(n)]
+    m = np.exp(np.linspace(-3.0, 3.0, 13))
+    v = 1.0 / (m ** 2 / 0.2 ** 2 + 1.0 / 0.1 ** 2)
+    k = n * d
+    exact = np.sqrt(2 * v) * math.exp(gammaln((k + 1) / 2) - gammaln(k / 2))
+    np.testing.assert_allclose(_stacked_mean_length(m, readings), exact, rtol=1e-13, atol=0)
