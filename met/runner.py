@@ -11,9 +11,12 @@ import datetime as _dt
 import hashlib
 import json
 import math
+import multiprocessing
+import os
 import platform
 import subprocess
 import time
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
 import numpy as np
@@ -92,7 +95,111 @@ def run_cell(cell, estimators, replicates, seed, factors, batch_elements, progre
             "seconds": seconds}, values
 
 
-def run(path, out_root="results", replicates=None, progress=print):
+# ---------------------------------------------------------------- running cells side by side
+#
+# Cells are independent (each draws its series from its own seed, see the module docstring),
+# so they can run in separate processes and the output is the same bit for bit: each worker
+# loads the preset itself, runs whole cells, and the parent puts the results back in preset
+# order. Each worker's numpy is held to one thread, so N workers use N cores, not N times
+# numpy's own threads. "spawn" is used everywhere because it is what Windows has; a script
+# that calls run() with workers > 1 needs the usual `if __name__ == "__main__":` guard.
+
+_THREAD_VARS = ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS",
+                "VECLIB_MAXIMUM_THREADS", "NUMEXPR_NUM_THREADS")
+
+
+def cpu_count():
+    """Cores this process may use."""
+    try:
+        return max(1, len(os.sched_getaffinity(0)))
+    except AttributeError:
+        return max(1, os.cpu_count() or 1)
+
+
+def default_workers():
+    """Half the cores, at least one: leaves the machine usable while a study runs."""
+    return max(1, cpu_count() // 2)
+
+
+def resolve_workers(workers):
+    """None -> default_workers(); "max" -> every core; an integer >= 1 as given."""
+    if workers is None:
+        return default_workers()
+    if workers == "max":
+        return cpu_count()
+    if isinstance(workers, bool) or not isinstance(workers, int) or workers < 1:
+        raise ValueError(f"workers must be a positive integer or 'max', got {workers!r}")
+    return workers
+
+
+_WORKER = {}
+
+
+def _init_worker(path, args):
+    _WORKER["spec"] = preset_mod.load(path)
+    _WORKER["args"] = args
+
+
+def _run_cell_in_worker(index):
+    spec, (reps, seed, factors, batch_elements, compare_to) = _WORKER["spec"], _WORKER["args"]
+    lines = []
+    result, values = run_cell(spec["cells"][index], spec["estimators"], reps, seed, factors,
+                              batch_elements, lines.append, compare_to)
+    return index, result, values, lines
+
+
+def _run_cells_parallel(path, spec, args, workers, progress):
+    n = len(spec["cells"])
+    saved = {k: os.environ.get(k) for k in _THREAD_VARS}
+    os.environ.update({k: "1" for k in _THREAD_VARS})          # inherited by the workers only:
+    try:                                                        # this process's numpy is loaded
+        pool = ProcessPoolExecutor(max_workers=min(workers, n), mp_context=multiprocessing.get_context("spawn"),
+                                   initializer=_init_worker, initargs=(str(path), args))
+        out = [None] * n
+        try:
+            futures = [pool.submit(_run_cell_in_worker, i) for i in range(n)]
+            for done, future in enumerate(as_completed(futures), 1):
+                index, result, values, lines = future.result()
+                out[index] = (result, values)
+                if progress:
+                    cell = spec["cells"][index]
+                    progress(f"cell {cell['id']} {cell['axes']} ({done}/{n})")
+                    for line in lines:
+                        progress(line)
+        except BaseException:                   # Ctrl-C or a failed cell: stop the rest now
+            _stop_workers(pool)                 # first: shutdown() forgets the processes
+            pool.shutdown(wait=False, cancel_futures=True)
+            raise
+        pool.shutdown(wait=True)
+    finally:
+        for k, v in saved.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+    return out
+
+
+def _stop_workers(pool):
+    """Terminate the pool's processes without waiting for the cells they are running."""
+    stop = getattr(pool, "terminate_workers", None)              # Python 3.14+
+    if stop is not None:
+        stop()
+        return
+    procs = list((getattr(pool, "_processes", None) or {}).values())
+    for proc in procs:
+        if proc.is_alive():
+            proc.terminate()
+    for proc in procs:
+        proc.join(timeout=5)
+
+
+def run(path, out_root="results", replicates=None, progress=print, workers=None):
+    """Run a preset and write run.json, values.npz and summary.md under out_root.
+
+    workers: processes running cells side by side; None (default) is half the cores,
+    "max" every core, 1 the plain serial loop. The output is the same for any value."""
+    workers = resolve_workers(workers)
     spec = preset_mod.load(path)
     raw = spec["raw"]
     reps = replicates or raw["replicates"]
@@ -107,12 +214,19 @@ def run(path, out_root="results", replicates=None, progress=print):
     (out / "preset.yaml").write_text(Path(path).read_text(encoding="utf-8"), encoding="utf-8")
     cells, arrays = [], {}
     start = time.perf_counter()
-    for cell in spec["cells"]:
+    args = (reps, raw["seed"], factors, spec["numerics"]["batch_elements"], raw["scores"].get("compare_to"))
+    workers = min(workers, len(spec["cells"]))
+    if workers > 1:
         if progress:
-            progress(f"cell {cell['id']} {cell['axes']}")
-        result, values = run_cell(cell, spec["estimators"], reps, raw["seed"], factors,
-                                  spec["numerics"]["batch_elements"], progress,
-                                  raw["scores"].get("compare_to"))
+            progress(f"{len(spec['cells'])} cells on {workers} workers ({cpu_count()} cores)")
+        finished = _run_cells_parallel(path, spec, args, workers, progress)
+    else:
+        finished = []
+        for cell in spec["cells"]:
+            if progress:
+                progress(f"cell {cell['id']} {cell['axes']}")
+            finished.append(run_cell(cell, spec["estimators"], *args[:4], progress, args[4]))
+    for cell, (result, values) in zip(spec["cells"], finished):
         cells.append(result)
         for est, readouts in values.items():
             for name, arr in readouts.items():
@@ -121,7 +235,7 @@ def run(path, out_root="results", replicates=None, progress=print):
               "replicates": reps, "replicates_override": replicates is not None,
               "seed": raw["seed"], "run_numerics": spec["numerics"],
               "estimator_numerics": {e.name: getattr(e, "numerics", None) for e in spec["estimators"]},
-              "code": code_version(), "started": stamp,
+              "code": code_version(), "started": stamp, "workers": workers,
               "seconds": time.perf_counter() - start, "cells": cells,
               "worst_regret": worst_regret(cells, factors)}
     (out / "run.json").write_text(json.dumps(record, indent=1, default=_json_default), encoding="utf-8")

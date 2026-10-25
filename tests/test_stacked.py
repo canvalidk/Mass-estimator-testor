@@ -65,6 +65,27 @@ def test_stacked_table_extends_and_stays_exact():
     assert stacked_mean_radius(h, 12) == pytest.approx(_noncentral_chi_mean_series(12, h), rel=1e-8)
 
 
+def test_stacked_value_does_not_depend_on_what_was_computed_before():
+    """A value depends on k and h only: not on the batch it is in, nor on earlier calls
+    (until 25 Oct the table was widened on demand, so it moved by ~1e-13 with history)."""
+    from met import law
+    h = np.array([0.3, 17.0, 63.9, 64.0, 64.1, 300.0])
+    law._STACKED_TABLES.clear()
+    first = np.array([stacked_mean_radius(np.array([x]), 40)[0] for x in h])
+    stacked_mean_radius(np.array([900.0]), 40)                    # the old code widened here
+    again = stacked_mean_radius(h, 40)
+    assert np.array_equal(first, again)
+    law._STACKED_TABLES.clear()
+    assert np.array_equal(stacked_mean_radius(h[::-1], 40)[::-1], first)
+
+
+@pytest.mark.parametrize("k", [6, 40, 600])
+def test_stacked_table_exact_across_its_ladder(k):
+    """Against the exact series on both sides of each table's edge (64, 128, ...)."""
+    h = np.array([1e-3, 2.0, 63.99, 64.0, 64.01, 127.9, 128.1, 1000.0, 3000.0])
+    assert stacked_mean_radius(h, k) == pytest.approx(_noncentral_chi_mean_series(k, h), rel=1e-8)
+
+
 # ---------------------------------------------------------------- the readout
 
 def _theta_quadrature(force, acceleration, sf, sa, points=4000):

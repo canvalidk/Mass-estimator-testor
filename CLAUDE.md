@@ -47,7 +47,7 @@ python -m pip install -r requirements.txt   # or requirements-lock.txt: the exac
 python tools/audit.py                    # what is out of order in the living layer
 python -m pytest -q                      # about 2.5 minutes; MET_SLOW=1 adds the slow ones
 python -m met list                       # presets and the question each answers
-python -m met run presets/ours29_noise_vs_signal.yaml --replicates 50
+python -m met run presets/ours29_noise_vs_signal.yaml --replicates 50   # --workers N|max: cells side by side
 ```
 
 `docs/STATE.md` has a five-line example that calls ours29 from Python.

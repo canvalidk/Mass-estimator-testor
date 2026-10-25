@@ -208,7 +208,7 @@ def cartesian2_mean_radius(h, d):
 
 
 _LOG_SQRT2 = 0.5 * math.log(2.0)
-_STACKED_TABLES = {}   # k -> (h_max, spline in asinh(h))
+_STACKED_TABLES = {}   # (k, level) -> spline in asinh(h) on [0, 64 * 2^level]
 
 
 def _noncentral_chi_mean_series(k, h):
@@ -229,12 +229,30 @@ def _noncentral_chi_mean_series(k, h):
     return out
 
 
+_STACKED_BASE = 64.0   # table j covers h in [0, 64 * 2^j]
+
+
+def _stacked_table(k, level):
+    """The spline for k components on [0, 64 * 2^level], built once per (k, level)."""
+    table = _STACKED_TABLES.get((k, level))
+    if table is None:
+        h_max = _STACKED_BASE * 2.0 ** level
+        a = np.linspace(0.0, math.asinh(h_max), int(600 * math.asinh(h_max)) + 2)
+        table = CubicSpline(a, _noncentral_chi_mean_series(k, np.sinh(a)))
+        _STACKED_TABLES[(k, level)] = table
+    return table
+
+
 def stacked_mean_radius(h, k):
     """E|v| for v ~ N(w, I_k) with |w| = h: the noncentral chi mean in k dimensions.
 
     k = 1, 2, 3 use the closed forms; larger k (the stacked vector of N readings
-    in d dimensions, k = N d) use a cubic spline in asinh(h) over the exact series,
-    built once per k and extended when a larger h is asked for (about 5e-9 relative).
+    in d dimensions, k = N d) use a cubic spline in asinh(h) over the exact series
+    (about 5e-9 relative). Each h is read from the smallest table in a fixed ladder
+    that covers it (ranges 64, 128, 256, ...), so a value depends on k and h only.
+    Until 25 Oct one table per k was widened when a larger h was asked for, so a
+    value could move by ~1e-13 with what the process had computed before; that made
+    a cell's numbers depend on which cells ran earlier in the same process.
     """
     h = np.abs(np.asarray(h, dtype=float))
     if k in DIMENSIONS:
@@ -242,14 +260,16 @@ def stacked_mean_radius(h, k):
     if k < 1 or int(k) != k:
         raise ValueError("k must be a positive integer")
     k = int(k)
-    need = float(np.max(h)) if h.size else 0.0
-    table = _STACKED_TABLES.get(k)
-    if table is None or need > table[0]:
-        h_max = max(64.0, 2.0 * need, 2.0 * table[0] if table else 0.0)
-        a = np.linspace(0.0, math.asinh(h_max), int(600 * math.asinh(h_max)) + 2)
-        table = (h_max, CubicSpline(a, _noncentral_chi_mean_series(k, np.sinh(a))))
-        _STACKED_TABLES[k] = table
-    return table[1](np.arcsinh(h))
+    if h.size == 0:
+        return np.empty_like(h)
+    with np.errstate(divide="ignore"):
+        level = np.maximum(0, np.ceil(np.log2(np.maximum(h, 1e-300) / _STACKED_BASE))).astype(int)
+    level[h <= _STACKED_BASE] = 0
+    out = np.empty_like(h)
+    for j in np.unique(level):
+        where = level == j
+        out[where] = _stacked_table(k, int(j))(np.arcsinh(h[where]))
+    return out
 
 
 _INV_2SQRTPI = 1.0 / (2.0 * math.sqrt(math.pi))

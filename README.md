@@ -10,6 +10,7 @@ python -m met list                                   # presets and their questio
 python -m met validate presets/repetition_same_pair.yaml
 python -m met run presets/repetition_same_pair.yaml  # full run
 python -m met run presets/repetition_same_pair.yaml --replicates 50   # quick look
+python -m met run presets/repetition_same_pair.yaml --workers max     # every core (default: half)
 python -m pytest -q                                  # the exact tests
 ```
 
@@ -496,6 +497,12 @@ Each series has its own random stream,
 the cell's world settings. So `--replicates 50` sees exactly the first 50
 series of the full run, and adding a value to a grid axis does not change
 the data of the other cells.
+
+The same independence lets cells run side by side: `--workers N` runs N cells at
+once in separate processes (default half the cores; `max` uses every core; 1 is
+one at a time), each process's numpy held to one thread. The output is the same
+bit for bit for any N (`tests/test_parallel.py`); `run.json` records N. Ctrl-C
+stops every worker and writes nothing.
 
 ## Reference implementations (`reference/`)
 

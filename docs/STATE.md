@@ -263,6 +263,14 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-25 (speed, 2): `python -m met run` runs cells side by side (`--workers`, default half
+  the cores, `max` for all); output bit for bit the same for any count, checked on all 22
+  presets (tests/test_parallel.py). Making that true found a defect: ratio_of_means_rss's
+  spline table for many readings was widened on demand, so a cell's value moved by ~1e-13 with
+  what ran earlier in the process; it is now a fixed ladder of tables (values moved <= 8e-14).
+  met/full.py's readout integral: window +-60 with 401 nodes, replacing +-40 with 801: A(m)
+  went from 6e-13 to 8e-16 relative error, with half the nodes; robot table identical, 8 s.
+  Suite: 1,191 pass, none fail, 13 xfail.
 - 2026-10-24 (night, speed): no numbers changed beyond rounding. The batch law no longer
   computes each reading's E[alpha | m] unless the plain ratio_of_means readout asks for it
   (bit for bit the same), and with one s per series the likelihood product is summed from
