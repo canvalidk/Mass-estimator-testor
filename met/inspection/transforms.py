@@ -18,8 +18,12 @@ def orthogonal_frames(inputs):
             angle = 0.37 * (index + 1)
             rotation[:2, :2] = [[math.cos(angle), -math.sin(angle)], [math.sin(angle), math.cos(angle)]]
         transform = np.kron(np.eye(2), rotation)
+        covariance = transform @ r.covariance @ transform.T
+        # The exact result is symmetric. Multiplication can leave opposite
+        # rounding residues at structurally zero entries of isotropic blocks.
+        covariance = (covariance + covariance.T) / 2
         readings.append(Observation(r.id, rotation @ r.force, rotation @ r.acceleration,
-            transform @ r.covariance @ transform.T, rotation @ r.subspace, r.window, r.metadata, r.extras))
+            covariance, rotation @ r.subspace, r.window, r.metadata, r.extras))
     return Inputs(tuple(readings), deepcopy(inputs.prior))
 
 

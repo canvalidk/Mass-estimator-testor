@@ -236,3 +236,14 @@ def test_law_check_detects_a_corrupted_native_density_even_when_sampled_kernel_i
     assert finding["status"] == "fail"
     assert finding["observed"]["sampled_log_kernel_error_modulo_constant"] == 0
     assert finding["observed"]["native_cdf_maximum_error"] > 0.1
+
+
+def test_near_equal_energy_does_not_license_an_exact_median_requirement():
+    data = example()
+    data["readings"][0].update(force=[1 + 1e-13, 0], acceleration=[-1, 0],
+                               covariance=(0.01 * np.eye(4)).tolist())
+    selected = tuple(c for c in DEFAULT_CHECKS if c.id == "reciprocal_median")
+    result = inspect_case(Case.from_dict(data), masses=np.exp(np.linspace(-2, 2, 9)),
+                          adapter=lightweight_adapter, checks=selected)
+    assert result["checks"][0]["status"] == "inapplicable"
+    assert "near-equal" in result["checks"][0]["detail"]

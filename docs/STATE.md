@@ -321,8 +321,9 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
   independent restricted-subspace fits, source conversion with isolated truth, a
   catalogue of justified checks and self-contained reports. Eight replayable cases;
   known scientific/numerical failures remain visible. Existing equation unchanged.
-  Regression checks: 208 passed, 1 existing strict xfail, with worker-spawning tests
-  omitted; one additional native-density corruption check passed. Audit unchanged.
+  Regression checks: 217 passed, 1 existing strict xfail, with worker-spawning tests
+  omitted. Includes all eight frame transformations and a native-density corruption
+  check. Follow-up checks also guard exact-symmetry applicability. Audit unchanged.
 - 2026-10-26 (Codex, pressure follow-up): derived positive-domain residual bounds and
   normalization identity; added a 20-cell symmetric/boundary study and independent
   tests. Stable point and mathematical median can coexist with probability escaping

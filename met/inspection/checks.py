@@ -5,6 +5,7 @@ different check list to inspect_case; no registry or subclass is needed. A check
 can state unresolved or inapplicable instead of inventing an expected answer.
 """
 from dataclasses import dataclass, field
+from fractions import Fraction
 import hashlib
 import json
 import math
@@ -161,12 +162,17 @@ def reciprocal_median(context):
     sf, sa = r.covariance[0, 0], r.covariance[d, d]
     expected_covariance = np.diag([sf] * d + [sa] * d)
     c = context.inputs.prior.get("center")
-    scale = math.sqrt(sf / sa)
-    x, y = r.force / math.sqrt(sf), r.acceleration / math.sqrt(sa)
-    if (r.subspace.shape[1] != d or not np.allclose(r.covariance, expected_covariance, rtol=1e-12, atol=0)
-            or c is None or not math.isclose(c, scale, rel_tol=1e-12)
-            or not math.isclose(float(x @ x), float(y @ y), rel_tol=1e-12, abs_tol=1e-14)):
-        return _unavailable("Requires equal whitened channel energies, isotropic independent errors and c=s.")
+    if r.subspace.shape[1] != d or not np.array_equal(r.covariance, expected_covariance) or c is None:
+        return _unavailable("Requires exact equal whitened energies, isotropic independent errors and c=s.")
+    # Near-symmetry is not enough in a law with a nearly flat central CDF: a tiny
+    # real asymmetry can move the median greatly. Establish this exact identity
+    # on the declared floating-point numbers as rationals, rather than assuming
+    # its premise from a loose relative-energy tolerance.
+    force_energy = sum(Fraction(float(v)) ** 2 for v in r.force) / Fraction(float(sf))
+    acceleration_energy = sum(Fraction(float(v)) ** 2 for v in r.acceleration) / Fraction(float(sa))
+    if (force_energy != acceleration_energy
+            or Fraction(float(c)) ** 2 * Fraction(float(sa)) != Fraction(float(sf))):
+        return _unavailable("Exact reciprocal symmetry is not established by these declarations; near-equal energies are insufficient.")
     median = context.evaluation["laws"]["quoted"]["median"]
     error = abs(math.log(median / c))
     return _finding(context, error, {"mathematical_median": c, "implemented_median": median,

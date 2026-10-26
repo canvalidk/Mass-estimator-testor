@@ -11,8 +11,10 @@ import pytest
 
 from met.inspection.adapters import ours29_adapter
 from met.inspection.case import Case, Inputs
+from met.inspection.case import load_cases
 from met.inspection.checks import Check, DEFAULT_CHECKS
 from met.inspection.run import inspect_case
+from met.inspection.transforms import orthogonal_frames
 
 
 GRID = np.exp(np.linspace(-4.0, 4.0, 41))
@@ -183,3 +185,13 @@ def test_checks_can_be_selected_replaced_and_supplied_as_plain_callables(null_ca
     assert checks["projection"]["status"] == "pass"
     assert checks["local_open_question"]["status"] == "unresolved"
     assert seen == ["replacement", "plain_callable"]
+
+
+@pytest.mark.parametrize("case", load_cases("presets/inspection_cases.yaml")[1], ids=lambda case: case.name)
+def test_saved_example_frames_preserve_symmetric_covariance_and_outputs(case):
+    changed = orthogonal_frames(case.inputs)
+    for reading in changed.readings:
+        np.testing.assert_array_equal(reading.covariance, reading.covariance.T)
+    report = inspect_case(case, masses=GRID, adapter=quoted_only_adapter, checks=selected_checks("frames"))
+    check = report["checks"][0]
+    assert check["status"] == "pass", check
