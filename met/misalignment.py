@@ -48,11 +48,13 @@ def residual_profile(reading, masses):
 
 
 def isotropic_minima(reading):
-    """Exact minima/infima on the projective line and on the positive half-line.
+    """Exact cost bounds on the projective line and on the positive half-line.
 
     The domain includes both limiting endpoints, without assigning either a finite
     fitted mass. Projective cost is the squared smallest singular value of [F/sF,a/sa].
     On m>0 an interior minimum exists when the whitened dot product is positive.
+    The positive-domain penalty is the extra infimum cost caused by forbidding
+    negative slopes. It is a geometric diagnostic, not a replacement for Q in g.
     """
     d, cov = reading.dimension, reading.cov
     if reading.k != d:
@@ -79,8 +81,15 @@ def isotropic_minima(reading):
     else:
         cost = p
         location = "all_masses" if dot == 0 else "both_boundaries"
+    supremum = float(singular[0] ** 2) if dot < 0 else max(p, q)
+    # Keep small contrast/penalty even when the shared baseline dwarfs it.
+    contrast = math.hypot(p - q, 2 * dot) + abs(p - q)
+    penalty = abs(dot) * (2 * abs(dot) / contrast) if dot < 0 else 0.0
     return dict(projective_min_cost=projective, positive_min_cost=cost,
-                positive_min_location=location, positive_min_mass=mass)
+                positive_min_location=location, positive_min_mass=mass,
+                positive_cost_supremum=supremum,
+                positive_cost_span=0.5 * contrast,
+                positive_domain_penalty=penalty)
 
 
 def candidate_mean_length(reading, masses):
@@ -203,6 +212,8 @@ def investigate_cell(cell, c, numerics):
     lm = math.log(c) + np.linspace(-numerics["profile_log_half_span"],
                                   numerics["profile_log_half_span"], numerics["profile_nodes"])
     arrays = dict(profile_lm=lm, profile_mass=np.exp(lm), **residual_profile(reading, np.exp(lm)))
+    bounds = isotropic_minima(reading)
+    arrays["positive_excess_cost"] = arrays["correction_cost"] - bounds["positive_min_cost"]
     arrays["prior_density"] = (2 / math.pi) * np.exp(math.log(c) + lm - np.logaddexp(2 * math.log(c), 2 * lm))
     for label, result in (("raw", raw), ("quoted", quoted)):
         arrays.update({f"{label}_lm": result["lm"], f"{label}_density": _density(result),
@@ -210,9 +221,12 @@ def investigate_cell(cell, c, numerics):
     f, a = reading.force, reading.acceleration
     norm = np.linalg.norm(f) * np.linalg.norm(a)
     angle = math.degrees(math.acos(float(np.clip(f @ a / norm, -1, 1)))) if norm > 0 else None
-    summary = dict(cell, **isotropic_minima(reading), angle_degrees=angle,
+    summary = dict(cell, **bounds, angle_degrees=angle,
                    equation_Q=quoted["Q"][0], misfit_weight=quoted["g"][0], bartlett_eta=quoted["eta"],
                    raw=_point_summary(reading, raw), quoted=_point_summary(reading, quoted))
+    for label, result in (("raw", raw), ("quoted", quoted)):
+        summary[label]["log_evidence_span"] = (
+            0.5 * result["eta"] * result["g"][0] * bounds["positive_cost_span"])
     return summary, arrays
 
 
@@ -234,6 +248,14 @@ def _summary(data):
     lines += ["", "`mass_to_zero` and `mass_to_infinity` are limiting infima, never finite fitted masses.",
               "Normalized laws show relative preference between masses; absolute correction costs are kept separately.",
               "The estimator searches the whole projective line for Q, including negative slopes.",
+              "", "| case | noise scale | extra cost from positive mass | quoted log-evidence span |",
+              "|---|---:|---:|---:|"]
+    for cell in data["cells"]:
+        lines.append(f"| {cell['case']} | {cell['noise_scale']:g} | "
+                     f"{cell['positive_domain_penalty']:.6g} | {cell['quoted']['log_evidence_span']:.6g} |")
+    lines += ["", "The extra cost is Q_positive - Q_projective; it is not used to alter g.",
+              "Log-evidence span is sup(log(p/prior)) - inf(log(p/prior)) on m > 0, in nats.",
+              "Normalization cancels the mass-independent positive minimum; its excess curve is in values.npz.",
               "No pass/fail standard for the equation's response is inferred from these plots.",
               "Full-precision values, support-edge warnings and code/environment provenance are in run.json;",
               "all curves and correction vectors are in values.npz. Plots use density per unit ln(m).", ""]
@@ -245,9 +267,10 @@ def _write_csv(path, cells):
     for cell in cells:
         row = {k: cell[k] for k in ("id", "case", "angle_degrees", "noise_scale", "force_sd", "acceleration_sd",
                                    "positive_min_cost", "positive_min_location", "positive_min_mass",
-                                   "projective_min_cost", "equation_Q", "misfit_weight", "bartlett_eta")}
+                                   "projective_min_cost", "positive_cost_supremum", "positive_cost_span",
+                                   "positive_domain_penalty", "equation_Q", "misfit_weight", "bartlett_eta")}
         for name in ("raw", "quoted"):
-            for key in ("point", "median", "cost_at_point", "support_edge_warning"):
+            for key in ("point", "median", "cost_at_point", "support_edge_warning", "log_evidence_span"):
                 row[f"{name}_{key}"] = cell[name][key]
             row[f"{name}_interval_low"], row[f"{name}_interval_high"] = cell[name]["interval"]
         rows.append(row)

@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-26, by Codex (misalignment pressure study). Update this page in
+**Last updated:** 2026-10-26, by Codex (positive-domain pressure study). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -115,6 +115,18 @@ versions. Optional `requirements-plots.txt` enables a self-contained `report.htm
 and PNG/SVG figures. Cloud-size curves use the independent 2D Rice mean rather than
 plotting the estimator's computational cutoff zeros. Finite support edges are flagged.
 Independent geometry and angle-quadrature checks are in `tests/test_misalignment_*.py`.
+
+**Positive-domain follow-up (26 Oct, pressure mode).**
+`python -m met run presets/misalignment_positive_boundaries.yaml --workers 1` runs 20
+serial cells. T32 now proves how positive-mass correction cost differs from the
+whole-line misfit; diagnostics export the extra positivity cost, excess curve and
+relative log-evidence span. O13 records the normalization identity and a symmetric
+anti-parallel example: its mathematical median and cloud readout stay at c = 1 while
+probability escapes every fixed compact subset of positive mass. The grid median
+instead gives 2.341636397 at SD 0.1 because of a near-flat CDF; a strict xfail keeps
+that numerical discrepancy. No estimator change or new physical criterion was adopted.
+The 1D case also prevents simply replacing Q inside the current nu/Q rule: positivity
+adds an inequality, while nu = k-1 still counts zero equality conditions there.
 
 **Real data.** `met/robot.py` turns VD-Newton's robot runs into `Reading`s: calibration
 re-derived (matches the lab's `robot_cart.json` to 1e-12), both channels averaged over one
@@ -281,6 +293,12 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-26 (Codex, pressure follow-up): derived positive-domain residual bounds and
+  normalization identity; added a 20-cell symmetric/boundary study and independent
+  tests. Stable point and mathematical median can coexist with probability escaping
+  every finite band. Kept the SD 0.1 numerical median discrepancy as a strict xfail;
+  estimator unchanged. Targeted checks: 72 passed, 1 strict xfail. The exact findings
+  and remaining physical fork are in O13; the existing audit findings are unchanged.
 - 2026-10-26 (Codex, pressure): fixed-reading misalignment diagnostics, 32 cells from
   `presets/misalignment_shrinking_noise.yaml`, through the existing `met run` command.
   Independent residual-covariance projection, positive-domain boundary infima and Rice

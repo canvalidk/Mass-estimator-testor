@@ -146,6 +146,8 @@ def write_report(folder: Path, data: dict, curves: dict[str, np.ndarray]) -> boo
             axes[0, 0].set_xlim(min(density_bounds), max(density_bounds))
             axes[0, 0].legend(fontsize=9)
             axes[0, 1].plot(lm, arr(cell, "correction_cost"), color="#334155", label="Compatible-candidate cost")
+            axes[0, 1].plot(lm, arr(cell, "positive_excess_cost"), color="#ea580c", linestyle="--",
+                              label="Cost above positive infimum")
             axes[0, 1].axhline(cell["positive_min_cost"], color="#16a34a", linestyle="--",
                               label="Positive infimum: " + boundary(cell))
             axes[0, 1].axhline(cell["projective_min_cost"], color="#9333ea", linestyle=":", label="Projective minimum")
@@ -202,7 +204,8 @@ def write_report(folder: Path, data: dict, curves: dict[str, np.ndarray]) -> boo
 
     def table(rows):
         headings = ["Case", "Noise scale", "Raw point", "Raw 95% interval", "Quoted point", "Quoted median",
-                    "Quoted 95% interval", "Positive cost infimum", "Where", "Q (projective)", "g(Q)", "η"]
+                    "Quoted 95% interval", "Positive cost infimum", "Where", "Q (projective)",
+                    "Extra cost from m > 0", "Quoted log-evidence span", "g(Q)", "η"]
         parts = ['<div class="table-scroll"><table><thead><tr>']
         parts += ["<th>" + escape(text) + "</th>" for text in headings]
         parts.append("</tr></thead><tbody>")
@@ -213,6 +216,7 @@ def write_report(folder: Path, data: dict, curves: dict[str, np.ndarray]) -> boo
                       fmt(quoted["point"]), fmt(quoted["median"]),
                       "[" + ", ".join(fmt(v) for v in quoted["interval"]) + "]",
                       fmt(row["positive_min_cost"]), boundary(row), fmt(row["equation_Q"]),
+                      fmt(row["positive_domain_penalty"]), fmt(quoted["log_evidence_span"]),
                       fmt(row["misfit_weight"]), fmt(row["bartlett_eta"])]
             parts.append("<tr>" + "".join("<td>" + escape(str(value)) + "</td>" for value in values) + "</tr>")
         parts.append("</tbody></table></div>")
@@ -282,6 +286,20 @@ The conditional size E[|a*| | m] is a candidate-cloud mean, rather than the leng
 Its two curves evaluate the same conditional mean on each law's own mass grid, so overlapping segments coincide.</p>
 <p><strong>Absolute correction cost is not a marginal likelihood, Bayes factor or p-value.</strong>
 Normalized mass laws compare candidates within the assumed construction; normalization does not supply an absolute compatibility test.</p>
+<p>Write K(m) for the correction cost and Q<sub>+</sub> for its infimum over positive mass.
+Since H(m) = E − K(m), the normalized law can be written as prior(m) ×
+exp[−η g (K(m) − Q<sub>+</sub>)/2], followed by normalization. The constant Q<sub>+</sub>
+cancels from this expression. The orange cost curve shows the remaining excess K(m) − Q<sub>+</sub>.
+The table separates Q<sub>+</sub> − Q from the projective misfit Q; this extra cost comes from
+forbidding negative masses and is not substituted into the estimator's weight.</p>
+<p>The log-evidence span is the range of log(law/prior) over positive mass, in nats.
+It describes relative preference, independently of a constant cost offset. A stable point or median
+need not mean a stable law: reciprocal anti-parallel readings can keep both centres fixed while
+probability moves toward zero and infinite mass. The full intervals and density curves must be read with the centres.</p>
+<p>In the anti-parallel case with equal whitened channel energies and c = σ<sub>F</sub>/σ<sub>a</sub>, reciprocal symmetry
+fixes the mathematical median at c. At small noise the numerical cumulative probability can plateau at one-half,
+so its exported median can drift. This is an identified numerical discrepancy, recorded in the tests;
+it does not establish a physical asymmetry between the channels.</p>
 </section>
 {figures}
 <section><h2>Endpoints of each noise sweep</h2><p>Values use the supplied mass units; plots scale mass by c.

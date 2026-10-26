@@ -42,6 +42,16 @@ per unit log mass. `run.json` records support-edge warnings rather than treating
 numerical grid edge as a fitted mass. These are investigative quantities; a pass/fail
 criterion for the equation's physical response still needs its own argument.
 
+The follow-up `presets/misalignment_positive_boundaries.yaml` runs 20 serial cells:
+an aligned equal-energy control, two opposite-direction cases exchanged by channel
+swap, and an equal-energy opposite-direction case. It exposes the extra cost of
+requiring positive mass and the mass-dependent excess remaining after normalization.
+The exact symmetric case keeps its mathematical median and point at 1 while its law
+escapes every fixed finite mass band as noise shrinks. The implemented median can
+drift on a numerical CDF plateau; a strict xfail preserves that discrepancy. See
+`problems/O13.md` for the proofs and `tests/test_misalignment_information.py` for the
+independent checks. These results do not select a replacement equation.
+
 A run writes `results/<preset>/<timestamp>/` (not committed):
 
 - `summary.md`: per-cell tables and the worst-case regret table;

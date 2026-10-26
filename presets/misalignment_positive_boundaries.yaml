@@ -1,0 +1,35 @@
+kind: misalignment
+name: misalignment-positive-boundaries
+question: >-
+  How does positivity affect a single reading's correction cost, and can a fixed
+  mass readout conceal a law escaping toward both positive-mass boundaries?
+notes: >-
+  Codex pressure study, 26 October 2026. Fixed 2D observations, equal shrinking
+  channel errors and a fixed half-Cauchy c=1. The equal-energy anti-parallel pair
+  has reciprocal symmetry: its mathematical median and cloud readout remain 1
+  while its law escapes every fixed compact subset of positive mass as noise
+  vanishes. The implemented median can drift on a numerical CDF plateau; this
+  discrepancy is retained as a strict xfail, not treated as physical asymmetry.
+  The other anti-parallel pairs exchange the zero and infinite boundary under
+  channel swap. These are algebraic diagnostics, not prescribed correct outputs.
+seed: 0
+prior: {family: half_cauchy, center: 1.0}
+noise:
+  force_sd: 1.0
+  acceleration_sd: 1.0
+  scales: [0.5, 0.2, 0.1, 0.05, 0.02]
+cases:
+  - name: aligned-equal-energy
+    force: [1.0, 0.0]
+    acceleration: [1.0, 0.0]
+  - name: anti-parallel-force-dominant
+    force: [2.0, 0.0]
+    acceleration: [-1.0, 0.0]
+  - name: anti-parallel-acceleration-dominant
+    force: [1.0, 0.0]
+    acceleration: [-2.0, 0.0]
+  - name: anti-parallel-equal-energy
+    force: [1.0, 0.0]
+    acceleration: [-1.0, 0.0]
+numerics: {profile_log_half_span: 16.0, profile_nodes: 1601}
+plots: true
