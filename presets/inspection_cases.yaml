@@ -1,0 +1,98 @@
+kind: inspection
+name: inspection-cases
+question: >-
+  What information do the observations and declarations contain, which parts does
+  ours29 use, and which independently justified requirements does its output satisfy?
+seed: 0
+notes: >-
+  Fixed saved cases, no random draws or coverage claim. Truth, where present, is
+  investigator-only. The physical response to incompatibility remains unresolved;
+  null-point and symmetric-median discrepancies are expected findings, not hidden.
+numerics: {log_half_span: 10.0, nodes: 201, check_tolerance: 0.0000001}
+cases:
+  - name: synthetic-control
+    question: Inspect the actual injected errors beside compatible fitted corrections.
+    prior: {family: half_cauchy, center: 2.0}
+    metadata: {units: {force: N, acceleration: m/s^2, mass: kg}}
+    readings:
+      - id: r0
+        force: [2.1, 0.1]
+        acceleration: [1.0, -0.05]
+        covariance: [[0.04, 0, 0, 0], [0, 0.04, 0, 0], [0, 0, 0.01, 0], [0, 0, 0, 0.01]]
+        window: [0, 1]
+    truth:
+      mass: 2.0
+      readings:
+        - id: r0
+          force: [2.0, 0.0]
+          acceleration: [1.0, 0.0]
+          force_error: [0.1, 0.1]
+          acceleration_error: [0.0, -0.05]
+  - name: acute-fixed
+    question: Locate the weighting that bounds relative preference despite growing absolute cost.
+    prior: {family: half_cauchy, center: 1.0}
+    readings:
+      - force: [2.0, 0.0]
+        acceleration: [0.8660254037844386, 0.5]
+        covariance: [[0.01, 0, 0, 0], [0, 0.01, 0, 0], [0, 0, 0.01, 0], [0, 0, 0, 0.01]]
+  - name: symmetric-boundary
+    question: Can the inspector detect the exact-median error while retaining both probability modes?
+    prior: {family: half_cauchy, center: 1.0}
+    readings:
+      - force: [1.0, 0.0]
+        acceleration: [-1.0, 0.0]
+        covariance: [[0.01, 0, 0, 0], [0, 0.01, 0, 0], [0, 0, 0.01, 0], [0, 0, 0, 0.01]]
+  - name: unequal-instruments
+    question: How do unequal per-axis uncertainties allocate compatible corrections?
+    prior: {family: half_cauchy, center: 1.5}
+    readings:
+      - force: [3.0, 1.0]
+        acceleration: [1.0, 0.3]
+        covariance: [[0.25, 0, 0, 0], [0, 0.04, 0, 0], [0, 0, 0.01, 0], [0, 0, 0, 0.09]]
+  - name: correlated-channels
+    question: How do cross-channel errors change the residual covariance and fitted corrections?
+    prior: {family: half_cauchy, center: 1.5}
+    readings:
+      - force: [2.0, 0.7]
+        acceleration: [0.8, 0.1]
+        covariance: [[0.09, 0.012, 0.015, 0], [0.012, 0.16, 0.005, 0.025], [0.015, 0.005, 0.04, 0.008], [0, 0.025, 0.008, 0.0625]]
+  - name: restricted-plane
+    question: Separate the subspace cost from the Newton residual and from the equation's within-span misfit.
+    prior: {family: half_cauchy, center: 2.0}
+    readings:
+      - force: [2.0, 0.2, 0.7]
+        acceleration: [1.0, 0.1, -0.4]
+        covariance: [[0.09, 0, 0, 0, 0, 0], [0, 0.16, 0, 0, 0, 0], [0, 0, 0.25, 0, 0, 0], [0, 0, 0, 0.04, 0, 0], [0, 0, 0, 0, 0.0625, 0], [0, 0, 0, 0, 0, 0.09]]
+        subspace: [[1, 0], [0, 1], [0, 0]]
+  - name: conflicting-readings
+    question: Trace individual evidence, reading weights and series tempering through a disagreement.
+    prior: {family: half_cauchy, center: 2.0}
+    readings:
+      - id: r0
+        force: [2.0, 0.1]
+        acceleration: [1.0, 0.0]
+        covariance: &conflict_cov [[0.04, 0, 0, 0], [0, 0.04, 0, 0], [0, 0, 0.01, 0], [0, 0, 0, 0.01]]
+      - id: r1
+        force: [4.0, -0.1]
+        acceleration: [1.0, 0.05]
+        covariance: *conflict_cov
+      - id: r2
+        force: [0.5, 0.8]
+        acceleration: [1.0, 0.0]
+        covariance: *conflict_cov
+  - name: null-padding-target
+    question: Report the known point-readout violation of Z alongside the invariant mass law.
+    prior: {family: half_cauchy, center: 2.0}
+    readings:
+      - id: r0
+        force: [4.0, 0.3, 0.0]
+        acceleration: [2.0, 0.0, 0.1]
+        covariance: &padding_cov [[0.04, 0, 0, 0, 0, 0], [0, 0.04, 0, 0, 0, 0], [0, 0, 0.04, 0, 0, 0], [0, 0, 0, 0.01, 0, 0], [0, 0, 0, 0, 0.01, 0], [0, 0, 0, 0, 0, 0.01]]
+      - id: r1
+        force: [6.1, -0.2, 0.1]
+        acceleration: [2.0, 0.1, 0.0]
+        covariance: *padding_cov
+      - id: r2
+        force: [1.0, 0.8, -0.1]
+        acceleration: [0.6, -0.4, 0.0]
+        covariance: *padding_cov

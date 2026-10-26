@@ -200,6 +200,11 @@ def run(path, out_root="results", replicates=None, progress=print, workers=None)
     workers: processes running cells side by side; None (default) is half the cores,
     "max" every core, 1 the plain serial loop. The output is the same for any value."""
     spec = preset_mod.load(path)
+    if spec.get("kind") == "inspection":
+        if replicates is not None or not (workers is None or (type(workers) is int and workers == 1)):
+            raise ValueError("inspection is a deterministic serial study; omit --replicates and use --workers 1")
+        from .inspection.run import run as run_inspection
+        return run_inspection(path, out_root, progress=progress)
     if spec.get("kind") == "misalignment":
         if replicates is not None or not (workers is None or (type(workers) is int and workers == 1)):
             raise ValueError("misalignment is a deterministic serial study; omit --replicates and use --workers 1")

@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-26, by Codex (positive-domain pressure study). Update this page in
+**Last updated:** 2026-10-26, by Codex (modular case inspector). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -127,6 +127,30 @@ instead gives 2.341636397 at SD 0.1 because of a near-flat CDF; a strict xfail k
 that numerical discrepancy. No estimator change or new physical criterion was adopted.
 The 1D case also prevents simply replacing Q inside the current nu/Q rule: positivity
 adds an inequality, while nu = k-1 still counts zero equality conditions there.
+
+**General case inspector (26 Oct, pressure tools).**
+`python -m met inspect presets/inspection_cases.yaml` inspects eight saved cases,
+serially with one math thread on the CLI. `met/inspection/` separates data/source
+conversion, independent geometry, estimator adapters, transformations, justified
+checks, rendering and orchestration. Ordinary function arguments replace stages;
+new annotations/arrays survive export without a report rewrite. Cases may have
+general per-reading covariance, restricted subspaces and multiple readings. Optional
+synthetic truth stays outside the estimator and check input boundary.
+
+The report retains the Newton residual cost, the stricter declared-compatible cost
+and its outside-subspace baseline; Q uses the remaining within-span problem. It
+names unweighted, untempered and quoted laws distinctly and shows the global stacked
+cloud weight. Check outcomes include the existing Z point failure and numerical
+median discrepancy, not only passes. Each names its authority, expectation and
+tolerance; an operational check error remains visible. The required response to
+absolute incompatibility stays unresolved. No new physical criterion is adopted.
+
+Each run saves an HTML index, per-case self-contained reports/optional plots, source
+preset, callable/file provenance, arrays and replay cases with exact grids and check
+selection. Custom Python callables require the caller's code; no extension is loaded
+from YAML. The full estimator is still limited to half-Cauchy priors and dimensions
+1–3; independent geometry/case storage are not tied to those adapter restrictions.
+Composition, repeated-world calibration, path traversal and reduction are not built.
 
 **Real data.** `met/robot.py` turns VD-Newton's robot runs into `Reading`s: calibration
 re-derived (matches the lab's `robot_cart.json` to 1e-12), both channels averaged over one
@@ -293,6 +317,12 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-26 (Codex, pressure tools): added the composable general case inspector,
+  independent restricted-subspace fits, source conversion with isolated truth, a
+  catalogue of justified checks and self-contained reports. Eight replayable cases;
+  known scientific/numerical failures remain visible. Existing equation unchanged.
+  Regression checks: 208 passed, 1 existing strict xfail, with worker-spawning tests
+  omitted; one additional native-density corruption check passed. Audit unchanged.
 - 2026-10-26 (Codex, pressure follow-up): derived positive-domain residual bounds and
   normalization identity; added a 20-cell symmetric/boundary study and independent
   tests. Stable point and mathematical median can coexist with probability escaping

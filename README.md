@@ -52,6 +52,81 @@ drift on a numerical CDF plateau; a strict xfail preserves that discrepancy. See
 `problems/O13.md` for the proofs and `tests/test_misalignment_information.py` for the
 independent checks. These results do not select a replacement equation.
 
+## Inspect a saved or synthetic case
+
+```sh
+python -m met inspect presets/inspection_cases.yaml
+python -m met inspect presets/inspection_cases.yaml --case restricted-plane --check projection --check null_point
+python -m met run presets/inspection_cases.yaml --workers 1  # same serial collection runner
+```
+
+The eight saved examples include synthetic truth, fixed misalignment, opposite
+directions, unequal and correlated channel errors, a restricted subspace and
+conflicting readings. `inspect` runs serially and requests one math thread before
+loading NumPy on the CLI path. Library callers control their numerical runtime.
+The existing equation is unchanged.
+
+Each case report shows independent compatible fits and estimator internals separately:
+both channel corrections; residual covariance and cost; the extra constraints imposed
+by the declared subspace; prior, unweighted, untempered-weighted and quoted laws;
+per-reading Q/g and evidence; series eta; and the global stacked cloud size weight.
+2D cases include marginal noise ellipses. Native probability grids are retained and
+flagged if their endpoint density remains appreciable. Fitted corrections are not
+recovered instrument errors; optional investigator truth is a separate record that
+never crosses the estimator adapter's input boundary.
+
+Checks state their authority, assumptions, expectation, observed error and tolerance.
+The statuses are `pass`, `fail`, `unresolved`, `inapplicable` and operational `error`.
+A completed run can contain failed scientific checks: the known null-point failure
+and symmetric numerical median discrepancy are deliberately visible. Invariance
+checks compare sampled log kernels modulo a constant, native-grid CDFs and, where
+stated, points. They are numerical checks on these grids, not proofs over the domain.
+The required physical response to absolute incompatibility remains unresolved.
+
+Output is `results/inspection-cases/<timestamp>/report.html`, with an index and a
+folder per case. Each case has a self-contained HTML report, optional PNG/SVG,
+`run.json` referencing named arrays in `arrays.npz`, and `case.yaml`. The saved case
+retains the exact diagnostic mass grid, tolerance and selected built-in checks:
+
+```sh
+python -m met inspect results/inspection-cases/<timestamp>/case_000/case.yaml
+```
+
+The source preset and callable identities/hashes are recorded. Custom Python
+callables must be supplied again by the caller; YAML does not import or execute
+arbitrary extension code. Custom callable determinism is recorded as unknown.
+
+The extension points are ordinary functions, usable without the CLI:
+
+```python
+from met.inspection.case import load_cases
+from met.inspection.checks import Check, DEFAULT_CHECKS
+from met.inspection.run import inspect_case
+
+_, cases = load_cases("presets/inspection_cases.yaml")
+
+def investigate(context):
+    return {"status": "unresolved", "observed": {}, "detail": "An expectation is still needed."}
+
+question = Check("local_question", "A new question", "research", "named source or open item",
+                 "The expected behaviour is not established.", investigate)
+result = inspect_case(cases[0], checks=[*DEFAULT_CHECKS, question])
+```
+
+`inspect_case` also accepts replacement `adapter` and `diagnostic` functions; the
+collection `run` accepts those, replacement checks and a `reporter`. Additional
+named arrays and annotations survive export and appear in generic report sections.
+Scientific validation protects finite vectors, positive-definite covariance and
+orthonormal subspaces. The case layer can store other prior declarations; the
+current ours29 adapter explicitly supports the half-Cauchy only. Built-in prior
+symmetry/unit checks do not invent transformations for other prior families.
+
+`met.inspection.sources.from_reading_set` converts a series from `met.world.generate`
+using its supplied SDs; optional truth retains latent vectors and actual errors
+separately. It requires an explicit prior. Composition experiments, repeated-world
+calibration, systematic path traversal and counterexample reduction remain later
+consumers of these functions; this build supplies the case inspector and check catalogue.
+
 A run writes `results/<preset>/<timestamp>/` (not committed):
 
 - `summary.md`: per-cell tables and the worst-case regret table;

@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "inspection":
+        from .inspection.run import validate as validate_inspection
+        return validate_inspection(data)
     if isinstance(data, dict) and data.get("kind") == "misalignment":
         from .misalignment import validate as validate_misalignment
         return validate_misalignment(data)

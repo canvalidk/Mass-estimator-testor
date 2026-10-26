@@ -135,6 +135,52 @@ Two kinds, kept apart:
 - **Studies** are presets. They answer questions about estimators. A study is
   never a test.
 
+## Case inspection (26 October 2026)
+
+The inspector adds a second view of the same permitted inputs: independent geometry,
+estimator contributions and checks with named reasons. It does not replace the
+world/analyst pipeline or select a new equation. Studies remain reproducible presets;
+their runtime check results can expose a justified failure or an unresolved question.
+
+`met/inspection/` deliberately has no plugin registration, class hierarchy or fixed
+report schema. Its seams are small functions and named values/arrays:
+
+| Module | Responsibility |
+|---|---|
+| `case.py` | Scientific declarations, annotations and a separate investigator truth record |
+| `sources.py` | Optional adapters from existing data sources; the generator stays independent |
+| `geometry.py` | Cholesky-whitened QR fits, residual covariance and constrained costs; no estimator imports |
+| `adapters.py` | Expose the current equation's stages; these are observations of implementation, not independent oracles |
+| `transforms.py` | Transform readings, covariance, subspaces and supported prior declarations together |
+| `checks.py` | Small callables with authority, applicability and measured error; local check failures remain data |
+| `report.py` | Consume results; optional sections and generic extra-field views; no scientific decisions |
+| `run.py` | Compose functions, select cases/checks and save replay/provenance/arrays |
+
+The adapter receives `Inputs(readings, prior)`, never the case's truth record. Case
+storage does not decide which prior families an estimator supports. Unconsumed
+descriptive fields round-trip and are explicitly non-operative; a new scientific
+declaration needs an adapter/diagnostic that implements its meaning. Numerical
+validation remains strict where a mathematical operation requires it. Cross-reading
+covariance is still outside this input type; a metadata field cannot silently add it.
+
+For a candidate mass the independent fit is the weighted projection onto
+`[m*N; N]`. Its total declared cost equals an outside-subspace baseline plus a
+within-span cost. The residual `F-m*a` imposes Newton II alone and can have smaller
+cost. The equation's Q excludes the outside-span baseline. These quantities keep
+their own names and roles in the result.
+
+Three law stages avoid the overloaded word raw: unweighted (g=eta=1), untempered
+(current g, eta=1), quoted (current g and eta). The size weight is the mean norm
+of the stacked candidate accelerations, not a sum of individual mean lengths.
+Native grids determine supplied outputs; a separate diagnostic grid samples
+geometry and evidence. Kernel/CDF invariance checks state that numerical scope.
+
+Adding a local diagnostic, check or renderer is a direct function argument. Named
+arrays are exported independently of plot layout, and saved cases retain grids and
+selected checks. The output has a versioned envelope for future evolution; it is
+not a promise that this draft's internal scientific format is final. Counterexample
+search, path studies and repeated-world criteria can use these functions later.
+
 ## First build
 
 1. The per-reading law for independent isotropic noise per channel, in 1D
