@@ -440,7 +440,7 @@ def _support_warning(evaluation):
             + '</section>')
 
 
-def write_report(folder: Path, result: dict) -> bool:
+def write_report(folder: Path, result: dict, *, plots=True) -> bool:
     """Write self-contained HTML, optional PNG/SVG figures; return bool(figures).
 
     No section is required. The result producer owns all scientific quantities,
@@ -519,7 +519,7 @@ def write_report(folder: Path, result: dict) -> bool:
                  "The residual r(m) = F̃ − m ã combines both channels' errors. Its covariance is "
                  "V(m) = ΣFF + m²Σaa − m(ΣFa + ΣaF). A declared-compatible candidate also respects the supplied subspace. "
                  "The diagnostic and estimator grids may have different ranges; each density is shown on its own native grid.</p>")
-    figures, plot_errors = _figures(folder, result)
+    figures, plot_errors = _figures(folder, result) if plots else ([], [])
     parts.extend(figures)
     if not figures:
         parts.append("<p>No figures were produced. All supplied numeric results and checks remain available below and in the companion files.</p>")

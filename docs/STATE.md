@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-26, by Codex (modular case inspector). Update this page in
+**Last updated:** 2026-10-26, by Codex (shrinking-noise path inspection). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -150,7 +150,24 @@ preset, callable/file provenance, arrays and replay cases with exact grids and c
 selection. Custom Python callables require the caller's code; no extension is loaded
 from YAML. The full estimator is still limited to half-Cauchy priors and dimensions
 1–3; independent geometry/case storage are not tied to those adapter restrictions.
-Composition, repeated-world calibration, path traversal and reduction are not built.
+Composition, repeated-world calibration and automatic counterexample reduction are not built.
+
+**First question paths (26 Oct, pressure experiment).**
+`python -m met run presets/inspection_noise_paths.yaml --workers 1` uses the inspector
+on 48 cases (eight fixed pairs, six common SDs). `inspection/paths.py` accepts ordinary
+case transformation functions; `met/noise_path.py` supplies this recipe's isotropic
+summaries, independent angle integrals and comparison report. Full arrays/checks and
+replay cases exist at every step; detailed figures are selected independently.
+
+Aligned laws concentrate; noncollinear laws freeze after the g threshold while costs
+grow; the equal-perpendicular law equals the prior at every SD; equal-opposite laws
+escape toward both boundaries despite their point staying at 1. The 30/150-degree
+pair has the same Q/g but different positive-mass preference: sign remains in H.
+O13 records numbers, arguments, support warnings and the remaining premise question.
+All 48 cases completed without operational errors; four expose the known numerical
+median defect. Independent interval-endpoint CDF errors were at most 2.65e-7; native
+fixed-band interpolation differs from the reference by up to 7.62e-5. No equation
+change or new physical criterion was adopted.
 
 **Real data.** `met/robot.py` turns VD-Newton's robot runs into `Reading`s: calibration
 re-derived (matches the lab's `robot_cart.json` to 1e-12), both channels averaged over one
@@ -317,6 +334,12 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-26 (Codex, pressure paths): inspected 48 cases through the modular tools,
+  added callable path transforms and an independent angle-probability reference,
+  and recorded the information flow in O13. All results/replays retained; native
+  tail warnings and the known median defect remain visible. No equation change.
+  Serial regression: 247 passed, 1 existing strict xfail; 32 focused follow-up checks
+  cover close path coordinates and widely shifted priors. Audit findings unchanged.
 - 2026-10-26 (Codex, pressure tools): added the composable general case inspector,
   independent restricted-subspace fits, source conversion with isolated truth, a
   catalogue of justified checks and self-contained reports. Eight replayable cases;

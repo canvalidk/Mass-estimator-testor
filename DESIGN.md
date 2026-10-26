@@ -179,7 +179,16 @@ Adding a local diagnostic, check or renderer is a direct function argument. Name
 arrays are exported independently of plot layout, and saved cases retain grids and
 selected checks. The output has a versioned envelope for future evolution; it is
 not a promise that this draft's internal scientific format is final. Counterexample
-search, path studies and repeated-world criteria can use these functions later.
+search and repeated-world criteria can use these functions later.
+
+`inspection/paths.py` now supplies ordinary case transformations and expansion:
+the path coordinate and the transform function are separate from inspection. The
+first consumer, `met/noise_path.py`, combines common covariance scaling with the
+existing inspector and its own independent angle reference/comparison renderer.
+Its one-reading isotropic analytic summaries are a recipe restriction, not a case
+schema restriction. It saves both the compact recipe and fully expanded ordinary
+cases. Per-case plot selection changes rendering effort only; all numerical arrays
+and law stages are retained at every coordinate. No estimator code changed.
 
 ## First build
 

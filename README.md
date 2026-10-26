@@ -124,8 +124,48 @@ symmetry/unit checks do not invent transformations for other prior families.
 `met.inspection.sources.from_reading_set` converts a series from `met.world.generate`
 using its supplied SDs; optional truth retains latent vectors and actual errors
 separately. It requires an explicit prior. Composition experiments, repeated-world
-calibration, systematic path traversal and counterexample reduction remain later
-consumers of these functions; this build supplies the case inspector and check catalogue.
+calibration and counterexample reduction remain later consumers of these functions.
+
+## Follow a question along a path
+
+```sh
+python -m met validate presets/inspection_noise_paths.yaml
+python -m met run presets/inspection_noise_paths.yaml --workers 1
+```
+
+This recipe applies six common noise scales to eight saved cases (48 inspections):
+alignment, 5/30/90/150/180 degrees with unequal vector sizes, and equal-size perpendicular
+and opposite controls. It holds measured vectors and the prior fixed. The CLI uses one
+worker and one math thread; replicate/parallel overrides are rejected.
+
+`comparison.html` compares complete quoted laws, points and intervals along the paths.
+`comparison.csv/.json` also retain all three law stages, positive-domain correction
+infima, Q/g/eta, evidence spans, conditional precision and fixed-band probabilities.
+An independent compact-angle integral checks band probabilities and interval endpoints;
+its integration error estimates are not rigorous bounds. Path comparisons check that
+physical fitted corrections stay fixed, costs scale inversely with variance, and
+saturated mass laws freeze. These are algebraic/numerical checks, not a newly adopted
+physical criterion for incompatible inputs. The already known symmetric numerical
+median discrepancy remains visible.
+
+Every point on a path has the ordinary inspector's arrays, check results and replay
+case. `detail_scales` selects which also receive the full set of per-case figures;
+all scales contribute to the comparison plots. `recipe.yaml` preserves the compact
+source and `preset.yaml` the fully expanded ordinary inspection collection. Replaying
+either a saved case or the expanded collection uses the existing `met inspect` command.
+Law plot limits follow native grids unless `plot_log_mass_bounds` explicitly declares
+a display window. This recipe uses [-14, 14] in log mass; tails remain in the arrays.
+Reference quadrature warnings, if any, are retained alongside its error estimates.
+
+The pieces are replaceable: `met.inspection.paths.expand_paths(cases, values,
+transform=..., parameter=...)` accepts an ordinary transformation function. The
+default `scale_noise` supports general covariance, subspaces and multiple readings;
+it scales covariance by the square of its coordinate and copies all other inputs.
+Investigator truth is preserved, not regenerated. `met.noise_path` is this experiment's
+separate recipe, independent angle reference and comparison renderer. Its extra
+analytic summary currently requires one unrestricted isotropic reading. That restriction
+does not apply to case storage, the general inspector or the path builder. No YAML
+entry loads arbitrary Python code. Automatic counterexample search/reduction is still open.
 
 A run writes `results/<preset>/<timestamp>/` (not committed):
 
