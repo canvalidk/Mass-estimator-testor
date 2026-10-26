@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-24, by Claude in a session with Can. Update this page in
+**Last updated:** 2026-10-26, by Codex (misalignment pressure study). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -97,6 +97,24 @@ r["readout"], r["median"], r["interval"], r["raw_interval"], r["eta"], r["g"]
 
 The window is carried on each `Reading` but not used by the equation (T33). The batch
 pipeline, presets and world still take isotropic and per-axis noise only.
+
+**Inspect fixed misaligned readings (26 Oct, pressure mode).**
+`python -m met run presets/misalignment_shrinking_noise.yaml` runs 32 deterministic
+cells: one 2D reading, four angles, eight shrinking noise scales, one fixed half-Cauchy
+prior. It does not generate a true mass or calculate coverage. `met/misalignment.py`
+keeps the residual F - m a, both required channel corrections and their absolute cost
+separate from normalized mass laws. Positive-mass infima are evaluated analytically,
+including unattained endpoints; the equation's own Q searches negative slopes too.
+That distinction is especially visible for anti-parallel vectors (O13, Attempts).
+The equation is unchanged; the study does not impose a new rejection gate or a new
+criterion for what a correct definition must report.
+
+Outputs under `results/misalignment-shrinking-noise/`: full-precision CSV/JSON,
+sampled curves and vectors in `values.npz`, exact preset, code hashes and dependency
+versions. Optional `requirements-plots.txt` enables a self-contained `report.html`
+and PNG/SVG figures. Cloud-size curves use the independent 2D Rice mean rather than
+plotting the estimator's computational cutoff zeros. Finite support edges are flagged.
+Independent geometry and angle-quadrature checks are in `tests/test_misalignment_*.py`.
 
 **Real data.** `met/robot.py` turns VD-Newton's robot runs into `Reading`s: calibration
 re-derived (matches the lab's `robot_cart.json` to 1e-12), both channels averaged over one
@@ -263,6 +281,14 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-26 (Codex, pressure): fixed-reading misalignment diagnostics, 32 cells from
+  `presets/misalignment_shrinking_noise.yaml`, through the existing `met run` command.
+  Independent residual-covariance projection, positive-domain boundary infima and Rice
+  cloud mean; full-precision curves/corrections, optional self-contained report and PNG/SVG.
+  Observations recorded in O13, without adopting a new criterion or changing the equation.
+  Added 45 tests using independent least squares, analytic limits, angle quadrature and
+  reproducible output checks. Suite: 1,236 passed, none failed, 13 xfailed, 26 skipped.
+  Existing audit findings unchanged (T6, T21, T27 and unused L3).
 - 2026-10-25 (speed, 2): `python -m met run` runs cells side by side (`--workers`, default half
   the cores, `max` for all); output bit for bit the same for any count, checked on all 22
   presets (tests/test_parallel.py). Making that true found a defect: ratio_of_means_rss's

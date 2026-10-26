@@ -14,6 +14,34 @@ python -m met run presets/repetition_same_pair.yaml --workers max     # every co
 python -m pytest -q                                  # the exact tests
 ```
 
+To inspect one fixed misaligned pair while its declared noise shrinks:
+
+```sh
+python -m pip install -r requirements-plots.txt        # optional figures; numeric outputs need only the usual dependencies
+python -m met validate presets/misalignment_shrinking_noise.yaml
+python -m met run presets/misalignment_shrinking_noise.yaml
+```
+
+This deterministic preset kind holds 2D measured vectors and a half-Cauchy prior fixed.
+It records the residual `F - m*a`, both required channel corrections, and their squared
+Mahalanobis cost alongside the raw and quoted laws, points and intervals. Its 32 cells
+cover aligned, 30-degree, perpendicular and anti-parallel pairs at eight noise scales.
+It uses no random draws, planted mass, coverage score or estimator ranking; the seed is
+recorded but unused. It runs serially (`--workers 1` is optional; `--replicates` is refused).
+
+Each run writes `summary.csv`, `summary.md`, `run.json`, `values.npz` and its exact
+`preset.yaml` under `results/misalignment-shrinking-noise/<timestamp>/`. With Matplotlib
+installed it also writes `report.html` (self-contained), `overview.png/.svg`, and one
+diagnostic figure per case at its smallest noise. The report preserves absolute correction
+cost separately from normalized mass laws. The `raw` export key is the unweighted
+ours27 baseline (both misfit and Bartlett off); `quoted` is current ours29 (both on).
+The study distinguishes a positive-mass boundary
+infimum from the equation's whole-projective-line misfit. Corrections are observed minus
+the closest compatible candidate, not known actual noise. All plotted mass densities are
+per unit log mass. `run.json` records support-edge warnings rather than treating a finite
+numerical grid edge as a fitted mass. These are investigative quantities; a pass/fail
+criterion for the equation's physical response still needs its own argument.
+
 A run writes `results/<preset>/<timestamp>/` (not committed):
 
 - `summary.md`: per-cell tables and the worst-case regret table;

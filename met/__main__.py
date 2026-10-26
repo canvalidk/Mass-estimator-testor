@@ -52,7 +52,10 @@ def main(argv=None):
     try:
         if args.command == "validate":
             spec = preset_mod.load(args.preset)
-            print(f"ok: {len(spec['cells'])} cell(s), {len(spec['estimators'])} estimator(s)")
+            if spec.get("kind") == "misalignment":
+                print(f"ok: {len(spec['cells'])} fixed-reading diagnostic cell(s); no random draws")
+            else:
+                print(f"ok: {len(spec['cells'])} cell(s), {len(spec['estimators'])} estimator(s)")
             return 0
         run(args.preset, args.out, args.replicates, workers=args.workers)
     except ValueError as error:

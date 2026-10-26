@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "misalignment":
+        from .misalignment import validate as validate_misalignment
+        return validate_misalignment(data)
     if not isinstance(data, dict):
         raise ValueError("a preset must be a mapping")
     missing = [k for k in TOP_REQUIRED if k not in data]
