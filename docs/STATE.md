@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-26, by Codex (shrinking-noise path inspection). Update this page in
+**Last updated:** 2026-10-26, by Codex (prior-centre path inspection). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -169,6 +169,27 @@ median defect. Independent interval-endpoint CDF errors were at most 2.65e-7; na
 fixed-band interpolation differs from the reference by up to 7.62e-5. No equation
 change or new physical criterion was adopted.
 
+**Prior-centre paths (26 Oct, pressure experiment).**
+`python -m met run presets/inspection_prior_paths.yaml --workers 1` holds the four
+chosen readings and instruments fixed while c varies through 0.1, 1 and 10. Twelve
+cases share one physical candidate grid. `set_prior_center` is an ordinary path
+transform; independent residual-angle and Rice-cloud references now live in
+`inspection/references.py` and are shared with the previous noise recipe.
+
+The aligned points change 1.99007 -> 2 -> 2.03981, 30-degree points
+1.84433 -> 2.11297 -> 4.15420, equal-perpendicular points
+0.203534 -> 1 -> 4.91320, and equal-opposite points 0.0197626 -> 1 -> 50.6006.
+Data-only curves agree to 4.42e-13; corrections, conditional covariance and cloud
+weights are unchanged. The perpendicular law equals each supplied prior but its
+point differs from c through the existing O2 mechanism. Opposite priors exchange
+the two boundary branches; O13 derives their reciprocal identity and fixed-c limit.
+
+Across 36 law stages, independent interval-endpoint CDF errors are at most 2.24e-8
+and absolute log point errors at most 6.82e-9; no support or reference warnings or
+operational check errors. The c=1 opposite median is another manifestation of the
+existing flat-CDF defect, retained in a strict xfail. Details and the scope of the
+interpretation are in O13 and O2. No equation or physical requirement changed.
+
 **Real data.** `met/robot.py` turns VD-Newton's robot runs into `Reading`s: calibration
 re-derived (matches the lab's `robot_cart.json` to 1e-12), both channels averaged over one
 window each, IMU lag 8416 µs, budget = steady-state variance over the window's sample count
@@ -334,6 +355,12 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-26 (Codex, pressure priors): inspected twelve fixed-input cases over three
+  declared prior centres, added shared independent CDF/cloud-point references, and
+  isolated prior multiplication from data-only information and cloud weighting.
+  Exact perpendicular readout and reciprocal opposite limits recorded in O2/O13;
+  known median defect retained for the preset's exact covariance. Audit unchanged.
+  Serial regression: 281 passed, 2 strict xfails for the existing median defect.
 - 2026-10-26 (Codex, pressure paths): inspected 48 cases through the modular tools,
   added callable path transforms and an independent angle-probability reference,
   and recorded the information flow in O13. All results/replays retained; native

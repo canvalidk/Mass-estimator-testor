@@ -11,15 +11,14 @@ import json
 import math
 from pathlib import Path
 from tempfile import TemporaryDirectory
-import warnings
 
 import numpy as np
 import yaml
-from scipy.integrate import IntegrationWarning, quad
 
 from .full import Reading
 from .inspection.case import parse_cases
 from .inspection.paths import expand_paths
+from .inspection.references import angle_reference  # Re-export the existing study API.
 from .misalignment import isotropic_minima
 
 
@@ -56,88 +55,6 @@ def validate(data):
         raise ValueError("plot_log_mass_bounds must be two increasing finite log-masses")
     return dict(kind="noise_path", raw=data, cases=expanded, mass_band=band,
                 cells=[dict(id=f"case_{i:03d}", name=c.name) for i, c in enumerate(expanded)])
-
-
-def angle_reference(observation, prior_center, weight, masses):
-    """Independent adaptive integrals on the compact physical angle domain.
-
-    m=s*tan(phi), s=sigma_F/sigma_a. The direct residual cost is
-    ||cos(phi) F/sigma_F - sin(phi) a/sigma_a||². The half-Cauchy
-    Jacobian is c*s/(c² cos²(phi)+s² sin²(phi)). Subtracting the
-    positive-domain infimum prevents underflow of the shared constant.
-    Q/g/eta are supplied by the inspected equation, not justified by this oracle.
-    """
-    reading = _reading(observation)
-    bounds = isotropic_minima(reading)
-    if not math.isfinite(weight) or weight < 0 or not math.isfinite(prior_center) or prior_center <= 0:
-        raise ValueError("reference needs a nonnegative weight and positive prior center")
-    masses = np.asarray(masses, dtype=float)
-    if masses.ndim != 1 or not np.all(np.isfinite(masses) & (masses > 0)):
-        raise ValueError("reference masses must be a finite positive vector")
-    if weight == 0 or bounds["positive_cost_span"] == 0:
-        # Constant evidence has a closed-form CDF. This also avoids quadrature of
-        # an arbitrarily narrow prior Jacobian on a null reading.
-        return dict(cdf=2 / math.pi * np.arctan2(masses, prior_center), normalizer=math.pi / 2,
-                    quadrature_error_bound=0.0, quadrature_warnings=[],
-                    note="Analytic half-Cauchy CDF: the weighted correction cost is constant in mass.")
-    d = reading.dimension
-    sf, sa = math.sqrt(reading.cov[0, 0]), math.sqrt(reading.cov[d, d])
-    ratio, c = sf / sa, prior_center
-    f, a = reading.force / sf, reading.acceleration / sa
-
-    def kernel(phi):
-        co, si = math.cos(phi), math.sin(phi)
-        residual = co * f - si * a
-        excess = max(0.0, float(residual @ residual) - bounds["positive_min_cost"])
-        jacobian = c * ratio / (c * c * co * co + ratio * ratio * si * si)
-        return jacobian * math.exp(-0.5 * weight * excess)
-
-    # Supply narrow peak and boundary scales to the adaptive integrator. Repeating
-    # integrals on this fixed partition avoids missing a narrow peak in a long CDF.
-    energy = float(f @ f + a @ a)
-    width = min(0.1, 1 / math.sqrt(1 + weight * energy))
-    edge_width = min(0.1, 1 / (1 + weight * energy))
-    peak = math.atan(bounds["positive_min_mass"] / ratio) if bounds["positive_min_mass"] else math.pi / 4
-    cuts = [0.0, math.pi / 2, math.pi / 4, peak]
-    for multiplier in (1, 4, 16):
-        cuts.extend([edge_width * multiplier, math.pi / 2 - edge_width * multiplier,
-                     peak - width * multiplier, peak + width * multiplier])
-        # Resolve the prior Jacobian too, including weak/null signals whose
-        # likelihood supplies no scale. atan2 avoids overflow in c/s ratios.
-        cuts.extend([math.atan2(multiplier * c, ratio),
-                     math.atan2(c, multiplier * ratio)])
-    cuts = sorted(set(x for x in cuts if 0 <= x <= math.pi / 2))
-
-    integration_warnings = []
-
-    def integral(lo, hi):
-        points = [lo, *[x for x in cuts if lo < x < hi], hi]
-        with warnings.catch_warnings(record=True) as caught:
-            warnings.simplefilter("always", IntegrationWarning)
-            values = [quad(kernel, x, y, epsabs=1e-13, epsrel=2e-11, limit=100)
-                      for x, y in zip(points[:-1], points[1:]) if x < y]
-        integration_warnings.extend(str(w.message) for w in caught)
-        return sum(x[0] for x in values), sum(x[1] for x in values)
-
-    z, z_error = integral(0, math.pi / 2)
-    if z <= 0:
-        raise ValueError("angle reference has no resolved normalizer")
-    probabilities, errors = [], []
-    for mass in masses:
-        phi = math.atan(float(mass) / ratio)
-        # Integrate the shorter probability tail to avoid integrating across an
-        # almost empty central region in a boundary-concentrated law.
-        if phi <= math.pi / 4:
-            value, error = integral(0, phi)
-            probabilities.append(value / z)
-        else:
-            value, error = integral(phi, math.pi / 2)
-            probabilities.append(1 - value / z)
-        errors.append(error / z + value * z_error / z ** 2)
-    return dict(cdf=np.array(probabilities), normalizer=z,
-                quadrature_error_bound=max(errors, default=0.0),
-                quadrature_warnings=list(dict.fromkeys(integration_warnings)),
-                note="QUADPACK estimated error, not a rigorous bound; independent of the native log-mass grid.")
 
 
 def summarize(result, mass_band):

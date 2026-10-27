@@ -9,6 +9,21 @@ import math
 from .case import Case
 
 
+def set_prior_center(case, center):
+    """Change the explicit prior declaration, copying all measured inputs unchanged.
+
+    The built-in transform knows the half-Cauchy family's scale parameter. Other
+    families can supply a transform that implements their own declaration semantics.
+    """
+    if isinstance(center, bool) or not isinstance(center, (int, float)) or not math.isfinite(center) or center <= 0:
+        raise ValueError("prior center must be finite and positive")
+    if case.inputs.prior.get("family") != "half_cauchy" or set(case.inputs.prior) != {"family", "center"}:
+        raise ValueError("set_prior_center supports an explicit half_cauchy prior; supply a transform for other families")
+    data = case.to_dict(include_truth=True)
+    data["prior"]["center"] = center
+    return Case.from_dict(data)
+
+
 def scale_noise(case, scale):
     """Change declared SDs by a common factor, holding measured data and prior fixed.
 

@@ -190,6 +190,14 @@ schema restriction. It saves both the compact recipe and fully expanded ordinary
 cases. Per-case plot selection changes rendering effort only; all numerical arrays
 and law stages are retained at every coordinate. No estimator code changed.
 
+The prior-centre recipe (`met/prior_path.py`) reuses the same path builder with
+`set_prior_center` and saves one common physical diagnostic mass grid. It keeps
+geometry/candidate-size invariance separate from the legitimate change of prior
+and output law. Shared independent angle and Rice-cloud references now live in
+`inspection/references.py`; the noise recipe retains its old public import. Each
+recipe owns its comparative summaries and presentation, while cases, adapters,
+diagnostics and the ordinary inspector's replay/output format remain reusable.
+
 ## First build
 
 1. The per-reading law for independent isotropic noise per channel, in 1D

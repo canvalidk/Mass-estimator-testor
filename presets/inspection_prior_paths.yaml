@@ -1,0 +1,48 @@
+kind: prior_path
+name: inspection-prior-paths
+question: >-
+  With fixed measured vectors and instrument declarations, how much of the complete
+  mass result comes from the declared prior centre, and where does that influence enter?
+seed: 0
+prior_centers: [0.1, 1.0, 10.0]
+mass_grid_center: 1.0
+mass_band: [0.5, 4.0]
+detail_centers: [1.0]
+plot_log_mass_bounds: [-14.0, 14.0]
+numerics: {log_half_span: 14.0, nodes: 301, check_tolerance: 0.0000001}
+checks: [projection, explained_energy, reciprocal_median, compatibility_role]
+notes: >-
+  Four deterministic fixed-reading cases, equal independent channel SD 0.1. No
+  planted mass or random errors. Changing c changes a legitimate declared input;
+  it is not an invariance requirement for the final answer. All cases share an
+  explicitly saved physical candidate-mass grid. Law and cloud point have separate
+  independent references, including the exact prior law for equal perpendicular data.
+cases:
+  - name: aligned
+    question: How strongly does a well-aligned reading constrain mass across different priors?
+    prior: &prior {family: half_cauchy, center: 1.0}
+    readings:
+      - force: [2.0, 0.0]
+        acceleration: [1.0, 0.0]
+        covariance: &cov [[0.01, 0, 0, 0], [0, 0.01, 0, 0], [0, 0, 0.01, 0], [0, 0, 0, 0.01]]
+  - name: acute-30-degrees
+    question: How does a saturated relative-evidence curve combine with different priors?
+    prior: *prior
+    readings:
+      - force: [2.0, 0.0]
+        acceleration: [0.8660254037844386, 0.5]
+        covariance: *cov
+  - name: equal-perpendicular
+    question: Does the law equal each supplied prior, and does the cloud point equal its centre?
+    prior: *prior
+    readings:
+      - force: [1.0, 0.0]
+        acceleration: [0.0, 1.0]
+        covariance: *cov
+  - name: equal-opposite
+    question: How much does the earlier stable point depend on the symmetry of c equals 1?
+    prior: *prior
+    readings:
+      - force: [1.0, 0.0]
+        acceleration: [-1.0, 0.0]
+        covariance: *cov

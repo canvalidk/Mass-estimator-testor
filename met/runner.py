@@ -200,6 +200,11 @@ def run(path, out_root="results", replicates=None, progress=print, workers=None)
     workers: processes running cells side by side; None (default) is half the cores,
     "max" every core, 1 the plain serial loop. The output is the same for any value."""
     spec = preset_mod.load(path)
+    if spec.get("kind") == "prior_path":
+        if replicates is not None or not (workers is None or (type(workers) is int and workers == 1)):
+            raise ValueError("prior_path is a deterministic serial study; omit --replicates and use --workers 1")
+        from .prior_path import run as run_prior_path
+        return run_prior_path(path, out_root, progress)
     if spec.get("kind") == "noise_path":
         if replicates is not None or not (workers is None or (type(workers) is int and workers == 1)):
             raise ValueError("noise_path is a deterministic serial study; omit --replicates and use --workers 1")

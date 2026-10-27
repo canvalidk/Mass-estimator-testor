@@ -167,6 +167,34 @@ analytic summary currently requires one unrestricted isotropic reading. That res
 does not apply to case storage, the general inspector or the path builder. No YAML
 entry loads arbitrary Python code. Automatic counterexample search/reduction is still open.
 
+The next recipe changes the prior declaration while fixing the experiment:
+
+```sh
+python -m met run presets/inspection_prior_paths.yaml --workers 1
+```
+
+Four cases (aligned, 30 degrees, equal-size perpendicular and equal-size opposite)
+are each inspected with half-Cauchy centre 0.1, 1 and 10: twelve cases at fixed SD
+0.1. `mass_grid_center` fixes one physical diagnostic grid across priors; expanded
+replay cases save it explicitly. Native probability grids remain adaptive per law.
+`detail_centers` selects full case figures independently from the comparison plots.
+The output under `results/inspection-prior-paths/` has the same recipe, case replays,
+arrays and index, plus `comparison.html/.csv/.json` with all three law stages.
+
+The comparison checks what stays fixed (Q/g, physical corrections, conditional
+covariance, cloud-size curve and evidence after removing the prior) and records what
+changes (law, interval, median and point). Prior dependence is an allowed input
+response, not a failure criterion. The prior family's parameter semantics live in
+`inspection.paths.set_prior_center`; other families supply their own transform.
+
+`inspection/references.py` supplies reusable residual-angle CDF and independent
+Rice/angle cloud-readout integrals. The earlier noise recipe re-exports its existing
+`angle_reference` API from this shared module. CDF and point error estimates/warnings
+are retained separately. For equal-perpendicular data the law exactly equals each
+prior, while the point has its own analytic reference and generally differs from
+the prior centre. The known flat-CDF median defect remains visible in the opposite
+c=1 case. The scope and resulting numbers are recorded in O13 and O2.
+
 A run writes `results/<preset>/<timestamp>/` (not committed):
 
 - `summary.md`: per-cell tables and the worst-case regret table;
