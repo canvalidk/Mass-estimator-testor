@@ -14,7 +14,7 @@ A struck row keeps its slot so old references resolve.
 | F1 | **The estimator is the definition.** What mass is equals how it is read from data; there is no further mass behind the readout ("there is no super meta mass that we can't achieve"). The goal is to answer "what are the estimators estimating?", not to build a good estimator. | ruled, 27 Sept |
 | F2 | **Uniqueness is the stake.** Any choice the properties leave open counts as an alternative definition of mass, i.e. an alternative Newtonian mechanics. "The choices only differ where nobody measures" is not an answer. | ruled, Sept |
 | F3 | **Inherited from `_note_why_mass_estimation`:** provenance independence, laws as predictions, the authority ruling. Named here so they are not left out silently (sweep G3); not restated. | inherited |
-| F4 | **Commitment order is suspended** for this work: Newton III "and more" may be used. **Scope (R-2026-10-27-2):** commitments later in *this* version's order (additivity, Newton III), which fill `mass_estimator := tbd` as a theorem; not energy, which this version has not committed. | ruled, 27 Sept; scope 27 Oct |
+| F4 | **Commitment order is suspended** for this work: Newton III "and more" may be used. **Scope (R-2026-10-27-2):** commitments later in *this* version's order (additivity, Newton III), used to determine the body of `mass := mass_estimator(F, a)` ahead of the entry (the log has no deferred body); not energy, which this version has not committed. | ruled, 27 Sept; scope 27 Oct |
 
 ## Properties of mass
 

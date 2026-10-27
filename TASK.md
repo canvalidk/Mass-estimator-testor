@@ -128,19 +128,23 @@ is (value, branch). That is the type being honest, not a defect.
 
 ## 7. The order of commitments (27 Oct)
 
-VD appends commitments in order. The entry for mass is `mass := mass_estimator(F, a)`, with
-`mass_estimator(F, a) := tbd`; the commitments that follow (`mass is additive`, Newton III,
-…) are what fill the tbd. So the estimator's form is a theorem from the commitments that
-come after the headword, and the uniqueness theorem is a ladder: each commitment narrows
-the family of admissible functions, and the definition is reached when one member is left.
-At the Newton II stage alone the family is larger; that more general equation is not the
-one sought, because additivity is committed soon after. F4 (commitment order suspended) has
-exactly this scope: commitments later in *this* version's order. Energy is not among them;
-a version with energy before mass is a different version (R-2026-10-27-2).
+VD appends commitments in order, and an entry is complete when appended: there is no
+deferred body in the log. The entry for mass is `mass := mass_estimator(F, a)`, written out
+in full at Newton II. The "tbd" is ours, now: we are determining what that body must say
+before it is written. What determines it is the commitments that *will* follow in this
+version (`mass is additive`, Newton III, …): the body has to be the one function that those
+later commitments leave, so the estimator's form is a theorem of the whole version, worked
+out ahead of the entry and written into it. That is F4's content and its scope: commitment
+order is suspended for the *work* of determining the body, using commitments later in this
+version's order; it is not suspended in the log. Energy is not among them; a version with
+energy before mass is a different version (R-2026-10-27-2).
 
-Two consequences. A freedom the ladder does not remove is, by §3, an input or a mis-stated
-rung, never a choice. And whether a rung is in reach is a fact about the version's order,
-which can be looked up, not a ruling to request.
+The uniqueness theorem is then a ladder: each later commitment narrows the family of
+admissible bodies, and the definition is reached when one member is left. At the Newton II
+stage alone the family is larger; that more general function is not the one sought. Two
+consequences. A freedom the ladder does not remove is, by §3, an input or a mis-stated rung,
+never a choice. And whether a rung is in reach is a fact about the version's order, to be
+looked up, not a ruling to request.
 
 ## Sources
 
