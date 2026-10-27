@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-27, by Codex (shared-tilt and robot pressure check). Update this page in
+**Last updated:** 2026-10-27, by Codex (anisotropic-world pressure check). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -293,6 +293,11 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-27 (Codex, pressure): O17's excited-eigenspace criterion, conservative scalar
+  compatibility diagnostic and concentrating-law counterexamples; paired tensor worlds
+  in `presets/anisotropic_world.yaml`, with independent geometry/angle/world checks.
+  Serial regression: 460 passed, three existing strict xfails; audit unchanged.
+  L22 remains proposed; production type and equation unchanged.
 - 2026-10-27 (Codex, pressure): O16's shared rotation field, observability counterexamples,
   and noise-aware robot excitation; serial seeded recipe `presets/shared_sensor_tilt.yaml`.
   Baseline resolves at least two directions under both budgets; fits remain descriptive.

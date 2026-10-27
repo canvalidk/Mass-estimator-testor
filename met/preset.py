@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "anisotropic_world":
+        from .anisotropic_world import validate as validate_anisotropic_world
+        return validate_anisotropic_world(data)
     if isinstance(data, dict) and data.get("kind") == "shared_tilt":
         from .shared_tilt import validate as validate_shared_tilt
         return validate_shared_tilt(data)

@@ -236,6 +236,18 @@ parameters and predictive costs; a fit is not an instrument correction or cause 
 The derivation and scope are in `problems/O16.md`. The CLI requests one math thread;
 parallel worker overrides are refused, and saved replicate overrides replay directly.
 
+## Inspect a tensor-mass world
+
+The O17 tensor-world check runs with
+`python -m met run presets/anisotropic_world.yaml --workers 1`. Its 48 seeded cells
+compare a declared SPD tensor with an isotropic control across principal and oblique
+excitation. Independent scalar/tensor correction costs accompany the unchanged ours29
+outputs; no scalar accuracy target is invented for a world admitting no common scalar.
+Results under `results/anisotropic-world/` retain all series, three-stage representative
+kernels and ordinary inspector replay cases. Those replays keep tensor/latent truth
+outside estimator inputs and save their diagnostic mass grids. O17 contains the proofs
+and scope of the conservative scalar check; it is not an estimator rejection gate.
+
 ## How work gets into the tester
 
 The tester exists so that every mass-estimator study can be rerun. A number in a
