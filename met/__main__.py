@@ -56,7 +56,7 @@ def main(argv=None):
         import yaml
         with args.preset.open(encoding="utf-8") as handle:
             envelope = yaml.safe_load(handle)
-        serial_inspection = isinstance(envelope, dict) and envelope.get("kind") in ("inspection", "noise_path", "prior_path", "pooled_scale")
+        serial_inspection = isinstance(envelope, dict) and envelope.get("kind") in ("inspection", "noise_path", "prior_path", "pooled_scale", "shared_tilt")
     if serial_inspection:
         # Do this before importing NumPy on the standalone CLI path. Library users
         # control their own numerical runtime; inspection never spawns processes.
@@ -74,7 +74,9 @@ def main(argv=None):
             return 0
         if args.command == "validate":
             spec = preset_mod.load(args.preset)
-            if spec.get("kind") == "pooled_scale":
+            if spec.get("kind") == "shared_tilt":
+                print(f"ok: {len(spec['cells'])} shared-tilt research cell(s); serial")
+            elif spec.get("kind") == "pooled_scale":
                 print(f"ok: {len(spec['cells'])} pooled-scale research cell(s); serial")
             elif spec.get("kind") in ("inspection", "noise_path", "prior_path"):
                 print(f"ok: {len(spec['cases'])} saved inspection case(s); no random draws")

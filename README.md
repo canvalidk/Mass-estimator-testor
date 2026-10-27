@@ -224,6 +224,18 @@ math thread before NumPy loads. Output under `results/pooled-noise-scale/` conta
 and Bartlett power have different targets. The bias proof and independent null-point
 counterexample are in O14/O7; this does not introduce scale learning into ours29.
 
+## Inspect shared sensor tilt
+
+The O16 shared-sensor check runs with
+`python -m met run presets/shared_sensor_tilt.yaml --workers 1`. It combines 24 seeded
+tilt/control cells with the robot's physical excitation spectra, conditional rank lower
+bounds, and local shared-field fits. The exact synthetic matched-score check keeps
+investigator truth separate from measured-data fits and estimator diagnostics. Reports
+under `results/shared-sensor-tilt/` retain source attribution/hashes, spectra, fitted
+parameters and predictive costs; a fit is not an instrument correction or cause claim.
+The derivation and scope are in `problems/O16.md`. The CLI requests one math thread;
+parallel worker overrides are refused, and saved replicate overrides replay directly.
+
 ## How work gets into the tester
 
 The tester exists so that every mass-estimator study can be rerun. A number in a

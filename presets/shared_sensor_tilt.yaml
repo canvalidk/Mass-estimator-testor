@@ -1,0 +1,25 @@
+kind: shared_tilt
+name: shared-sensor-tilt
+question: >-
+  Does a fixed relative sensor rotation produce a coherent residual field, and
+  which rotations can broad or restricted excitation identify in synthetic and
+  robot readings under the declared noise budgets?
+notes: >-
+  O16 pressure check. Fits use observed readings and a supplied investigator
+  reference mass; latent excitation is used only in the independent exact
+  Gaussian matched score. Local fitted and held-out cost changes have no p-values
+  or causal interpretation. No correction enters the production estimator.
+cases: [broad, plane, line_transverse, line_axis]
+angles_degrees: [0.0, 5.0]
+readings: [12, 48, 192]
+replicates: 200
+seed: 20261027
+mass: 1.5
+acceleration_length: 2.0
+force_sd: 0.02
+acceleration_sd: 0.02
+rotation_axis: [0.0, 0.0, 1.0]
+matched_hypothesis_degrees: 5.0
+robot:
+  widths: [0.05, 0.2, 1.0]
+  floors: [true, false]

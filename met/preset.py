@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "shared_tilt":
+        from .shared_tilt import validate as validate_shared_tilt
+        return validate_shared_tilt(data)
     if isinstance(data, dict) and data.get("kind") == "pooled_scale":
         from .pooled_scale import validate as validate_pooled_scale
         return validate_pooled_scale(data)

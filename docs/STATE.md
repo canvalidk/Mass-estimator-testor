@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-27, by Codex (pooled-scale pressure check). Update this page in
+**Last updated:** 2026-10-27, by Codex (shared-tilt and robot pressure check). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -293,6 +293,12 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-27 (Codex, pressure): O16's shared rotation field, observability counterexamples,
+  and noise-aware robot excitation; serial seeded recipe `presets/shared_sensor_tilt.yaml`.
+  Baseline resolves at least two directions under both budgets; fits remain descriptive.
+  Source count 23 versus 24 retained as a strict xfail. Equation and robot loader unchanged.
+  Serial regression: 402 passed, three strict xfails (sign, robot interval, source count);
+  audit findings unchanged.
 - 2026-10-27 (Codex, pressure): O14's general Q bias curve, finite-N moments and
   scale-only null-point counterexample, linked in O7; serial paired recipe
   `presets/pooled_noise_scale.yaml` and independent reference/replay tests. Serial regression:

@@ -200,6 +200,11 @@ def run(path, out_root="results", replicates=None, progress=print, workers=None)
     workers: processes running cells side by side; None (default) is half the cores,
     "max" every core, 1 the plain serial loop. The output is the same for any value."""
     spec = preset_mod.load(path)
+    if spec.get("kind") == "shared_tilt":
+        if not (workers is None or (type(workers) is int and workers == 1)):
+            raise ValueError("shared_tilt is a serial research study; use --workers 1")
+        from .shared_tilt import run as run_shared_tilt
+        return run_shared_tilt(path, out_root, replicates=replicates, progress=progress)
     if spec.get("kind") == "pooled_scale":
         if not (workers is None or (type(workers) is int and workers == 1)):
             raise ValueError("pooled_scale is a serial research study; use --workers 1")
