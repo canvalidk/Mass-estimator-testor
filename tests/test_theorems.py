@@ -387,3 +387,41 @@ def test_t28_fisher_orthogonal_and_uniform_in_theta():
     uniform_theta_in_log_m = (2 / math.pi) * (S / (S * S + m * m)) * m   # d theta / d log m
     np.testing.assert_allclose(np.exp(_log_prior(lm, S)) * 2 / math.pi, uniform_theta_in_log_m,
                                rtol=1e-12)
+
+
+# --- T34: the gain is the geometric mean of the pairings (27 Oct) -----------------------
+
+def _pairings(force, acc):
+    force, acc = np.asarray(force, float), np.asarray(acc, float)
+    dot = force @ acc
+    return dot / (acc @ acc), (force @ force) / dot, math.sqrt(force @ force) / math.sqrt(acc @ acc)
+
+
+T34_PAIRS = [([2.0], [1.0]), ([3.0, 0.0], [1.5, 0.0]), ([2.0, 0.5], [1.0, 0.1]),
+             ([1.0, 1.0, 0.2], [0.3, 0.9, 0.0]), ([5.0, -1.0, 2.0], [1.0, 0.2, 0.3])]
+
+
+@pytest.mark.parametrize("force, acc", T34_PAIRS)
+def test_t34_gain_is_the_geometric_mean_of_the_pairings(force, acc):
+    from met.full import exact_mass
+    m1, m2, gain = _pairings(force, acc)
+    assert m1 * m2 == pytest.approx(gain ** 2, rel=1e-13)
+    assert m1 <= gain * (1 + 1e-14) and gain <= m2 * (1 + 1e-14)
+    cos = (np.asarray(force) @ np.asarray(acc)) / (np.linalg.norm(force) * np.linalg.norm(acc))
+    assert m1 / gain == pytest.approx(cos, rel=1e-13) and gain / m2 == pytest.approx(cos, rel=1e-13)
+    if exact_mass(force, acc)[0] == "one":           # codirectional: T1's one mass is all three
+        assert exact_mass(force, acc)[1] == pytest.approx(gain, rel=1e-12)
+        assert m1 == pytest.approx(m2, rel=1e-12)
+
+
+def test_t34_swap():
+    rng = np.random.default_rng(34)
+    for _ in range(200):
+        force, acc = rng.normal(size=3), rng.normal(size=3)
+        if force @ acc <= 0:
+            acc = -acc
+        m1, m2, gain = _pairings(force, acc)
+        s1, s2, sgain = _pairings(acc, force)
+        assert s1 == pytest.approx(1 / m2, rel=1e-12)
+        assert s2 == pytest.approx(1 / m1, rel=1e-12)
+        assert sgain == pytest.approx(1 / gain, rel=1e-12)
