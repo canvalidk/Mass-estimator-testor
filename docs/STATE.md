@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-24, by Claude in a session with Can. Update this page in
+**Last updated:** 2026-10-27, by Claude in a session with Can. Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -97,6 +97,16 @@ r["readout"], r["median"], r["interval"], r["raw_interval"], r["eta"], r["g"]
 
 The window is carried on each `Reading` but not used by the equation (T33). The batch
 pipeline, presets and world still take isotropic and per-axis noise only.
+
+**Pressure tools (Codex, 26 Oct).** `met/inspection/` inspects saved cases (any covariance,
+declared subspaces, several readings) against independent geometry and justified checks,
+with replayable reports: `python -m met inspect presets/inspection_cases.yaml`. Three studies
+use it or its predecessors, all serial (`--workers 1`), no equation change:
+`presets/misalignment_shrinking_noise.yaml`, `presets/misalignment_positive_boundaries.yaml`,
+`presets/inspection_noise_paths.yaml` and `presets/inspection_prior_paths.yaml`. Their
+findings live in `../problems/O13.md` (the sign of F·a, laws escaping to both boundaries
+under a steady point) and `../problems/O2.md` (the perpendicular reading: law exactly π,
+cloud readout R(c) ≠ c). T32 carries the positive-domain bounds.
 
 **Real data.** `met/robot.py` turns VD-Newton's robot runs into `Reading`s: calibration
 re-derived (matches the lab's `robot_cart.json` to 1e-12), both channels averaged over one
@@ -263,6 +273,46 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-27 (Claude, merge): the Codex branch merged into main. Its five study paragraphs
+  above became one pointer block; the findings stay in O13, O2 and T32. The flat-CDF median
+  defect is fixed: on a run of nodes where the CDF equals the probability to 1e-12,
+  met.full returns the run's midpoint in log m, the one plateau point that commutes with the
+  swap and units (`_plateau_centre`). Both strict xfails pass and lost their marks; the
+  inspector's reciprocal-median check now passes, with a test that it still fails on a wrong
+  median; a swap test at c = 0.3 and 3. No recorded number moved.
+- 2026-10-26 (Codex, pressure priors): inspected twelve fixed-input cases over three
+  declared prior centres, added shared independent CDF/cloud-point references, and
+  isolated prior multiplication from data-only information and cloud weighting.
+  Exact perpendicular readout and reciprocal opposite limits recorded in O2/O13;
+  known median defect retained for the preset's exact covariance. Audit unchanged.
+  Serial regression: 281 passed, 2 strict xfails for the existing median defect.
+- 2026-10-26 (Codex, pressure paths): inspected 48 cases through the modular tools,
+  added callable path transforms and an independent angle-probability reference,
+  and recorded the information flow in O13. All results/replays retained; native
+  tail warnings and the known median defect remain visible. No equation change.
+  Serial regression: 247 passed, 1 existing strict xfail; 32 focused follow-up checks
+  cover close path coordinates and widely shifted priors. Audit findings unchanged.
+- 2026-10-26 (Codex, pressure tools): added the composable general case inspector,
+  independent restricted-subspace fits, source conversion with isolated truth, a
+  catalogue of justified checks and self-contained reports. Eight replayable cases;
+  known scientific/numerical failures remain visible. Existing equation unchanged.
+  Regression checks: 217 passed, 1 existing strict xfail, with worker-spawning tests
+  omitted. Includes all eight frame transformations and a native-density corruption
+  check. Follow-up checks also guard exact-symmetry applicability. Audit unchanged.
+- 2026-10-26 (Codex, pressure follow-up): derived positive-domain residual bounds and
+  normalization identity; added a 20-cell symmetric/boundary study and independent
+  tests. Stable point and mathematical median can coexist with probability escaping
+  every finite band. Kept the SD 0.1 numerical median discrepancy as a strict xfail;
+  estimator unchanged. Targeted checks: 72 passed, 1 strict xfail. The exact findings
+  and remaining physical fork are in O13; the existing audit findings are unchanged.
+- 2026-10-26 (Codex, pressure): fixed-reading misalignment diagnostics, 32 cells from
+  `presets/misalignment_shrinking_noise.yaml`, through the existing `met run` command.
+  Independent residual-covariance projection, positive-domain boundary infima and Rice
+  cloud mean; full-precision curves/corrections, optional self-contained report and PNG/SVG.
+  Observations recorded in O13, without adopting a new criterion or changing the equation.
+  Added 45 tests using independent least squares, analytic limits, angle quadrature and
+  reproducible output checks. Suite: 1,236 passed, none failed, 13 xfailed, 26 skipped.
+  Existing audit findings unchanged (T6, T21, T27 and unused L3).
 - 2026-10-25 (speed, 2): `python -m met run` runs cells side by side (`--workers`, default half
   the cores, `max` for all); output bit for bit the same for any count, checked on all 22
   presets (tests/test_parallel.py). Making that true found a defect: ratio_of_means_rss's

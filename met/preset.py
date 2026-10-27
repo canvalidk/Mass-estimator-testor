@@ -76,6 +76,18 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "prior_path":
+        from .prior_path import validate as validate_prior_path
+        return validate_prior_path(data)
+    if isinstance(data, dict) and data.get("kind") == "noise_path":
+        from .noise_path import validate as validate_noise_path
+        return validate_noise_path(data)
+    if isinstance(data, dict) and data.get("kind") == "inspection":
+        from .inspection.run import validate as validate_inspection
+        return validate_inspection(data)
+    if isinstance(data, dict) and data.get("kind") == "misalignment":
+        from .misalignment import validate as validate_misalignment
+        return validate_misalignment(data)
     if not isinstance(data, dict):
         raise ValueError("a preset must be a mapping")
     missing = [k for k in TOP_REQUIRED if k not in data]

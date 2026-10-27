@@ -193,8 +193,8 @@ def test_end_to_end_run_is_reproducible(tmp_path):
     data = _minimal()
     data["world"]["mass"] = [1.0, 3.0]
     path.write_text(yaml.safe_dump(data))
-    out1, _ = run(path, tmp_path / "a", progress=None)
-    out2, _ = run(path, tmp_path / "a", progress=None)
+    out1, _ = run(path, tmp_path / "a", progress=None, workers=1)
+    out2, _ = run(path, tmp_path / "a", progress=None, workers=1)
     assert out1 != out2
     assert (out1 / "summary.md").exists() and (out1 / "values.npz").exists()
     v1, v2 = np.load(out1 / "values.npz"), np.load(out2 / "values.npz")

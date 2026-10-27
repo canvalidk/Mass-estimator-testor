@@ -1,0 +1,33 @@
+kind: misalignment
+name: misalignment-shrinking-noise
+question: >-
+  For one fixed 2D reading, how do the required compatible corrections, their absolute
+  cost, and ours29's mass law and point change as declared noise shrinks?
+notes: >-
+  Codex pressure study, 26 October 2026. These are fixed measured vectors, not a
+  generated Newtonian experiment: there is no planted true mass and no coverage score.
+  The independent diagnostic profiles over positive mass, including both limiting
+  endpoints. The equation's own misfit search includes negative slopes. Keeping both
+  exposes that distinction without changing the equation or imposing a rejection gate.
+  Equal noise SDs keep s=1 while c=1 is held fixed independently throughout.
+seed: 0
+prior: {family: half_cauchy, center: 1.0}
+noise:
+  force_sd: 1.0
+  acceleration_sd: 1.0
+  scales: [1.0, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01, 0.005]
+cases:
+  - name: aligned
+    force: [2.0, 0.0]
+    acceleration: [1.0, 0.0]
+  - name: acute-30-degrees
+    force: [2.0, 0.0]
+    acceleration: [0.8660254037844386, 0.5]
+  - name: perpendicular
+    force: [2.0, 0.0]
+    acceleration: [0.0, 1.0]
+  - name: anti-parallel
+    force: [2.0, 0.0]
+    acceleration: [-1.0, 0.0]
+numerics: {profile_log_half_span: 16.0, profile_nodes: 1601}
+plots: true

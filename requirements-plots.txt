@@ -1,0 +1,3 @@
+# Optional diagnostic figures; the estimator and numeric investigation do not need these.
+# Install after requirements.txt or requirements-lock.txt.
+matplotlib==3.11.2

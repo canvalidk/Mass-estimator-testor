@@ -14,6 +14,187 @@ python -m met run presets/repetition_same_pair.yaml --workers max     # every co
 python -m pytest -q                                  # the exact tests
 ```
 
+To inspect one fixed misaligned pair while its declared noise shrinks:
+
+```sh
+python -m pip install -r requirements-plots.txt        # optional figures; numeric outputs need only the usual dependencies
+python -m met validate presets/misalignment_shrinking_noise.yaml
+python -m met run presets/misalignment_shrinking_noise.yaml
+```
+
+This deterministic preset kind holds 2D measured vectors and a half-Cauchy prior fixed.
+It records the residual `F - m*a`, both required channel corrections, and their squared
+Mahalanobis cost alongside the raw and quoted laws, points and intervals. Its 32 cells
+cover aligned, 30-degree, perpendicular and anti-parallel pairs at eight noise scales.
+It uses no random draws, planted mass, coverage score or estimator ranking; the seed is
+recorded but unused. It runs serially (`--workers 1` is optional; `--replicates` is refused).
+
+Each run writes `summary.csv`, `summary.md`, `run.json`, `values.npz` and its exact
+`preset.yaml` under `results/misalignment-shrinking-noise/<timestamp>/`. With Matplotlib
+installed it also writes `report.html` (self-contained), `overview.png/.svg`, and one
+diagnostic figure per case at its smallest noise. The report preserves absolute correction
+cost separately from normalized mass laws. The `raw` export key is the unweighted
+ours27 baseline (both misfit and Bartlett off); `quoted` is current ours29 (both on).
+The study distinguishes a positive-mass boundary
+infimum from the equation's whole-projective-line misfit. Corrections are observed minus
+the closest compatible candidate, not known actual noise. All plotted mass densities are
+per unit log mass. `run.json` records support-edge warnings rather than treating a finite
+numerical grid edge as a fitted mass. These are investigative quantities; a pass/fail
+criterion for the equation's physical response still needs its own argument.
+
+The follow-up `presets/misalignment_positive_boundaries.yaml` runs 20 serial cells:
+an aligned equal-energy control, two opposite-direction cases exchanged by channel
+swap, and an equal-energy opposite-direction case. It exposes the extra cost of
+requiring positive mass and the mass-dependent excess remaining after normalization.
+The exact symmetric case keeps its mathematical median and point at 1 while its law
+escapes every fixed finite mass band as noise shrinks. The implemented median can
+drift on a numerical CDF plateau; a strict xfail preserves that discrepancy. See
+`problems/O13.md` for the proofs and `tests/test_misalignment_information.py` for the
+independent checks. These results do not select a replacement equation.
+
+## Inspect a saved or synthetic case
+
+```sh
+python -m met inspect presets/inspection_cases.yaml
+python -m met inspect presets/inspection_cases.yaml --case restricted-plane --check projection --check null_point
+python -m met run presets/inspection_cases.yaml --workers 1  # same serial collection runner
+```
+
+The eight saved examples include synthetic truth, fixed misalignment, opposite
+directions, unequal and correlated channel errors, a restricted subspace and
+conflicting readings. `inspect` runs serially and requests one math thread before
+loading NumPy on the CLI path. Library callers control their numerical runtime.
+The existing equation is unchanged.
+
+Each case report shows independent compatible fits and estimator internals separately:
+both channel corrections; residual covariance and cost; the extra constraints imposed
+by the declared subspace; prior, unweighted, untempered-weighted and quoted laws;
+per-reading Q/g and evidence; series eta; and the global stacked cloud size weight.
+2D cases include marginal noise ellipses. Native probability grids are retained and
+flagged if their endpoint density remains appreciable. Fitted corrections are not
+recovered instrument errors; optional investigator truth is a separate record that
+never crosses the estimator adapter's input boundary.
+
+Checks state their authority, assumptions, expectation, observed error and tolerance.
+The statuses are `pass`, `fail`, `unresolved`, `inapplicable` and operational `error`.
+A completed run can contain failed scientific checks: the known null-point failure
+and symmetric numerical median discrepancy are deliberately visible. Invariance
+checks compare sampled log kernels modulo a constant, native-grid CDFs and, where
+stated, points. They are numerical checks on these grids, not proofs over the domain.
+The required physical response to absolute incompatibility remains unresolved.
+
+Output is `results/inspection-cases/<timestamp>/report.html`, with an index and a
+folder per case. Each case has a self-contained HTML report, optional PNG/SVG,
+`run.json` referencing named arrays in `arrays.npz`, and `case.yaml`. The saved case
+retains the exact diagnostic mass grid, tolerance and selected built-in checks:
+
+```sh
+python -m met inspect results/inspection-cases/<timestamp>/case_000/case.yaml
+```
+
+The source preset and callable identities/hashes are recorded. Custom Python
+callables must be supplied again by the caller; YAML does not import or execute
+arbitrary extension code. Custom callable determinism is recorded as unknown.
+
+The extension points are ordinary functions, usable without the CLI:
+
+```python
+from met.inspection.case import load_cases
+from met.inspection.checks import Check, DEFAULT_CHECKS
+from met.inspection.run import inspect_case
+
+_, cases = load_cases("presets/inspection_cases.yaml")
+
+def investigate(context):
+    return {"status": "unresolved", "observed": {}, "detail": "An expectation is still needed."}
+
+question = Check("local_question", "A new question", "research", "named source or open item",
+                 "The expected behaviour is not established.", investigate)
+result = inspect_case(cases[0], checks=[*DEFAULT_CHECKS, question])
+```
+
+`inspect_case` also accepts replacement `adapter` and `diagnostic` functions; the
+collection `run` accepts those, replacement checks and a `reporter`. Additional
+named arrays and annotations survive export and appear in generic report sections.
+Scientific validation protects finite vectors, positive-definite covariance and
+orthonormal subspaces. The case layer can store other prior declarations; the
+current ours29 adapter explicitly supports the half-Cauchy only. Built-in prior
+symmetry/unit checks do not invent transformations for other prior families.
+
+`met.inspection.sources.from_reading_set` converts a series from `met.world.generate`
+using its supplied SDs; optional truth retains latent vectors and actual errors
+separately. It requires an explicit prior. Composition experiments, repeated-world
+calibration and counterexample reduction remain later consumers of these functions.
+
+## Follow a question along a path
+
+```sh
+python -m met validate presets/inspection_noise_paths.yaml
+python -m met run presets/inspection_noise_paths.yaml --workers 1
+```
+
+This recipe applies six common noise scales to eight saved cases (48 inspections):
+alignment, 5/30/90/150/180 degrees with unequal vector sizes, and equal-size perpendicular
+and opposite controls. It holds measured vectors and the prior fixed. The CLI uses one
+worker and one math thread; replicate/parallel overrides are rejected.
+
+`comparison.html` compares complete quoted laws, points and intervals along the paths.
+`comparison.csv/.json` also retain all three law stages, positive-domain correction
+infima, Q/g/eta, evidence spans, conditional precision and fixed-band probabilities.
+An independent compact-angle integral checks band probabilities and interval endpoints;
+its integration error estimates are not rigorous bounds. Path comparisons check that
+physical fitted corrections stay fixed, costs scale inversely with variance, and
+saturated mass laws freeze. These are algebraic/numerical checks, not a newly adopted
+physical criterion for incompatible inputs. The already known symmetric numerical
+median discrepancy remains visible.
+
+Every point on a path has the ordinary inspector's arrays, check results and replay
+case. `detail_scales` selects which also receive the full set of per-case figures;
+all scales contribute to the comparison plots. `recipe.yaml` preserves the compact
+source and `preset.yaml` the fully expanded ordinary inspection collection. Replaying
+either a saved case or the expanded collection uses the existing `met inspect` command.
+Law plot limits follow native grids unless `plot_log_mass_bounds` explicitly declares
+a display window. This recipe uses [-14, 14] in log mass; tails remain in the arrays.
+Reference quadrature warnings, if any, are retained alongside its error estimates.
+
+The pieces are replaceable: `met.inspection.paths.expand_paths(cases, values,
+transform=..., parameter=...)` accepts an ordinary transformation function. The
+default `scale_noise` supports general covariance, subspaces and multiple readings;
+it scales covariance by the square of its coordinate and copies all other inputs.
+Investigator truth is preserved, not regenerated. `met.noise_path` is this experiment's
+separate recipe, independent angle reference and comparison renderer. Its extra
+analytic summary currently requires one unrestricted isotropic reading. That restriction
+does not apply to case storage, the general inspector or the path builder. No YAML
+entry loads arbitrary Python code. Automatic counterexample search/reduction is still open.
+
+The next recipe changes the prior declaration while fixing the experiment:
+
+```sh
+python -m met run presets/inspection_prior_paths.yaml --workers 1
+```
+
+Four cases (aligned, 30 degrees, equal-size perpendicular and equal-size opposite)
+are each inspected with half-Cauchy centre 0.1, 1 and 10: twelve cases at fixed SD
+0.1. `mass_grid_center` fixes one physical diagnostic grid across priors; expanded
+replay cases save it explicitly. Native probability grids remain adaptive per law.
+`detail_centers` selects full case figures independently from the comparison plots.
+The output under `results/inspection-prior-paths/` has the same recipe, case replays,
+arrays and index, plus `comparison.html/.csv/.json` with all three law stages.
+
+The comparison checks what stays fixed (Q/g, physical corrections, conditional
+covariance, cloud-size curve and evidence after removing the prior) and records what
+changes (law, interval, median and point). Prior dependence is an allowed input
+response, not a failure criterion. The prior family's parameter semantics live in
+`inspection.paths.set_prior_center`; other families supply their own transform.
+
+`inspection/references.py` supplies reusable residual-angle CDF and independent
+Rice/angle cloud-readout integrals. The earlier noise recipe re-exports its existing
+`angle_reference` API from this shared module. CDF and point error estimates/warnings
+are retained separately. For equal-perpendicular data the law exactly equals each
+prior, while the point has its own analytic reference and generally differs from
+the prior centre. The known flat-CDF median defect remains visible in the opposite
+c=1 case. The scope and resulting numbers are recorded in O13 and O2.
+
 A run writes `results/<preset>/<timestamp>/` (not committed):
 
 - `summary.md`: per-cell tables and the worst-case regret table;
