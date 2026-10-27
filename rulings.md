@@ -394,11 +394,26 @@ read. Line numbers refer to the files as they stood that day.
 - **Words:** "Is the logarithm a unique function in hte complex plane? No. Once you pick the brach cut it is. Therefore, there is a logarithm function which is unique. If you want to hold on to that unique function, all you have to say is that the logarithm inputs a branch cut. Then its unique." — "I keep saying find me the unique function, you fail because you don't understand the task. […] Because you think you are looking for a function unique to me. No you are trying to find 'the unique function' as in the function which is unique. Despite the obstacles. What will be the definition will be whatever thing is unique at the end and agrees with experiment. And everything else will depend on the situation." — "You can drop every assumption, except the one that says the one I'm trying to do is possible. Which is an extra assumption you are licensed to accept." On recording it: "Right do that. But I want you to also have a place where this principle is explained with the logarithm example and more thoroughly. Cause like... this is the task."
 - **Source:** the conversation of 2026-10-24 (this session); recorded directly.
 
+### R-2026-10-27-1 — Moves are forced; where nothing forces, the call is "we don't know yet", and any call there is provisional
+- **Decides:** How rulings are made and how to read the old ones. A ruling is a comparison of the question with the goal, not a preference; Claude sorts and makes the provisional call, Can checks it against the goal. Where nothing decides it, the recorded status is "unknown yet", and anything written in that state is provisional.
+- **Replaces / closes:** The practice (Claude's, 24–27 Oct) of handing forks to Can as questions to pick sides on.
+- **Words:** "What I'm gonna do with those questions is compare them to the goal and make provisional decisions. I mean our moves are ultimately supposed to be forced. I mean my rulings may have been mysterious because you haven't been thinking about why I make them maybe. […] if you can't tell which way it should be yet, that's the call: we don't know yet. Any call in that scenario would be provisional."
+- **Source:** the conversation of 2026-10-27 (this session); recorded directly.
+
+### R-2026-10-27-2 — No energy in this version; the estimator's form is a theorem from the commitments that follow mass
+- **Decides:** VD appends commitments in order. This version runs through Newton II toward Newton III; energy is not yet committed, and a version with energy before mass is a different version. So "mass is the metric" (O17) is an import here: no kinetic-energy form. But additivity of mass (L5) is likewise not yet committed at this stage and is used anyway: the estimator's form is to be read as a **theorem from the commitments that follow the headword**, the entry being `mass := mass_estimator(F, a)`, then `mass is additive`, …, with `mass_estimator(F, a) := tbd` filled when the commitments fix it. The equation at the Newton II stage alone would be more general; it is not the one being sought.
+- **Replaces / closes:** O17's question 2. Reads E10 ("named, not supplied"): the entry names the estimator, and what fills it is a theorem of the later commitments. Gives F4 its scope: commitments later in this version's order.
+- **Words:** "the VD is a logical system where commitments are appended chronologically (ordinally). […] we have not yet put in energy. We are progressing through newton 2 towards newton 3. The version where energy comes before mass would be a different version than what we are building currently. So the straight answer is no. But there is a bit more room to play with it than that lets on. Because at the stage we have which it before Newton 3, additivity of mass needed for lumping etc. is also not committed, and we use them still. So its almost like, there would be an even more general equation that we aren't looking for because we are comfortable with mass additivity being added soon after. It's almost like the actual form of the estimator is a theorem from the commitments. Which is possible in the VD structure: mass:= mass_estimator(F,a), ... mass is additive... mass estimator(F,a) := tbd."
+- **Source:** the conversation of 2026-10-27 (this session); recorded directly.
+
 ---
 
 ## Owed
 
-Rulings that records say are owed. Each stays here until an entry above closes it.
+Rulings that records say are owed. Each stays here until an entry above closes it. Since
+R-2026-10-27-1, Claude's sorts and provisional calls are not listed here: they sit in the
+premise or problem file with the status *provisional (from the goal)* or *unknown yet*, for
+Can to check against the goal.
 
 | What | Where it is asked |
 | --- | --- |
@@ -410,17 +425,12 @@ Rulings that records say are owed. Each stays here until an entry above closes i
 | L13: confirm "the noise model is forced Gaussian; the data need not be" is compatible with the 27 Sept line | lemma list d4:126 |
 | L18, Nᵢ: is the declared candidate subspace an input, not learned? | lemma list d4:131; full-covariance record:150-163 |
 | O2: must the readout be continuous at the all-zero experiment? and is "the value is c" a ruling or a derivation a readout may fail? | undefined record:209-211; `problems/O2.md` |
-| E10 / the authority ruling: is the estimator still "named, not supplied" now that composition forces the readout? | ours26 sweep:253-256 |
+| E10 / the authority ruling: is the estimator still "named, not supplied" now that composition forces the readout? R-2026-10-27-2 reads it: named at the headword, filled by a theorem of the later commitments. Confirm that closes it | ours26 sweep:253-256 |
 | The direction lines of the lemma and equation notes (VD-docs) | equation note d2:48; VD-docs catalog |
 | Whether the 7 Sept no-gate ruling's intent covers g(Q) tempering | readings-are-evidence record:277-279 |
 | The back-calculated-error property as a named property | readings-are-evidence record:72-77, 290-291 |
 | Conditional calibration: is overconfidence on a region of the definition's own world a tier-2 failure? | null-series record:149-156, 172-173 |
 | Whether η's derivation counts as forcing (ours25's sandwich by another route) | scattered observations:93-99 |
 | Where the 10 Oct T32 check script goes (beside the record or as a test) | lemma list d4:239 |
-| Whether `state-page` merges into `main` | this session |
-| The sign sort: is L8's count mis-stated (it omits L1's $\mathbf F^\ast\cdot\mathbf a^\ast>0$)? Claude's sort, 27 Oct | `problems/O13.md` (27 Oct); `definition/premises.md` L8 |
-| L22, isotropy of inertia: a premise, and its grade? | `definition/premises.md` L22; `problems/O17.md` |
-| The Z split: is "Σ exact or up to a scale" an input, as sorted 27 Oct? | `problems/O7.md` (26–27 Oct) |
-| Does VD's Newton declare a kinetic-energy form; does T1's "no mass" become "no isotropic mass"? | `problems/O17.md` |
 
 Moot, kept for the record: ours28b's premises (ours28b withdrawn, R-2026-09-28-6); learned ω's pull toward the prior (R-2026-09-27-8); an `ours28/` folder (ours28 withdrawn, R-2026-09-30-6); parked item 3 of the noise-measure view (dissolved by η being Z-exact, not formally ruled).

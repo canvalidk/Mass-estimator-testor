@@ -295,8 +295,11 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 - 2026-10-27 (Claude, pressure, branch `sorts-2026-10-27`): the sign fork sorted as a wrong
   premise (L8's count; O13, T30, T32; `tests/test_sign_fork.py` with a strict xfail on T30);
   the Z split sorted as an input (O7); L22 proposed; the 26 Oct scratch session folded into
-  T34 (tested), O17 (new), and attempts on O2, O14, O16. Nothing ruled. CLAUDE.md: how to brief
-  Codex runs.
+  T34 (tested), O17 (new), and attempts on O2, O14, O16. CLAUDE.md: how to brief Codex runs.
+  Later: R-2026-10-27-1 (moves are forced or "unknown yet"; Claude's sorts carry the status
+  *provisional (from the goal)*, not a request for a ruling) and R-2026-10-27-2 (no energy in
+  this version; the estimator's form is a theorem of the commitments after the headword;
+  TASK.md §7). O17's two ruling questions answered; L22 read as a clause of L1.
 - 2026-10-27 (Claude, merge): the Codex branch merged into main. Its five study paragraphs
   above became one pointer block; the findings stay in O13, O2 and T32. The flat-CDF median
   defect is fixed: on a run of nodes where the CDF equals the probability to 1e-12,

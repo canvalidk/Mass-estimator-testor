@@ -126,10 +126,28 @@ Where the analogy strains: a branch cut changes no observable, and π does chang
 weak signal. So the result is not a bare number. A mass is (m̂, law, π, Σ), as a complex log
 is (value, branch). That is the type being honest, not a defect.
 
+## 7. The order of commitments (27 Oct)
+
+VD appends commitments in order. The entry for mass is `mass := mass_estimator(F, a)`, with
+`mass_estimator(F, a) := tbd`; the commitments that follow (`mass is additive`, Newton III,
+…) are what fill the tbd. So the estimator's form is a theorem from the commitments that
+come after the headword, and the uniqueness theorem is a ladder: each commitment narrows
+the family of admissible functions, and the definition is reached when one member is left.
+At the Newton II stage alone the family is larger; that more general equation is not the
+one sought, because additivity is committed soon after. F4 (commitment order suspended) has
+exactly this scope: commitments later in *this* version's order. Energy is not among them;
+a version with energy before mass is a different version (R-2026-10-27-2).
+
+Two consequences. A freedom the ladder does not remove is, by §3, an input or a mis-stated
+rung, never a choice. And whether a rung is in reach is a fact about the version's order,
+which can be looked up, not a ruling to request.
+
 ## Sources
 
 - Can, 2026-10-24, in conversation: the logarithm and branch cut; "the function which is
   unique"; believing it exists (`rulings.md`, R-2026-10-24-3).
 - Can, 2026-09-24: "every freedom is a prior" (R-2026-09-24-3).
+- Can, 2026-10-27: the order of commitments; the estimator as a theorem of what follows the
+  headword (R-2026-10-27-2); moves are forced or "unknown yet" (R-2026-10-27-1).
 - Can, 2026-09-30: dropping the property that the law carries its own uncertainty
   (R-2026-09-30-3), the worked example of outcome 3.
