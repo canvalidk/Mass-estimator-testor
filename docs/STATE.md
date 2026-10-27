@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-27, by Claude in a session with Can. Update this page in
+**Last updated:** 2026-10-27, by Codex (positivity-numerator pressure check). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -140,11 +140,12 @@ $Q=0$ and full weight: (2,0)/(−1,0) gets the same $Q$, $g$ and evidence span a
 and T30's bounded-confidence requirement fails there (`tests/test_sign_fork.py`, strict
 xfail). Claude's sort: a wrong premise, **L8's count**, which lists a reading's $k-1$
 codirectionality conditions and omits L1's one inequality $\mathbf F^\ast\cdot\mathbf a^\ast>0$.
-Candidate repair, unproven: $g=\min(1,\kappa_k/Q_+)$ with $\kappa_k$ the supremum over
-signal size of $E[Q_+]$, which is $k-1$ for $k\ge2$ (acute pairs unchanged) and
-$(1-2/\pi)/2$ in 1D (no gate). Details and the checks it owes: `../problems/O13.md`, 27 Oct.
-This is the correction the next equation state needs; O2 and O6 below are still the
-breakthroughs.
+Candidate repair, unproven: $g=\min(1,\kappa_k/Q_+)$. The proposed constants $k-1$ for
+$k\ge2$ and $(1-2/\pi)/2$ in 1D give a bounded anti-parallel tail, but **are not the
+supremum of expected misfit over all allowed signal strengths and mass/noise ratios**.
+The finite counterexample, exact null moments and incompatibility with unchanged acute
+weights are in `../problems/O13.md` (27 Oct pressure check), checked by
+`tests/test_positivity_candidate.py`. No repair is adopted; O2 and O6 remain open.
 
 
 ### O2: the readout
@@ -292,6 +293,10 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-27 (Codex, pressure): exact positivity-null moments, a finite counterexample
+  to the proposed universal numerators, and the acute-preservation obstruction in O13;
+  candidate checks in `tests/test_positivity_candidate.py`. Serial regression: 320 passed,
+  one existing strict xfail; audit findings unchanged. Equation unchanged.
 - 2026-10-27 (Claude, pressure, branch `sorts-2026-10-27`): the sign fork sorted as a wrong
   premise (L8's count; O13, T30, T32; `tests/test_sign_fork.py` with a strict xfail on T30);
   the Z split sorted as an input (O7); L22 proposed; the 26 Oct scratch session folded into
