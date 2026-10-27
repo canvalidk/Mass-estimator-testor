@@ -293,6 +293,12 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-27 (evening, Claude, pressure): L12 checked against the ladder. The series join is
+  second order (under 0.2% across l_1 to l_inf at weak signal) and fixed by no rung: unknown
+  yet, parked. O2's Z failure located: null readings replace the readout's weight by
+  (1 + m²/s²)^(-1/2), a function of Σ alone (1000 nulls: 2.3931 against 2.3930). Sorted
+  provisionally as outcome 3, T21's domain against L17's reason; the three conditions a repair
+  must meet are in O2. `tests/test_readout_weight.py` (one slow case under MET_SLOW).
 - 2026-10-27 (Claude, pressure, branch `sorts-2026-10-27`): the sign fork sorted as a wrong
   premise (L8's count; O13, T30, T32; `tests/test_sign_fork.py` with a strict xfail on T30);
   the Z split sorted as an input (O7); L22 proposed; the 26 Oct scratch session folded into
