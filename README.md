@@ -207,6 +207,23 @@ A run writes `results/<preset>/<timestamp>/` (not committed):
 A run is reproducible from its preset alone (see Numerics for the seeding).
 All estimators in a cell see the same readings, so their scores are paired.
 
+## Inspect pooled residual scale
+
+The O14 pressure recipe is also available through the existing runner:
+
+```sh
+python -m met run presets/pooled_noise_scale.yaml --workers 1
+```
+
+It saves the separately profiled residual scale, raw/capped reciprocal and both
+Bartlett powers from the same seeded observations, with independent moment references.
+The 90 cells use 1,000 series each; `--replicates` can shorten the run, and the saved
+effective preset retains that override. The recipe is serial and the CLI requests one
+math thread before NumPy loads. Output under `results/pooled-noise-scale/` contains
+`summary.md/.csv`, `run.json`, `values.npz` and `preset.yaml`. Pooled instrument variance
+and Bartlett power have different targets. The bias proof and independent null-point
+counterexample are in O14/O7; this does not introduce scale learning into ours29.
+
 ## How work gets into the tester
 
 The tester exists so that every mass-estimator study can be rerun. A number in a

@@ -1,0 +1,23 @@
+kind: pooled_scale
+name: pooled-noise-scale
+question: >-
+  Does the mean of separately profiled whole-line misfits estimate the declared
+  variance scale across signal strengths, and how does its finite-N spread compare
+  with the paired Bartlett powers, which have a different target?
+notes: >-
+  O14 pressure check of the proposed covariance-up-to-scale branch. The investigator
+  knows the covariance to check the estimator; residual_statistics receives only
+  readings and supplied SDs. The target pooled variance multiplier is 1. Neither
+  Bartlett power estimates that multiplier. No replacement equation is adopted.
+world:
+  dimension: [2, 3]
+  design: new_excitation
+  mass: [0.25, 1.0, 4.0]
+  acceleration_snr: [0.0, 0.5, 1.0, 2.0, 5.0]
+  direction: random
+  readings: [5, 20, 400]
+  noise: {force_sd: 1.0, acceleration_sd: 1.0}
+  supplied_noise: exact
+replicates: 1000
+seed: 20261027
+numerics: {reference_nodes: 32}

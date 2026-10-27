@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-27, by Codex (positivity-numerator pressure check). Update this page in
+**Last updated:** 2026-10-27, by Codex (pooled-scale pressure check). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -293,6 +293,10 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-27 (Codex, pressure): O14's general Q bias curve, finite-N moments and
+  scale-only null-point counterexample, linked in O7; serial paired recipe
+  `presets/pooled_noise_scale.yaml` and independent reference/replay tests. Serial regression:
+  360 passed, one existing strict xfail; audit unchanged. Equation unchanged.
 - 2026-10-27 (Codex, pressure): exact positivity-null moments, a finite counterexample
   to the proposed universal numerators, and the acute-preservation obstruction in O13;
   candidate checks in `tests/test_positivity_candidate.py`. Serial regression: 320 passed,
