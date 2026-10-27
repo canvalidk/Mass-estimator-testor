@@ -137,9 +137,9 @@ def test_equal_energy_antiparallel_centres_and_intervals_against_angle_integrals
     np.testing.assert_allclose(reverse, masses * size, rtol=3e-14)
 
 
-@pytest.mark.parametrize("sigma", [0.5, 0.2, pytest.param(0.1, marks=pytest.mark.xfail(
-    strict=True, reason="Reciprocal symmetry forces median 1; met.full reports 2.341636397 at SD 0.1 "
-    "when the numerical CDF plateaus at 1/2. Equation and implementation retained (O13)."))])
+# SD 0.1 was a strict xfail (2.341636397, the O13 median defect); fixed 27 Oct by
+# met.full._plateau_centre. SD 0.05 and 0.02 sit deeper in the plateau.
+@pytest.mark.parametrize("sigma", [0.5, 0.2, 0.1, 0.05, 0.02])
 def test_equal_energy_antiparallel_mathematical_median_is_one(sigma):
     result = ours29([isotropic([1.0, 0.0], [-1.0, 0.0], sigma, sigma)], 1.0, readout=False)
     assert result["median"] == pytest.approx(1.0, rel=2e-7)
@@ -160,3 +160,24 @@ def test_positive_boundary_preset_keeps_the_swap_pair_and_equal_energy_case():
         np.testing.assert_array_equal(force_dominant["acceleration"], -np.array(acceleration_dominant["force"]))
         assert force_dominant["force_sd"] == acceleration_dominant["acceleration_sd"]
         assert force_dominant["acceleration_sd"] == acceleration_dominant["force_sd"]
+
+
+@pytest.mark.parametrize("c", [0.3, 3.0])
+@pytest.mark.parametrize("sigma", [0.1, 0.05])
+def test_plateau_quantiles_commute_with_the_swap(c, sigma):
+    """The plateau rule off the symmetric case: swapping force and acceleration (with their
+    SDs) and inverting c must invert every quantile, m -> 1/m (T5)."""
+    import met.full as full
+    fwd = ours29([isotropic([1.0, 0.0], [-1.0, 0.0], sigma, sigma)], c, readout=False)
+    bwd = ours29([isotropic([-1.0, 0.0], [1.0, 0.0], sigma, sigma)], 1 / c, readout=False)
+    assert fwd["median"] * bwd["median"] == pytest.approx(1, rel=1e-6)
+    assert fwd["interval"][0] * bwd["interval"][1] == pytest.approx(1, rel=1e-6)
+
+
+def test_plateau_rule_does_not_fire_on_an_ordinary_law(monkeypatch):
+    import met.full as full
+    reading = [isotropic([2.0, 0.3], [1.0, 0.1], 0.2, 0.1)]
+    before = ours29(reading, 2.0, readout=False)
+    monkeypatch.setattr(full, "PLATEAU_TOL", -1.0)
+    after = ours29(reading, 2.0, readout=False)
+    assert before["median"] == after["median"] and before["interval"] == after["interval"]

@@ -266,8 +266,39 @@ def _quantiles(lm, lp, probs):
     cdf_raw = _cdf(dens, h)                       # normalised to 1 at the last node
     area = h[0] * (dens[0].sum() - 0.5 * (dens[0, 0] + dens[0, -1]))
     q = _invert(lm[None, :], dens / area, cdf_raw, list(probs))[0]
+    q = np.array([_plateau_centre(lm, cdf_raw[0], pr, qj) for pr, qj in zip(probs, q)])
     p = dens[0] / dens[0].sum()
     return np.exp(q), p
+
+
+PLATEAU_TOL = 1e-12
+
+
+def _plateau_centre(lm, cdf, prob, q):
+    """The quantile when the CDF is flat at `prob` to within rounding.
+
+    Where a law has two branches separated by a density of order e^-50 (the anti-parallel
+    pairs of O13), the CDF moves by less than its own rounding error across a whole run of
+    nodes, so the crossing found by inversion is decided by rounding: 2.3416 or 0.4231 for
+    a law whose median is exactly 1. On such a run every point is the quantile to machine
+    precision, and the one that commutes with the swap (reflection in log m, T5) and with
+    units (a shift in log m, L3) is the run's midpoint in log m. Off a plateau, `q` is
+    returned unchanged; the tolerance is far below any CDF step of an ordinary law."""
+    flat = np.abs(cdf - prob) <= PLATEAU_TOL
+    if flat.sum() < 2:
+        return q
+    k = int(np.clip(np.searchsorted(lm, q), 0, len(lm) - 1))
+    near = [j for j in (k - 1, k, k + 1) if 0 <= j < len(lm) and flat[j]]
+    if not near:
+        return q
+    lo = hi = near[0]
+    while lo > 0 and flat[lo - 1]:
+        lo -= 1
+    while hi < len(lm) - 1 and flat[hi + 1]:
+        hi += 1
+    if hi == lo:
+        return q
+    return 0.5 * (lm[lo] + lm[hi])
 
 
 def _stacked_mean_length(m, readings):

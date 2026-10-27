@@ -86,15 +86,31 @@ def reciprocal_report():
                         checks=selected_checks("reciprocal_median"))
 
 
-def test_reciprocal_symmetry_exposes_existing_flat_cdf_median_defect(reciprocal_report):
-    """O13 proves the unique mathematical median is one despite the grid result."""
+def test_reciprocal_symmetry_check_passes_since_the_plateau_fix(reciprocal_report):
+    """O13 proves the unique mathematical median is one. Until 27 Oct the grid gave
+    2.3416 here (the flat-CDF defect); met.full._plateau_centre fixed it."""
     check = findings(reciprocal_report)["reciprocal_median"]
-    assert check["status"] == "fail"
+    assert check["status"] == "pass"
     assert check["kind"] == "numerical"
     assert "O13" in check["source"]
     assert check["observed"]["mathematical_median"] == 1.0
-    assert check["observed"]["absolute_log_median_ratio"] > 1e-2
+    assert check["observed"]["absolute_log_median_ratio"] < 1e-6
     assert check["observed"]["implemented_median"] == reciprocal_report["evaluation"]["laws"]["quoted"]["median"]
+
+
+def test_reciprocal_median_check_still_fails_on_a_wrong_median():
+    """The detector must still fire: an adapter that reports the old defective median."""
+    def defective(inputs, masses, **kw):
+        out = quoted_only_adapter(inputs, masses, **kw)
+        out["laws"]["quoted"]["median"] = 2.3416363971870715
+        return out
+    case = Case.from_dict(dict(name="opposite_equal_energy", prior={"family": "half_cauchy", "center": 1.0},
+        readings=[dict(id="opposite", force=[1.0, 0.0], acceleration=[-1.0, 0.0],
+                       covariance=(0.1 ** 2 * np.eye(4)).tolist())]))
+    report = inspect_case(case, masses=GRID, adapter=defective, checks=selected_checks("reciprocal_median"))
+    check = findings(report)["reciprocal_median"]
+    assert check["status"] == "fail"
+    assert check["observed"]["absolute_log_median_ratio"] > 1e-2
 
 
 @pytest.fixture(scope="module")

@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-26, by Codex (prior-centre path inspection). Update this page in
+**Last updated:** 2026-10-27, by Claude in a session with Can. Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -98,97 +98,15 @@ r["readout"], r["median"], r["interval"], r["raw_interval"], r["eta"], r["g"]
 The window is carried on each `Reading` but not used by the equation (T33). The batch
 pipeline, presets and world still take isotropic and per-axis noise only.
 
-**Inspect fixed misaligned readings (26 Oct, pressure mode).**
-`python -m met run presets/misalignment_shrinking_noise.yaml` runs 32 deterministic
-cells: one 2D reading, four angles, eight shrinking noise scales, one fixed half-Cauchy
-prior. It does not generate a true mass or calculate coverage. `met/misalignment.py`
-keeps the residual F - m a, both required channel corrections and their absolute cost
-separate from normalized mass laws. Positive-mass infima are evaluated analytically,
-including unattained endpoints; the equation's own Q searches negative slopes too.
-That distinction is especially visible for anti-parallel vectors (O13, Attempts).
-The equation is unchanged; the study does not impose a new rejection gate or a new
-criterion for what a correct definition must report.
-
-Outputs under `results/misalignment-shrinking-noise/`: full-precision CSV/JSON,
-sampled curves and vectors in `values.npz`, exact preset, code hashes and dependency
-versions. Optional `requirements-plots.txt` enables a self-contained `report.html`
-and PNG/SVG figures. Cloud-size curves use the independent 2D Rice mean rather than
-plotting the estimator's computational cutoff zeros. Finite support edges are flagged.
-Independent geometry and angle-quadrature checks are in `tests/test_misalignment_*.py`.
-
-**Positive-domain follow-up (26 Oct, pressure mode).**
-`python -m met run presets/misalignment_positive_boundaries.yaml --workers 1` runs 20
-serial cells. T32 now proves how positive-mass correction cost differs from the
-whole-line misfit; diagnostics export the extra positivity cost, excess curve and
-relative log-evidence span. O13 records the normalization identity and a symmetric
-anti-parallel example: its mathematical median and cloud readout stay at c = 1 while
-probability escapes every fixed compact subset of positive mass. The grid median
-instead gives 2.341636397 at SD 0.1 because of a near-flat CDF; a strict xfail keeps
-that numerical discrepancy. No estimator change or new physical criterion was adopted.
-The 1D case also prevents simply replacing Q inside the current nu/Q rule: positivity
-adds an inequality, while nu = k-1 still counts zero equality conditions there.
-
-**General case inspector (26 Oct, pressure tools).**
-`python -m met inspect presets/inspection_cases.yaml` inspects eight saved cases,
-serially with one math thread on the CLI. `met/inspection/` separates data/source
-conversion, independent geometry, estimator adapters, transformations, justified
-checks, rendering and orchestration. Ordinary function arguments replace stages;
-new annotations/arrays survive export without a report rewrite. Cases may have
-general per-reading covariance, restricted subspaces and multiple readings. Optional
-synthetic truth stays outside the estimator and check input boundary.
-
-The report retains the Newton residual cost, the stricter declared-compatible cost
-and its outside-subspace baseline; Q uses the remaining within-span problem. It
-names unweighted, untempered and quoted laws distinctly and shows the global stacked
-cloud weight. Check outcomes include the existing Z point failure and numerical
-median discrepancy, not only passes. Each names its authority, expectation and
-tolerance; an operational check error remains visible. The required response to
-absolute incompatibility stays unresolved. No new physical criterion is adopted.
-
-Each run saves an HTML index, per-case self-contained reports/optional plots, source
-preset, callable/file provenance, arrays and replay cases with exact grids and check
-selection. Custom Python callables require the caller's code; no extension is loaded
-from YAML. The full estimator is still limited to half-Cauchy priors and dimensions
-1–3; independent geometry/case storage are not tied to those adapter restrictions.
-Composition, repeated-world calibration and automatic counterexample reduction are not built.
-
-**First question paths (26 Oct, pressure experiment).**
-`python -m met run presets/inspection_noise_paths.yaml --workers 1` uses the inspector
-on 48 cases (eight fixed pairs, six common SDs). `inspection/paths.py` accepts ordinary
-case transformation functions; `met/noise_path.py` supplies this recipe's isotropic
-summaries, independent angle integrals and comparison report. Full arrays/checks and
-replay cases exist at every step; detailed figures are selected independently.
-
-Aligned laws concentrate; noncollinear laws freeze after the g threshold while costs
-grow; the equal-perpendicular law equals the prior at every SD; equal-opposite laws
-escape toward both boundaries despite their point staying at 1. The 30/150-degree
-pair has the same Q/g but different positive-mass preference: sign remains in H.
-O13 records numbers, arguments, support warnings and the remaining premise question.
-All 48 cases completed without operational errors; four expose the known numerical
-median defect. Independent interval-endpoint CDF errors were at most 2.65e-7; native
-fixed-band interpolation differs from the reference by up to 7.62e-5. No equation
-change or new physical criterion was adopted.
-
-**Prior-centre paths (26 Oct, pressure experiment).**
-`python -m met run presets/inspection_prior_paths.yaml --workers 1` holds the four
-chosen readings and instruments fixed while c varies through 0.1, 1 and 10. Twelve
-cases share one physical candidate grid. `set_prior_center` is an ordinary path
-transform; independent residual-angle and Rice-cloud references now live in
-`inspection/references.py` and are shared with the previous noise recipe.
-
-The aligned points change 1.99007 -> 2 -> 2.03981, 30-degree points
-1.84433 -> 2.11297 -> 4.15420, equal-perpendicular points
-0.203534 -> 1 -> 4.91320, and equal-opposite points 0.0197626 -> 1 -> 50.6006.
-Data-only curves agree to 4.42e-13; corrections, conditional covariance and cloud
-weights are unchanged. The perpendicular law equals each supplied prior but its
-point differs from c through the existing O2 mechanism. Opposite priors exchange
-the two boundary branches; O13 derives their reciprocal identity and fixed-c limit.
-
-Across 36 law stages, independent interval-endpoint CDF errors are at most 2.24e-8
-and absolute log point errors at most 6.82e-9; no support or reference warnings or
-operational check errors. The c=1 opposite median is another manifestation of the
-existing flat-CDF defect, retained in a strict xfail. Details and the scope of the
-interpretation are in O13 and O2. No equation or physical requirement changed.
+**Pressure tools (Codex, 26 Oct).** `met/inspection/` inspects saved cases (any covariance,
+declared subspaces, several readings) against independent geometry and justified checks,
+with replayable reports: `python -m met inspect presets/inspection_cases.yaml`. Three studies
+use it or its predecessors, all serial (`--workers 1`), no equation change:
+`presets/misalignment_shrinking_noise.yaml`, `presets/misalignment_positive_boundaries.yaml`,
+`presets/inspection_noise_paths.yaml` and `presets/inspection_prior_paths.yaml`. Their
+findings live in `../problems/O13.md` (the sign of F·a, laws escaping to both boundaries
+under a steady point) and `../problems/O2.md` (the perpendicular reading: law exactly π,
+cloud readout R(c) ≠ c). T32 carries the positive-domain bounds.
 
 **Real data.** `met/robot.py` turns VD-Newton's robot runs into `Reading`s: calibration
 re-derived (matches the lab's `robot_cart.json` to 1e-12), both channels averaged over one
@@ -355,6 +273,13 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-27 (Claude, merge): the Codex branch merged into main. Its five study paragraphs
+  above became one pointer block; the findings stay in O13, O2 and T32. The flat-CDF median
+  defect is fixed: on a run of nodes where the CDF equals the probability to 1e-12,
+  met.full returns the run's midpoint in log m, the one plateau point that commutes with the
+  swap and units (`_plateau_centre`). Both strict xfails pass and lost their marks; the
+  inspector's reciprocal-median check now passes, with a test that it still fails on a wrong
+  median; a swap test at c = 0.3 and 3. No recorded number moved.
 - 2026-10-26 (Codex, pressure priors): inspected twelve fixed-input cases over three
   declared prior centres, added shared independent CDF/cloud-point references, and
   isolated prior multiplication from data-only information and cloud weighting.

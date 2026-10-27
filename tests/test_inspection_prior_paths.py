@@ -125,9 +125,8 @@ def test_prior_recipe_refuses_parallelism_and_replicate_overrides():
             runner("presets/inspection_prior_paths.yaml", **kwargs)
 
 
-@pytest.mark.xfail(strict=True, reason="Exact reciprocal symmetry fixes median 1. With the saved covariance 0.01 I, "
-    "met.full instead reports 0.4230518228822659 on the current numerical CDF plateau. "
-    "This is the existing O13 median defect; equation and implementation are retained.")
+# Was a strict xfail (0.4230518228822659, the O13 median defect); fixed 27 Oct by
+# met.full._plateau_centre.
 def test_saved_opposite_prior_case_has_mathematical_median_one():
     from met.full import Reading, ours29
     from met.preset import load
