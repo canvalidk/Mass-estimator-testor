@@ -133,6 +133,20 @@ The canonical copies of the decision records and the two notes live in VD-docs
 
 ## The breakthroughs still needed
 
+### Before them: ours29 is blind to the sign of F·a (sorted 27 Oct, not ruled)
+
+The misfit $Q$ (T32) is taken on the whole projective line, so an anti-parallel pair has
+$Q=0$ and full weight: (2,0)/(−1,0) gets the same $Q$, $g$ and evidence span as (2,0)/(1,0),
+and T30's bounded-confidence requirement fails there (`tests/test_sign_fork.py`, strict
+xfail). Claude's sort: a wrong premise, **L8's count**, which lists a reading's $k-1$
+codirectionality conditions and omits L1's one inequality $\mathbf F^\ast\cdot\mathbf a^\ast>0$.
+Candidate repair, unproven: $g=\min(1,\kappa_k/Q_+)$ with $\kappa_k$ the supremum over
+signal size of $E[Q_+]$, which is $k-1$ for $k\ge2$ (acute pairs unchanged) and
+$(1-2/\pi)/2$ in 1D (no gate). Details and the checks it owes: `../problems/O13.md`, 27 Oct.
+This is the correction the next equation state needs; O2 and O6 below are still the
+breakthroughs.
+
+
 ### O2: the readout
 
 Find a readout that satisfies all three of these at once:
@@ -178,17 +192,22 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 | --- | --- | --- |
 | O4 | proof | Gaussian noise forced under the tempered evidence |
 | O5 | proof | Write out the betweenness representation step behind T21 |
-| O7 | ruling | Does Z cover zeros beside a signal, or only whole null readings? |
+| O7 | ruling; part sorted as input (27 Oct) | Does Z cover zeros beside a signal? Separately: Z for mass and Z for noise split by whether Σ is declared exact or up to a scale |
 | O9 | ruling | Is the window the criterion for one reading versus several? (proposed 10 Oct) |
 | O11 | ruling | Does the default centre reference the instruments only (L3′), and is the swap-of-declarations premise accepted, which gives c = s for one noise pair? Then the several-instrument and anisotropic cases |
-| O13 | ruling | Is anything more owed for readings that contradict each other? |
+| O13 | ruling; sign fork sorted (27 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a is sorted as a wrong premise (L8), see above |
 | O14 | proof | eta at small N: a correction that counts effective readings |
 | O15 | proof | Is the bounded null floor the best any law can do? |
+| O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct) a premise; what it buys (the misfit, the noise budget, detection of shared errors) |
 | O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type; on the robot a shared floor averages down across windows |
 | L13, L18 | ruling | Confirm "the noise model is forced Gaussian, the data need not be"; is the subspace an input? |
 | E10 | ruling | Does the VD entry still name the estimator without supplying it, now that composition forces the readout? (ours26 sweep §3.2) |
 
-## Gaps (as of 2026-10-24)
+## Gaps (as of 2026-10-24; 27 Oct additions marked)
+
+- (27 Oct) L22 (isotropy of inertia) and T34 are Claude's, from the 26 Oct scratch session,
+  whose two toy scripts (`comp.py`, `qnoise.py`) were not kept; numbers from them are marked
+  "toy" in O14, O16, O17.
 
 - The lemma list d4 still shows O1 open; the 29 Sept ruling closed it. The living layer
   records O1 as closed; d5 of the lemma list, when Can wants one, is generated from
@@ -273,6 +292,11 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-27 (Claude, pressure, branch `sorts-2026-10-27`): the sign fork sorted as a wrong
+  premise (L8's count; O13, T30, T32; `tests/test_sign_fork.py` with a strict xfail on T30);
+  the Z split sorted as an input (O7); L22 proposed; the 26 Oct scratch session folded into
+  T34 (tested), O17 (new), and attempts on O2, O14, O16. Nothing ruled. CLAUDE.md: how to brief
+  Codex runs.
 - 2026-10-27 (Claude, merge): the Codex branch merged into main. Its five study paragraphs
   above became one pointer block; the findings stay in O13, O2 and T32. The flat-CDF median
   defect is fixed: on a run of nodes where the CDF equals the probability to 1e-12,

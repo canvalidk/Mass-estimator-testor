@@ -418,5 +418,9 @@ Rulings that records say are owed. Each stays here until an entry above closes i
 | Whether η's derivation counts as forcing (ours25's sandwich by another route) | scattered observations:93-99 |
 | Where the 10 Oct T32 check script goes (beside the record or as a test) | lemma list d4:239 |
 | Whether `state-page` merges into `main` | this session |
+| The sign sort: is L8's count mis-stated (it omits L1's $\mathbf F^\ast\cdot\mathbf a^\ast>0$)? Claude's sort, 27 Oct | `problems/O13.md` (27 Oct); `definition/premises.md` L8 |
+| L22, isotropy of inertia: a premise, and its grade? | `definition/premises.md` L22; `problems/O17.md` |
+| The Z split: is "Σ exact or up to a scale" an input, as sorted 27 Oct? | `problems/O7.md` (26–27 Oct) |
+| Does VD's Newton declare a kinetic-energy form; does T1's "no mass" become "no isotropic mass"? | `problems/O17.md` |
 
 Moot, kept for the record: ours28b's premises (ours28b withdrawn, R-2026-09-28-6); learned ω's pull toward the prior (R-2026-09-27-8); an `ours28/` folder (ours28 withdrawn, R-2026-09-30-6); parked item 3 of the noise-measure view (dissolved by η being Z-exact, not formally ruled).

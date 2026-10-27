@@ -37,6 +37,10 @@ matter most:
 - Only decisions go to VD-docs, through `outbox/VD-docs/`. Work stays in `docs/`.
 - When you change what `docs/STATE.md` describes, update it in the same commit,
   and add a line to its log at the end of a session.
+- **Runs by other agents (Codex and the like) get one sorted fork and a named deliverable:**
+  a test, a counterexample, or a derivation, written into a named theorem or problem file.
+  Not an open avenue to explore. Findings go into that file's attempts and one line of
+  STATE.md's log; study narration does not go on STATE.md's main page.
 - A theorem is "proved" only when its file names the test that checks it. Mark
   what is yours as yours; "forced" means forced from a named premise.
 
