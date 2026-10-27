@@ -9,6 +9,7 @@ proof. This folder is that deliverable as it stands, and nothing else:
 | `premises.md` | the frame (F), the properties of mass (L, graded), the test-constraining rulings (R) |
 | `theorems/` | one file per theorem (T): statement, what it rests on, the test that checks it, status |
 | `equation.md` | the equation itself, stated once |
+| `ladder.md` | the version's commitments in order, what each removes from the body, and the status of every open freedom by that order (TASK.md §7) |
 
 Open items live in `../problems/`, one file each. Rulings live in `../rulings.md`.
 

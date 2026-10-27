@@ -251,7 +251,8 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 0. `../TASK.md`: the task itself (find the function which is unique; what the readings
    cannot decide is input), with the logarithm example. Everything below assumes it.
 1. This page.
-2. `../definition/equation.md`, then `../definition/premises.md` and
+2. `../definition/ladder.md`: which commitment of the version removes which freedom, and
+   what is left. Then `../definition/equation.md`, then `../definition/premises.md` and
    `../definition/theorems/README.md`: what is claimed and what it rests on.
 3. `../problems/O2.md` and `../problems/O6.md`: the two items that need an idea.
 4. `../rulings.md`: what Can has decided, in his words.
@@ -299,7 +300,11 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
   Later: R-2026-10-27-1 (moves are forced or "unknown yet"; Claude's sorts carry the status
   *provisional (from the goal)*, not a request for a ruling) and R-2026-10-27-2 (no energy in
   this version; the estimator's form is a theorem of the commitments after the headword;
-  TASK.md §7). O17's two ruling questions answered; L22 read as a clause of L1.
+  TASK.md §7). O17's two ruling questions answered; L22 read as a clause of L1. Then
+  `definition/ladder.md` from VD-Newton `61afb9e`: rungs R0–R6, the measurement constitution as
+  a second column, every open freedom's status; findings: L5's readout form may sit at R5 (Newton
+  III), not R3; E10 d4's "estimation policy" slot is what this work fills; R3 (NML2.2) is
+  unwritten and R5 provisional, so the body is provisional on both.
 - 2026-10-27 (Claude, merge): the Codex branch merged into main. Its five study paragraphs
   above became one pointer block; the findings stay in O13, O2 and T32. The flat-CDF median
   defect is fixed: on a run of nodes where the CDF equals the probability to 1e-12,
