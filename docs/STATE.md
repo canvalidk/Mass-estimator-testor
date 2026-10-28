@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-28, by Codex (O2 readout candidate check). Update this page in
+**Last updated:** 2026-10-28, by Codex (O2 physical-composition bridge). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -166,7 +166,7 @@ Find a readout that satisfies all three of these at once:
 
 Each known candidate fails at least one:
 
-| Candidate | Composition | Z | All-zero value c |
+| Candidate | Composition on one supplied joint law | Z | All-zero value c |
 | --- | --- | --- | --- |
 | Cloud readout (current, T10): sizes averaged over each reading's candidate cloud | yes | **no**: 50 appended null readings move it 2.2524 → 2.2406 (T29: ours28, 3D); under ours29 ten move it 3.5983 → 3.6017 (O1 row). It moves at c = s too | only when c = s: at c = 3s it gives 2.095 s (ours26 sweep, E1) |
 | Best-guess repair: size of each reading's conditional-mean candidate | **no** on the theorem's full finite-law domain: 2 ≠ 10/3 (O2, checked 28 Oct); Gaussian-adapter reachability of that counterexample is not asserted | yes wherever defined | **no**: unextended formula is 0/0; limits near zero depend on direction, 0.546 to 1.830 (1D, c = 1) |
@@ -294,6 +294,12 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-28 (Codex, pressure): O2's physical-composition bridge and T4's scope:
+  shared-channel covariance, omitted Gaussian contrast, special-split equality and
+  all-positive-noise fine/coarse counterexample, checked in `tests/test_composition_bridge.py`.
+  The 28 Sept archived derivation is credited; no equation/type change or domain closure proof.
+  Serial regression: 175 passed, one existing strict xfail (source orientation count);
+  final 21 bridge checks pass after adding the common-force dual. Audit unchanged.
 - 2026-10-28 (Codex, pressure): O2 perpendicular-first six-candidate table, exact Gaussian
   point-Z proof (global RMS 1 → √2) and propagated finite-law composition counterexamples
   (conditional mean 2 ≠ 10/3); deterministic serial preset `presets/readout_candidates.yaml`.
