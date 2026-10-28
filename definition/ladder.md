@@ -66,7 +66,7 @@ decides.
 
 | Freedom | Rung that bears on it | Status from the ladder |
 | --- | --- | --- |
-| The readout's form (O2) | R3 + R5 force a ratio of means (T3, T4; T21 from the constitution) | forced, provisionally (R3 unwritten, R5 provisional) |
+| The readout's form (O2) | R3 + R5, but as exact-value commitments, delivered by T1 and L11 for any consistent point | **revised 28 Oct:** not forced at finite noise; under L19 the point is a law functional, and L23 + T5 make it the median (T35), provisionally |
 | The series' size inside that ratio (O2) | none: R4 joins sources at one time, not readings; composition passes every 1-homogeneous join | **unknown yet, low stakes** (27 Oct): not smuggling, under 0.2% effect (O2, evening) |
 | The weight's noise part (O2's blocker) | none; L17's reason (a measurement premise) bears on it | **provisional, outcome 3:** T21's domain mis-stated against L17's reason; repair unknown yet (O2, evening) |
 | The all-zero value (O2) | none; the constitution (Z, units, swap) | derived, not a rung: c |
@@ -104,3 +104,4 @@ decides.
 
 - 2026-10-27: created by Claude from VD-Newton `61afb9e`.
 - 2026-10-27 (evening): the series join and the weight's noise part, from the L12 check.
+- 2026-10-28: the readout row revised (O2, 28 Oct).

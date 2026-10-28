@@ -293,6 +293,13 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-28 (Claude, pressure): O2's no-go. Under L19 the point is a functional of the law;
+  no law functional meets point-level L5 and L14; on data neither the cloud readout nor the
+  median meets L5 at finite noise (0.273% vs 0.273% strong, 21% vs 23% weak). Sorted: L5/L14
+  as finite-noise point constraints are mis-stated; the rungs commit exact values, delivered by
+  T1 and L11. L23 (parametrisation-free point) proposed; T35: with the swap it forces the
+  median. Candidate readout: the law's median. `tests/test_point_composition.py`. Equation in
+  `met/` unchanged.
 - 2026-10-27 (evening, Claude, pressure): L12 checked against the ladder. The series join is
   second order (under 0.2% across l_1 to l_inf at weak signal) and fixed by no rung: unknown
   yet, parked. O2's Z failure located: null readings replace the readout's weight by

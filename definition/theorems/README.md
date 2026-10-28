@@ -40,3 +40,4 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T32](theorems/T32.md) | The misfit is the pairings' disagreement in noise units | T8, L21, T30, the 30 Sept eigenvalue dictionary | partial |
 | [T33](theorems/T33.md) | Same window | the units build-up (units-and-axes record §6), L18, L19 | none yet |
 | [T34](theorems/T34.md) | Gain is the geometric mean of the pairings | L1, T1 | yes |
+| [T35](theorems/T35.md) | The parametrisation-free point is the median | L23 (proposed), T5 | yes |
