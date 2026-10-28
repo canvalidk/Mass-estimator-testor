@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "readout_candidates":
+        from .readout_study import validate as validate_readout_candidates
+        return validate_readout_candidates(data)
     if isinstance(data, dict) and data.get("kind") == "anisotropic_world":
         from .anisotropic_world import validate as validate_anisotropic_world
         return validate_anisotropic_world(data)

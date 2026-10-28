@@ -1,0 +1,71 @@
+kind: readout_candidates
+name: readout-candidates
+question: >-
+  Which O2 readout candidates survive the perpendicular counterexample, declared
+  prior changes, exact zeros and null padding, on one unchanged ours29 law per cell?
+seed: 0
+prior_centers: [0.1, 1.0, 10.0]
+null_padding:
+  - {count: 0, force_sd: 1.0, acceleration_sd: 1.0}
+  - {count: 1, force_sd: 1.0, acceleration_sd: 1.0}
+  - {count: 1, force_sd: 3.0, acceleration_sd: 1.0}
+  - {count: 8, force_sd: 3.0, acceleration_sd: 1.0}
+notes: >-
+  Deterministic measured inputs: no planted mass and no random errors. The seed
+  is recorded but unused. Cases are evaluated in the listed order, beginning with
+  equal perpendicular vectors. The four null-padding choices and three prior
+  centres give twelve cells per source case, eighty-four in total. Added readings
+  have exactly zero vectors and the stated independent isotropic channel noise;
+  their candidate subspace is the full plane. Each candidate uses the same law
+  within a cell. Finite-law composition tests are a separate propagated-law check.
+cases:
+  - name: perpendicular
+    question: What does each candidate do when the relative evidence is flat?
+    prior: &prior {family: half_cauchy, center: 1.0}
+    readings:
+      - force: [1.0, 0.0]
+        acceleration: [0.0, 1.0]
+        covariance: &unit_cov [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+  - name: zero
+    question: Is a candidate undefined, or does it return a declared-prior-dependent point?
+    prior: *prior
+    readings:
+      - force: [0.0, 0.0]
+        acceleration: [0.0, 0.0]
+        covariance: *unit_cov
+  - name: weak_aligned
+    question: How does a weak aligned reading compare across readout candidates?
+    prior: *prior
+    readings:
+      - force: [2.0, 0.0]
+        acceleration: [1.0, 0.0]
+        covariance: *unit_cov
+  - name: force_only
+    question: What is the near-zero force-only limit of each readout?
+    prior: *prior
+    readings:
+      - force: [0.001, 0.0]
+        acceleration: [0.0, 0.0]
+        covariance: *unit_cov
+  - name: acceleration_only
+    question: What is the near-zero acceleration-only limit of each readout?
+    prior: *prior
+    readings:
+      - force: [0.0, 0.0]
+        acceleration: [0.001, 0.0]
+        covariance: *unit_cov
+  - name: strong_aligned
+    question: Do the candidates approach the well-resolved aligned mass?
+    prior: *prior
+    readings:
+      - force: [20.0, 0.0]
+        acceleration: [10.0, 0.0]
+        covariance: [[0.04, 0, 0, 0], [0, 0.04, 0, 0], [0, 0, 0.04, 0], [0, 0, 0, 0.04]]
+  - name: outside_declared_span
+    question: What remains when the measured vectors lie outside the candidate line?
+    prior: *prior
+    readings:
+      - force: [0.0, 1.0]
+        acceleration: [0.0, 1.0]
+        covariance: *unit_cov
+        subspace: [[1.0], [0.0]]

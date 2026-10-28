@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-27, by Codex (anisotropic-world pressure check). Update this page in
+**Last updated:** 2026-10-28, by Codex (O2 readout candidate check). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -169,12 +169,13 @@ Each known candidate fails at least one:
 | Candidate | Composition | Z | All-zero value c |
 | --- | --- | --- | --- |
 | Cloud readout (current, T10): sizes averaged over each reading's candidate cloud | yes | **no**: 50 appended null readings move it 2.2524 → 2.2406 (T29: ours28, 3D); under ours29 ten move it 3.5983 → 3.6017 (O1 row). It moves at c = s too | only when c = s: at c = 3s it gives 2.095 s (ours26 sweep, E1) |
-| Best-guess repair: size of each reading's conditional-mean candidate | unknown | yes | **no**: 0/0 there; limits near zero depend on direction, 0.546 to 1.830 (1D, c = 1) |
+| Best-guess repair: size of each reading's conditional-mean candidate | **no** on the theorem's full finite-law domain: 2 ≠ 10/3 (O2, checked 28 Oct); Gaussian-adapter reachability of that counterexample is not asserted | yes wherever defined | **no**: unextended formula is 0/0; limits near zero depend on direction, 0.546 to 1.830 (1D, c = 1) |
 | The law's median | **no**: it uses only the size law and meets C3–C5, so by the uniqueness theorem it fails lumping or common force | yes (the law is Z-exact, T24) | yes |
 
-A breakthrough is either a readout that meets all three or a proof that none exists,
-in which case a ruling picks the requirement to drop. Unanswered: must the readout
-also be continuous at the all-zero experiment?
+A breakthrough is either a readout that meets all three or an incompatibility proof
+that locates a mis-stated premise under TASK §§3–4. O2's six-candidate pressure table
+now includes conditional RMS, global RMS and plain sum, with explicit counterexamples;
+none closes the item. Unanswered: must the readout also be continuous at all-zero?
 
 ### O6: the shape of the starting law
 
@@ -293,6 +294,11 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-28 (Codex, pressure): O2 perpendicular-first six-candidate table, exact Gaussian
+  point-Z proof (global RMS 1 → √2) and propagated finite-law composition counterexamples
+  (conditional mean 2 ≠ 10/3); deterministic serial preset `presets/readout_candidates.yaml`.
+  Serial regression: 521 passed, three existing strict xfails; 22 study/replay checks
+  passed after provenance review, including one additional real replay test. Audit unchanged.
 - 2026-10-27 (Codex, pressure): O17's excited-eigenspace criterion, conservative scalar
   compatibility diagnostic and concentrating-law counterexamples; paired tensor worlds
   in `presets/anisotropic_world.yaml`, with independent geometry/angle/world checks.

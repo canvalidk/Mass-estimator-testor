@@ -248,6 +248,23 @@ kernels and ordinary inspector replay cases. Those replays keep tensor/latent tr
 outside estimator inputs and save their diagnostic mass grids. O17 contains the proofs
 and scope of the conservative scalar check; it is not an estimator rejection gate.
 
+## Compare O2 readout candidates
+
+`python -m met run presets/readout_candidates.yaml --workers 1` runs 84 deterministic
+cases, beginning with the perpendicular reading, on varied declared priors and exact-zero
+padding. It compares stacked cloud mean, conditional-mean vector size, conditional RMS,
+plain sum of cloud sizes, global RMS quotient and the law's median on one unchanged law
+per case. These are pressure diagnostics; they do not select a production equation.
+The CLI uses one worker and one math thread, and rejects replicate overrides.
+
+Results under `results/readout-candidates/` save native probability weights and size
+curves, explicit replay cases, points (including undefined values), and finite-law
+composition counterexamples. The composition checks propagate one supplied joint law;
+they do not refit combined measurements or assert Gaussian-adapter reachability.
+Definitions, derivations and the candidate verdicts are in `problems/O2.md`.
+Per-cell `case.yaml` files can be inspected for production output and geometry;
+rerun the saved study `preset.yaml` to reproduce the complete six-candidate table.
+
 ## How work gets into the tester
 
 The tester exists so that every mass-estimator study can be rerun. A number in a
