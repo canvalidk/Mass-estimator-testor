@@ -356,8 +356,12 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
     misfit=False gives g_i = 1; calibrate=False gives eta = 1 (the raw law); both off is ours27.
     grid: None for the adaptive grid, or (half_width, nodes) for log c +- half_width.
 
-    Returns a dict: readout, median, interval (95%, quoted: eta applied), raw_interval (eta = 1),
-    eta, g, Q, phi_hat, law (normalised weights on lm), lm, A (on lm, where computed)."""
+    Returns a dict: point, median, interval (95%, quoted: eta applied), raw_interval (eta = 1),
+    eta, g, Q, phi_hat, law (normalised weights on lm), lm, and, with readout=True, readout and A.
+
+    point is the definition's point: the law's median (28 Oct, provisional; O2, T35, L23). It is
+    the same number as median. readout is T10's cloud ratio of means, kept for comparison: it
+    fails Z (T29) and reads the instrument's ratio s on null readings (O2, 27 Oct)."""
     if not c > 0:
         raise ValueError("the starting law's centre c must be positive")
     readings = list(readings)
@@ -372,6 +376,7 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
     (lo, med, hi), p = _quantiles(lm, lp, [0.025, 0.5, 0.975])
     out = dict(median=float(med), interval=(float(lo), float(hi)), eta=eta, g=g,
                Q=[s["Q"] for s in states], curv=curv, J=j, phi_hat=phi_hat, law=p, lm=lm)
+    out["point"] = out["median"]
     if eta < 1.0:
         lm_raw = _grid(readings, c, g, 1.0, grid)
         (rlo, _, rhi), _ = _quantiles(lm_raw, _log_law(readings, c, g, 1.0, lm_raw), [0.025, 0.5, 0.975])

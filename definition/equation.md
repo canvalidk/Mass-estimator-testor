@@ -63,7 +63,18 @@ $\mathcal H=\lvert\sum_i g_iC_i\rvert$, $\ell_i'=-\tfrac12 g_i\,\mathrm{Im}(\bar
 (tester README, "ours29"). Note the two uses of the letter Q: the reading's misfit above,
 and the acceleration energy in this closed form; the records use both.
 
-## Candidates and readout
+## Point (28 Oct, provisional)
+
+The definition's point is the law's **median**: $\widehat m=F_p^{-1}(\tfrac12)$. It is a functional
+of the law alone (L19: readings are joined only through the mass), it is the only point that
+does not depend on the coordinate the law is read in (L23, proposed; T35, with the swap), and
+composition holds at the level of the law (L5, L14 restated, R-2026-10-28-1), not of the point.
+It meets Z exactly (T24), returns $c$ at the all-zero experiment for every $c$, and respects the
+swap and units. On a CDF flat to rounding it is the plateau's midpoint in $\ln m$.
+In `met/full.py`: `ours29(...)["point"]`, the same number as `["median"]`.
+
+## Candidates and the cloud readout (kept for comparison)
+
 
 Each reading keeps its own flat candidate cloud, $\alpha_i\mid m\sim N(G^{-1}\mathbf b,\,G^{-1})$,
 $\mathbf a^\ast_i=N_i\alpha_i$, $\mathbf F^\ast_i=m\,\mathbf a^\ast_i$. The readout is the
@@ -77,12 +88,13 @@ $$
 equivalently $E[\lVert\mathbf F^\ast\rVert]/E[\lVert\mathbf a^\ast\rVert]$. Neither $g_i$ nor
 $\eta$ touches $A$ (shrinking the candidates by $\eta$ would infer signal size from the
 series, against L19). **This readout fails Z (T29) and gives c at the all-zero experiment
-only when c = s; replacing it is O2** (`../problems/O2.md`).
+only when c = s.** It joins readings through their sizes (against L19) and on null readings its
+weight is set by the instrument alone (O2, 27–28 Oct). Since 28 Oct it is not the point.
 
 ## Output
 
-The law's median and 95% interval (the quoted width), the raw law's interval ($\eta=1$)
-beside it, the point $\widehat m$, and $\eta$ itself (ruling 3 of 30 Sept). The misfit is kept
+The point $\widehat m$ (the law's median) and the 95% interval (the quoted width), the raw
+law's interval ($\eta=1$) beside it, and $\eta$ itself (ruling 3 of 30 Sept). The misfit is kept
 with the result. The ordinary mean of m under $p$ is infinite (T19), so "mass ± SD" is not
 available.
 
@@ -120,3 +132,5 @@ the world do not generate correlated noise yet.
 - **ours29 (30 Sept): misfit weight and Bartlett power. Current.**
 - 10 Oct: the window joins the type; the exact branch restated in pairing form.
 - 2026-10-24: this file created.
+- 2026-10-28: the point is the law's median (provisional: O2, T35, L23 proposed, R-2026-10-28-1); the
+  cloud readout kept for comparison. No recorded number moved; `met/full.py` gains `point`.

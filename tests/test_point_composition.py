@@ -83,3 +83,31 @@ def test_t35_geometric_mean_is_not_parametrisation_free():
     mean_log = float((lm * law).sum())
     cubed = float(((lm ** 3) * law).sum())
     assert abs(cubed - mean_log ** 3) > 1e-3
+
+
+# --- the point in met/ (28 Oct) --------------------------------------------------------------
+
+def _null(n):
+    return [isotropic([0.0] * 3, [0.0] * 3, SF, SA) for _ in range(n)]
+
+
+def test_point_is_the_median_and_meets_z_exactly():
+    sig = [isotropic([0.4 * v for v in f], [0.4 * v for v in x], SF, SA)
+           for f, x in zip([[4.0, 0.3, 0.0], [6.1, -0.2, 0.1]], [[2.0, 0.0, 0.1], [2.0, 0.1, 0.0]])]
+    base = ours29(sig, 2.0, readout=False)
+    assert base["point"] == base["median"]
+    padded = ours29(sig + _null(50), 2.0, readout=False)
+    assert padded["point"] == pytest.approx(base["point"], rel=1e-9)
+
+
+@pytest.mark.parametrize("c", [0.5, 2.0, 7.0])
+def test_point_returns_the_centre_on_the_all_zero_experiment(c):
+    """For every c, not only c = s (the cloud readout gives R(c), O2)."""
+    r = ours29(_null(3), c, readout=False)
+    assert r["point"] == pytest.approx(c, rel=1e-6)
+
+
+def test_point_swap():
+    fwd = ours29([isotropic([0.5, 0.2, 0.0], [0.2, 0.0, 0.1], SF, SA)], 1.3, readout=False)
+    bwd = ours29([isotropic([0.2, 0.0, 0.1], [0.5, 0.2, 0.0], SA, SF)], 1 / 1.3, readout=False)
+    assert fwd["point"] * bwd["point"] == pytest.approx(1, rel=1e-6)

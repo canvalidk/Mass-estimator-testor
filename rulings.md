@@ -406,6 +406,12 @@ read. Line numbers refer to the files as they stood that day.
 - **Words:** "to be clear. in the VD, it can't be tbd. We are just determining it now so thats why I put tbd." Earlier: "the VD is a logical system where commitments are appended chronologically (ordinally). […] we have not yet put in energy. We are progressing through newton 2 towards newton 3. The version where energy comes before mass would be a different version than what we are building currently. So the straight answer is no. But there is a bit more room to play with it than that lets on. Because at the stage we have which it before Newton 3, additivity of mass needed for lumping etc. is also not committed, and we use them still. So its almost like, there would be an even more general equation that we aren't looking for because we are comfortable with mass additivity being added soon after. It's almost like the actual form of the estimator is a theorem from the commitments. Which is possible in the VD structure: mass:= mass_estimator(F,a), ... mass is additive... mass estimator(F,a) := tbd."
 - **Source:** the conversation of 2026-10-27 (this session); recorded directly.
 
+### R-2026-10-28-1 — Composition is restated at the level of the law; checks first, then the median into met/ (provisional)
+- **Decides:** Provisionally, on Claude's proposal of 28 Oct: L5 and L14 are commitments about the law, in three clauses (exact inputs: masses add exactly; computation from the parts: the lump's law is the law of $m_1+m_2$, the reduced mass's the law of $(1/m_1+1/m_2)^{-1}$; a new measurement of the composite: its own law and the computed law describe one quantity and must be consistent, testable as coverage). Not a requirement on the point at finite noise. Run the coverage test and the L14 data check before the median goes into `met/`.
+- **Replaces / closes:** L5 and L14 as point-level constraints (O2, 28 Oct).
+- **Words:** asked "are we revealing that nothing might have that property of additivity? I assume that means we actually need to be more specific about lumping masses together?"; on the restatement: "Ok go ahead."
+- **Source:** the conversation of 2026-10-28 (this session); recorded directly.
+
 ---
 
 ## Owed

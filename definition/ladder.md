@@ -66,7 +66,7 @@ decides.
 
 | Freedom | Rung that bears on it | Status from the ladder |
 | --- | --- | --- |
-| The readout's form (O2) | R3 + R5, but as exact-value commitments, delivered by T1 and L11 for any consistent point | **revised 28 Oct:** not forced at finite noise; under L19 the point is a law functional, and L23 + T5 make it the median (T35), provisionally |
+| The readout's form (O2) | R3 + R5, but as exact-value commitments, delivered by T1 and L11 for any consistent point | **revised 28 Oct:** composition is a law-level commitment (R-2026-10-28-1), checked by coverage; the point is a law functional (L19), and L23 + T5 make it the median (T35), provisionally |
 | The series' size inside that ratio (O2) | none: R4 joins sources at one time, not readings; composition passes every 1-homogeneous join | **unknown yet, low stakes** (27 Oct): not smuggling, under 0.2% effect (O2, evening) |
 | The weight's noise part (O2's blocker) | none; L17's reason (a measurement premise) bears on it | **provisional, outcome 3:** T21's domain mis-stated against L17's reason; repair unknown yet (O2, evening) |
 | The all-zero value (O2) | none; the constitution (Z, units, swap) | derived, not a rung: c |

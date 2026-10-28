@@ -52,10 +52,10 @@ and (since 10 Oct) a window. Declared once: the starting law pi with centre c.
   own disagreement about m.
 - **Starting law.** Half-Cauchy, pi(m) = c / (c² + m²), with c = s = sigma_F / sigma_a
   by default (L3′, not yet ruled).
-- **Readout.** m̂ = E[|F\*|] / E[|a\*|], the ratio of the mean sizes of the true force
-  and acceleration over the candidates, with the series' size taken as the stacked
-  length. Reported with the median, the quoted interval (eta applied) and the raw
-  law's interval beside it.
+- **Point (since 28 Oct, provisional).** m̂ is the law's median (T35; L23 proposed;
+  O2). Reported with the quoted interval (eta applied) and the raw law's interval beside it.
+  The old readout, E[|F\*|] / E[|a\*|] over the candidates on the stacked length (T10),
+  is kept as `readout` for comparison; it fails Z and reads the instrument's s.
 - **Exact inputs** (sigma = 0) go to a separate three-way check: one mass, no mass,
   every mass. "Undefined" exists only there, at exact 0/0.
 
@@ -205,6 +205,8 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Gaps (as of 2026-10-24; 27 Oct additions marked)
 
+- (28 Oct) `tools/composition_coverage.py` is a seeded script, not a preset kind of `met run`.
+
 - (27 Oct) L22 (isotropy of inertia) and T34 are Claude's, from the 26 Oct scratch session,
   whose two toy scripts (`comp.py`, `qnoise.py`) were not kept; numbers from them are marked
   "toy" in O14, O16, O17.
@@ -293,6 +295,12 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-28 (later, Claude): R-2026-10-28-1, composition restated at the level of the law.
+  `tools/composition_coverage.py` (seed 2810, 400 replicates per size): computed and measured
+  laws of the lump and of the reduced mass cover at ~95% and overlap 99% wherever the parts
+  cover; L14 on data, cloud and median fail alike. `met/full.py` returns `point` = the median;
+  equation.md states it. No recorded number moved. The study is a tool script, not yet a
+  preset kind (Gaps).
 - 2026-10-28 (Claude, pressure): O2's no-go. Under L19 the point is a functional of the law;
   no law functional meets point-level L5 and L14; on data neither the cloud readout nor the
   median meets L5 at finite noise (0.273% vs 0.273% strong, 21% vs 23% weak). Sorted: L5/L14
