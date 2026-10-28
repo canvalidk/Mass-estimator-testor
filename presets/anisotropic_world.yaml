@@ -1,0 +1,25 @@
+kind: anisotropic_world
+name: anisotropic-world
+question: >-
+  When a declared positive-definite tensor relates force and acceleration, which
+  excitations admit one scalar mass, and what do ours29's complete outputs retain
+  about scalar incompatibility?
+notes: >-
+  O17 pressure check with calibrated independent Gaussian instruments. Tensor and
+  latent values remain investigator-only. Common random numbers pair the tensors;
+  a principal e2 line makes their measured inputs identical. No scalar error score
+  is assigned when the latent experiment has no common scalar. The independent
+  conservative scalar check is not a production rejection gate.
+tensors:
+  - name: isotropic
+    matrix: [[2, 0, 0], [0, 2, 0], [0, 0, 2]]
+  - name: anisotropic
+    matrix: [[1, 0, 0], [0, 2, 0], [0, 0, 4]]
+geometries: [principal_line, principal_mix, oblique_line, broad]
+readings: [3, 24, 96]
+noise_sd: [0.1, 0.03]
+replicates: 100
+seed: 20261027
+acceleration_length: 1.0
+prior_center: 1.0
+numerics: {representative_log_half_span: 8.0, representative_nodes: 4001}

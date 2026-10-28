@@ -207,6 +207,64 @@ A run writes `results/<preset>/<timestamp>/` (not committed):
 A run is reproducible from its preset alone (see Numerics for the seeding).
 All estimators in a cell see the same readings, so their scores are paired.
 
+## Inspect pooled residual scale
+
+The O14 pressure recipe is also available through the existing runner:
+
+```sh
+python -m met run presets/pooled_noise_scale.yaml --workers 1
+```
+
+It saves the separately profiled residual scale, raw/capped reciprocal and both
+Bartlett powers from the same seeded observations, with independent moment references.
+The 90 cells use 1,000 series each; `--replicates` can shorten the run, and the saved
+effective preset retains that override. The recipe is serial and the CLI requests one
+math thread before NumPy loads. Output under `results/pooled-noise-scale/` contains
+`summary.md/.csv`, `run.json`, `values.npz` and `preset.yaml`. Pooled instrument variance
+and Bartlett power have different targets. The bias proof and independent null-point
+counterexample are in O14/O7; this does not introduce scale learning into ours29.
+
+## Inspect shared sensor tilt
+
+The O16 shared-sensor check runs with
+`python -m met run presets/shared_sensor_tilt.yaml --workers 1`. It combines 24 seeded
+tilt/control cells with the robot's physical excitation spectra, conditional rank lower
+bounds, and local shared-field fits. The exact synthetic matched-score check keeps
+investigator truth separate from measured-data fits and estimator diagnostics. Reports
+under `results/shared-sensor-tilt/` retain source attribution/hashes, spectra, fitted
+parameters and predictive costs; a fit is not an instrument correction or cause claim.
+The derivation and scope are in `problems/O16.md`. The CLI requests one math thread;
+parallel worker overrides are refused, and saved replicate overrides replay directly.
+
+## Inspect a tensor-mass world
+
+The O17 tensor-world check runs with
+`python -m met run presets/anisotropic_world.yaml --workers 1`. Its 48 seeded cells
+compare a declared SPD tensor with an isotropic control across principal and oblique
+excitation. Independent scalar/tensor correction costs accompany the unchanged ours29
+outputs; no scalar accuracy target is invented for a world admitting no common scalar.
+Results under `results/anisotropic-world/` retain all series, three-stage representative
+kernels and ordinary inspector replay cases. Those replays keep tensor/latent truth
+outside estimator inputs and save their diagnostic mass grids. O17 contains the proofs
+and scope of the conservative scalar check; it is not an estimator rejection gate.
+
+## Compare O2 readout candidates
+
+`python -m met run presets/readout_candidates.yaml --workers 1` runs 84 deterministic
+cases, beginning with the perpendicular reading, on varied declared priors and exact-zero
+padding. It compares stacked cloud mean, conditional-mean vector size, conditional RMS,
+plain sum of cloud sizes, global RMS quotient and the law's median on one unchanged law
+per case. These are pressure diagnostics; they do not select a production equation.
+The CLI uses one worker and one math thread, and rejects replicate overrides.
+
+Results under `results/readout-candidates/` save native probability weights and size
+curves, explicit replay cases, points (including undefined values), and finite-law
+composition counterexamples. The composition checks propagate one supplied joint law;
+they do not refit combined measurements or assert Gaussian-adapter reachability.
+Definitions, derivations and the candidate verdicts are in `problems/O2.md`.
+Per-cell `case.yaml` files can be inspected for production output and geometry;
+rerun the saved study `preset.yaml` to reproduce the complete six-candidate table.
+
 ## How work gets into the tester
 
 The tester exists so that every mass-estimator study can be rerun. A number in a

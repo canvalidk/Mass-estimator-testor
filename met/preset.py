@@ -76,6 +76,18 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "readout_candidates":
+        from .readout_study import validate as validate_readout_candidates
+        return validate_readout_candidates(data)
+    if isinstance(data, dict) and data.get("kind") == "anisotropic_world":
+        from .anisotropic_world import validate as validate_anisotropic_world
+        return validate_anisotropic_world(data)
+    if isinstance(data, dict) and data.get("kind") == "shared_tilt":
+        from .shared_tilt import validate as validate_shared_tilt
+        return validate_shared_tilt(data)
+    if isinstance(data, dict) and data.get("kind") == "pooled_scale":
+        from .pooled_scale import validate as validate_pooled_scale
+        return validate_pooled_scale(data)
     if isinstance(data, dict) and data.get("kind") == "prior_path":
         from .prior_path import validate as validate_prior_path
         return validate_prior_path(data)

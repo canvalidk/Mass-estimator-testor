@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-27, by Claude in a session with Can. Update this page in
+**Last updated:** 2026-10-28, by Claude (merge of the sorts branch and the Codex chain). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -31,8 +31,9 @@ standard: any choice the premises leave open is an alternative Newtonian mechani
 so the goal is uniqueness, not a good estimator.
 
 **Where it stands.** The problem is close to fully mapped: the premises, what they
-force, and what is left are in the lemma list. Two open items need a real idea, not
-more tests (O2 and O6 below). Some premises are graded below bedrock or are
+force, and what is left are in `definition/ladder.md`. O2 (the readout) is provisionally
+resolved as of 28 Oct, pending Can's check of L23; O6 still needs a real idea, not more
+tests. The law's sign defect (below) has a forced direction and an unfinished numerator. Some premises are graded below bedrock or are
 provisional (L12 medium; L14 and L15 provisional), and some choices are natural
 rather than forced (eta's cap at 1 and its power form at finite N; κ = ν is fixed by
 meaning, not by a property). The rest is rulings Can owes and proofs, some routine
@@ -140,40 +141,42 @@ $Q=0$ and full weight: (2,0)/(−1,0) gets the same $Q$, $g$ and evidence span a
 and T30's bounded-confidence requirement fails there (`tests/test_sign_fork.py`, strict
 xfail). Claude's sort: a wrong premise, **L8's count**, which lists a reading's $k-1$
 codirectionality conditions and omits L1's one inequality $\mathbf F^\ast\cdot\mathbf a^\ast>0$.
-Candidate repair, unproven: $g=\min(1,\kappa_k/Q_+)$ with $\kappa_k$ the supremum over
-signal size of $E[Q_+]$, which is $k-1$ for $k\ge2$ (acute pairs unchanged) and
-$(1-2/\pi)/2$ in 1D (no gate). Details and the checks it owes: `../problems/O13.md`, 27 Oct.
-This is the correction the next equation state needs; O2 and O6 below are still the
-breakthroughs.
+Candidate repair, unproven: $g=\min(1,\kappa_k/Q_+)$. The proposed constants $k-1$ for
+$k\ge2$ and $(1-2/\pi)/2$ in 1D give a bounded anti-parallel tail, but **are not the
+supremum of expected misfit over all allowed signal strengths and mass/noise ratios**.
+The finite counterexample, exact null moments and incompatibility with unchanged acute
+weights are in `../problems/O13.md` (27 Oct pressure check), checked by
+`tests/test_positivity_candidate.py`. No repair is adopted: the direction is forced, the
+numerator is a derivation still owed. This is the next change to the law (ours30).
 
 
-### O2: the readout
+### O2: the readout (provisionally resolved 28 Oct; Can's check of L23 pending)
 
-Find a readout that satisfies all three of these at once:
+The three requirements were composition at the point (L5, L14), Z at the point (L20) and a
+value, c, at the all-zero experiment. Sorted 28 Oct (`../problems/O2.md`): under L19 the
+point can only be a functional of the law of m; no law functional meets L5 and L14 at the
+point on spread laws (Jensen; the law has no mean, T19); and on data no point meets either
+at finite noise, the cloud readout and the median alike (lumping 0.27% strong, 21–23% weak;
+common force 5.8% strong, 90% weak). So point-level composition at finite noise was the
+mis-stated premise (TASK §3, outcome 3): the rungs commit exact values. **R-2026-10-28-1**
+restates L5 and L14 at the level of the law in three clauses (exact inputs add; the
+composite's law is computed from the parts' laws; a new measurement of the composite must
+be consistent with it, as coverage), checked by `tools/composition_coverage.py`: both laws
+cover at ~95% and overlap 99% wherever the parts do.
 
-1. **Composition.** Masses add when bodies are lumped (L5), and inverse masses add
-   under a common force (L14, provisional). With C3 (T21), composition forces a
-   ratio of means of the series' two sizes (T4). The open freedom is what "the
-   series' size" is.
-2. **Z at the point.** Appending a reading that carries no information leaves the
-   answer unchanged (L20, ruled 27 Sept).
-3. **A value at the all-zero experiment.** Ruled 29 Sept: on measured inputs mass
-   is never undefined, so the readout must give a value there. That the value must
-   be c is derived, not ruled: it follows from Z, units and the swap if the point
-   keeps the swap property (`vd-docs-context/why_mass_cannot_be_undefined_2026-09-29.md`
-   §4, offered for O2, not placed).
+What is left for the point: Z-exact (every law functional is, T24), c at the all-zero
+experiment for every c, the swap and units. Those leave a family of location functionals of
+ln m. **L23** (proposed: the point commutes with every increasing reparametrisation, as T31
+already asks of η) picks a quantile, and the swap makes it the **median** (T35, tested).
+`met/full.py` returns it as `point`; the cloud readout (T10) stays as `readout` for
+comparison, since it fails Z and reads the instrument's s.
 
-Each known candidate fails at least one:
-
-| Candidate | Composition | Z | All-zero value c |
-| --- | --- | --- | --- |
-| Cloud readout (current, T10): sizes averaged over each reading's candidate cloud | yes | **no**: 50 appended null readings move it 2.2524 → 2.2406 (T29: ours28, 3D); under ours29 ten move it 3.5983 → 3.6017 (O1 row). It moves at c = s too | only when c = s: at c = 3s it gives 2.095 s (ours26 sweep, E1) |
-| Best-guess repair: size of each reading's conditional-mean candidate | unknown | yes | **no**: 0/0 there; limits near zero depend on direction, 0.546 to 1.830 (1D, c = 1) |
-| The law's median | **no**: it uses only the size law and meets C3–C5, so by the uniqueness theorem it fails lumping or common force | yes (the law is Z-exact, T24) | yes |
-
-A breakthrough is either a readout that meets all three or a proof that none exists,
-in which case a ruling picks the requirement to drop. Unanswered: must the readout
-also be continuous at the all-zero experiment?
+The six-candidate table and the measurement-coarsening bridge (Codex, 28 Oct, in O2) are the
+record of the candidates under the old point-level reading: on T4's full finite-law domain
+every size rule fails composition or point Z; and fitting the summed measurements differs
+from the pushforward of one joint law, which is why clause (c) asks for consistency, not
+equality. Still open in O2: Can's check of L23 against the goal, and whether the point must
+be continuous at the all-zero experiment.
 
 ### O6: the shape of the starting law
 
@@ -196,10 +199,10 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 | O9 | ruling | Is the window the criterion for one reading versus several? (proposed 10 Oct) |
 | O11 | ruling | Does the default centre reference the instruments only (L3′), and is the swap-of-declarations premise accepted, which gives c = s for one noise pair? Then the several-instrument and anisotropic cases |
 | O13 | ruling; sign fork sorted (27 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a is sorted as a wrong premise (L8), see above |
-| O14 | proof | eta at small N: a correction that counts effective readings |
+| O14 | proof | eta at small N: a correction that counts effective readings. The second noise channel from Q (26 Oct idea) is dead as proposed: biased low at every finite strength, and feeding it back moves the point (Codex, 27 Oct) |
 | O15 | proof | Is the bounded null floor the best any law can do? |
-| O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct) a premise; what it buys (the misfit, the noise budget, detection of shared errors) |
-| O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type; on the robot a shared floor averages down across windows |
+| O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
+| O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type. On the robot the baseline excitation is at least 2D (not pure gain) and a fitted shared sensor rotation of about 0.9° fits (Codex, 27 Oct, descriptive, not a correction). Next: give the type the slot, rerun the robot |
 | L13, L18 | ruling | Confirm "the noise model is forced Gaussian, the data need not be"; is the subspace an input? |
 | E10 | ruling | Does the VD entry still name the estimator without supplying it, now that composition forces the readout? (ours26 sweep §3.2) |
 
@@ -295,12 +298,22 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-28 (merge, Claude): `sorts-2026-10-27` and the Codex chain of 27–28 Oct
+  (`codex/composition-measurement-bridge`, six runs) merged into main. Conflicts were
+  appended text only (O2, O17, T04, this log); O2 carries a merge note placing the Codex
+  candidate and bridge results against R-2026-10-28-1. No number moved.
 - 2026-10-28 (later, Claude): R-2026-10-28-1, composition restated at the level of the law.
   `tools/composition_coverage.py` (seed 2810, 400 replicates per size): computed and measured
   laws of the lump and of the reduced mass cover at ~95% and overlap 99% wherever the parts
   cover; L14 on data, cloud and median fail alike. `met/full.py` returns `point` = the median;
   equation.md states it. No recorded number moved. The study is a tool script, not yet a
   preset kind (Gaps).
+- 2026-10-28 (Codex, pressure): O2's physical-composition bridge and T4's scope:
+  shared-channel covariance, omitted Gaussian contrast, special-split equality and
+  all-positive-noise fine/coarse counterexample, checked in `tests/test_composition_bridge.py`.
+  The 28 Sept archived derivation is credited; no equation/type change or domain closure proof.
+  Serial regression: 175 passed, one existing strict xfail (source orientation count);
+  final 21 bridge checks pass after adding the common-force dual. Audit unchanged.
 - 2026-10-28 (Claude, pressure): O2's no-go. Under L19 the point is a functional of the law;
   no law functional meets point-level L5 and L14; on data neither the cloud readout nor the
   median meets L5 at finite noise (0.273% vs 0.273% strong, 21% vs 23% weak). Sorted: L5/L14
@@ -308,12 +321,36 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
   T1 and L11. L23 (parametrisation-free point) proposed; T35: with the swap it forces the
   median. Candidate readout: the law's median. `tests/test_point_composition.py`. Equation in
   `met/` unchanged.
+- 2026-10-28 (Codex, pressure): O2 perpendicular-first six-candidate table, exact Gaussian
+  point-Z proof (global RMS 1 → √2) and propagated finite-law composition counterexamples
+  (conditional mean 2 ≠ 10/3); deterministic serial preset `presets/readout_candidates.yaml`.
+  Serial regression: 521 passed, three existing strict xfails; 22 study/replay checks
+  passed after provenance review, including one additional real replay test. Audit unchanged.
 - 2026-10-27 (evening, Claude, pressure): L12 checked against the ladder. The series join is
   second order (under 0.2% across l_1 to l_inf at weak signal) and fixed by no rung: unknown
   yet, parked. O2's Z failure located: null readings replace the readout's weight by
   (1 + m²/s²)^(-1/2), a function of Σ alone (1000 nulls: 2.3931 against 2.3930). Sorted
   provisionally as outcome 3, T21's domain against L17's reason; the three conditions a repair
   must meet are in O2. `tests/test_readout_weight.py` (one slow case under MET_SLOW).
+- 2026-10-27 (Codex, pressure): O17's excited-eigenspace criterion, conservative scalar
+  compatibility diagnostic and concentrating-law counterexamples; paired tensor worlds
+  in `presets/anisotropic_world.yaml`, with independent geometry/angle/world checks.
+  Serial regression: 460 passed, three existing strict xfails; audit unchanged.
+  L22 remains proposed; production type and equation unchanged.
+- 2026-10-27 (Codex, pressure): O16's shared rotation field, observability counterexamples,
+  and noise-aware robot excitation; serial seeded recipe `presets/shared_sensor_tilt.yaml`.
+  Baseline resolves at least two directions under both budgets; fits remain descriptive.
+  Source count 23 versus 24 retained as a strict xfail. Equation and robot loader unchanged.
+  Serial regression: 402 passed, three strict xfails (sign, robot interval, source count);
+  audit findings unchanged.
+- 2026-10-27 (Codex, pressure): O14's general Q bias curve, finite-N moments and
+  scale-only null-point counterexample, linked in O7; serial paired recipe
+  `presets/pooled_noise_scale.yaml` and independent reference/replay tests. Serial regression:
+  360 passed, one existing strict xfail; audit unchanged. Equation unchanged.
+- 2026-10-27 (Codex, pressure): exact positivity-null moments, a finite counterexample
+  to the proposed universal numerators, and the acute-preservation obstruction in O13;
+  candidate checks in `tests/test_positivity_candidate.py`. Serial regression: 320 passed,
+  one existing strict xfail; audit findings unchanged. Equation unchanged.
 - 2026-10-27 (Claude, pressure, branch `sorts-2026-10-27`): the sign fork sorted as a wrong
   premise (L8's count; O13, T30, T32; `tests/test_sign_fork.py` with a strict xfail on T30);
   the Z split sorted as an input (O7); L22 proposed; the 26 Oct scratch session folded into
