@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-28, by Claude (merge of the sorts branch and the Codex chain). Update this page in
+**Last updated:** 2026-10-28, by Claude (O16: the robot budget checked). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -202,7 +202,7 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 | O14 | proof | eta at small N: a correction that counts effective readings. The second noise channel from Q (26 Oct idea) is dead as proposed: biased low at every finite strength, and feeding it back moves the point (Codex, 27 Oct) |
 | O15 | proof | Is the bounded null floor the best any law can do? |
 | O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
-| O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type. On the robot the baseline excitation is at least 2D (not pure gain) and a fitted shared sensor rotation of about 0.9° fits (Codex, 27 Oct, descriptive, not a correction). Next: give the type the slot, rerun the robot |
+| O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type. On the robot: the static rows show a real 1.15° force–IMU misalignment, but neither it nor a lever arm explains the miss, and the white budget is understated 2–19× by autocorrelated samples (28 Oct). Next: the budget from calibration-side data and the rerun (briefed), then the slot |
 | L13, L18 | ruling | Confirm "the noise model is forced Gaussian, the data need not be"; is the subspace an input? |
 | E10 | ruling | Does the VD entry still name the estimator without supplying it, now that composition forces the readout? (ours26 sweep §3.2) |
 
@@ -298,6 +298,12 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-28 (night, Claude, pressure): O16 checked before briefing the slot. The floor is the
+  static fit's zero-mean residual, not a shared offset; the static rows show a 1.15° force–IMU
+  misalignment that does not close the 1.4% floor/no-floor gap; a constant offset (lever arm)
+  fitted across runs does not either; the rest recordings are autocorrelated (tau up to 19
+  samples), so the white budget is understated 2–19×. Sorted: fix the declared budget from
+  calibration-side data first (briefed to Codex), then the slot. `tests/test_robot_budget_checks.py`.
 - 2026-10-28 (merge, Claude): `sorts-2026-10-27` and the Codex chain of 27–28 Oct
   (`codex/composition-measurement-bridge`, six runs) merged into main. Conflicts were
   appended text only (O2, O17, T04, this log); O2 carries a merge note placing the Codex
