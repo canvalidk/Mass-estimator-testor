@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-29, by Claude (R-2026-10-29-2: Z at the point was never ruled). Update this page in
+**Last updated:** 2026-10-29 (late), by Claude (GOAL.md, the existence audit, the ladder's bin column). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -259,8 +259,13 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Read first
 
-0. `../TASK.md`: the task itself (find the function which is unique; what the readings
-   cannot decide is input), with the logarithm example. Everything below assumes it.
+0. `../GOAL.md`: the goal in one page (target, how the work goes — probes that surface
+   premises — the premise list, the probe history, the open holes), then `../TASK.md`: the
+   task itself (find the function which is unique; what the readings cannot decide is
+   input), with the logarithm example. Everything below assumes both. Before either, if you
+   arrive with the textbook prior that estimators are choices:
+   `existence_argument_audit_2026-10-29.md`, the argument for why the function exists,
+   assembled and audited.
 1. This page.
 2. `../definition/ladder.md`: which commitment of the version removes which freedom, and
    what is left. Then `../definition/proof.md`: the chain from the type to ours30 with every
@@ -306,6 +311,12 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-29 (late, Claude): `GOAL.md` at the root and `docs/existence_argument_audit_2026-10-29.md`
+  added (both also project docs on claude.ai); `definition/ladder.md` §2 gets a bin column: every
+  measurement-constitution premise sorted as Newton's / measurement's / the dictionary's / input,
+  on Can's "have they always been in Newton?" (Claude's sort, provisional). The sort needs four
+  bins, not three: the dictionary's bin (L10, L17, L19, L23, no-gate) is the project's own
+  contribution. Read-first updated.
 - 2026-10-29 (night, Claude): **R-2026-10-29-2.** Z at the point was never ruled: the 27 Sept
   property is about the law, and the ours27 record had recorded his position as the opposite
   ("the point prices it in"), "not yet as a ruling". The lemma list's extension was carried into

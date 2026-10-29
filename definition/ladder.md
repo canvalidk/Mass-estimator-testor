@@ -38,26 +38,53 @@ measured quantity is read: they hold for every entry with measured inputs, and t
 the constitution and Can's rulings (F1, F2, F3; R-2026-09-27 to R-2026-10-10), not from the
 version's order.
 
-| Premise | One line | Grade or status |
-| --- | --- | --- |
-| L2 | every declared σ > 0 (the noisy type) | bedrock, ruled 25 Sept |
-| L3′ | the default π's scale comes from the instruments | proposed |
-| L4 | π symmetric under m/c ↔ c/m | strong |
-| L7 | calibration: R = f/α on sure inputs | mild |
-| L8 | one reading is one completeness claim (count mis-stated, 27 Oct sort) | ruled 29 Sept |
-| L9 | isotropy of the noise, in noise units | strong |
-| L10 | no size law is declared | strong, ruled 30 Sept |
-| L11 | consistency | strong |
-| L12 | one joining rule for series sizes | **medium** |
-| L13 | the Gaussian noise model | forced (T23) |
-| L15 | betweenness | ruled provisionally 28 Sept |
-| L17 | same candidate law, same mass | ruled 28 Sept |
-| L18 | declared inputs are correct | ruled 28 Sept (σ, structure), 10 Oct (window) |
-| L19 | no borrowing between readings | ruled 28 Sept, 30 Sept |
-| L20 | Z | ruled 27 Sept; scope O7 |
-| L21 | readings are evidence, just less | ruled 29 Sept |
+| Premise | One line | Grade or status | Bin (29 Oct sort) |
+| --- | --- | --- | --- |
+| L2 | every declared σ > 0 (the noisy type) | bedrock, ruled 25 Sept | **M** for σ > 0 (JCGM: a measurement is a triple). The "never undefined on measured inputs" clause is a theorem of **N** (lumping) and **D** (F1): `why_mass_cannot_be_undefined` |
+| L3′ | the default π's scale comes from the instruments | proposed | **I**: which member of the input family is the principal branch |
+| L4 | π symmetric under m/c ↔ c/m | strong | **N** constraining **I**: the swap is Newton II's own symmetry (F and a on equal footing, R-2026-09-07-1), applied to the admissible inputs |
+| L7 | calibration: R = f/α on sure inputs | mild | **N** (the exact branch, R2); its continuity clause is technical |
+| L8 | one reading is one completeness claim (count mis-stated, 27 Oct sort) | ruled 29 Sept | **M**: what a reading declares about its own dimensionality. Written nowhere before 29 Sept |
+| L9 | isotropy of the noise, in noise units | strong | **M**: about instruments, not bodies. That the law *cannot be read without it* is a fact about Newton's text (the pattern this project exists to surface) |
+| L10 | no size law is declared | strong, ruled 30 Sept | **D**, via L19's reason: a definition cannot rely on a population of setups |
+| L11 | consistency | strong | **N**: the exact law is the estimator's limit (F1's "the law is its limit") |
+| L12 | one joining rule for series sizes | **medium** | **M**; off the path since 28 Oct |
+| L13 | the Gaussian noise model | forced (T23) | derived from L11 (**N**) and L20 (**M**): no bin of its own |
+| L15 | betweenness | ruled provisionally 28 Sept | **M**: a property of combining evidence, not of mass |
+| L17 | same candidate law, same mass | ruled 28 Sept | **D**: the readout is a function of the law; it cannot read instrument facts |
+| L18 | declared inputs are correct | ruled 28 Sept (σ, structure), 10 Oct (window) | **I** by construction |
+| L19 | no borrowing between readings | ruled 28 Sept, 30 Sept | **D**: "the equation must act as the definition of mass, so it can't rely on things like a repeated experimental setup" (his reason, 30 Sept) |
+| L20 | Z | ruled 27 Sept; scope O7 | **M**: what "no information" means is fixed by the declared inputs (`TASK.md` §6) |
+| L21 | readings are evidence, just less | ruled 29 Sept | split: no gate is **D** (Newton II is a premise of the definition, R-2026-09-07-1); decreasing in misfit is **M** |
+| L23 | the point is parametrisation-free (listed with the rungs in proof.md; sorted here) | provisional | **D**, provisional: a requirement on what a definition's *point* is, not on mass or on instruments. The probe that tests it varies the point functional (median vs geometric mean), and that is a legitimate probe |
 
-The body is a theorem of both columns. The check this section exists for: **a measurement
+**The bins** (Claude's sort, 29 Oct, provisional; the question is Can's of the same day: "have
+they always been in Newton or no?"). Three were asked for; the sort needs four:
+
+- **N** — a hidden commitment of Newton's mechanics. Everything in §1 (L1, L3, L5, L14, L16,
+  L22) and, from this table, L4, L7, L11. All rungs or readings of rungs. *A probe may not
+  vary these.*
+- **M** — a hidden commitment of measuring *anything*: it would hold for Hooke's k or for G
+  exactly as for mass. L8, L9, L12, L15, L20, L2's type, half of L21. JCGM-shaped, but L8, L9
+  and Z are not in the GUM; they are new. *A probe may vary these, and what it finds is a
+  result about measurement.*
+- **D** — a commitment of the dictionary: what makes the body a *definition* rather than a
+  procedure. L10, L17, L19, L23, R-2026-09-07-1, F1, F2, the no-gate half of L21. Neither
+  Newton's nor metrology's. **This bin is the project's own contribution**, and it is exactly
+  the set a statistician would call arbitrary axioms. *A probe may vary these only to test
+  whether the VD's notion of definition is the right one.*
+- **I** — the caller's. L3′, L18, and everything in `type.md`. *A probe that varies an input
+  learns nothing about the definition* — which is why O6 (π's shape) needs an idea and not
+  more tests.
+
+Two things the sort shows. First, the smuggling check this section exists for passes by
+inspection: no M or D premise makes a mechanical claim, and the N bin is exactly the rungs.
+Second, the bins say which probe is worth building next: the open D items (L23; whether
+L10's reading of L19 is the only one) and the open M items (O7, Z's scope; O14, η at finite
+N) are where a break would name something new. A probe aimed at an N premise is testing
+Newton, and one aimed at an I premise is testing the caller.
+
+The body is a theorem of all four columns. The check this section exists for: **a measurement
 premise must never force a mechanical choice.** If one does, it is doing a rung's job, which
 is smuggling. Where a measurement premise and a rung both bear on one freedom, the rung
 decides.
@@ -106,3 +133,4 @@ decides.
 - 2026-10-27 (evening): the series join and the weight's noise part, from the L12 check.
 - 2026-10-28: the readout row revised (O2, 28 Oct).
 - 2026-10-29: the sign numerator row, ruled (ours30).
+- 2026-10-29 (night): §2 gets a bin column — the sort of every measurement-constitution premise into Newton's / measurement's / the dictionary's / input (Claude, provisional, on Can's question "have they always been in Newton?").
