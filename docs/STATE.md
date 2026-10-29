@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-29, by Claude (`briefs/`: the queue for other agents). Update this page in
+**Last updated:** 2026-10-29, by Claude (O13: the sign numerator sorted). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -134,7 +134,7 @@ The canonical copies of the decision records and the two notes live in VD-docs
 
 ## The breakthroughs still needed
 
-### Before them: ours29 is blind to the sign of F·a (sorted 27 Oct, not ruled)
+### Before them: ours29 is blind to the sign of F·a (sorted 27 Oct; numerator sorted 29 Oct; not ruled)
 
 The misfit $Q$ (T32) is taken on the whole projective line, so an anti-parallel pair has
 $Q=0$ and full weight: (2,0)/(−1,0) gets the same $Q$, $g$ and evidence span as (2,0)/(1,0),
@@ -146,8 +146,15 @@ $k\ge2$ and $(1-2/\pi)/2$ in 1D give a bounded anti-parallel tail, but **are not
 supremum of expected misfit over all allowed signal strengths and mass/noise ratios**.
 The finite counterexample, exact null moments and incompatibility with unchanged acute
 weights are in `../problems/O13.md` (27 Oct pressure check), checked by
-`tests/test_positivity_candidate.py`. No repair is adopted: the direction is forced, the
-numerator is a derivation still owed. This is the next change to the law (ours30).
+`tests/test_positivity_candidate.py`.
+
+**29 Oct, the numerator (Claude, provisional):** g on $Q_+$ (L21's "misfit at the best mass",
+with L1), and $\kappa_k=k-\tfrac12$: O12's ruled meaning (the declared noise's expected misfit)
+read without a size (L10), which is the supremum over sizes. That supremum is k − 1 for the
+sign-blind Q, the ruled ν, and k − ½ for $Q_+$ (numerical; proof is brief B02). Acute pairs are
+then discounted less, by (k − ½)/(k − 1), which raises efficiency at strong signal (0.915 → 0.954
+at k = 2). In `met/full.py` as `ours29(..., positivity=True)`, not the default, because it
+changes the ruled ν = k − 1: **Can's check is owed** (O13, 29 Oct). With it, this is ours30's law.
 
 
 ### O2: the readout (provisionally resolved 28 Oct; Can's check of L23 pending)
@@ -200,7 +207,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 | O7 | ruling; part sorted as input (27 Oct) | Does Z cover zeros beside a signal? Separately: Z for mass and Z for noise split by whether Σ is declared exact or up to a scale |
 | O9 | ruling | Is the window the criterion for one reading versus several? (proposed 10 Oct) |
 | O11 | ruling | Does the default centre reference the instruments only (L3′), and is the swap-of-declarations premise accepted, which gives c = s for one noise pair? Then the several-instrument and anisotropic cases |
-| O13 | ruling; sign fork sorted (27 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a is sorted as a wrong premise (L8), see above |
+| O13 | ruling; sign fork sorted (27 Oct), numerator sorted (29 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a: a wrong premise (L8); the numerator k − ½ on Q₊, candidate in met/full.py, Can's check owed |
 | O14 | proof | eta at small N: a correction that counts effective readings. The second noise channel from Q (26 Oct idea) is dead as proposed: biased low at every finite strength, and feeding it back moves the point (Codex, 27 Oct) |
 | O15 | proof | Is the bounded null floor the best any law can do? |
 | O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
@@ -300,6 +307,12 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-29 (Claude, pressure): O13's numerator sorted. g is a function of Q₊ (L21 + L1),
+  which excludes the two-factor form; κ is O12's meaning read size-free (L10), the supremum over
+  sizes: k − 1 for Q (the ruled ν) and k − ½ for Q₊ (seeded grid; proof queued as B02). Candidate
+  `ours29(..., positivity=True)` in met/full.py, default unchanged; T30's tilt bounded on
+  anti-parallel pairs in 1D–3D; acute pairs discounted by (k − ½)/(k − 1) less. Changes the ruled
+  ν = k − 1: Can's check owed. `tests/test_sign_numerator.py`.
 - 2026-10-29 (Claude): `briefs/` added, the queue for Codex runs: one sorted fork and a named
   deliverable per file, each run on its own branch from `main`, checked and merged by Claude
   (protocol in `briefs/README.md`; CLAUDE.md points there). Queued: B01 robot budget (O16),

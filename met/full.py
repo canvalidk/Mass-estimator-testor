@@ -179,8 +179,41 @@ def _best_line(fun):
     return phi
 
 
+def _positive_h_max(pre, c, phi_line):
+    """max of H over positive mass, phi in [0, pi/2] (m = 0 and m = infinity as limits).
+
+    If the whole line's best phi is positive it is this maximum. Otherwise: a scan of the
+    closed quarter with both ends, then Newton steps kept inside it from the best scan point."""
+    if 0.0 <= phi_line <= math.pi / 2:
+        return float(_h_terms(pre, c, np.array([phi_line]))[0])
+    grid = np.linspace(0.0, math.pi / 2, SCAN // 2 + 1)
+    values = _h_terms(pre, c, grid)
+    j = int(np.argmax(values))
+    best = float(values[j])
+    if 0 < j < len(grid) - 1:
+        phi, step = float(grid[j]), grid[1] - grid[0]
+        for _ in range(NEWTON_STEPS):
+            _, d1, d2 = (float(x[0]) for x in _h_terms(pre, c, np.array([phi]), 2))
+            move = max(-step, min(step, -d1 / d2)) if d2 < 0 else step * math.copysign(1.0, d1)
+            phi = min(math.pi / 2, max(0.0, phi + move))
+            if abs(move) < 1e-15:
+                break
+        best = max(best, float(_h_terms(pre, c, np.array([phi]))[0]))
+    return best
+
+
+def positivity_numerator(k):
+    """kappa_k = k - 1/2: the most misfit Q_+ the declared noise produces in expectation, over
+    every allowed signal size (L10 declares none), for a k-dimensional reading: k - 1 for the
+    codirectionality conditions (L8) and 1/2 for L1's sign condition, which noise decides half the
+    time when one channel carries no signal. Claude's sort, 29 Oct, provisional (O13); the value is
+    numerical for isotropic channels (problems/O13.md, 29 Oct), its proof is briefs/B02."""
+    return k - 0.5
+
+
 def reading_state(reading, c):
-    """The reading's best line on the whole projective line, its misfit Q, k and nu."""
+    """The reading's best line on the whole projective line, its misfit Q, k and nu; and its
+    misfit over positive mass, Q_plus (T32's Q_+: L1's m > 0 included), with kappa."""
     pre = reading.pre()
 
     def fun(phi, order):
@@ -188,7 +221,10 @@ def reading_state(reading, c):
 
     phi = _best_line(fun)
     h_max = float(_h_terms(pre, c, np.array([phi]))[0])
-    return dict(Q=max(pre["energy"] - h_max, 0.0), E=pre["energy"], k=reading.k, nu=reading.k - 1, phi=phi)
+    q = max(pre["energy"] - h_max, 0.0)
+    q_plus = max(pre["energy"] - _positive_h_max(pre, c, phi), q)
+    return dict(Q=q, Q_plus=q_plus, E=pre["energy"], k=reading.k, nu=reading.k - 1,
+                kappa=positivity_numerator(reading.k), phi=phi)
 
 
 def misfit_weight(q, nu, form="kink"):
@@ -349,11 +385,15 @@ def _stacked_mean_length(m, readings):
     return (body + tails) / (2 * math.sqrt(math.pi))
 
 
-def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", readout=True, grid=None):
+def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", readout=True, grid=None,
+           positivity=False):
     """The definition of mass on one series, in the full type.
 
     readings: a list of Reading. c: the starting law's centre (the input pi; no default).
     misfit=False gives g_i = 1; calibrate=False gives eta = 1 (the raw law); both off is ours27.
+    positivity=True weighs each reading by its misfit over positive mass, g_i = min(1, kappa/Q_plus)
+    with kappa = k - 1/2 (O13, 29 Oct; Claude's sort, provisional, not the default): the candidate
+    for the next equation state. eta is unchanged (T31: whole line).
     grid: None for the adaptive grid, or (half_width, nodes) for log c +- half_width.
 
     Returns a dict: point, median, interval (95%, quoted: eta applied), raw_interval (eta = 1),
@@ -366,7 +406,12 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
         raise ValueError("the starting law's centre c must be positive")
     readings = list(readings)
     states = [reading_state(r, c) for r in readings]
-    g = [misfit_weight(s["Q"], s["nu"], misfit_form) if misfit else 1.0 for s in states]
+    if not misfit:
+        g = [1.0 for _ in states]
+    elif positivity:
+        g = [misfit_weight(s["Q_plus"], s["kappa"], misfit_form) for s in states]
+    else:
+        g = [misfit_weight(s["Q"], s["nu"], misfit_form) for s in states]
     if calibrate:
         eta, curv, j, phi_hat = bartlett_eta(readings, c, g)
     else:
@@ -375,7 +420,8 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
     lp = _log_law(readings, c, g, eta, lm)
     (lo, med, hi), p = _quantiles(lm, lp, [0.025, 0.5, 0.975])
     out = dict(median=float(med), interval=(float(lo), float(hi)), eta=eta, g=g,
-               Q=[s["Q"] for s in states], curv=curv, J=j, phi_hat=phi_hat, law=p, lm=lm)
+               Q=[s["Q"] for s in states], Q_plus=[s["Q_plus"] for s in states], curv=curv, J=j,
+               phi_hat=phi_hat, law=p, lm=lm)
     out["point"] = out["median"]
     if eta < 1.0:
         lm_raw = _grid(readings, c, g, 1.0, grid)
