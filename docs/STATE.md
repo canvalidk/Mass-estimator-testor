@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-29, by Claude (O13: the sign numerator sorted). Update this page in
+**Last updated:** 2026-10-29, by Claude (T31 checked under the 7 Sept ruling). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -217,7 +217,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Gaps (as of 2026-10-24; 27 Oct additions marked)
 
-- (28 Oct) `tools/composition_coverage.py` is a seeded script, not a preset kind of `met run`.
+- (28 Oct) `tools/composition_coverage.py` is a seeded script, not a preset kind of `met run`
+  (brief B03). (29 Oct) So is `tools/eta_sign_check.py` (T31).
 
 - (27 Oct) L22 (isotropy of inertia) and T34 are Claude's, from the 26 Oct scratch session,
   whose two toy scripts (`comp.py`, `qnoise.py`) were not kept; numbers from them are marked
@@ -307,6 +308,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-29 (Claude, pressure): O13's misfit grounded in R-2026-09-07-1 (smallest error under the
+  law, m > 0 included: the 7 Sept record's anti-aligned infimum 6 is Q₊; ours29's Q is 0). η's
+  whole-line evaluation checked under the same ruling: not the same slip (forced by Z and the
+  stationary point; negative-φ̂ series undercover as much without η, and η raises them).
+  `tools/eta_sign_check.py`, T31.
 - 2026-10-29 (Claude, pressure): O13's numerator sorted. g is a function of Q₊ (L21 + L1),
   which excludes the two-factor form; κ is O12's meaning read size-free (L10), the supremum over
   sizes: k − 1 for Q (the ruled ν) and k − ½ for Q₊ (seeded grid; proof queued as B02). Candidate
