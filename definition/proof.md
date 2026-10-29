@@ -77,6 +77,13 @@ flat weight. The consistency route (L11) under the tempered evidence is O4, unwr
 *forced (test only)* from L20 and L11. The derivation behind the Z route is not written out;
 the consistency route is open. → gap G1.
 
+**The frame for steps 1–5 (T36, 29 Oct).** The reading space $W_i$, with the noise metric
+$\Sigma_i^{-1}$ forced by units; the hypothesis $m$ as the subspace $L_i(m)$ (step 1's candidates);
+$H_i$ as projection onto it and $K_i=E_i-H_i$ as the residual; $k_i$ residual dimensions per reading,
+$\nu_i=k_i-1$ when the reading picks its own line. The raw law reads one residual,
+$\sum_iK_i(m)$. T36 is geometry and a dimension count; it removes no hole, and it states G13's and
+G3's questions (what the power on $E_i$ and η are for) in the form in which they are now asked (O14).
+
 **Step 3. The candidate weight, and the per-reading factor.** Integrating the candidates out
 needs a weight $w(\alpha_i)$ on the true acceleration. Four premises fix it:
 
@@ -347,3 +354,4 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 
 - 2026-10-29: created (Claude). Eighteen steps, sixteen holes.
 - 2026-10-29 (later): point-level Z removed as a premise (R-2026-10-29-2); steps 13, 16, 17 and §3 reworded.
+- 2026-10-29 (night): the frame for steps 1–5 named (T36), on R-2026-10-29-3.

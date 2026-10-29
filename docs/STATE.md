@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-29 (late), by Claude (GOAL.md, the existence audit, the ladder's bin column). Update this page in
+**Last updated:** 2026-10-29 (night), by Claude (T36, the reading-space frame, R-2026-10-29-3). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -203,7 +203,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 | O9 | ruling | Is the window the criterion for one reading versus several? (proposed 10 Oct) |
 | O11 | ruling | Does the default centre reference the instruments only (L3′), and is the swap-of-declarations premise accepted, which gives c = s for one noise pair? Then the several-instrument and anisotropic cases |
 | O13 | ruling; sign fork closed (ours30, 29 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a: closed by R-2026-10-29-1 (g on Q₊, numerator k − ½; proof of the value: B02) |
-| O14 | proof | eta at small N: a correction that counts effective readings. The second noise channel from Q (26 Oct idea) is open with one objection: biased low at every finite strength (Codex, 27 Oct). Its other objection, moving the point on nulls, was against a ruling never made (R-2026-10-29-2) |
+| O14 | proof | eta at small N: a correction that counts effective readings. The 26 Oct second noise channel is superseded by T36 (29 Oct): η's and Q's channels are one residual, and the plug-in's bias was its count of incidental parameters. Open: what η and g are for once a noise scale is in the model |
 | O15 | proof | Is the bounded null floor the best any law can do? |
 | O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
 | O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type. On the robot: the static rows show a real 1.15° force–IMU misalignment, but neither it nor a lever arm explains the miss, and the white budget is understated 2–19× by autocorrelated samples (28 Oct). Next: the budget from calibration-side data and the rerun (briefed), then the slot |
@@ -266,7 +266,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
    arrive with the textbook prior that estimators are choices:
    `existence_argument_audit_2026-10-29.md`, the argument for why the function exists,
    assembled and audited.
-1. This page.
+1. This page. Then `../definition/theorems/T36.md`: the frame everything is written in (the
+   reading space, its noise metric, a mass as a subspace, one residual).
 2. `../definition/ladder.md`: which commitment of the version removes which freedom, and
    what is left. Then `../definition/proof.md`: the chain from the type to ours30 with every
    step's status and the holes, typed; it is the queue. Then `../definition/equation.md`,
@@ -311,6 +312,13 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-29 (night, Claude): **T36 and R-2026-10-29-3.** On Can's "start over, with Einstein notation...
+  have the metric emerge": a reading is a vector in the stacked force–acceleration space, whose only
+  metric is the noise's (the axes share no unit; the 10 Oct record's parked §8.5); a mass is a
+  subspace; Hᵢ is projection and Eᵢ − Hᵢ the residual; k residual dimensions per reading. η's and the
+  Q channel are one residual; the 26 Oct pooled scale's bias is the incidental-parameter count (O14).
+  Kept central on his ruling: pointers from equation.md, proof.md, GOAL.md and this page. Equation
+  unchanged. `tests/test_reading_space.py`.
 - 2026-10-29 (late, Claude): `GOAL.md` at the root and `docs/existence_argument_audit_2026-10-29.md`
   added (both also project docs on claude.ai); `definition/ladder.md` §2 gets a bin column: every
   measurement-constitution premise sorted as Newton's / measurement's / the dictionary's / input,

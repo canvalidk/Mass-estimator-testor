@@ -17,6 +17,12 @@ $\pi(m)=c/(c^2+m^2)$; by default $c=s=\sigma_F/\sigma_a$ (L3′, not yet ruled).
 
 ## Per reading
 
+**The frame (T36).** A reading lives in the stacked space of its force and acceleration
+components; the only declared metric on it is $\Sigma_i^{-1}$ (the axes carry N and m s⁻², so space
+supplies none). A mass $m$ is the $k_i$-dimensional subspace $\{(mN_i\alpha,N_i\alpha)\}$, the column
+space of $C(\phi)$ below; $H_i$ is the squared length of the reading's projection onto it, and
+$E_i-H_i(m)$ the residual. Everything in this section is that geometry written out.
+
 For every candidate slope on the whole projective line, $m=c\tan\phi$,
 $\phi\in(-\pi/2,\pi/2]$ (negative and infinite m included):
 

@@ -27,6 +27,7 @@ The VD appends commitments in order, and an entry is complete when appended. The
 
 Two halves to the deliverable, both in the tester's `definition/`:
 
+- **The frame** (T36, kept central, R-2026-10-29-3): a reading is a vector in the stacked force–acceleration space, whose only metric is the noise's Σᵢ⁻¹ (its axes share no unit); a mass is a subspace of that space; Hᵢ is the projection onto it and Eᵢ − Hᵢ the residual, with kᵢ dimensions per reading. η's disagreement and the readings' misalignment are two components of one residual.
 - **(A) The equation** — `equation.md`, currently ours30. Law: p(m) ∝ π(m) · exp(η Σᵢ gᵢ Hᵢ(m)/2), with Hᵢ the reading's explained energy in noise units on the whole projective line of slopes, gᵢ = min(1, κᵢ/Q₊ᵢ) its misfit weight at its best *positive* mass (κᵢ = kᵢ − ½), η = min(1, 𝓗/J) the Bartlett power from the series' own disagreement about m. π half-Cauchy with centre c = σ_F/σ_a by default (L3′, unruled). Point: the law's median (28 Oct, provisional, L23). Exact inputs (σ = 0) go to the three-way check; "undefined" lives only there, at exact 0/0.
 - **(B) The proof that nothing else does** — `proof.md`, eighteen steps from the type and premises to ours30, every step marked ruled / forced / forced-in-archive / input / provisional / gap. What is proved today: *on isotropic uncorrelated channels, any function meeting the premises as ruled, with L22, L23 and η's finite-N form taken as given, is ours30 up to the declared inputs.* Three things taken as given, two of them rulings.
 

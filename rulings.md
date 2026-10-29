@@ -424,6 +424,12 @@ read. Line numbers refer to the files as they stood that day.
 - **Words:** "listen to me very clearly. Moving the point on null readings was never a ruling I made. Never!"
 - **Source:** the conversation of 2026-10-29 (this session); docs/ours27/ours27_full_covariance_2026-09-27.md:253-258.
 
+### R-2026-10-29-3 — The reading-space form is kept central
+- **Decides:** The restart of 29 Oct (a reading as a vector in the stacked force–acceleration space, whose only metric is the noise's; a mass as a subspace of it; one residual) is kept as the frame the definition is written in: stated as T36, pointed at from `definition/equation.md` ("Per reading") and `definition/proof.md` (steps 1–5), and from GOAL.md. A decision about where the form lives and that it is central, not a ruling on T36's content, which is Claude's and checked by its tests.
+- **Replaces / closes:** —
+- **Words:** asked "isn't there a way to start over, with Einstein notation, treat the division instead as multiplication by the reciprocal vector, and have the metric emerge naturally? Then surely it would be much easier to get the noise info involved."; then "So how should we record this rewrite? It's far more elegant. So lets keep it centered in the project and available."
+- **Source:** the conversation of 2026-10-29 (this session); recorded directly.
+
 ---
 
 ## Owed
