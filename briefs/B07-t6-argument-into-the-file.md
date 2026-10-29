@@ -4,6 +4,9 @@
 **Item:** `definition/theorems/T06.md`; `definition/proof.md` step 3, hole G2. **Branch:** `codex/b07`.
 **Written:** 2026-10-29, Claude.
 
+**Frame (added 29 Oct):** `definition/theorems/T36.md` (2) is what $e^{H_i/2}$ is geometrically; cite it where it
+helps. Item 3 (the coefficient) is unaffected.
+
 ## The sorted fork
 
 None: the argument exists and is not in the file. T6 (the per-reading factor is the flat Gaussian

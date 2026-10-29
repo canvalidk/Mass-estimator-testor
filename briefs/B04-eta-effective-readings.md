@@ -7,6 +7,10 @@ Read `problems/O14.md`, T31 (`definition/theorems/T31.md`) and `bartlett_eta` in
 The current equation is ours30 (since 29 Oct: `ours30()` in `met/full.py`, `positivity: true` in the
 batch pipeline); "ours29's law" below means the tempered law as ours30 has it.
 
+**Frame (added 29 Oct):** `definition/theorems/T36.md`. The linear-Gaussian bias below is the count of T36 (4):
+fitting the one best line takes one dimension. On the exact-Σ branch η stays and this question is
+unchanged. Do not use T36's residual as a replacement for J: that is the other branch (B11) and an open sort.
+
 ## The sorted fork (Claude's, provisional)
 
 eta = min(1, curv / J), with curv = Σ cᵢ (cᵢ = −lᵢ'' at the series' best line) and

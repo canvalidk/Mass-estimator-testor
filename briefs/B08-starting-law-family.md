@@ -4,6 +4,9 @@
 **Item:** `problems/O6.md`, `definition/theorems/T28.md`; `definition/proof.md` step 6, hole G8.
 **Branch:** `codex/b08`. **Written:** 2026-10-29, Claude.
 
+**Not this brief's (added 29 Oct):** T36's parked item, the measure the noise metric induces on the mass
+subspace $L_i(m)$, which is where π's shape meets the metric. Leave it in T36.
+
 ## The sorted fork
 
 None: $\pi$'s shape is an input (R-2026-10-24-3), and the open question O6 (which member is the

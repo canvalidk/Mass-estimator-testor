@@ -4,6 +4,9 @@
 **Item:** `definition/theorems/T16.md, T17.md, T18.md, T19.md, T24.md, T25.md`; `definition/proof.md`
 hole G15. **Branch:** `codex/b06`. **Written:** 2026-10-29, Claude.
 
+**Frame (added 29 Oct):** `definition/theorems/T36.md` states the law's geometry ($H_i$ the projection onto the
+mass subspace in the noise metric, $E_i-H_i$ the residual). Use it where it shortens a proof; do not change T36.
+
 ## The sorted fork
 
 None: these are theorems about ours30's law whose files say "carried from the records; not yet
