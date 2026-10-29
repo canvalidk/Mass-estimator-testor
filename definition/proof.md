@@ -310,18 +310,18 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G10 | 1 | L22, scalar mass, as a clause of L1 | rule | O17 |
 | G11 | 1, 4 | $N_i$ as an input (L18's second clause); R3 unwritten, R5 provisional | rule; VD-Newton | L18; `ladder.md` |
 | G1 | 2 | T23: the Z route's derivation written out; the consistency route under tempered evidence | write; derive | O4 → brief B05 |
-| G2 | 3 | T6's argument moved from the O3 record into T06.md | write | T06 |
+| G2 | 3 | T6's argument moved from the O3 record into T06.md | write | T06 → brief B07 |
 | G17 | 3 | the 1D factor: "a reading declared $k=1$ is the 1D reading" needs stating as a premise or deriving from L8 and L18 | sort | T25, L8 |
-| G15 | 4, 5, 15, and the consistency theorems | 31 theorem files with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → brief B06 for T16–T19 |
-| G8 | 6 | the family $m^{-1}g(\ln m/c)$ derived in one place (L3, L4, properness) | write | O6, T28 |
+| G15 | 4, 5, 15, and the consistency theorems | 31 theorem files with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → briefs B06 (T16–T19, T24, T25), B10 (T5, T12, T13, T22) |
+| G8 | 6 | the family $m^{-1}g(\ln m/c)$ derived in one place (L3, L4, properness) | write | O6, T28 → brief B08 |
 | G9 | 6 | the centre: L3′'s first half, then $c=s$ | rule | O11 |
 | G13 | 7, 9 | why the weight is a power on $E_i$, and which premise makes bounded confidence a requirement | sort | T30, L21 |
 | G4 | 10 | $S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved | derive | brief B02 |
 | G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after B02 | O13 |
 | G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts |
-| G7 | 15 | T5 for the median: the law's swap symmetry, two lines | write | T05 |
+| G7 | 15 | T5 for the median: the law's swap symmetry, two lines | write | T05 → brief B10 |
 | G6 | 16 | L23 | rule | O2 |
-| G12 | 4 | the audit and the problem files still count L12, O5, T9–T10's freedoms as the definition's | write | `tools/audit.py`, O2, `ladder.md` |
+| G12 | 4 | the audit and the problem files still count L12, O5, T9–T10's freedoms as the definition's | write | `tools/audit.py`, O2, `ladder.md` → brief B09 |
 | G14 | — | agreement with experiment (`../TASK.md` §5) | derive (a study) | brief B01 |
 
 Not holes, but noted: step 5's reliance on L13's "independent across readings" (a declaration;
@@ -334,9 +334,10 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 - When a hole closes, its row moves to the step it belongs to as a status change, and the
   row is struck here (kept, so references resolve).
 - A new freedom found anywhere in the tester is a new row here before it is anything else.
-- Briefs for the *derive* rows are written from this table (`../briefs/`), so Codex works on
-  what the proof needs. The *write* rows are Claude's, in chain order. The *rule* rows are
-  Can's, listed in `../rulings.md`'s owed table.
+- Briefs for the *derive* rows, and for the *write* rows whose argument already exists, are
+  written from this table (`../briefs/`), so Codex works on what the proof needs. The *sort*
+  rows are Claude's: a sort is what a brief must have before it is written, so it cannot be
+  one. The *rule* rows are Can's, listed in `../rulings.md`'s owed table.
 - `docs/STATE.md`'s "Read first" points here after `ladder.md`.
 
 ## History

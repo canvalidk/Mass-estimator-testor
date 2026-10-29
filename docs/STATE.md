@@ -312,8 +312,10 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   from writing it: the switch to the median took T3, T4, T9–T11, T14, T15, T21, T29 and L12 off
   the load-bearing path; T5 now rests on the law's swap symmetry, not T4; η's finite-N form is
   the one unsorted freedom inside the law; T30's bounded-confidence requirement has no named
-  premise; the 1D candidate factor rests on an unstated premise. Briefs B05 (O4) and B06
-  (T16–T19 written out) cut from the holes table.
+  premise; the 1D candidate factor rests on an unstated premise. Briefs B05–B10 cut from the
+  holes table (O4; six law theorems; T6's argument; π's family; the demoted theorems'
+  bookkeeping; four short proofs). The three sorts (η at finite N, T30's requirement, the 1D
+  premise) stay Claude's.
 - 2026-10-29 (Claude): **the switch to ours30** (R-2026-10-29-1). `met/full.py`: `ours30()` is the
   definition, `ours29()` kept; the batch pipeline takes `positivity: true` (closed form for
   isotropic noise, a positive-slope search for per-axis noise, 1D included);
