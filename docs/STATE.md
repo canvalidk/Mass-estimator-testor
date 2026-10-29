@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-28, by Claude (O16: the robot budget checked). Update this page in
+**Last updated:** 2026-10-29, by Claude (`briefs/`: the queue for other agents). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -191,6 +191,8 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Other open items
 
+Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README.md`.
+
 | Item | Kind | One line |
 | --- | --- | --- |
 | O4 | proof | Gaussian noise forced under the tempered evidence |
@@ -298,6 +300,12 @@ argument or a ruling that records it as a parameter of an alternative mechanics.
 
 ## Log
 
+- 2026-10-29 (Claude): `briefs/` added, the queue for Codex runs: one sorted fork and a named
+  deliverable per file, each run on its own branch from `main`, checked and merged by Claude
+  (protocol in `briefs/README.md`; CLAUDE.md points there). Queued: B01 robot budget (O16),
+  B02 exact S_k (O13), B03 composition coverage as a preset (O2, Gaps), B04 J's bias against
+  effective readings (O14). Not queued: the T32 example numbers (inputs not recorded; where the
+  script goes is a ruling owed) and the three rotation xfails (a call about ZERO_BOUND's rule).
 - 2026-10-28 (night, Claude, pressure): O16 checked before briefing the slot. The floor is the
   static fit's zero-mean residual, not a shared offset; the static rows show a 1.15° force–IMU
   misalignment that does not close the 1.4% floor/no-floor gap; a constant offset (lever arm)

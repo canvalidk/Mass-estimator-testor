@@ -8,6 +8,7 @@ definition of inertial mass, together with its proof and every test of it.
 - `rulings.md`: every ruling of Can's, dated, verbatim, append-only
 - `met/`, `tests/`, `presets/`, `reference/`: the code, its tests, the studies
 - `docs/`: archive, the records the living layer was built from
+- `briefs/`: work queued for other agents (Codex), one sorted fork each; the protocol is its README
 - `legacy/`: earlier programs, history, never run
 
 **Read `TASK.md` first.** The task is to find the function which is unique: every fork
@@ -40,7 +41,9 @@ matter most:
 - **Runs by other agents (Codex and the like) get one sorted fork and a named deliverable:**
   a test, a counterexample, or a derivation, written into a named theorem or problem file.
   Not an open avenue to explore. Findings go into that file's attempts and one line of
-  STATE.md's log; study narration does not go on STATE.md's main page.
+  STATE.md's log; study narration does not go on STATE.md's main page. Such runs are queued
+  as files in `briefs/`, branch from `main` as `codex/<brief id>`, and are checked and merged
+  by Claude (`briefs/README.md`).
 - A theorem is "proved" only when its file names the test that checks it. Mark
   what is yours as yours; "forced" means forced from a named premise.
 
