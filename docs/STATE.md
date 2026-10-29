@@ -312,6 +312,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-29 (night, Claude): GOAL.md standing rule 6 and a line in CLAUDE.md, on Can's feedback: bring the standard
+  mathematics in before working a fork (T36 was textbook and he had to supply it).
 - 2026-10-29 (night, Claude): **T36 and R-2026-10-29-3.** On Can's "start over, with Einstein notation...
   have the metric emerge": a reading is a vector in the stacked force–acceleration space, whose only
   metric is the noise's (the axes share no unit; the 10 Oct record's parked §8.5); a mass is a

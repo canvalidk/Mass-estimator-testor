@@ -18,6 +18,7 @@
 3. The equation's existence is the one working assumption never dropped (TASK.md §4). It directs the search; it never discounts a proof. Bedrock premises (L1, L2, L3) are never dropped; if a strong premise has to go to save consistency, that is evidence against the assumption, say so.
 4. VD-docs holds decisions and is the output; the tester holds the work. Rulings are Can's, verbatim, dated. Mark what is Claude's as Claude's.
 5. Read `docs/existence_argument_audit_2026-10-29.md` before the textbook prior fires. Then `TASK.md`, then `definition/proof.md`.
+6. **Bring the standard mathematics in first** (Can, 29 Oct). Before working a fork, state it in the language it already has in standard mathematics and statistics (dual vectors and metrics, errors-in-variables geometry, information geometry, invariant priors, incidental parameters, …) and use what that theory already knows. Claude has not been doing this. On 29 Oct Can, four months into index notation, had to supply that dividing by a vector is pairing with a reciprocal covector and that a reading's metric is the noise's (T36): textbook, and known to Claude. On 10 Oct Claude had recorded the same idea as his "conjecture" and parked its multi-axis case. The project's vocabulary is for what is the project's own (the dictionary's premises); it is not a licence to rediscover known results from first principles. His words: "HOW can you not look at a problem about vector division and not think reciprocal vector multiplication"; "Did I teach you that covector multiplication is vector division?!"
 
 ---
 

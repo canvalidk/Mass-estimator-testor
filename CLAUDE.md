@@ -17,6 +17,10 @@ logarithm), and what survives, if it agrees with experiment, is the definition. 
 fork, sort it as forced, input, or wrong premise; do not pick by test score and do not
 ask Can to choose a side.
 
+**Bring your mathematics.** Before working a fork, say what it is called in standard mathematics or
+statistics and what that theory already knows; the project's vocabulary is not a reason to
+re-derive known results, and Can should not have to supply them (GOAL.md, standing rule 6).
+
 **Then `docs/STATE.md`**, then run `python tools/audit.py`. Do not reconstruct
 the state from the records; the living layer is the state.
 
