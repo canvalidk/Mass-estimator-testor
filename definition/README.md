@@ -10,6 +10,7 @@ proof. This folder is that deliverable as it stands, and nothing else:
 | `theorems/` | one file per theorem (T): statement, what it rests on, the test that checks it, status |
 | `equation.md` | the equation itself, stated once |
 | `ladder.md` | the version's commitments in order, what each removes from the body, and the status of every open freedom by that order (TASK.md §7) |
+| `proof.md` | the chain from the type and premises to the equation, every step with its status, and the holes typed (write / derive / sort / rule / VD-Newton): the queue |
 
 Open items live in `../problems/`, one file each. Rulings live in `../rulings.md`.
 

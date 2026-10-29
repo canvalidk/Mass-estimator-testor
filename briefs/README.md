@@ -12,9 +12,11 @@ in its problem file and does not come here. Can may add, reorder or strike any b
 | [B01](B01-robot-budget.md) | O16 | The robot's noise budget declared from calibration-side data, then the rerun | open |
 | [B02](B02-positivity-supremum.md) | O13 | Prove S_k = k − ½ and sup E[Q] = k − 1 (the sorted numerator rests on both) | open |
 | [B03](B03-composition-preset.md) | O2, Gaps | `tools/composition_coverage.py` as a `met run` preset kind, same numbers | open |
-| [B04](B04-eta-effective-readings.md) | O14 | Is J's finite-N bias a function of effective readings under ours29's law? | open |
+| [B04](B04-eta-effective-readings.md) | O14 | Is J's finite-N bias a function of effective readings under the law? | open |
+| [B05](B05-gaussian-consistency-route.md) | O4, T23 | The consistency route to the Gaussian model under the tempered evidence, written out | open |
+| [B06](B06-write-out-the-law-theorems.md) | T16–T19, T24, T25 | The proofs of six theorems about the law, written into their files | open |
 
-Order is priority. Several can run at once: each branches from `main` and writes to
+Order is priority. Since 29 Oct briefs are cut from the holes table in `../definition/proof.md` §5 (the *derive* rows); a brief names its hole. Several can run at once: each branches from `main` and writes to
 different files, except the one log line each adds to `docs/STATE.md`.
 
 ## For the agent running a brief

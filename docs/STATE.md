@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-29, by Claude (the switch to ours30, R-2026-10-29-1). Update this page in
+**Last updated:** 2026-10-29, by Claude (`definition/proof.md` started). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -30,8 +30,12 @@ definition**: there is no further mass behind the readout. F2 (ruled Sept) sets 
 standard: any choice the premises leave open is an alternative Newtonian mechanics,
 so the goal is uniqueness, not a good estimator.
 
-**Where it stands.** The problem is close to fully mapped: the premises, what they
-force, and what is left are in `definition/ladder.md`. O2 (the readout) is provisionally
+**Where it stands.** The equation is in good shape; the proof is not yet written. The chain
+from the type to ours30 is in `definition/proof.md` (29 Oct), eighteen steps: what is proved
+today is that on isotropic uncorrelated channels any function meeting the premises as ruled,
+with L22, L23 and η's finite-N form taken as given, is ours30 up to the declared inputs. Those
+three, plus 31 theorem files whose proofs still say "carried from the records", are the
+uniqueness half's work; the holes are typed there and that table is the queue. O2 (the readout) is provisionally
 resolved as of 28 Oct, pending Can's check of L23; O6 still needs a real idea, not more
 tests. The law's sign defect is closed by ours30 (29 Oct). Some premises are graded below bedrock or are
 provisional (L12 medium; L14 and L15 provisional), and some choices are natural
@@ -259,8 +263,10 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
    cannot decide is input), with the logarithm example. Everything below assumes it.
 1. This page.
 2. `../definition/ladder.md`: which commitment of the version removes which freedom, and
-   what is left. Then `../definition/equation.md`, then `../definition/premises.md` and
-   `../definition/theorems/README.md`: what is claimed and what it rests on.
+   what is left. Then `../definition/proof.md`: the chain from the type to ours30 with every
+   step's status and the holes, typed; it is the queue. Then `../definition/equation.md`,
+   `../definition/premises.md` and `../definition/theorems/README.md`: what is claimed and
+   what it rests on.
 3. `../problems/O2.md` and `../problems/O6.md`: the two items that need an idea.
 4. `../rulings.md`: what Can has decided, in his words.
 5. Then, only as the files above point at them: the lemma list d4
@@ -300,6 +306,14 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-29 (evening, Claude): `definition/proof.md` started: the chain from the type to ours30
+  in eighteen steps, each marked ruled / forced / forced (argument in archive) / input /
+  provisional / gap, and sixteen holes typed as write, derive, sort, rule or VD-Newton. Findings
+  from writing it: the switch to the median took T3, T4, T9–T11, T14, T15, T21, T29 and L12 off
+  the load-bearing path; T5 now rests on the law's swap symmetry, not T4; η's finite-N form is
+  the one unsorted freedom inside the law; T30's bounded-confidence requirement has no named
+  premise; the 1D candidate factor rests on an unstated premise. Briefs B05 (O4) and B06
+  (T16–T19 written out) cut from the holes table.
 - 2026-10-29 (Claude): **the switch to ours30** (R-2026-10-29-1). `met/full.py`: `ours30()` is the
   definition, `ours29()` kept; the batch pipeline takes `positivity: true` (closed form for
   isotropic noise, a positive-slope search for per-axis noise, 1D included);

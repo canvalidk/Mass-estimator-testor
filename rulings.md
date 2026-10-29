@@ -437,6 +437,8 @@ Can to check against the goal.
 | L13: confirm "the noise model is forced Gaussian; the data need not be" is compatible with the 27 Sept line | lemma list d4:126 |
 | L18, Nᵢ: is the declared candidate subspace an input, not learned? | lemma list d4:131; full-covariance record:150-163 |
 | O2: must the readout be continuous at the all-zero experiment? and is "the value is c" a ruling or a derivation a readout may fail? | undefined record:209-211; `problems/O2.md` |
+| L23, the parametrisation-free point (the median rests on it): check against the goal | `definition/proof.md` G6; `problems/O2.md` |
+| L22, isotropy of inertia, as a clause of L1 | `definition/proof.md` G10; `problems/O17.md` |
 | E10 / the authority ruling: is the estimator still "named, not supplied" now that composition forces the readout? R-2026-10-27-2 reads it: named at the headword, filled by a theorem of the later commitments. Confirm that closes it | ours26 sweep:253-256 |
 | The direction lines of the lemma and equation notes (VD-docs) | equation note d2:48; VD-docs catalog |
 | Whether the 7 Sept no-gate ruling's intent covers g(Q) tempering | readings-are-evidence record:277-279 |
