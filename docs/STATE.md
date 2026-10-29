@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-29, by Claude (`definition/proof.md` started). Update this page in
+**Last updated:** 2026-10-29, by Claude (R-2026-10-29-2: Z at the point was never ruled). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -154,8 +154,8 @@ supremum (brief B02); κ under a general covariance (unknown yet); ours30's cove
 
 ### O2: the readout (provisionally resolved 28 Oct; Can's check of L23 pending)
 
-The three requirements were composition at the point (L5, L14), Z at the point (L20) and a
-value, c, at the all-zero experiment. Sorted 28 Oct (`../problems/O2.md`): under L19 the
+The three requirements were composition at the point (L5, L14), Z at the point (never ruled:
+R-2026-10-29-2) and a value, c, at the all-zero experiment. Sorted 28 Oct (`../problems/O2.md`): under L19 the
 point can only be a functional of the law of m; no law functional meets L5 and L14 at the
 point on spread laws (Jensen; the law has no mean, T19); and on data no point meets either
 at finite noise, the cloud readout and the median alike (lumping 0.27% strong, 21–23% weak;
@@ -203,7 +203,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 | O9 | ruling | Is the window the criterion for one reading versus several? (proposed 10 Oct) |
 | O11 | ruling | Does the default centre reference the instruments only (L3′), and is the swap-of-declarations premise accepted, which gives c = s for one noise pair? Then the several-instrument and anisotropic cases |
 | O13 | ruling; sign fork closed (ours30, 29 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a: closed by R-2026-10-29-1 (g on Q₊, numerator k − ½; proof of the value: B02) |
-| O14 | proof | eta at small N: a correction that counts effective readings. The second noise channel from Q (26 Oct idea) is dead as proposed: biased low at every finite strength, and feeding it back moves the point (Codex, 27 Oct) |
+| O14 | proof | eta at small N: a correction that counts effective readings. The second noise channel from Q (26 Oct idea) is open with one objection: biased low at every finite strength (Codex, 27 Oct). Its other objection, moving the point on nulls, was against a ruling never made (R-2026-10-29-2) |
 | O15 | proof | Is the bounded null floor the best any law can do? |
 | O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
 | O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type. On the robot: the static rows show a real 1.15° force–IMU misalignment, but neither it nor a lever arm explains the miss, and the white budget is understated 2–19× by autocorrelated samples (28 Oct). Next: the budget from calibration-side data and the rerun (briefed), then the slot |
@@ -306,6 +306,12 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-29 (night, Claude): **R-2026-10-29-2.** Z at the point was never ruled: the 27 Sept
+  property is about the law, and the ours27 record had recorded his position as the opposite
+  ("the point prices it in"), "not yet as a ruling". The lemma list's extension was carried into
+  L20, O2's R-b and the pooled-scale verdict as if ruled. Corrected: L20's row, O2, O7, O14 (the
+  second noise channel reopened; the bias objection stands), proof.md steps 13, 16, 17 and §3.
+  The median's replacement of the cloud readout rests on L19 and the no-go, not on Z.
 - 2026-10-29 (evening, Claude): `definition/proof.md` started: the chain from the type to ours30
   in eighteen steps, each marked ruled / forced / forced (argument in archive) / input /
   provisional / gap, and sixteen holes typed as write, derive, sort, rule or VD-Newton. Findings

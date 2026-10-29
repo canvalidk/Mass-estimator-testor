@@ -195,7 +195,9 @@ against the numerical path (`tests/test_ours30.py::test_the_closed_forms_in_equa
 **Step 13. The point is a functional of the law.** L19: readings are joined only through $m$;
 any point that joins them through their signal sizes borrows (the cloud readout did, through the
 stacked length: `tests/test_readout_weight.py`). So the point is a function of the law of $m$ and the
-declared inputs. *forced* from L19; the argument is written in O2 (28 Oct, §1).
+declared inputs. *forced* from L19; the argument is written in O2 (28 Oct, §1). **Not from Z:**
+Z is ruled for the law only (R-2026-10-29-2); that the median does not move on null readings is a
+consequence of this step, not a requirement it was chosen to meet.
 
 **Step 14. No point meets composition at finite noise.** L5 and L14 as constraints on the point
 (masses add; inverse masses add) cannot both hold for any functional of spread laws (Jensen; the
@@ -215,7 +217,7 @@ theorem of T4, the ratio of means, which is no longer the point). *forced* from 
 the law's symmetry; the two-line argument is not written in T05.md. → part of G15 (G7).
 
 **Step 16. The median.** Among functionals of the law that commute with the swap, respect units
-(L3) and return $c$ on the all-zero experiment (Z, step 17), a family remains: every location
+(L3) and return $c$ on the all-zero experiment (step 17), a family remains: every location
 functional of $\ln m$ that commutes with negation (median, geometric mean, …). L23 (*proposed*,
 28 Oct: the point commutes with every increasing reparametrisation of mass, as T31 already
 requires of $\eta$) makes the point a quantile, and the swap makes it the median (T35, written
@@ -223,10 +225,11 @@ with its proof and test). *provisional on L23.* Without L23 the choice in that f
 "unknown yet" (R-2026-10-27-1), and the median is the default by T35's argument applied to the
 sub-family that is parametrisation-free. → gap G6 (ruling).
 
-**Step 17. The all-zero experiment returns $c$.** By Z the all-zero answer depends neither on $N$
-nor on the $\Sigma_i$; by L3 it is $kc$; by the swap $k=1$ (undefined-mass record §4). For the
-median this is immediate: the law is exactly $\pi$ (T24) and $\pi$'s median is $c$ (L4).
-*forced* from L20, L3, L4; `tests/test_point_composition.py::test_point_returns_the_centre_on_the_all_zero_experiment`.
+**Step 17. The all-zero experiment returns $c$.** For the median this is immediate: the all-zero
+law is exactly $\pi$ (T24: Z for the law) and $\pi$'s median is $c$ (L4). The older argument through
+Z at the point (the answer depends neither on $N$ nor on $\Sigma_i$, so by L3 it is $kc$ and by the
+swap $k=1$; undefined-mass record §4) assumed point-level Z, which is not ruled (R-2026-10-29-2),
+and is not needed. *forced* from L20 (law), L4, step 13; `tests/test_point_composition.py::test_point_returns_the_centre_on_the_all_zero_experiment`.
 
 **Step 18. The interval.** The quoted interval is the law's central 95% with $\eta$ applied; the
 raw law's beside it (*ruled* R-2026-09-30-7). The level 95% is a reporting convention, not part
@@ -250,7 +253,7 @@ of the definition: the law is the output and the interval summarises it. *ruled.
 | L17 (same candidate law, same mass) | the point is a law functional (step 13) | by construction since 28 Oct |
 | L18 (declared inputs) | used as declared | by construction |
 | L19 (no borrowing) | nothing crosses readings but $m$; $\eta$ reads disagreement only | `tests/test_readout_weight.py` (the old readout's failure), step 13 |
-| L20 (Z: law and point) | T24; the median is a law functional | `tests/test_full.py::test_a_zero_reading_leaves_the_law_alone_and_moves_the_readout`; `tests/test_point_composition.py::test_point_is_the_median_and_meets_z_exactly` |
+| L20 (Z, for the law) | T24. (The median also does not move on null readings, as a consequence of step 13; point-level Z is not ruled, R-2026-10-29-2, O7) | `tests/test_full.py::test_a_zero_reading_leaves_the_law_alone_and_moves_the_readout`; `tests/test_point_composition.py::test_point_is_the_median_and_meets_z_exactly` |
 | L21 (evidence, just less) | $0<g\le1$, decreasing in $Q_+$ | `tests/test_sign_numerator.py::test_no_gate_*` |
 | L22 (scalar mass) | the candidates share one direction | by construction (T2) |
 | L23 (parametrisation-free point) | the median | `tests/test_point_composition.py::test_t35_*` |
@@ -343,3 +346,4 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 ## History
 
 - 2026-10-29: created (Claude). Eighteen steps, sixteen holes.
+- 2026-10-29 (later): point-level Z removed as a premise (R-2026-10-29-2); steps 13, 16, 17 and §3 reworded.

@@ -125,7 +125,7 @@ read. Line numbers refer to the files as they stood that day.
 - **Source:** docs/ours27/ours27_full_covariance_2026-09-27.md:135-141, 295-299
 
 ### R-2026-09-27-5 — Z: a reading that adds no information must not change the answer (L20)
-- **Decides:** L20 (property Z), ruled as a property; the lemma list applies it to the law and to the point (scope ruling owed, O7).
+- **Decides:** L20 (property Z), ruled as a property **of the law**. The lemma list extended it to the point; that extension was never his (see R-2026-10-29-2). Scope ruling owed (O7).
 - **Replaces / closes:** —
 - **Words:** "if you get no additional information from the other dimensions, the answer must not change."
 - **Source:** docs/ours27/ours27_full_covariance_2026-09-27.md:253-258; docs/vd-docs-context/mass_estimator_lemmas_2026-10-10.md:133
@@ -418,6 +418,12 @@ read. Line numbers refer to the files as they stood that day.
 - **Words:** "Ok lets do the switch ours30. That involves all the stuff, writing the python, making an explainer document for the algebraic equation, setting up the file space... Don't go beyond switching to it though all the stuff needed to switch to it." Earlier the same day, on the misfit itself (Claude had found the 7 Sept ruling applied): "damn that was like that from the beginning?"
 - **Source:** the conversation of 2026-10-29 (this session); recorded directly.
 
+### R-2026-10-29-2 — Z at the point was never ruled
+- **Decides:** The 27 Sept property Z is about the law. Its extension to the point ("applies to the law and to the point", lemma list d4 row L20; O2's requirement R-b "ruled 27 Sept") was the lemma list's, not his; the ours27 record §4 had recorded his position the same night as the opposite ("the point prices it in") and "not yet as a ruling". Everything that treated point-level Z as ruled is corrected: L20's row, O2's R-b, the pooled-scale verdict in O14 (its null-point objection no longer counts; its bias objection stands), `proof.md` step 13's and §3's wording. Whether Z covers the point at all is part of O7, owed.
+- **Replaces / closes:** The point clause of L20 as written in d4 and carried into `definition/premises.md` on 24 Oct.
+- **Words:** "listen to me very clearly. Moving the point on null readings was never a ruling I made. Never!"
+- **Source:** the conversation of 2026-10-29 (this session); docs/ours27/ours27_full_covariance_2026-09-27.md:253-258.
+
 ---
 
 ## Owed
@@ -430,7 +436,7 @@ Can to check against the goal.
 | What | Where it is asked |
 | --- | --- |
 | O6, π's shape: forced by a property, or a parameter of an alternative mechanics? | lemma list d4:197-200, 211; `problems/O6.md` |
-| O7, Z's scope: whole null readings only, or zeros beside a signal? | lemma list d4:133, 212; `problems/O7.md` |
+| O7, Z's scope: whole null readings only, or zeros beside a signal? And does Z cover the point at all (R-2026-10-29-2: never ruled; his 27 Sept position was that the point prices a null reading in)? | lemma list d4:133, 212; `problems/O7.md` |
 | O9, the window criterion for one reading versus several (proposed 10 Oct) | lemma list d4:214; units-and-axes record:509-514; `problems/O9.md` |
 | O11 / L3′: the swap-of-declarations premise and L3′'s first half (c = s for one noise pair); then several instruments and anisotropic noise | lemma list d4:114, 189, 216; `problems/O11.md` |
 | O13: is anything more owed for readings that contradict each other? | lemma list d4:218; `problems/O13.md` |
