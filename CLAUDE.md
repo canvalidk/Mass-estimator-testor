@@ -57,7 +57,7 @@ python -m met list                       # presets and the question each answers
 python -m met run presets/ours29_noise_vs_signal.yaml --replicates 50   # --workers N|max: cells side by side
 ```
 
-`docs/STATE.md` has a five-line example that calls ours29 from Python.
+`docs/STATE.md` has a five-line example that calls the current equation, ours30, from Python.
 
 The golden-output tests in `tests/test_reference_outputs.py` compare printed numbers,
 so a different numpy or CPU can move a value that is only rounding noise. Printed

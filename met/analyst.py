@@ -368,6 +368,11 @@ def sandwich_weight(readings, law, combine):
 #   misfit (L21, T30)  each reading's log-likelihood is multiplied by g_i = g(Q_i), Q_i its off-line
 #                      misfit at its own best line, nu = d - 1 (the reading's codirectionality
 #                      conditions):  kink  g = min(1, nu/Q),  smooth  g = 1/(1 + Q/nu).  g = 1 in 1D.
+#   positivity: true   ours30 (29 October, R-2026-10-29-1): the misfit is taken at the reading's best
+#                      POSITIVE mass, Q_+ (T32: lambda_min when x.y > 0, else min(|x|^2, |y|^2)), and
+#                      the numerator is kappa = d - 1/2 (L8's d - 1 conditions and L1's sign, which
+#                      noise decides half the time when one channel has no signal). Not inert in 1D:
+#                      an anti-aligned 1D reading has Q_+ > 0.
 #   bartlett           the summed (misfit-weighted) log-likelihood is raised to
 #                          eta = min(1, curv / J),  curv = -sum_i l_i'',  J = sum_i l_i'^2,
 #                      at the series' best line on the WHOLE projective line of slopes (negative and
@@ -424,12 +429,47 @@ def _common_ratio(readings):
     return readings.isotropic and bool(np.all(readings.s == readings.s[:, :1]))
 
 
+def _positive_misfit_per_axis(readings):
+    """Q_+ per reading (B, N) with per-axis noise: each reading's misfit minimised over positive
+    slopes, phi in [0, pi/2] with both ends (m = 0 and m = infinity as limits)."""
+    b, n, _ = readings.force.shape
+    s0 = np.exp(readings.search_center())
+    q = np.empty((b, n))
+    grid = np.linspace(0.0, np.pi / 2, _PHI_COARSE // 2 + 1)
+    step = grid[1] - grid[0]
+    for i in range(b):
+        one = readings.subset(slice(i, i + 1))
+        vals = _slope_misfit(one, grid[None, :], s0[i:i + 1])[0]              # (N, K)
+        j = np.argmin(vals, axis=1)
+        lo = np.maximum(grid[j] - step, 0.0)[None, :]
+        hi = np.minimum(grid[j] + step, np.pi / 2)[None, :]
+        best = _golden_max(lambda t: -_slope_misfit_each(one, t, s0[i:i + 1]), lo, hi)
+        q[i] = np.minimum(_slope_misfit_each(one, best, s0[i:i + 1])[0], vals.min(axis=1))
+    return q
+
+
 def misfit_weights(readings, combine):
-    """g_i per reading (B, N), from each reading's own off-line misfit (cached)."""
+    """g_i per reading (B, N), from each reading's own off-line misfit (cached). With
+    combine["positivity"] (ours30) the misfit is Q_+ and the numerator d - 1/2."""
     key = ("misfit", id(combine))
     if key in readings.series_data:
         return readings.series_data[key]
     b, n, d = readings.force.shape
+    if combine.get("positivity"):
+        kappa = d - 0.5
+        if readings.isotropic:
+            P, Q, D = readings.P, readings.Q, readings.D
+            q = np.where(D > 0, 0.5 * (P + Q - np.sqrt((Q - P) ** 2 + 4 * D * D)), np.minimum(P, Q))
+        else:
+            q = _positive_misfit_per_axis(readings)
+        q = np.maximum(q, 0.0)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            if combine["misfit"] == "kink":
+                g = np.where(q > kappa, kappa / q, 1.0)
+            else:
+                g = 1.0 / (1.0 + q / kappa)
+        readings.series_data[key] = g
+        return g
     nu = d - 1
     if nu == 0:
         g = np.ones((b, n))
@@ -1156,7 +1196,7 @@ class Estimator:
                 raise ValueError(f"{where}: {error}") from None
             return
         allowed = {"rule", "prior"} | ({"coordinate"} if rule == "posterior_product" else set())
-        optional = {"calibrate", "misfit"} if rule == "likelihood_product" else set()
+        optional = {"calibrate", "misfit", "positivity"} if rule == "likelihood_product" else set()
         if not (allowed <= set(combine) <= allowed | optional):
             raise ValueError(f"{where}: combine for {rule} needs exactly {sorted(allowed)}"
                              + (f" (optional: {sorted(optional)})" if optional else ""))
@@ -1164,6 +1204,8 @@ class Estimator:
             raise ValueError(f"{where}: calibrate must be one of {CALIBRATIONS}")
         if "misfit" in combine and combine["misfit"] not in MISFITS:
             raise ValueError(f"{where}: misfit must be one of {MISFITS}")
+        if "positivity" in combine and (not isinstance(combine["positivity"], bool) or "misfit" not in combine):
+            raise ValueError(f"{where}: positivity must be true or false, and needs misfit (ours30)")
         if rule == "posterior_product" and combine["coordinate"] not in COORDINATES:
             raise ValueError(f"{where}: coordinate must be one of {COORDINATES}")
         try:

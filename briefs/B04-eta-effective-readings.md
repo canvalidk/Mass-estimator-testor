@@ -4,6 +4,8 @@
 **Item:** `problems/O14.md`. **Branch:** `codex/b04`. **Written:** 2026-10-29, Claude.
 
 Read `problems/O14.md`, T31 (`definition/theorems/T31.md`) and `bartlett_eta` in `met/full.py`.
+The current equation is ours30 (since 29 Oct: `ours30()` in `met/full.py`, `positivity: true` in the
+batch pipeline); "ours29's law" below means the tempered law as ours30 has it.
 
 ## The sorted fork (Claude's, provisional)
 
@@ -23,7 +25,7 @@ That is the question.
 ## Deliverable
 
 1. The linear-Gaussian identity as a test, by exact moments, not sampling.
-2. Under ours29's per-reading terms (`met/full.py`; isotropic noise; k = 1, 2, 3; c = s;
+2. Under ours30's per-reading terms (`met/full.py`; isotropic noise; k = 1, 2, 3; c = s;
    signal sizes from pure noise to strong; N = 5, 20, 100, 400), seeded: E[J] / C against
    1 − 1/n_eff, with Monte Carlo standard errors. Where does the identity hold, and how does it
    fail at weak signal? Report the spread of J / C as well as its mean (J is heavy-tailed, O14).
@@ -36,7 +38,7 @@ That is the question.
 
 ## Do not
 
-- Change `bartlett_eta`, `ours29` or anything in `met/full.py`: eta′ lives in the study module.
+- Change `bartlett_eta`, `ours29`, `ours30` or anything in `met/full.py`: eta′ lives in the study module.
 - Adopt eta′, or state the coverage table as a verdict on it. The question is whether the
   identity holds; coverage is reported beside it.
 - Touch the pooled-scale branch (O14's 27 Oct section) or O7.

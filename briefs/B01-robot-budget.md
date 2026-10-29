@@ -31,8 +31,10 @@ input, not the definition. (The data are Skrede's public dataset, Zenodo 10.5281
      in every reading": it is the static fit's zero-mean residual (O16, 28 Oct, item 1).
 2. `tools/robot_run.py`: a flag selecting the declaration, and one table over runs
    {1-baseline, 2-vibrations} × windows {0.05, 0.2, 1 s} × white {as now, autocorrelated} ×
-   {floor, no floor} × rotation {nominal R_FA, static R}. Per row: N, median, 95% interval,
-   covers 0.9323, eta, min and median g.
+   {floor, no floor} × rotation {nominal R_FA, static R}, under the current equation, ours30
+   (`tools/robot_run.py`'s default since 29 Oct). Per row: N, median, 95% interval, covers 0.9323,
+   eta, min and median g. The numbers quoted in the questions below are ours29's; give ours29's
+   median beside each row so they stay comparable.
 3. Tests: the tau estimator on a synthetic AR(1) with known tau = (1+ρ)/(1−ρ); the new white
    part equals the old when tau = 1; the rotation fit recovers an injected rotation on synthetic
    static rows. Existing robot tests unchanged and passing; strict xfails left as they are.

@@ -1,4 +1,5 @@
-"""ours29 in the full input type: any error covariance per reading, a declared subspace.
+"""The definition (ours30) in the full input type: any error covariance per reading, a declared
+subspace. ours29, the equation before it, is kept so recorded numbers reproduce.
 
 The rest of met/ is a batch pipeline built on closed forms for isotropic and per-axis
 noise. This module is the definition's full type (definition/type.md) for one series:
@@ -12,16 +13,19 @@ noise. This module is the definition's full type (definition/type.md) for one se
   There is no default centre. c = s = sigma_F / sigma_a is the principal branch for one
   noise pair (L3', O11); `instrument_ratio` computes it where it is defined.
 
-The equation (definition/equation.md; the ours29 record, section 3):
+The equation (definition/equation.md; ours30, R-2026-10-29-1):
 
   per reading, on the whole projective line m = c tan(phi):
      C(phi) = (c sin(phi) N; cos(phi) N),  G = C^T Sigma^-1 C,  b = C^T Sigma^-1 y,
      H(phi) = b^T G^-1 b, E = whitened energy of y in the span of (N 0; 0 N),
-     Q = E - max H,  nu = k - 1,  g = min(1, nu / Q),  l(phi) = g H(phi) / 2
+     Q_+ = E - max of H over positive mass (phi in [0, pi/2]),  kappa = k - 1/2,
+     g = min(1, kappa / Q_+),  l(phi) = g H(phi) / 2
+  (ours29: Q = E - max of H over the whole line, nu = k - 1, g = min(1, nu / Q).)
   series: phi_hat = argmax sum l;  curv = -sum l'';  J = sum l'^2  (at phi_hat)
      eta = min(1, curv / J), eta = 1 if J = 0 or curv <= 0
   law:  p(m) ~ pi(m) exp(eta sum l(m)) on m > 0
-  readout: m_hat = int m A p / int A p,  A(m) = E[ |stacked a*| | m ],
+  point: the law's median (28 Oct, provisional; O2, T35)
+  cloud readout (kept for comparison): m_hat = int m A p / int A p,  A(m) = E[ |stacked a*| | m ],
      each reading's candidate alpha | m ~ N(G_m^-1 b_m, G_m^-1) with C_m = (m N; N).
 
 Differences from reference/noise_vs_signal/ours29_reference.py, all numerical:
@@ -32,7 +36,7 @@ Differences from reference/noise_vs_signal/ours29_reference.py, all numerical:
   - the readout's E|X| integral carries its two tails analytically.
 Pass `grid=(half_width, nodes)` to use the reference's fixed grid (log c +- half_width).
 
-Exact inputs (sigma = 0) do not enter `ours29`; `exact_mass` is the exact branch (T1).
+Exact inputs (sigma = 0) do not enter `ours30`; `exact_mass` is the exact branch (T1).
 """
 from dataclasses import dataclass, field
 import math
@@ -387,13 +391,13 @@ def _stacked_mean_length(m, readings):
 
 def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", readout=True, grid=None,
            positivity=False):
-    """The definition of mass on one series, in the full type.
+    """ours29, the equation state of 30 Sept to 29 Oct, on one series in the full type. Kept so the
+    recorded numbers reproduce; the definition is `ours30` (the same function with positivity=True).
 
     readings: a list of Reading. c: the starting law's centre (the input pi; no default).
     misfit=False gives g_i = 1; calibrate=False gives eta = 1 (the raw law); both off is ours27.
     positivity=True weighs each reading by its misfit over positive mass, g_i = min(1, kappa/Q_plus)
-    with kappa = k - 1/2 (O13, 29 Oct; Claude's sort, provisional, not the default): the candidate
-    for the next equation state. eta is unchanged (T31: whole line).
+    with kappa = k - 1/2: that is ours30 (R-2026-10-29-1). eta is unchanged (T31: whole line).
     grid: None for the adaptive grid, or (half_width, nodes) for log c +- half_width.
 
     Returns a dict: point, median, interval (95%, quoted: eta applied), raw_interval (eta = 1),
@@ -440,6 +444,24 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
         out["readout"] = float((m * a * p).sum() / (a * p).sum())
         out["A"] = a
     return out
+
+
+def ours30(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", readout=True, grid=None):
+    """The definition of mass on one series, in the full type: ours30 (R-2026-10-29-1).
+
+    Each reading is weighted by its misfit at the best positive mass, g_i = min(1, kappa_i / Q_plus_i),
+    kappa_i = k_i - 1/2 (L1's m > 0 counted with L8's k - 1 conditions; O13, 29 Oct). Everything else
+    is ours29's: eta on the whole projective line (T31), the law on m > 0, the point = the law's median.
+
+    readings: a list of Reading. c: the starting law's centre (the input pi; no default).
+    misfit=False gives g_i = 1; calibrate=False gives eta = 1 (the raw law).
+    grid: None for the adaptive grid, or (half_width, nodes) for log c +- half_width.
+
+    Returns a dict: point (the definition's point, the law's median), median, interval (95%, quoted:
+    eta applied), raw_interval (eta = 1), eta, g, Q, Q_plus, phi_hat, law (normalised weights on lm),
+    lm, and, with readout=True, the cloud readout and A (kept for comparison, not the point)."""
+    return ours29(readings, c, misfit=misfit, calibrate=calibrate, misfit_form=misfit_form,
+                  readout=readout, grid=grid, positivity=True)
 
 
 def exact_mass(force, acceleration, rtol=1e-12):

@@ -13,7 +13,7 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T5](theorems/T05.md) | Swap, readout half | T4 | yes |
 | [T6](theorems/T06.md) | Push weight | L8 (conditional form), L9, L10, L7, **T7** (sweep E2) | partial |
 | [T7](theorems/T07.md) | Prior once | L11 | none yet |
-| [T8](theorems/T08.md) | The law (ours29) | L1, L13, T6, T7, L10, L21, T31 | yes |
+| [T8](theorems/T08.md) | The law (ours29; ours30 since 29 Oct) | L1, L13, T6, T7, L10, L21, T31 | yes |
 | [T9](theorems/T09.md) | Stacked size | L12, L18 | yes |
 | [T10](theorems/T10.md) | The readout | T4, T8, T9 | yes |
 | [T11](theorems/T11.md) | Sufficiency | T8, T9, T6 | yes |

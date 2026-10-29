@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-29, by Claude (T31 checked under the 7 Sept ruling). Update this page in
+**Last updated:** 2026-10-29, by Claude (the switch to ours30, R-2026-10-29-1). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -33,24 +33,25 @@ so the goal is uniqueness, not a good estimator.
 **Where it stands.** The problem is close to fully mapped: the premises, what they
 force, and what is left are in `definition/ladder.md`. O2 (the readout) is provisionally
 resolved as of 28 Oct, pending Can's check of L23; O6 still needs a real idea, not more
-tests. The law's sign defect (below) has a forced direction and an unfinished numerator. Some premises are graded below bedrock or are
+tests. The law's sign defect is closed by ours30 (29 Oct). Some premises are graded below bedrock or are
 provisional (L12 medium; L14 and L15 provisional), and some choices are natural
-rather than forced (eta's cap at 1 and its power form at finite N; κ = ν is fixed by
-meaning, not by a property). The rest is rulings Can owes and proofs, some routine
+rather than forced (eta's cap at 1 and its power form at finite N). The misfit weight's
+numerator κ = k − ½ is fixed by meaning (O12, read size-free); its value awaits a proof (brief B02). The rest is rulings Can owes and proofs, some routine
 (O4, O5) and some open research (O14, O15).
 
-## The current equation: ours29
+## The current equation: ours30 (since 29 Oct, R-2026-10-29-1)
 
 Inputs per reading i: measured force and acceleration (any values, including zero),
 an error covariance with every declared sigma > 0, a declared candidate subspace,
 and (since 10 Oct) a window. Declared once: the starting law pi with centre c.
 
 - **Law.** p(m) ∝ pi(m) · exp( eta · Σᵢ gᵢ Hᵢ(m) / 2 ), where Hᵢ is reading i's
-  explained energy in noise units, gᵢ = min(1, ν/Qᵢ) weights it by its own off-line
-  misfit Qᵢ (ν = kᵢ − 1), and eta = min(1, curvature / J) is the Bartlett power, with
-  J the sum of the readings' squared scores, both taken at the series' best line on
-  the whole projective line of slopes (eta = 1 when J = 0). It measures the series'
-  own disagreement about m.
+  explained energy in noise units, gᵢ = min(1, κᵢ/Q₊ᵢ) weights it by its own misfit at its
+  best **positive** mass Q₊ᵢ (κᵢ = kᵢ − ½), and eta = min(1, curvature / J) is the Bartlett
+  power, with J the sum of the readings' squared scores, both taken at the series' best line
+  on the whole projective line of slopes (eta = 1 when J = 0). It measures the series'
+  own disagreement about m. ours29, the state before (30 Sept to 29 Oct), had gᵢ = min(1, ν/Qᵢ),
+  ν = kᵢ − 1, on the whole-line misfit Qᵢ, which cannot see the sign of F·a.
 - **Starting law.** Half-Cauchy, pi(m) = c / (c² + m²), with c = s = sigma_F / sigma_a
   by default (L3′, not yet ruled).
 - **Point (since 28 Oct, provisional).** m̂ is the law's median (T35; L23 proposed;
@@ -60,9 +61,10 @@ and (since 10 Oct) a window. Declared once: the starting law pi with centre c.
 - **Exact inputs** (sigma = 0) go to a separate three-way check: one mass, no mass,
   every mass. "Undefined" exists only there, at exact 0/0.
 
-Defining record: `noise_vs_signal/ours29_misfit_weight_and_bartlett_power_2026-09-30.md`.
-Premises and theorems: `vd-docs-context/mass_estimator_lemmas_2026-10-10.md` (T8 is
-the law, T10 the readout).
+Stated in `../definition/equation.md`; the explainer for VD-docs is equation note d3
+(`../outbox/VD-docs/`). ours29's defining record:
+`noise_vs_signal/ours29_misfit_weight_and_bartlett_power_2026-09-30.md`. Premises and theorems:
+`../definition/` (split from the lemma list d4).
 
 **Run it.** In `met/` (isotropic or per-axis noise only), from the repo root:
 
@@ -70,19 +72,19 @@ the law, T10 the readout).
 from met.analyst import estimate
 
 LAW = {"reference": "cartesian2", "nuisance": "radius"}
-OURS29 = {"rule": "likelihood_product",
+OURS30 = {"rule": "likelihood_product",
           "prior": [{"uniform_angle": {"center": "first_reading"}}],
-          "misfit": "kink", "calibrate": "bartlett"}
+          "misfit": "kink", "positivity": True, "calibrate": "bartlett"}
 
 # four 3D readings that disagree about m; sigma_F = 0.2 N, sigma_a = 0.1 m/s^2
 F = [[4.0, 0.3, 0.0], [6.1, -0.2, 0.1], [1.0, 0.8, 0.0], [3.0, 0.1, -0.2]]
 a = [[2.0, 0.0, 0.1], [2.0, 0.1, 0.0], [0.6, -0.4, 0.0], [1.0, 0.0, 0.0]]
-estimate(F, a, 0.2, 0.1, ["ratio_of_means_rss", "median", "interval_95"],
-         law=LAW, combine=OURS29)
-# ratio_of_means_rss 2.6454, median 2.6454, interval_95 [2.0914, 3.4009]
-# without misfit and calibrate: 2.6262, 2.6262, [2.4203, 2.8549];
+estimate(F, a, 0.2, 0.1, ["median", "interval_95"], law=LAW, combine=OURS30)
+# median 2.6451, interval_95 [2.0911, 3.4004]   (the third reading: g 0.079; eta 0.12)
+# ours29 (no positivity): 2.6454, [2.0914, 3.4009] (g 0.064)
+# without misfit and calibrate: 2.6262, [2.4203, 2.8549];
 # the tempering widens the interval because the readings disagree
-# all-zero readings return s = 0.2 / 0.1 = 2 (checked 2026-10-24)
+# all-zero readings return s = 0.2 / 0.1 = 2 (checked 2026-10-24 and 2026-10-29)
 ```
 
 The returned dict also carries an `unresolved` flag.
@@ -91,9 +93,10 @@ The returned dict also carries an `unresolved` flag.
 is `met/full.py`, for one series:
 
 ```python
-from met.full import Reading, isotropic, ours29
-r = ours29([Reading(F_i, a_i, Sigma_i) for ...], c=2.0)   # c is required: pi is an input
-r["readout"], r["median"], r["interval"], r["raw_interval"], r["eta"], r["g"]
+from met.full import Reading, isotropic, ours30
+r = ours30([Reading(F_i, a_i, Sigma_i) for ...], c=2.0)   # c is required: pi is an input
+r["point"], r["interval"], r["raw_interval"], r["eta"], r["g"], r["Q_plus"]
+# ours29(...) gives the state before 29 Oct; r["readout"] is the cloud readout, kept for comparison
 ```
 
 The window is carried on each `Reading` but not used by the equation (T33). The batch
@@ -113,10 +116,11 @@ cloud readout R(c) ≠ c). T32 carries the positive-domain bounds.
 re-derived (matches the lab's `robot_cart.json` to 1e-12), both channels averaged over one
 window each, IMU lag 8416 µs, budget = steady-state variance over the window's sample count
 plus the calibration residual as a floor (Claude's declaration). `python tools/robot_run.py`
-prints the table. On 1-baseline with 0.2 s windows ours29 gives median 0.9213,
-[0.9137, 0.9290], against the static calibration mass 0.9323 (strict xfail); static
-orientations held out give 0.9302 and 0.9320 and cover it. Why the dynamic runs miss is
-O16 and the two facts recorded there.
+prints the table (ours30; `--equation ours29` for the table before 29 Oct). On 1-baseline
+with 0.2 s windows ours30 gives median 0.9213, [0.9145, 0.9282] (ours29: 0.9213,
+[0.9137, 0.9290]), against the static calibration mass 0.9323 (strict xfail under both);
+static orientations held out give 0.9302 and 0.9320 and cover it. Why the dynamic runs
+miss is O16: the declared budget is not yet right (28 Oct; brief B01).
 
 ## Where the truth lives
 
@@ -134,28 +138,15 @@ The canonical copies of the decision records and the two notes live in VD-docs
 
 ## The breakthroughs still needed
 
-### Before them: ours29 is blind to the sign of F·a (sorted 27 Oct; numerator sorted 29 Oct; not ruled)
+### Closed 29 Oct: the sign of F·a (ours30)
 
-The misfit $Q$ (T32) is taken on the whole projective line, so an anti-parallel pair has
-$Q=0$ and full weight: (2,0)/(−1,0) gets the same $Q$, $g$ and evidence span as (2,0)/(1,0),
-and T30's bounded-confidence requirement fails there (`tests/test_sign_fork.py`, strict
-xfail). Claude's sort: a wrong premise, **L8's count**, which lists a reading's $k-1$
-codirectionality conditions and omits L1's one inequality $\mathbf F^\ast\cdot\mathbf a^\ast>0$.
-Candidate repair, unproven: $g=\min(1,\kappa_k/Q_+)$. The proposed constants $k-1$ for
-$k\ge2$ and $(1-2/\pi)/2$ in 1D give a bounded anti-parallel tail, but **are not the
-supremum of expected misfit over all allowed signal strengths and mass/noise ratios**.
-The finite counterexample, exact null moments and incompatibility with unchanged acute
-weights are in `../problems/O13.md` (27 Oct pressure check), checked by
-`tests/test_positivity_candidate.py`.
-
-**29 Oct, the numerator (Claude, provisional):** g on $Q_+$ (L21's "misfit at the best mass",
-with L1), and $\kappa_k=k-\tfrac12$: O12's ruled meaning (the declared noise's expected misfit)
-read without a size (L10), which is the supremum over sizes. That supremum is k − 1 for the
-sign-blind Q, the ruled ν, and k − ½ for $Q_+$ (numerical; proof is brief B02). Acute pairs are
-then discounted less, by (k − ½)/(k − 1), which raises efficiency at strong signal (0.915 → 0.954
-at k = 2). In `met/full.py` as `ours29(..., positivity=True)`, not the default, because it
-changes the ruled ν = k − 1: **Can's check is owed** (O13, 29 Oct). With it, this is ours30's law.
-
+ours29's misfit Q was taken on the whole projective line, so an anti-parallel pair had $Q=0$ and
+full weight, and T30's bounded-confidence requirement failed there (`tests/test_sign_fork.py`,
+strict xfail, kept as ours29's record). Sorted 27 Oct as a wrong premise (L8's count omits L1's
+inequality); the misfit is the smallest error under the law, $m>0$ included (R-2026-09-07-1), so
+it is $Q_+$; the numerator is O12's meaning read without a size, $k-\tfrac12$ (O13, 29 Oct).
+**R-2026-10-29-1** switched the definition to ours30. Owed: the proof that $k-\tfrac12$ is the
+supremum (brief B02); κ under a general covariance (unknown yet); ours30's coverage, not yet measured.
 
 ### O2: the readout (provisionally resolved 28 Oct; Can's check of L23 pending)
 
@@ -207,7 +198,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 | O7 | ruling; part sorted as input (27 Oct) | Does Z cover zeros beside a signal? Separately: Z for mass and Z for noise split by whether Σ is declared exact or up to a scale |
 | O9 | ruling | Is the window the criterion for one reading versus several? (proposed 10 Oct) |
 | O11 | ruling | Does the default centre reference the instruments only (L3′), and is the swap-of-declarations premise accepted, which gives c = s for one noise pair? Then the several-instrument and anisotropic cases |
-| O13 | ruling; sign fork sorted (27 Oct), numerator sorted (29 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a: a wrong premise (L8); the numerator k − ½ on Q₊, candidate in met/full.py, Can's check owed |
+| O13 | ruling; sign fork closed (ours30, 29 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a: closed by R-2026-10-29-1 (g on Q₊, numerator k − ½; proof of the value: B02) |
 | O14 | proof | eta at small N: a correction that counts effective readings. The second noise channel from Q (26 Oct idea) is dead as proposed: biased low at every finite strength, and feeding it back moves the point (Codex, 27 Oct) |
 | O15 | proof | Is the bounded null floor the best any law can do? |
 | O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
@@ -231,14 +222,15 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   step is a derivation), T21 (a derivation; its representation step is O5) and T27 (needs a
   declared world of signals, which ours29 does not have). Their files say why.
 - L3 (units covariance) is used by T14's argument but no theorem's From line cites it.
-- The current equation note in VD-docs states ours25b, four equation states behind
-  (ours26 to ours29), and its many-reading step rests on the strong form of axis
-  splitting, ruled false on 29 Sept (L8).
+- The current equation note in VD-docs states ours25b, five equation states behind
+  (ours26 to ours30), and its many-reading step rests on the strong form of axis
+  splitting, ruled false on 29 Sept (L8). (29 Oct) Draft d3, for ours30, is in
+  `../outbox/VD-docs/`, not yet carried to VD-docs.
 - The ours29 record says "eta never moves the law's peak". With pi included the code
   moves it (ln m 1.1181 with eta 0.403, 1.2181 with eta 1). The likelihood part alone
   peaks at ln m 1.3181 for both, so the peak moves only because eta changes pi's
   relative weight: the record's sentence is wrong, not the code. Strict xfail.
-- ours29 has been run on the robot data only (Zenodo 10.5281/zenodo.11096791, CC-BY 4.0,
+- ours29 and ours30 have been run on the robot data only (Zenodo 10.5281/zenodo.11096791, CC-BY 4.0,
   in `../legacy/vd-newton-lab/raw/robot/`), not on the cart data. The robot's dynamic
   readings carry error beyond the declared budget (O16); no budget is ruled.
 - The three strict rotation xfails in `tests/test_reference_records_ours29.py` sit near
@@ -308,6 +300,13 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-29 (Claude): **the switch to ours30** (R-2026-10-29-1). `met/full.py`: `ours30()` is the
+  definition, `ours29()` kept; the batch pipeline takes `positivity: true` (closed form for
+  isotropic noise, a positive-slope search for per-axis noise, 1D included);
+  `tools/robot_run.py` defaults to ours30. `definition/equation.md`, T8, T30, T32, L8, L21, the
+  ladder, O13, TASK's table switched. Equation note d3 (the explainer) in `outbox/VD-docs/`.
+  Robot baseline median unchanged to 1e-4, interval [0.9145, 0.9282]. `tests/test_ours30.py`
+  (parity with the batch pipeline, 1D, the validator, the robot row). No ours29 number moved.
 - 2026-10-29 (Claude, pressure): O13's misfit grounded in R-2026-09-07-1 (smallest error under the
   law, m > 0 included: the 7 Sept record's anti-aligned infimum 6 is Q₊; ours29's Q is 0). η's
   whole-line evaluation checked under the same ruling: not the same slip (forced by Z and the

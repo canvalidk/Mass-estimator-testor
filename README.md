@@ -34,7 +34,7 @@ Each run writes `summary.csv`, `summary.md`, `run.json`, `values.npz` and its ex
 installed it also writes `report.html` (self-contained), `overview.png/.svg`, and one
 diagnostic figure per case at its smallest noise. The report preserves absolute correction
 cost separately from normalized mass laws. The `raw` export key is the unweighted
-ours27 baseline (both misfit and Bartlett off); `quoted` is current ours29 (both on).
+ours27 baseline (both misfit and Bartlett off); `quoted` is ours29 (both on).
 The study distinguishes a positive-mass boundary
 infimum from the equation's whole-projective-line misfit. Corrections are observed minus
 the closest compatible candidate, not known actual noise. All plotted mass densities are
@@ -524,6 +524,30 @@ into `reference/`).
 To report both the raw law and the quoted width (his ruling of 30 September),
 run ours29 twice in one preset, with and without `calibrate: bartlett`; the
 estimators see the same readings. See `presets/ours29_noise_vs_signal.yaml`.
+
+### ours30: the misfit at the best positive mass (`positivity: true`, 29 October)
+
+ours30 (R-2026-10-29-1) is ours29 with `positivity: true` beside `misfit`. It is the current
+equation; `met/full.py`'s `ours30()` is the same in the full input type.
+
+```yaml
+combine:
+  rule: likelihood_product
+  prior: [{uniform_angle: {center: first_reading}}]
+  misfit: kink
+  positivity: true      # Q_+ and kappa = d - 1/2 in place of Q and nu = d - 1
+  calibrate: bartlett
+```
+
+The misfit is taken at the reading's best **positive** mass: with isotropic noise
+Q₊ = (P + Q − |C|)/2 when D > 0 (x·y > 0), and min(P, Q) otherwise (T32); with per-axis noise
+it is found numerically over positive slopes, both ends included. The numerator is
+κ = d − ½: L8's d − 1 conditions and L1's sign, which noise decides half the time when one
+channel carries no signal (O13, 29 Oct). So an anti-parallel reading is worth a bounded amount,
+in 1D too (ours29 left 1D readings at g = 1 whatever their sign), and an acute reading is
+discounted by the factor (d − ½)/(d − 1) less than under ours29. η is unchanged: its best line is
+still on the whole projective line (T31). `positivity` requires `misfit`.
+`tests/test_ours30.py` checks this path against `met/full.py`.
 
 ### The sequential rule: old information in the prior slot
 

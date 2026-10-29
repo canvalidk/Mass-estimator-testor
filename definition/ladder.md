@@ -71,7 +71,7 @@ decides.
 | The weight's noise part (O2's blocker) | none; L17's reason (a measurement premise) bears on it | **provisional, outcome 3:** T21's domain mis-stated against L17's reason; repair unknown yet (O2, evening) |
 | The all-zero value (O2) | none; the constitution (Z, units, swap) | derived, not a rung: c |
 | π's shape (O6) and centre (O11) | none | input (`../TASK.md` §2) |
-| The sign weight's numerator (O13) | R2 forces positivity to enter the weight | that it enters: forced from R2. Its numerator: unknown yet; candidate in O13 |
+| The sign weight's numerator (O13) | R2 forces positivity to enter the weight | that it enters: forced from R2. **Ruled 29 Oct (R-2026-10-29-1, ours30):** the misfit at the best positive mass, numerator k − ½ (proof of the value: brief B02) |
 | Z's scope for noise (O7) | none | input, provisional (O7) |
 | η at small N (O14) | none | measurement side; a proof |
 | Shared errors (O16) | none | input (a series covariance), Claude's sort |
@@ -105,3 +105,4 @@ decides.
 - 2026-10-27: created by Claude from VD-Newton `61afb9e`.
 - 2026-10-27 (evening): the series join and the weight's noise part, from the L12 check.
 - 2026-10-28: the readout row revised (O2, 28 Oct).
+- 2026-10-29: the sign numerator row, ruled (ours30).

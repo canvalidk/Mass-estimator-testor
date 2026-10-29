@@ -412,6 +412,12 @@ read. Line numbers refer to the files as they stood that day.
 - **Words:** asked "are we revealing that nothing might have that property of additivity? I assume that means we actually need to be more specific about lumping masses together?"; on the restatement: "Ok go ahead."
 - **Source:** the conversation of 2026-10-28 (this session); recorded directly.
 
+### R-2026-10-29-1 — Switch to ours30: the misfit weight reads the misfit at the best positive mass, numerator k − ½
+- **Decides:** ours30 is the working equation. Each reading's misfit weight is $g_i=\min(1,\kappa_i/Q_{+,i})$, with $Q_{+,i}$ the reading's misfit at its best **positive** mass (T32's $Q_+$) and $\kappa_i=k_i-\tfrac12$: the declared noise's expected misfit (O12's meaning, R-2026-09-30-10) read without a size (L10), i.e. the most it can produce over every allowed signal size, which is $k-1$ for the codirectionality conditions (L8) and $\tfrac12$ for L1's sign condition (O13, 29 Oct). The rest of ours29 is unchanged: η on the whole projective line (T31, checked 29 Oct), the law, the point (the median). The decision came after Claude put the check to him: "does 'the declared noise's expected misfit', with no size declared, mean the most it can produce?"
+- **Replaces / closes:** ν = kᵢ − 1 as the weight's numerator (R-2026-09-29-9; T30's κ = ν) and the whole-line Q inside g; O13's sign fork (sorted 27 Oct, numerator sorted 29 Oct). The value k − ½ is numerical for isotropic channels; its proof is brief B02. Under a general covariance the value is unknown yet.
+- **Words:** "Ok lets do the switch ours30. That involves all the stuff, writing the python, making an explainer document for the algebraic equation, setting up the file space... Don't go beyond switching to it though all the stuff needed to switch to it." Earlier the same day, on the misfit itself (Claude had found the 7 Sept ruling applied): "damn that was like that from the beginning?"
+- **Source:** the conversation of 2026-10-29 (this session); recorded directly.
+
 ---
 
 ## Owed

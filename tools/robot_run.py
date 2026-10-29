@@ -1,7 +1,8 @@
-"""Run ours29 (met/full.py) on the robot experiment and print one table.
+"""Run the definition (ours30, met/full.py) on the robot experiment and print one table.
 
     python tools/robot_run.py                 # all runs, the default widths
     python tools/robot_run.py --widths 0.2 --runs 1-baseline
+    python tools/robot_run.py --equation ours29   # the table as it stood before 29 Oct
 
 Deterministic: no random numbers. Each row is one run cut into windows of one width;
 the readings are those of ``met.robot.windows`` and c is the series' noise ratio
@@ -20,7 +21,9 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from met import robot  # noqa: E402
-from met.full import ours29  # noqa: E402
+from met.full import ours29, ours30  # noqa: E402
+
+EQUATIONS = {"ours30": ours30, "ours29": ours29}
 
 
 def main(argv=None):
@@ -28,16 +31,18 @@ def main(argv=None):
     p.add_argument("--runs", nargs="*", default=list(robot.RUNS))
     p.add_argument("--widths", nargs="*", type=float, default=[0.05, 0.2, 1.0])
     p.add_argument("--no-floor", action="store_true")
+    p.add_argument("--equation", choices=sorted(EQUATIONS), default="ours30")
     a = p.parse_args(argv)
+    equation = EQUATIONS[a.equation]
     cal = robot.calibrate()
-    print(f"calibration mass {cal.mass:.4f} kg (published {robot.REFERENCE_MASS_KG})")
+    print(f"{a.equation}; calibration mass {cal.mass:.4f} kg (published {robot.REFERENCE_MASS_KG})")
     print("run                   width   n     c  median  interval          raw interval      "
           "readout   eta   min g  covers")
     for run in a.runs:
         for w in a.widths:
             rd, _ = robot.windows(run, w, cal, floor=not a.no_floor)
             c = robot.series_ratio(rd)
-            r = ours29(rd, c)
+            r = equation(rd, c)
             lo, hi = r["interval"]
             rlo, rhi = r["raw_interval"]
             cov = "yes" if lo <= cal.mass <= hi else "no"
@@ -48,7 +53,7 @@ def main(argv=None):
                                       ("static, fit 13-23", slice(12, None), slice(0, 12))):
         rd, _ = robot.static_heldout(fit_rows, test_rows, floor=not a.no_floor)
         c = robot.series_ratio(rd)
-        r = ours29(rd, c)
+        r = equation(rd, c)
         lo, hi = r["interval"]
         rlo, rhi = r["raw_interval"]
         cov = "yes" if lo <= cal.mass <= hi else "no"

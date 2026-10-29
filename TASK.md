@@ -58,7 +58,7 @@ already made:
 | The averaging window | No | input Δtᵢ (10 Oct) |
 | The starting law π: its centre and its shape | No: by L19 nothing about signals may be inferred from the series, and by Z a null series must return what it was given | input π. The half-Cauchy at c = s is the principal branch |
 | How strongly the series contradicts itself | Yes: computed from the readings' own residuals | inside the function: η (T31) |
-| How misaligned a single reading is | Yes: its own off-line misfit | inside the function: g(Q) (T30) |
+| How misaligned a single reading is | Yes: its own misfit at its best positive mass | inside the function: g(Q₊) (T30, T32; ours30) |
 | The readout | Must be yes | inside the function: O2 |
 
 The all-zero experiment is the null input. The function must return the centre of π
