@@ -312,6 +312,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (evening, Claude): **ours31's break re-attributed** (O18): ours27's raw law and ours30 without η fail the same weak-signal
+  cells as badly (0.575–0.71), so the cause is the flat latent measure (L10's endpoint, T18), which η patched, not ours31's size
+  posterior. So η corrected the latent measure, not the noise (consistent with B12). The conflict is L10 + property N + L24 at weak signal.
 - 2026-10-30 (evening, Claude): **ours31, the fourteenth probe** (`met/ours31.py`, O18), beside ours30, not replacing it: T37's exact
   cut factor per reading with ν_eff declared, no η. Premise report (`tests/test_ours31.py`): passes L2 on B11's inputs, Z, all-zero
   → c, T30 (anti-parallel included), units, swap, L24. **Breaks** at weak signal in 3D with N = 20 (coverage 0.57–0.71; ours30
