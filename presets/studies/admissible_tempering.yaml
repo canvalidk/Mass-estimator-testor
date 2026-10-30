@@ -1,0 +1,15 @@
+kind: admissible_tempering
+name: admissible-tempering
+question: >-
+  Which requested strong-signal whole-line temperings recover a proper noise-size
+  law, and which meet covariance or precision mean-one normalisation?
+notes: >-
+  B12 analytic certificates, not a coverage comparison. Run with
+  python -m met.admissible presets/studies/admissible_tempering.yaml. This isolated study
+  runner is not part of the production batch pipeline. No sampling is performed;
+  the seed is recorded metadata. All positive-Q k=1 verdicts concern the formal
+  exponential-tilt continuation off the support of chi-square with zero df.
+dimensions: [1, 2, 3]
+inverse_gamma_shapes: [1.5, 3.0, 10.0]
+floor_exponents: [1.0, 1.5, 3.0, 10.0]
+seed: 20261030

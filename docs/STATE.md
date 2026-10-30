@@ -312,6 +312,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (Codex, B12): corrected the Bernstein criterion with the proper-prior recovery gate and both mean conventions; `met/admissible.py` gives analytic verdicts for the requested forms and a finite-grid diagnostic that remains unknown. The 57-case isolated preset and 76 tests check the smooth form's improper inverse tilt, floor/inverse-gamma controls and the shared-noise-size obstruction for η at N>=2 (O14). No production equation, premise row or ruling changed. Full suite: 1,807 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (afternoon, Claude): **G20 sorted** (T37): α = ν_eff/2, the effective degrees of freedom of the stated uncertainty
   (GUM Annex G), on calibration certificates; T30 is the GUM's "no uncertainty is exact". Correction: practice normalises the
   precision (E[1/v] = 1), not the covariance; so ours30's κ = k − ½ is a σ declared with ν_eff = ½, and the cap holds exactly
