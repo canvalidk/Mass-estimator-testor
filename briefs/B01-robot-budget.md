@@ -1,6 +1,6 @@
 # B01: the robot's noise budget, declared from calibration-side data, then the rerun
 
-**Status:** open
+**Status:** done, awaiting check: calibration-only budget and bootstrap declared; all 48 rows and four answers delivered, with the gap remaining
 **Item:** `problems/O16.md`. **Branch:** `codex/b01`. **Written:** 2026-10-28, Claude.
 
 Read `problems/O16.md` first, especially "28 Oct: what the robot's shared error is, and is not".

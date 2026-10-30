@@ -9,7 +9,7 @@ in its problem file and does not come here. Can may add, reorder or strike any b
 
 | Brief | Item | Deliverable, in one line | Status |
 | --- | --- | --- | --- |
-| [B01](B01-robot-budget.md) | O16 | The robot's noise budget declared from calibration-side data, then the rerun | open |
+| [B01](B01-robot-budget.md) | O16 | The robot's noise budget declared from calibration-side data, then the rerun | done, awaiting check: calibration budget, bootstrap and 48-row rerun delivered; gap remains |
 | [B02](B02-positivity-supremum.md) | O13 | Prove S_k = k − ½ and sup E[Q] = k − 1 (the sorted numerator rests on both) | open |
 | [B03](B03-composition-preset.md) | O2, Gaps | `tools/composition_coverage.py` as a `met run` preset kind, same numbers | open |
 | [B04](B04-eta-effective-readings.md) | O14 | Is J's finite-N bias a function of effective readings under the law? | open |
