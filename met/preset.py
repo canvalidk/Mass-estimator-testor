@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "composition_coverage":
+        from .composition_coverage import validate as validate_composition_coverage
+        return validate_composition_coverage(data)
     if isinstance(data, dict) and data.get("kind") == "readout_candidates":
         from .readout_study import validate as validate_readout_candidates
         return validate_readout_candidates(data)

@@ -1,0 +1,249 @@
+{
+  "source_commit": "811ce4a",
+  "source_path": "tools/composition_coverage.py",
+  "source_sha256": "106c26e7b3c43c35d39e5625142269a0554e6cdeb4bc1d50e2dac1ac4c412409",
+  "original_script_unmodified": true,
+  "seed": 2810,
+  "replicates": 2,
+  "sizes": [
+    2.0,
+    0.4,
+    0.1
+  ],
+  "n_readings": 4,
+  "draws": 20000,
+  "sigma_f": 0.2,
+  "sigma_a": 0.1,
+  "c": 2.0,
+  "m1": 1.0,
+  "m2": 2.0,
+  "mu": 0.6666666666666666,
+  "jobs": [
+    {
+      "seed": 3151469048,
+      "size": 2.0,
+      "result": {
+        "L5": {
+          "computed_covers": true,
+          "own_covers": true,
+          "overlap": true,
+          "defect_cloud": 0.028988219316406678,
+          "defect_median": 0.028988797135223593,
+          "computed_median": 3.0752981445627,
+          "own_median": 2.98600185364524
+        },
+        "L14": {
+          "computed_covers": true,
+          "own_covers": false,
+          "overlap": true,
+          "defect_cloud": 0.14652669392664802,
+          "defect_median": 0.14653605397676703,
+          "computed_median": 0.6950017828891148,
+          "own_median": 0.7972909324839996
+        },
+        "parts_cover": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "seed": 3688372967,
+      "size": 2.0,
+      "result": {
+        "L5": {
+          "computed_covers": true,
+          "own_covers": true,
+          "overlap": true,
+          "defect_cloud": 0.07892162836361208,
+          "defect_median": 0.07892464845194619,
+          "computed_median": 2.9225919458085765,
+          "own_median": 3.150626325811059
+        },
+        "L14": {
+          "computed_covers": true,
+          "own_covers": true,
+          "overlap": true,
+          "defect_cloud": 0.045663099322993776,
+          "defect_median": 0.04568553851539503,
+          "computed_median": 0.6545353240977697,
+          "own_median": 0.6249896467978989
+        },
+        "parts_cover": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "seed": 1696700199,
+      "size": 0.4,
+      "result": {
+        "L5": {
+          "computed_covers": true,
+          "own_covers": true,
+          "overlap": true,
+          "defect_cloud": 0.04365660340728622,
+          "defect_median": 0.04378840787032401,
+          "computed_median": 3.011712171205575,
+          "own_median": 2.8696067823238716
+        },
+        "L14": {
+          "computed_covers": true,
+          "own_covers": true,
+          "overlap": true,
+          "defect_cloud": 0.24061425576046216,
+          "defect_median": 0.2832310595911858,
+          "computed_median": 0.5945839131006203,
+          "own_median": 0.43118504903336113
+        },
+        "parts_cover": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "seed": 1158444786,
+      "size": 0.4,
+      "result": {
+        "L5": {
+          "computed_covers": true,
+          "own_covers": true,
+          "overlap": true,
+          "defect_cloud": 0.0845832248788817,
+          "defect_median": 0.08492583290815822,
+          "computed_median": 2.692012743780901,
+          "own_median": 2.9010714972517593
+        },
+        "L14": {
+          "computed_covers": true,
+          "own_covers": true,
+          "overlap": true,
+          "defect_cloud": 0.8041424715809856,
+          "defect_median": 0.8046460111447811,
+          "computed_median": 0.5870549333320075,
+          "own_median": 1.0770813788525773
+        },
+        "parts_cover": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "seed": 1515868501,
+      "size": 0.1,
+      "result": {
+        "L5": {
+          "computed_covers": true,
+          "own_covers": true,
+          "overlap": true,
+          "defect_cloud": 0.7569591198746857,
+          "defect_median": 0.8418761995303251,
+          "computed_median": 13.704329002285897,
+          "own_median": 1.6740491969165012
+        },
+        "L14": {
+          "computed_covers": true,
+          "own_covers": true,
+          "overlap": true,
+          "defect_cloud": 0.363914578274919,
+          "defect_median": 0.547401030893882,
+          "computed_median": 1.0787911779233834,
+          "own_median": 0.6848028353373772
+        },
+        "parts_cover": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "seed": 3141004744,
+      "size": 0.1,
+      "result": {
+        "L5": {
+          "computed_covers": true,
+          "own_covers": true,
+          "overlap": true,
+          "defect_cloud": 0.6963739014274923,
+          "defect_median": 0.8789514767914699,
+          "computed_median": 2.736139487828704,
+          "own_median": 4.642950217876417
+        },
+        "L14": {
+          "computed_covers": true,
+          "own_covers": true,
+          "overlap": true,
+          "defect_cloud": 0.22319697012140974,
+          "defect_median": 0.2501858046169358,
+          "computed_median": 0.5106300974813375,
+          "own_median": 0.6841584940261295
+        },
+        "parts_cover": [
+          true,
+          true
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "2.0": {
+      "parts_coverage": 1.0,
+      "L5": {
+        "computed_covers": 1.0,
+        "own_covers": 1.0,
+        "overlap": 1.0,
+        "median_defect_cloud": 0.053954923840009376,
+        "median_defect_median": 0.05395672279358489
+      },
+      "L14": {
+        "computed_covers": 1.0,
+        "own_covers": 0.5,
+        "overlap": 1.0,
+        "median_defect_cloud": 0.0960948966248209,
+        "median_defect_median": 0.09611079624608103
+      }
+    },
+    "0.4": {
+      "parts_coverage": 1.0,
+      "L5": {
+        "computed_covers": 1.0,
+        "own_covers": 1.0,
+        "overlap": 1.0,
+        "median_defect_cloud": 0.06411991414308396,
+        "median_defect_median": 0.06435712038924112
+      },
+      "L14": {
+        "computed_covers": 1.0,
+        "own_covers": 1.0,
+        "overlap": 1.0,
+        "median_defect_cloud": 0.5223783636707239,
+        "median_defect_median": 0.5439385353679834
+      }
+    },
+    "0.1": {
+      "parts_coverage": 1.0,
+      "L5": {
+        "computed_covers": 1.0,
+        "own_covers": 1.0,
+        "overlap": 1.0,
+        "median_defect_cloud": 0.726666510651089,
+        "median_defect_median": 0.8604138381608974
+      },
+      "L14": {
+        "computed_covers": 1.0,
+        "own_covers": 1.0,
+        "overlap": 1.0,
+        "median_defect_cloud": 0.29355577419816437,
+        "median_defect_median": 0.3987934177554089
+      }
+    }
+  },
+  "capture_environment": {
+    "python": "3.12.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  }
+}

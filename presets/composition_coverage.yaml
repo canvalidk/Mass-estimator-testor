@@ -1,0 +1,21 @@
+kind: composition_coverage
+name: composition-coverage
+question: >-
+  Does the original ours29 composition study reproduce the recorded coverage,
+  overlap and point defects for independently measured parts and composites?
+notes: >-
+  B03, O2. Historical reproduction of the 28 October study, not a new test of
+  ours30 or the later noise-size candidates. The original size-major seed layout
+  and all numerical operations are retained; worker count does not change results.
+seed: 2810
+replicates: 400
+sizes: [2.0, 0.4, 0.1]
+m1: 1.0
+m2: 2.0
+sigma_f: 0.2
+sigma_a: 0.1
+c: 2.0
+n_readings: 4
+draws: 20000
+dimension: 3
+equation: ours29

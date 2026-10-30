@@ -163,7 +163,7 @@ common force 5.8% strong, 90% weak). So point-level composition at finite noise 
 mis-stated premise (TASK §3, outcome 3): the rungs commit exact values. **R-2026-10-28-1**
 restates L5 and L14 at the level of the law in three clauses (exact inputs add; the
 composite's law is computed from the parts' laws; a new measurement of the composite must
-be consistent with it, as coverage), checked by `tools/composition_coverage.py`: both laws
+be consistent with it, as coverage), checked by `presets/composition_coverage.yaml`: both laws
 cover at ~95% and overlap 99% wherever the parts do.
 
 What is left for the point: Z-exact (every law functional is, T24), c at the all-zero
@@ -212,8 +212,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Gaps (as of 2026-10-24; 27 Oct additions marked)
 
-- (28 Oct) `tools/composition_coverage.py` is a seeded script, not a preset kind of `met run`
-  (brief B03). (29 Oct) So is `tools/eta_sign_check.py` (T31).
+- (29 Oct) `tools/eta_sign_check.py` (T31) is a seeded script, not a preset kind of `met run`.
 
 - (27 Oct) L22 (isotropy of inertia) and T34 are Claude's, from the 26 Oct scratch session,
   whose two toy scripts (`comp.py`, `qnoise.py`) were not kept; numbers from them are marked
@@ -312,6 +311,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (Codex, B03): historical ours29 composition coverage is now an explicit preset kind; the old tool is a compatibility wrapper, and raw replicate outputs, job seeds and effective inputs are retained. Both the untouched original and the migrated 400-replicate runs reproduce all 21 recorded coverage/overlap entries and six L14 defect entries, and their full-precision legacy payloads are identical. Seed layout, numerical core and scientific records are preserved. Focused checks: 60 passed; slow record check: 1 passed; full regression: 1785 passed, 27 skipped, 16 xfailed; audit unchanged.
 - 2026-10-30 (afternoon, Claude): `proof.md` brought up to T37 and L24. **The rulings at steps 9–10 conflict:** R1, R-2026-09-29-8
   and R-2026-10-30-1 (the σ's believed) against R-2026-09-30-10 (O12's cap) and R-2026-10-29-1 (κ's meaning); by homogeneity alone
   g < 1 reads misfit as evidence the σ's were too small. Sorted, provisionally: O12's meaning is the mis-stated one (G18, Can rules).

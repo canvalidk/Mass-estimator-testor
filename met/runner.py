@@ -200,6 +200,10 @@ def run(path, out_root="results", replicates=None, progress=print, workers=None)
     workers: processes running cells side by side; None (default) is half the cores,
     "max" every core, 1 the plain serial loop. The output is the same for any value."""
     spec = preset_mod.load(path)
+    if spec.get("kind") == "composition_coverage":
+        from .composition_coverage import run as run_composition_coverage
+        return run_composition_coverage(path, out_root, replicates=replicates,
+                                        progress=progress, workers=workers)
     if spec.get("kind") == "readout_candidates":
         if replicates is not None or not (workers is None or (type(workers) is int and workers == 1)):
             raise ValueError("readout_candidates is a deterministic serial study; omit --replicates and use --workers 1")
