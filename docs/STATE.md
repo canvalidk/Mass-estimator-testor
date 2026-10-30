@@ -312,6 +312,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (Codex, B05): T23 now derives the scope of both claimed Gaussian-forcing routes. Ours30's positive-misfit weights give a Gaussian-world counterexample to L11 with fixed weak nonzero signal and N growing; Z admits an explicit non-Gaussian independent-channel model. Fixed-N amplitude consistency is proved for Gaussian and bounded-mixture models. O4 stays open and proof step 2 is marked a gap; production code, premises and historical numerical assertions are unchanged. Six focused T23 checks pass; full suite: 1,847 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (evening, Claude): **coverage sorted into two regimes** (O15). The corner (signal → 0) is Gleser–Hwang: no always-finite
   law covers uniformly; brief B13 checks the hypotheses. N growing at fixed signal is Neyman–Scott: the flat factor gets worse with N
   (0.84 → 0.72 at signal 1), ours30 reaches nominal (0.93–0.95 at N = 80–200; `tools/ours30_coverage_vs_n.py`). Property N as ruled is

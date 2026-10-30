@@ -70,12 +70,16 @@ second clause). → gaps G10, G11.
 **Step 2. The noise model is Gaussian with the declared $\Sigma_i$.** The model attaches to the
 data a density $\phi_{\Sigma_i}(\mathbf y_i-\text{true pair})$. L13 says the model uses only the declared
 second moments and is not a claim about the world's errors (R-2026-09-27-12). That the family is
-*Gaussian* and not another second-moment family: T23 gives two routes. The Z route: only the
-Gaussian leaves an exact-zero reading's factor constant in $m$ (L20); written as a test,
-`tests/test_theorems.py::test_t23_only_gaussian_noise_leaves_a_zero_reading_alone`, under the
-flat weight. The consistency route (L11) under the tempered evidence is O4, unwritten.
-*forced (test only)* from L20 and L11. The derivation behind the Z route is not written out;
-the consistency route is open. → gap G1.
+*Gaussian* and not another second-moment family was attributed to two routes in T23.
+**B05 (30 Oct, Codex): neither establishes the forcing claim.** Z admits elliptical
+non-Gaussian laws and even an independent-channel non-Gaussian counterexample; the
+zero-line integral does not imply full spherical symmetry. Under current ours30,
+positive-misfit weights also give a Gaussian-world counterexample to literal L11
+with fixed nonzero weak signal and increasing N. T23 writes out both arguments and
+names their tests. The narrower fixed-N amplitude consistency result includes
+non-Gaussian bounded-scale mixtures. The Gaussian remains the model stipulated by
+L13; its uniqueness from L20 and L11 is a **gap**, not "forced (test only)". O4 remains
+open; no premise row or equation changes here. → gap G1.
 
 **The frame for steps 1–5 (T36, 29 Oct).** The reading space $W_i$, with the noise metric
 $\Sigma_i^{-1}$ forced by units; the hypothesis $m$ as the subspace $L_i(m)$ (step 1's candidates);
@@ -366,7 +370,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | --- | --- | --- | --- | --- |
 | G10 | 1 | L22, scalar mass, as a clause of L1 | rule | O17 |
 | G11 | 1, 4 | $N_i$ as an input (L18's second clause); R3 unwritten, R5 provisional | rule; VD-Newton | L18; `ladder.md` |
-| G1 | 2 | T23: the Z route's derivation written out; the consistency route under tempered evidence | write; derive | O4 → brief B05 |
+| G1 | 2 | T23's Gaussian-forcing claim: B05 delivered counterexamples to both routes as stated; further justification is open | write; derive | O4 → brief B05 (done, awaiting check) |
 | G2 | 3 | T6's argument moved from the O3 record into T06.md | write | T06 → brief B07 |
 | G17 | 3 | the 1D factor: "a reading declared $k=1$ is the 1D reading" needs stating as a premise or deriving from L8 and L18 | sort | T25, L8 |
 | G15 | 4, 5, 15, and the consistency theorems | 31 theorem files with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → briefs B06 (T16–T19, T24, T25), B10 (T5, T12, T13, T22) |

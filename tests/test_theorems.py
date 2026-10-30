@@ -10,6 +10,7 @@ import math
 import numpy as np
 import pytest
 from scipy import integrate, stats
+from scipy.special import exp1, gammainc
 
 from met.full import (Reading, isotropic, ours29, bartlett_eta, reading_state, _h_terms,
                       _log_law, _log_prior, _series_terms)
@@ -307,7 +308,7 @@ def test_t20_the_centre_enters_only_through_the_starting_law():
     assert np.ptp(la - lb) < 1e-8
 
 
-# --- T23: Gaussian noise forced, the Z route under ours29's flat weight ---------------------
+# --- T23: the scope of the noise-model consistency and zero-reading routes -----------------
 
 def _zero_reading_factor(pdf, phi):
     """Evidence of an exact zero 1D reading at the line phi (c = s), flat weight in noise units:
@@ -319,16 +320,17 @@ def _zero_reading_factor(pdf, phi):
 
 def test_t23_only_gaussian_noise_leaves_a_zero_reading_alone():
     """With independent errors on the two channels, an exact zero reading's factor is m-free for
-    Gaussian noise and tilts the law for Student t5 (max/min 1.077): Z forces the Gaussian
-    model under ours29's flat weight as under ours28's (where the tilt was 1.6%). Independence
-    of the channels is needed: an elliptical t is m-free too."""
+    Gaussian noise and tilts the law for this Student t5 product (max/min 1.077).
+    These examples do not characterize every independent-channel density; B05's
+    non-Gaussian counterexample below has the same constant-factor property."""
     phis = np.linspace(0.0, math.pi / 2, 9)
     gauss = np.array([_zero_reading_factor(stats.norm.pdf, p) for p in phis])
     t5 = np.array([_zero_reading_factor(lambda z: stats.t.pdf(z, 5), p) for p in phis])
     assert np.ptp(gauss) / gauss.mean() < 1e-10
     assert t5.max() / t5.min() == pytest.approx(1.0775, abs=5e-4)
-    # a t law elliptical in the whitened plane (channels not independent) is m-free as well,
-    # so Z forces the Gaussian only together with independent channels (Herschel-Maxwell)
+    # A t law elliptical in the whitened plane is also m-free. Maxwell's
+    # characterization requires joint spherical symmetry as well as independence;
+    # the zero-line integral alone is a weaker condition.
     def elliptic_factor(phi):
         u = np.array([math.sin(phi), math.cos(phi)])
         dens = lambda b: (1 + np.sum((u * b) ** 2) / 5) ** -3.5
@@ -338,6 +340,134 @@ def test_t23_only_gaussian_noise_leaves_a_zero_reading_alone():
     # and met.full's zero reading is m-free (H = 0 everywhere)
     zero = isotropic([0.0], [0.0], SF, SA)
     assert np.all(_h_terms(zero.pre(), S, phis) == 0.0)
+
+
+def _t23_ours30_weight(f, a):
+    """Exact 1D positive-mass geometric weight, with unit declared covariance."""
+    q_plus = 0.0 if f * a >= 0 else min(f * f, a * a)
+    return 1.0 if q_plus <= 0.5 else 0.5 / q_plus
+
+
+def test_t23_gaussian_ours30_fails_literal_total_signal_consistency():
+    """An analytic population-score bound, not a large-N simulation.
+
+    The world and the model are both Gaussian with covariance I. A fixed
+    weak signal with true mass 2 has a nonzero limiting score at that mass.
+    The positive-mass misfit weights cause this; a positive Bartlett power
+    cannot move the population optimum back to the true mass. O4/T23 give
+    the law-concentration argument as N and hence total true signal grow.
+    """
+    kappa = 0.5
+    threshold = math.sqrt(kappa)
+    b_integral = 2 / math.pi * integrate.quad(
+        lambda v: (v - kappa / v) * math.exp(-v * v),
+        threshold, np.inf, epsabs=1e-13, epsrel=1e-12)[0]
+    b = (math.exp(-kappa) - kappa * exp1(kappa)) / math.pi
+    assert b_integral == pytest.approx(b, abs=2e-14)
+    assert b == pytest.approx(0.10397397063916228, abs=2e-14)
+
+    theta0 = math.atan(2.0)
+    r = 0.01
+    # Under the centered Gaussian, E[g X Y]=b. For a Gaussian mean shift
+    # of length r, Cauchy-Schwarz bounds expectation changes by
+    # sqrt(E_0 f²) sqrt(exp(r²)-1). The directional score obeys E_0 f²<=2.
+    null_score = b * math.cos(2 * theta0)
+    score_upper_bound = null_score + math.sqrt(2 * math.expm1(r * r))
+    cross_lower_bound = b - math.sqrt(math.expm1(r * r))
+    assert null_score == pytest.approx(-3 * b / 5)
+    assert score_upper_bound < -0.048
+    assert cross_lower_bound > 0.09
+    # C/N>=2 E[gXY]>0; J/N is positive and bounded by E||Y||^4/4.
+    fourth_moment_bound = (r ** 4 + 8 * r * r + 8) / 4
+    eta_lower_bound = min(1.0, 2 * cross_lower_bound / fourth_moment_bound)
+    assert eta_lower_bound > 0.09
+    # The bound uses exactly the production g, including its positive-domain cut.
+    from met.full import ours30
+    for f, a in ((1, 1), (1, -1), (0.2, -0.3), (3, -2)):
+        measured = ours30([isotropic([f], [a], 1, 1)], 1, readout=False)
+        assert measured["g"][0] == pytest.approx(_t23_ours30_weight(f, a), abs=1e-14)
+
+
+def _t23_independent_non_gaussian_pdf(x):
+    """B05's standardized b=5 Mellin counterexample, with variance exactly one."""
+    scale = math.sqrt(14 / 5)
+    z = scale * float(x)
+    if abs(z) < 1e-3:
+        h = stats.norm.pdf(0) * (0.8 - z * z / 7 + z ** 6 / 264)
+    else:
+        h = 13.5 * gammainc(2.5, z * z / 2) / abs(z) ** 5 - stats.norm.pdf(z)
+    return scale * 0.8 * h
+
+
+def test_t23_independent_non_gaussian_errors_can_leave_zero_readings_alone():
+    """Independent channels + a constant zero-line factor do not force Gaussianity."""
+    pdf = _t23_independent_non_gaussian_pdf
+    assert 2 * integrate.quad(pdf, 0, np.inf, epsabs=1e-12)[0] == pytest.approx(1, abs=2e-11)
+    assert 2 * integrate.quad(lambda x: x * x * pdf(x), 0, np.inf,
+                              epsabs=1e-12)[0] == pytest.approx(1, abs=2e-11)
+    assert pdf(0) > 1.05 * stats.norm.pdf(0)
+    expected = math.sqrt(14 / 5) * 0.64 / math.sqrt(2 * math.pi)
+    for phi in (0, 0.2, 0.7, math.pi / 4, 1.3, math.pi / 2):
+        assert _zero_reading_factor(pdf, phi) == pytest.approx(expected, abs=3e-10)
+
+
+def test_t23_elliptical_non_gaussian_scale_mixture_has_correct_covariance_and_zero_factor():
+    """A bounded Gaussian-scale mixture is spherical, non-Gaussian, and Z-neutral."""
+    variances = np.array([0.5, 1.5])
+    probabilities = np.array([0.5, 0.5])
+    assert probabilities @ variances == 1  # Each channel's declared variance.
+    assert 3 * probabilities @ variances ** 2 == 3.75  # Not the Gaussian fourth moment 3.
+    expected = sum(p / math.sqrt(2 * math.pi * v) for p, v in zip(probabilities, variances))
+    for phi in (0, 0.4, 1.1, math.pi / 2):
+        direction = np.array([math.sin(phi), math.cos(phi)])
+        def density_on_line(t):
+            radius2 = float(np.dot(t * direction, t * direction))
+            return sum(p * math.exp(-radius2 / (2 * v)) / (2 * math.pi * v)
+                       for p, v in zip(probabilities, variances))
+        actual = integrate.quad(density_on_line, -np.inf, np.inf, epsabs=1e-12)[0]
+        assert actual == pytest.approx(expected, abs=2e-12)
+
+
+@pytest.mark.parametrize("mixture", [False, True], ids=["Gaussian", "bounded-elliptical-mixture"])
+def test_t23_fixed_n_strong_signal_consistency_does_not_select_gaussian(mixture):
+    """Frozen finite noise, with active g and eta, for two declared-covariance models.
+
+    This is the fixed-N amplitude limit, distinct from L11's unrestricted
+    total-signal growth. Each alternative factor is raised to the unchanged
+    production g and eta; its latent integral is the residual-space mixture.
+    """
+    from met.full import ours30
+    errors = np.array([[0.0, 8.0], [40.0, -6.0], [-30.0, 4.0]])
+    deviations = []
+    for strength in (100.0, 1000.0, 10000.0):
+        readings = [isotropic(2 * np.array([strength, 0.0]) + error,
+                              [strength, 0.0], 1, 1) for error in errors]
+        oracle = ours30(readings, 1.0, readout=False)
+        assert max(oracle["g"]) < 1
+        assert 0 < oracle["eta"] < 0.1
+        midpoint = (oracle["lm"][0] + oracle["lm"][-1]) / 2
+        halfspan = oracle["lm"][-1] - oracle["lm"][0]
+        lm = np.linspace(midpoint - halfspan, midpoint + halfspan, 6001)
+        mass = np.exp(lm)
+        log_law = -np.logaddexp(lm, -lm)  # Half-Cauchy prior in log mass.
+        for reading, g in zip(readings, oracle["g"]):
+            residual = reading.force[None] - mass[:, None] * reading.acceleration[None]
+            k = np.sum(residual * residual, axis=1) / (1 + mass * mass)
+            if mixture:
+                # k_i=2: integrating the 2D flat latent vector leaves v^-1.
+                components = [-math.log(2 * v) - k / (2 * v) for v in (0.5, 1.5)]
+                log_factor = np.logaddexp(*components)
+            else:
+                log_factor = -k / 2
+            log_law += oracle["eta"] * g * log_factor
+        density = np.exp(log_law - log_law.max())
+        cdf = integrate.cumulative_trapezoid(density, lm, initial=0)
+        median = float(np.interp(cdf[-1] / 2, cdf, mass))
+        if not mixture:
+            assert median == pytest.approx(oracle["median"], rel=2e-6)
+        deviations.append(abs(median - 2))
+    assert deviations[2] < deviations[1] < deviations[0]
+    assert deviations[-1] < 0.001
 
 
 # --- T26: per-reading rules cannot fix the width; pure noise adds score, not curvature ------

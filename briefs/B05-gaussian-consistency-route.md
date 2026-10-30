@@ -1,6 +1,6 @@
 # B05: T23's consistency route under the tempered evidence (O4)
 
-**Status:** open
+**Status:** done, awaiting check: Gaussian-world L11 counterexample for ours30, independent-channel non-Gaussian Z counterexample, and fixed-N consistency proof for a class; tests and forcing-gap update.
 **Item:** `problems/O4.md`, `definition/theorems/T23.md`; `definition/proof.md` step 2, hole G1.
 **Branch:** `codex/b05`. **Written:** 2026-10-29, Claude.
 
