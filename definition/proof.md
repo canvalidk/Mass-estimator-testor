@@ -379,7 +379,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G21 | 9, 11 | L24's test: which temperings are cut posteriors of a mean-1 noise size; η's series version | derive | L24 → brief B12 |
 | G4 | 10 | $S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved | derive | brief B02 |
 | G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after B02 | O13 |
-| G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open |
+| G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open. **30 Oct (O15):** property N is stated in the limit, and ours30 meets it there (0.93–0.95 at $N=80$–200, signal 1–2, 3D); only the finite-$N$ form is left |
 | G7 | 15 | T5 for the median: the law's swap symmetry, two lines | write | T05 → brief B10 |
 | G6 | 16 | L23 | rule | O2 |
 | G12 | 4 | the audit and the problem files still count L12, O5, T9–T10's freedoms as the definition's | write | `tools/audit.py`, O2, `ladder.md` → brief B09 |

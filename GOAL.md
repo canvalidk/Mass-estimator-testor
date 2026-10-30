@@ -81,7 +81,7 @@ A probe is reported against every row; a row is a find from an earlier probe or 
 | L21 | readings are evidence, just less: 0 < g ≤ 1, decreasing | ruled 29 Sept | `test_no_gate_*` |
 | L22 | mass is a scalar: candidates share one direction | provisional (G10) | construction |
 | L23 | the point is parametrisation-free | provisional (G6) | `test_t35_*` |
-| N | the width tracks how far the point moves under repeats (η) | property | `test_ours29`; O15 open |
+| N | the width tracks how far the point moves under repeats (η); a true statement, not nominal coverage (R-2026-09-29-4). Uniform coverage in the corner is impossible (Gleser–Hwang, O15, B13); in the N limit at fixed signal ours30 reaches nominal (0.93–0.95 at N = 80–200) | property | `test_ours29`; `tools/ours30_coverage_vs_n.py`; O15 |
 | R-09-07-1 | smallest error under the law: Q₊ | ruled 7 Sept | `test_q_plus_*` |
 | T30 | bounded confidence on a fixed misaligned pair as σ → 0 | forced by meaning | `test_t30_bounded_tilt_*` |
 | guard | inputs cost: every input is something practice supplies, declared before data | TASK.md §5 | by sort |
