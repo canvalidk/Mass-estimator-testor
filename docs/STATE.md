@@ -312,6 +312,10 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (afternoon, Claude): **G20 sorted** (T37): α = ν_eff/2, the effective degrees of freedom of the stated uncertainty
+  (GUM Annex G), on calibration certificates; T30 is the GUM's "no uncertainty is exact". Correction: practice normalises the
+  precision (E[1/v] = 1), not the covariance; so ours30's κ = k − ½ is a σ declared with ν_eff = ½, and the cap holds exactly
+  in 1D, failing in k ≥ 2 by ν/ν_eff. L24's row and B12 note both normalisations.
 - 2026-10-30 (afternoon, Claude): `proof.md` brought up to T37 and L24. **The rulings at steps 9–10 conflict:** R1, R-2026-09-29-8
   and R-2026-10-30-1 (the σ's believed) against R-2026-09-30-10 (O12's cap) and R-2026-10-29-1 (κ's meaning); by homogeneity alone
   g < 1 reads misfit as evidence the σ's were too small. Sorted, provisionally: O12's meaning is the mis-stated one (G18, Can rules).

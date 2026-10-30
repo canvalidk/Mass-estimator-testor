@@ -20,6 +20,9 @@ A law $P$ exists iff this $L$ is **completely monotone** (Bernstein's theorem). 
 $\int u^{-1-\nu/2}d\mu\big/\int u^{-\nu/2}d\mu=1$, and $\int u^{-s}d\mu=\frac{2^{-s}}{\Gamma(s)}\int_0^\infty Q^{s-1}L(Q)\,dQ$
 turns it into a condition on $L$'s Mellin moments (take care at $\nu=0$).
 
+**Added 30 Oct, afternoon (G20, T37):** practice states σ so that the *precision* is right on average,
+$E_P[1/v]=1$, not $E_P[v]=1$. Report both moments for every $P$ found; the verdict is per normalisation.
+
 ## Deliverable
 
 1. **The derivation**, written into O14's attempts: the identity for $L$, the Bernstein criterion,

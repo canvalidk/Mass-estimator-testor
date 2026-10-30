@@ -141,3 +141,18 @@ def test_t37_world_check_sigma_is_the_covariance():
     if os.environ.get("MET_SLOW"):
         print(f"\nours30: cover {np.mean(cov_o):.2f} width {np.median(w_o):.3f} | "
               f"mixture: cover {np.mean(cov_m):.2f} width {np.median(w_m):.3f}")
+
+
+@pytest.mark.parametrize("nu_eff", [0.5, 4.0, 10.0, 50.0])
+def test_t37_g20_practice_normalisation(nu_eff):
+    """G20: a standard uncertainty estimated from nu_eff degrees of freedom (GUM Annex G) gives the
+    noise size v ~ InvGamma(nu_eff/2, scale nu_eff/2): the precision is right on average (E[1/v] = 1),
+    the tail weight is (nu + nu_eff)/Q, and the clean end is 1 + nu/nu_eff (exactly 1 in 1D).
+    ours30's kappa = k - 1/2 is nu_eff = 1/2; ours29's nu is nu_eff = 0."""
+    lp = lambda v: stats.invgamma.logpdf(v, nu_eff / 2, scale=nu_eff / 2)
+    lw = lp(np.exp(_T)) + _T
+    w = np.exp(lw - lw.max())
+    assert float((w * np.exp(-_T)).sum() / w.sum()) == pytest.approx(1.0, abs=1e-3)
+    for nu in (0, 1, 2):
+        assert _cut_precision(lp, 1e-9, nu) == pytest.approx(1 + nu / nu_eff, rel=1e-3)
+        assert 1e6 * _cut_precision(lp, 1e6, nu) == pytest.approx(nu + nu_eff, rel=3e-3)   # quadrature, heaviest tail

@@ -375,7 +375,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G13 | 7, 9 | why the weight is a power on $E_i$, and which premise makes bounded confidence a requirement | sort | T30, L21. **30 Oct, provisional:** the power is a noise scale read once (L21's cut, O14); bounded confidence derived from a noise size with a power-law tail (T37 (1)), which supersedes the morning's "from Σ as a floor" |
 | G18 | 9, 10 | R1 and its kin (the σ's believed) against O12's cap and κ's meaning (R-2026-09-30-10, R-2026-10-29-1) | sort (done, provisional: O12's meaning is the mis-stated one) → rule | §4; O14; T37 |
 | G19 | 7 | L21's ruled power form, or the cut's exact factor (T37 (4)), as the body | rule | T37 |
-| G20 | 9 | T37's tail index α: an input, but TASK §5's guard asks that practice supply it; instrument sheets do not state per-reading tails. Forced, input, or a sign the formalisation is wrong | sort | T37 |
+| G20 | 9 | T37's tail index α: an input, but TASK §5's guard asks that practice supply it. **Sorted 30 Oct, provisional (T37, G20 section):** α = ν_eff/2, the effective degrees of freedom of the stated uncertainty (GUM Annex G), on calibration certificates; the inverse-gamma shape forced by L13 applied to how σ was obtained. Practice normalises the precision ($E[1/v]=1$), which restates T37 (2) and (3): ours30 is a σ declared with ν_eff = ½; the cap holds exactly in 1D | sort (done) | T37 |
 | G21 | 9, 11 | L24's test: which temperings are cut posteriors of a mean-1 noise size; η's series version | derive | L24 → brief B12 |
 | G4 | 10 | $S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved | derive | brief B02 |
 | G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after B02 | O13 |
