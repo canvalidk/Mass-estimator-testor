@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-29 (night), by Claude (T36, the reading-space frame, R-2026-10-29-3). Update this page in
+**Last updated:** 2026-10-30, by Claude (O14: what g and η are). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -203,7 +203,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 | O9 | ruling | Is the window the criterion for one reading versus several? (proposed 10 Oct) |
 | O11 | ruling | Does the default centre reference the instruments only (L3′), and is the swap-of-declarations premise accepted, which gives c = s for one noise pair? Then the several-instrument and anisotropic cases |
 | O13 | ruling; sign fork closed (ours30, 29 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a: closed by R-2026-10-29-1 (g on Q₊, numerator k − ½; proof of the value: B02) |
-| O14 | proof | eta at small N: a correction that counts effective readings. The 26 Oct second noise channel is superseded by T36 (29 Oct): η's and Q's channels are one residual, and the plug-in's bias was its count of incidental parameters. Open: what η and g are for once a noise scale is in the model |
+| O14 | proof | eta at small N: a correction that counts effective readings. The 26 Oct second noise channel is superseded by T36 (29 Oct). **30 Oct sort (provisional):** g and η are noise scales, per reading and per series, on an unwritten declaration that Σ is a floor; which levels a caller declares exact / floor / unknown is an input; G13 sorted |
 | O15 | proof | Is the bounded null floor the best any law can do? |
 | O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
 | O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type. On the robot: the static rows show a real 1.15° force–IMU misalignment, but neither it nor a lever arm explains the miss, and the white budget is understated 2–19× by autocorrelated samples (28 Oct). Next: the budget from calibration-side data and the rerun (briefed), then the slot |
@@ -312,6 +312,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (Claude, pressure): **what g and η are** (O14, provisional). Both are noise scales (tempering by w is
+  declaring Σ/w); their caps read Σ as a floor, a declaration ours29/30 has run on unwritten (O7 gets the row).
+  G13 sorted: the power is a scale read once (L21's cut, standard name), bounded confidence follows from the floor.
+  On a common 4× inflation in 3D they over-correct together (g·η 0.165 vs 0.25); η alone gets it in 1D; g catches one
+  bad reading. Declarations per level (exact / floor / unknown) are the input. `tests/test_scale_reading.py`.
 - 2026-10-29 (night, Claude): briefs checked against T36: B11 added (the raw law on O7's "up to a scale" branch,
   a Student-type law in the one residual; the scale prior's exponent sorted as an input); frame pointers in B04, B06,
   B07; B08 told to leave T36's measure item alone. T36 gets the declared-subspace count (2d − k per reading on that branch).

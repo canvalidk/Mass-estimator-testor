@@ -325,10 +325,10 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G15 | 4, 5, 15, and the consistency theorems | 31 theorem files with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → briefs B06 (T16–T19, T24, T25), B10 (T5, T12, T13, T22) |
 | G8 | 6 | the family $m^{-1}g(\ln m/c)$ derived in one place (L3, L4, properness) | write | O6, T28 → brief B08 |
 | G9 | 6 | the centre: L3′'s first half, then $c=s$ | rule | O11 |
-| G13 | 7, 9 | why the weight is a power on $E_i$, and which premise makes bounded confidence a requirement | sort | T30, L21 |
+| G13 | 7, 9 | why the weight is a power on $E_i$, and which premise makes bounded confidence a requirement | sort | T30, L21. **Sorted 30 Oct, provisional (O14):** the power is a noise scale read once (L21's cut); bounded confidence follows from Σ declared as a floor. Owed: Can's check, and the floor declaration written as a premise |
 | G4 | 10 | $S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved | derive | brief B02 |
 | G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after B02 | O13 |
-| G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts |
+| G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open |
 | G7 | 15 | T5 for the median: the law's swap symmetry, two lines | write | T05 → brief B10 |
 | G6 | 16 | L23 | rule | O2 |
 | G12 | 4 | the audit and the problem files still count L12, O5, T9–T10's freedoms as the definition's | write | `tools/audit.py`, O2, `ladder.md` → brief B09 |
