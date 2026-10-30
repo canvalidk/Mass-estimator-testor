@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "eta_effective":
+        from .eta_effective_study import validate as validate_eta_effective
+        return validate_eta_effective(data)
     if isinstance(data, dict) and data.get("kind") == "readout_candidates":
         from .readout_study import validate as validate_readout_candidates
         return validate_readout_candidates(data)

@@ -1,6 +1,6 @@
 # B04: is J's finite-N bias a function of effective readings under ours29's law?
 
-**Status:** open
+**Status:** done, awaiting check: exact Gaussian moments, fitted-curvature divergent-moment counterexample, and 72-cell paired η/η′ study with explicit empirical-error limits.
 **Item:** `problems/O14.md`. **Branch:** `codex/b04`. **Written:** 2026-10-29, Claude.
 
 Read `problems/O14.md`, T31 (`definition/theorems/T31.md`) and `bartlett_eta` in `met/full.py`.

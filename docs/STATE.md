@@ -312,6 +312,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (Codex, B04): exact fixed-curvature Gaussian score identity checked; signed fitted-curvature cancellation gives target expectation -infinity and J/C infinite second moment (O14). New `eta_effective` preset ran 72 cells × 1,000 paired series, retaining η/η′ coverage and explicitly empirical ratio errors; no correction adopted. Full suite: 1,767 passed, 26 skipped, 16 xfailed; 36 focused tests pass and audit findings unchanged.
 - 2026-10-30 (afternoon, Claude): **G20 sorted** (T37): α = ν_eff/2, the effective degrees of freedom of the stated uncertainty
   (GUM Annex G), on calibration certificates; T30 is the GUM's "no uncertainty is exact". Correction: practice normalises the
   precision (E[1/v] = 1), not the covariance; so ours30's κ = k − ½ is a σ declared with ν_eff = ½, and the cap holds exactly
