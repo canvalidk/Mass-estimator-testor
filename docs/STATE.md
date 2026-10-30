@@ -312,6 +312,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (Codex, B02, pressure): O13 now proves the positive-domain supremum k - 1/2 and the sign-blind supremum k - 1, with finite nonattainment and the k=1 exception; independent compact quadrature checks a 256-cell grid per dimension with explicit exact-arithmetic discretization bounds (`tools/positivity_supremum.py`, `tests/test_positivity_supremum.py`). No equation change. Full suite: 1748 passed, 26 skipped, 16 xfailed; audit unchanged.
 - 2026-10-30 (Claude, pressure): **what g and η are** (O14, provisional). Both are noise scales (tempering by w is
   declaring Σ/w); their caps read Σ as a floor, a declaration ours29/30 has run on unwritten (O7 gets the row).
   G13 sorted: the power is a scale read once (L21's cut, standard name), bounded confidence follows from the floor.

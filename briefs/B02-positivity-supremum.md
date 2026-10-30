@@ -1,6 +1,6 @@
 # B02: the exact supremum S_k of the positive-mass misfit
 
-**Status:** open
+**Status:** done, awaiting check: exact isotropic suprema derived, finite attainment classified, and deterministic quadrature checked
 **Item:** `problems/O13.md`. **Branch:** `codex/b02`. **Written:** 2026-10-29, Claude; updated the same day after the sort.
 
 Read `problems/O13.md`: "27 Oct: the sign fork sorted" and "27 Oct pressure check: exact null

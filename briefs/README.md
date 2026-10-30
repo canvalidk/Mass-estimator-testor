@@ -10,7 +10,7 @@ in its problem file and does not come here. Can may add, reorder or strike any b
 | Brief | Item | Deliverable, in one line | Status |
 | --- | --- | --- | --- |
 | [B01](B01-robot-budget.md) | O16 | The robot's noise budget declared from calibration-side data, then the rerun | open |
-| [B02](B02-positivity-supremum.md) | O13 | Prove S_k = k − ½ and sup E[Q] = k − 1 (the sorted numerator rests on both) | open |
+| [B02](B02-positivity-supremum.md) | O13 | Prove S_k = k − ½ and sup E[Q] = k − 1 (the sorted numerator rests on both) | done, awaiting check: exact suprema, attainment and quadrature delivered |
 | [B03](B03-composition-preset.md) | O2, Gaps | `tools/composition_coverage.py` as a `met run` preset kind, same numbers | open |
 | [B04](B04-eta-effective-readings.md) | O14 | Is J's finite-N bias a function of effective readings under the law? | open |
 | [B05](B05-gaussian-consistency-route.md) | O4, T23 | The consistency route to the Gaussian model under the tempered evidence, written out | open |
