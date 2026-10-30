@@ -213,7 +213,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 ## Gaps (as of 2026-10-24; 27 Oct additions marked)
 
 - (28 Oct) `tools/composition_coverage.py` is a seeded script, not a preset kind of `met run`
-  (brief B03). (29 Oct) So is `tools/eta_sign_check.py` (T31).
+  (brief B03). (29 Oct) So is `tools/eta_sign_check.py` (T31). (30 Oct) So is `tools/ours31_coverage.py` (O18).
 
 - (27 Oct) L22 (isotropy of inertia) and T34 are Claude's, from the 26 Oct scratch session,
   whose two toy scripts (`comp.py`, `qnoise.py`) were not kept; numbers from them are marked
@@ -312,6 +312,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (evening, Claude): **ours31, the fourteenth probe** (`met/ours31.py`, O18), beside ours30, not replacing it: T37's exact
+  cut factor per reading with ν_eff declared, no η. Premise report (`tests/test_ours31.py`): passes L2 on B11's inputs, Z, all-zero
+  → c, T30 (anti-parallel included), units, swap, L24. **Breaks** at weak signal in 3D with N = 20 (coverage 0.57–0.71; ours30
+  0.81–0.88), as predicted: the misfit's law given the noise size depends on the undeclared signal size (L10). Study:
+  `tools/ours31_coverage.py` (a script, not a preset kind, as composition_coverage).
 - 2026-10-30 (Claude): **B11 checked and merged.** Codex found the brief's premise false: the integrated common-scale law
   π·K^−(n/2+a−1) with an improper scale prior is improper on valid measured inputs (an exact 1D fit puts a pole at its slope;
   boundary fits; the all-zero series), failing L2's totality, so it stopped before the coverage study, as the protocol asks.
