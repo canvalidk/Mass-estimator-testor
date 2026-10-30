@@ -145,6 +145,10 @@ Jeffreys-check record, not written in one place. → gaps G8, G9.
 is $\pi\prod_iE_i^{g(Q_i)}$, $g(0)=1$, $g$ decreasing, $g>0$. The *form* (a power, one per reading, a
 function of the reading's own misfit) is the ruling's statement. **Why a power and not another
 tempering** is not argued anywhere: L21 was ruled in that form. → gap G13.
+**30 Oct (T36, T37):** a power constant in $m$ is a declared $\Sigma_i/g$ in disguise (homogeneity).
+With the σ's believed, the cut's exact per-reading factor is Student-type (T37 (4)), and the ruled
+power form is its first order in the along-line misfit: equal near the reading's own line, not far
+from it. Which is the body is a ruling. → G19.
 
 **Step 8. What the misfit is.** The smallest error that reconciles the reading with the law as
 assumed, $m>0$ included (R-2026-09-07-1), so $Q_{+,i}$ (T32: $\lambda_-$ of the whitened Gram
@@ -165,6 +169,13 @@ as a requirement; L21 gives "not none" ($g>0$) and "less" (decreasing), not "bou
 candidate source is R-2026-09-07-1 ("it must simply be an unlikely thing to happen": a reading no
 mass fits is an improbable event under the law, and an improbable event's evidence is finite),
 but that is a reading, not an argument. → gap G13.
+**30 Oct: the bounded requirement derived, and the middle in conflict.** With each reading's noise
+size its shared state (L8) and Σ its covariance (T37, Claude's formalisation of R-2026-10-30-1), the
+bounded, non-vanishing requirement forces a power-law tail on the noise size, tail weight
+$(\nu+2\alpha)/Q$ (T37 (1)): this is the argument G13 lacked. But the same model puts the clean end
+above 1 (T37 (3)), against the ruled cap. And the cap conflicts with R1 without T37's model: by
+homogeneity $g<1$ is the law reading the misfit as evidence the σ's were too small, which R1 says
+the misfit is not. See §4, "The rulings at steps 9–10 conflict". → G18.
 
 **Step 10. The numerator $\kappa$.** O12's meaning, "the declared noise's expected misfit", read
 without a declared size (L10): the most the noise produces over every allowed signal size.
@@ -172,6 +183,9 @@ That reading is *ruled* (R-2026-10-29-1). Its value, $k-\tfrac12$ for isotropic 
 channels, is **numerical** (a seeded grid: `tests/test_sign_numerator.py::test_the_numerator_is_the_supremum_over_sizes`;
 Codex's bounds $k-\tfrac12\le S_k\le k$ in O13). Under a general covariance the value is **unknown**.
 → gaps G4 (the proof, brief B02), G5 (general $\Sigma$).
+**30 Oct:** with Σ the covariance, the tail coefficient is $\nu+2\alpha>k+1$; $k-\tfrac12$ needs a noise size
+with no mean (T37 (2)). So the meaning ruled for $\kappa$, the most misfit the declared noise produces,
+is the floor's meaning (§4). → G18; G4 and G5 stand only if G18 keeps the ruled meaning.
 
 ### 2.4 How much the series counts
 
@@ -192,6 +206,9 @@ compressed form; nothing is written out as a proof. **Not forced:** the cap at 1
 form at finite $N$ (T31 says "natural"). **Under F2 a choice inside the function is an alternative
 mechanics**, so this is the one component of the law with an unsorted freedom in it. → gap G3
 (a sort; brief B04 supplies the finite-$N$ facts it needs).
+**30 Oct:** η is a power on every reading at once, so under L24 (candidate) it is admissible only as
+the cut posterior of a mean-1 noise size shared by the series, which is a correlation between
+readings the type does not declare. Brief B12 item 4 checks it. → G21.
 
 **Step 12. The law.** $p(m)\propto\pi(m)\exp(\eta\sum_ig_iH_i(m)/2)$ on $m>0$ (T8). Steps 3–11
 assemble it. The closed form for one noise pair (`equation.md`, note d3 §3) is checked
@@ -267,6 +284,8 @@ of the definition: the law is the output and the interval summarises it. *ruled.
 | property N | $\eta$ removes the $\sqrt N$ null tilt | `tests/test_ours29.py`; O15 open on whether the floor is the best possible |
 | R-2026-09-07-1 (smallest error under the law) | $Q_+$ | `tests/test_sign_numerator.py::test_q_plus_*` |
 | T30's bounded confidence | anti-parallel pairs bounded in 1D–3D | `tests/test_sign_numerator.py::test_t30_bounded_tilt_*` |
+| **R1 (the σ's correct; misfit is not evidence about them)** | **fails** (30 Oct): by homogeneity $g<1$ declares $\Sigma_i/g$, i.e. reads the misfit as evidence the σ's were too small | `tests/test_scale_reading.py::test_tempering_a_reading_is_declaring_its_noise_larger` |
+| **L24 (candidate)** | **fails** for $g$ (T37 (2), (3)); η pending | `tests/test_noise_size.py`; brief B12 |
 
 Not checked: ours30's **coverage** on its own world (only ours29's was measured; ours30 changes
 the weights on acute pairs). A study, not a proof step; queued with B04's cells.
@@ -293,6 +312,34 @@ that satisfies the premises as ruled, with L22, L23 and the finite-$N$ form of $
 given, is ours30 up to the declared inputs $\Sigma_i,N_i$, the structure, the window, and $\pi$'s
 shape and centre.* The three things "taken as given" are the uniqueness half's open work, and
 two of them are rulings rather than mathematics.
+
+### The rulings at steps 9–10 conflict (30 Oct; Claude's sort, provisional)
+
+Two groups of rulings meet at the misfit weight:
+
+- **The σ's are believed.** R1 (28 Sept): "the declared σ's are assumed correct… not whether misfit
+  is evidence about the σ's". R-2026-09-29-8 ("evidence, just less"), chosen over the option "misfit as
+  evidence the σ's are small" (readings-are-evidence record §1.6). R-2026-10-30-1: a misaligned
+  reading is possible under the same σ's, only unlikely.
+- **The weight's middle and numerator.** R-2026-09-30-10 (O12): $g=\min(1,\kappa/Q)$, the share of
+  the reading's self-contradiction the declared noise accounts for, capped at the whole.
+  R-2026-10-29-1: $\kappa$ the most misfit the declared noise produces over every size.
+
+They cannot all hold. By T36's homogeneity any $g<1$ is a declared $\Sigma_i/g$: the second group
+makes the misfit evidence that the σ's were too small, which the first group rules out. With the
+σ's formalised as the covariance (T37), the second group's cap and $\kappa$ are also unreachable.
+By `TASK.md` §4 one premise is mis-stated. **The sort: the mis-stated one is O12's meaning.** "A share
+of the self-contradiction the declared noise accounts for, capped at the whole" presupposes that the
+declared noise is the most there can be: the floor, the option declined on 29 Sept. The first group
+is three rulings over two months saying the same thing; the second group's meaning is one reading of
+it that turned out to encode its opposite. Can rules whether the sort holds. → G18.
+
+**What is proved, restated.** Until G18 is ruled: *on isotropic uncorrelated channels, any function
+that satisfies the premises as ruled, with R1 read as not constraining the misfit weight, and with
+L22, L23 and η's finite-$N$ form taken as given, is ours30 up to the declared inputs.* If R1
+constrains the weight (the sort above, and L24), **steps 9–11 are open and ours30 is not the
+function**; T37 gives the form the reading level would take (a cut posterior of a mean-1 noise size
+with a power-law tail), with its tail index an input whose principal branch is unknown (G20).
 
 **What is no longer load-bearing.** Switching the point to the median (28 Oct) took these off
 the path from premises to ours30: T3, T4 (ratio of means), T9 (stacked size), T10 (the cloud
@@ -325,7 +372,11 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G15 | 4, 5, 15, and the consistency theorems | 31 theorem files with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → briefs B06 (T16–T19, T24, T25), B10 (T5, T12, T13, T22) |
 | G8 | 6 | the family $m^{-1}g(\ln m/c)$ derived in one place (L3, L4, properness) | write | O6, T28 → brief B08 |
 | G9 | 6 | the centre: L3′'s first half, then $c=s$ | rule | O11 |
-| G13 | 7, 9 | why the weight is a power on $E_i$, and which premise makes bounded confidence a requirement | sort | T30, L21. **Sorted 30 Oct, provisional (O14):** the power is a noise scale read once (L21's cut); bounded confidence follows from Σ declared as a floor. Owed: Can's check, and the floor declaration written as a premise |
+| G13 | 7, 9 | why the weight is a power on $E_i$, and which premise makes bounded confidence a requirement | sort | T30, L21. **30 Oct, provisional:** the power is a noise scale read once (L21's cut, O14); bounded confidence derived from a noise size with a power-law tail (T37 (1)), which supersedes the morning's "from Σ as a floor" |
+| G18 | 9, 10 | R1 and its kin (the σ's believed) against O12's cap and κ's meaning (R-2026-09-30-10, R-2026-10-29-1) | sort (done, provisional: O12's meaning is the mis-stated one) → rule | §4; O14; T37 |
+| G19 | 7 | L21's ruled power form, or the cut's exact factor (T37 (4)), as the body | rule | T37 |
+| G20 | 9 | T37's tail index α: an input, but TASK §5's guard asks that practice supply it; instrument sheets do not state per-reading tails. Forced, input, or a sign the formalisation is wrong | sort | T37 |
+| G21 | 9, 11 | L24's test: which temperings are cut posteriors of a mean-1 noise size; η's series version | derive | L24 → brief B12 |
 | G4 | 10 | $S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved | derive | brief B02 |
 | G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after B02 | O13 |
 | G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open |
@@ -355,3 +406,4 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 - 2026-10-29: created (Claude). Eighteen steps, sixteen holes.
 - 2026-10-29 (later): point-level Z removed as a premise (R-2026-10-29-2); steps 13, 16, 17 and §3 reworded.
 - 2026-10-29 (night): the frame for steps 1–5 named (T36), on R-2026-10-29-3.
+- 2026-10-30: steps 7, 9, 10, 11 and §§3–4 brought up to T37 and L24: the rulings at steps 9–10 conflict (R1 against O12), sorted provisionally; what is proved restated; holes G18–G21.

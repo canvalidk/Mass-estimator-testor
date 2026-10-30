@@ -312,6 +312,10 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (afternoon, Claude): `proof.md` brought up to T37 and L24. **The rulings at steps 9–10 conflict:** R1, R-2026-09-29-8
+  and R-2026-10-30-1 (the σ's believed) against R-2026-09-30-10 (O12's cap) and R-2026-10-29-1 (κ's meaning); by homogeneity alone
+  g < 1 reads misfit as evidence the σ's were too small. Sorted, provisionally: O12's meaning is the mis-stated one (G18, Can rules).
+  What is proved is restated as conditional on R1 not constraining g. New holes G18–G21.
 - 2026-10-30 (afternoon, Claude): **L24 candidate** (the law may not alter the declared noise law; a tempering is
   admissible iff it is the cut posterior of a mean-1 noise-size law), from Can's "any degree of freedom in the law
   that changes sigma as a banned one", R1 and R-2026-09-29-8. The test briefed to Sol as **B12** (Bernstein criterion;
