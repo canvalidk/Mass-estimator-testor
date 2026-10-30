@@ -109,7 +109,7 @@ Every probe, what it was, what broke it. The breaker is the find: a premise that
 | 10 | ours28b | 28 Sept | one candidate-size scale per noise pair, shared over the series | borrows between readings (L19, ruled 28 Sept night) |
 | 11 | ours29 | 30 Sept | ours27's flat factor × misfit weight g(Q) on the whole-line misfit × Bartlett power η | the whole-line misfit cannot see the sign of F·a: an anti-parallel pair has Q = 0 ("we know ours29 is wrong"); and its point (the cloud readout) fails Z (T29) |
 | 12 | the cloud readout (T10) | 28 Oct | ratio of means over the candidate cloud on the stacked length | fails Z at the point and reads the instrument's s; replaced by the median (provisional). Took T3/T4, T9, T21, L12 off the path |
-| 13 | **ours30** | 29 Oct | ours29 with the misfit at the best *positive* mass, κ = k − ½; point = median | **working.** Not yet: coverage on its own world; the proof |
+| 13 | **ours30** | 29 Oct | ours29 with the misfit at the best *positive* mass, κ = k − ½; point = median | **working; a break found 30 Oct (provisional, T37):** with the σ's believed as the covariance (R-2026-10-30-1), its κ = k − ½ needs a noise size with no mean and its cap g ≤ 1 holds only for the fixed-size Gaussian. Names the premise: what a declared σ is. At strong signal the cost is efficiency (10–17% width in 3D), not coverage |
 
 Struck premises, kept in their slots: L4′ (push–noise symmetry), L6 (C3, now T21), L10′ (push scale as nuisance), G (the size law). Each went with the candidate it served.
 

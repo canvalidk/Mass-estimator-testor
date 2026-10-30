@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-30, by Claude (O14: what g and η are). Update this page in
+**Last updated:** 2026-10-30 (later), by Claude (T37: the σ's believed; ours30's κ and cap break on it). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -312,6 +312,12 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (later, Claude): **R-2026-10-30-1 and T37.** Can: a misaligned reading is possible under the declared σ's,
+  only unlikely; it conveys low information, direction kept. Formalised as Σ the covariance, each reading's noise size
+  its shared state (L8), mean 1. Then T30 forces a power-law noise size, tail weight (ν + 2α)/Q with α > 1, so above
+  k + 1; ours30's κ = k − ½ needs a noise size with no mean, and its cap g ≤ 1 holds only for the fixed-size Gaussian.
+  A break of ours30, provisional; at strong signal it costs width (3D: 0.093 vs 0.084), not coverage. α is an input.
+  `tests/test_noise_size.py`.
 - 2026-10-30 (Claude, pressure): **what g and η are** (O14, provisional). Both are noise scales (tempering by w is
   declaring Σ/w); their caps read Σ as a floor, a declaration ours29/30 has run on unwritten (O7 gets the row).
   G13 sorted: the power is a scale read once (L21's cut, standard name), bounded confidence follows from the floor.

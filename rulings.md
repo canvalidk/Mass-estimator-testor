@@ -430,6 +430,12 @@ read. Line numbers refer to the files as they stood that day.
 - **Words:** asked "isn't there a way to start over, with Einstein notation, treat the division instead as multiplication by the reciprocal vector, and have the metric emerge naturally? Then surely it would be much easier to get the noise info involved."; then "So how should we record this rewrite? It's far more elegant. So lets keep it centered in the project and available."
 - **Source:** the conversation of 2026-10-29 (this session); recorded directly.
 
+### R-2026-10-30-1 — The misaligned case is read with the σ's believed
+- **Decides:** A grossly misaligned reading is not read as a mistake (a wrong σ, an extra error, a bad reading to be mixed out): under the declared σ's it is possible, only unlikely, and the question is how much information it conveys. Its direction still says something ("way above and not way below"). The sort proceeds on this, with Claude's formalisation: Σ is the covariance; each reading's noise size is its shared state (L8), averaging 1 (T37). The formalisation and T37's results are Claude's.
+- **Replaces / closes:** Claude's proposals of the same morning to read the misaligned case through an additive excess ("dark uncertainty") or a good-and-bad mixture.
+- **Words:** "you keep analyzing it as if a 'mistake' has occured, but not necessarily. That misaligned value could have come from the same sigmas, its just unlikely. You keep trying to assume that there is something to fix when there isn't. Your reasoning can't assume that the info is wrong. Just that it conveys low info. Think like this, an anomaly occurs in a data fit and its way above the line, its likely misleading the determined value. But the fact that its way above and not way below still seems to tell you something?"; on the plan to sort it as "Σ is the covariance, each reading's noise size is its shared state": "Yes! go ahead."
+- **Source:** the conversation of 2026-10-30; recorded directly.
+
 ---
 
 ## Owed

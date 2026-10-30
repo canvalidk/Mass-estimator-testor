@@ -42,3 +42,4 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T34](theorems/T34.md) | Gain is the geometric mean of the pairings | L1, T1 | yes |
 | [T35](theorems/T35.md) | The parametrisation-free point is the median | L23 (proposed), T5 | yes |
 | [T36](theorems/T36.md) | The reading space, its metric, and one residual | the type, L3, L1, L22, L13 | yes |
+| [T37](theorems/T37.md) | The per-reading noise size: what believing Σ and T30 force | L18, L13, L8, L21, T30 | yes |
