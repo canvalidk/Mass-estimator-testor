@@ -1,6 +1,6 @@
 # B06: write out T16, T17, T18, T19, T24, T25 from the law
 
-**Status:** open
+**Status:** done, awaiting check: six law derivations with explicit tilt, growth, local-width and covariance conditions; all Statements preserved; 25 sharper tests.
 **Item:** `definition/theorems/T16.md, T17.md, T18.md, T19.md, T24.md, T25.md`; `definition/proof.md`
 hole G15. **Branch:** `codex/b06`. **Written:** 2026-10-29, Claude.
 
