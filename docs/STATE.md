@@ -312,6 +312,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (Codex, B07): wrote T06's conditional Herschel–Maxwell proof, exact Gaussian integral and four coefficient/width checks; G17, G13 and T36's measure question remain open. Found that literal L7 calibrates the point, not interval width: the archive's independent coefficient argument needs that extra condition, while L10 already states the flat factor; recorded the mismatch in T06 and proof step 3/G2 without changing the Statement, premises or `met/`. Full suite: 1,848 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (night, Claude): **O15, the latent measure:** the flat law is a profile likelihood with N incidental parameters
   (Neyman–Scott); its information identity fails, and η = 𝓗/J is the standard quasi-likelihood correction. Every non-hierarchical
   cure coincides with the flat law here (Cox–Reid, reference prior: the push's information is m-free in whitened arc-length) or does

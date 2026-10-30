@@ -135,6 +135,104 @@ def test_t6_t7_noise_unit_gaussian_push_gives_omega_tempered_h(omega):
     assert np.ptp(resid) < 1e-9
 
 
+def _t6_aligned_full_reading(signal):
+    """One k=2 reading with force/acceleration and within-channel correlations."""
+    mass = 2.3
+    acceleration = signal * np.array([1.0, 0.4])
+    cov = np.array([[2.0, 0.3, 0.2, -0.1],
+                    [0.3, 1.0, 0.1, 0.2],
+                    [0.2, 0.1, 1.5, 0.4],
+                    [-0.1, 0.2, 0.4, 1.2]])
+    return Reading(mass * acceleration, acceleration, cov, np.eye(2)), mass
+
+
+@pytest.mark.parametrize("c_exp", [-0.25, 0.0, 0.2])
+def test_t6_noise_unit_exponential_weight_sets_h_coefficient(c_exp):
+    """Integrate exp(c_exp |v|^2) against the Gaussian likelihood in k=2 noise units.
+
+    Decaying, flat and growing weights with c_exp < 1/2 give beta H/2,
+    beta = 1/(1 - 2 c_exp); the flat weight has beta = 1. This does not test the
+    k=1 product-to-rotation step or independence of the weight from candidate Q.
+    """
+    reading, _ = _t6_aligned_full_reading(0.3)
+    y = np.r_[reading.force, reading.acceleration]
+    si = np.linalg.inv(reading.cov)
+    beta = 1 / (1 - 2 * c_exp)
+    constants = []
+    for m in [0.1, 0.7, 2.3, 9.0]:
+        cm = _phys_c(reading, m)
+        gram = cm.T @ si @ cm
+        # If G = L L^T, C L^-T is orthonormal in the declared noise metric.
+        projected = np.linalg.solve(np.linalg.cholesky(gram), cm.T @ si @ y)
+        h = _H_full(reading, 1.0, m)
+        assert projected @ projected == pytest.approx(h, rel=1e-12)
+        log_integral = sum(math.log(integrate.quad(
+            lambda v: math.exp(-0.5 * v * v + t * v + c_exp * v * v),
+            -np.inf, np.inf, epsabs=1e-11, epsrel=1e-11)[0]) for t in projected)
+        constants.append(log_integral - beta * h / 2)
+    assert np.ptp(constants) < 1e-11
+
+
+def test_t6_strong_signal_width_fixes_flat_candidate_coefficient():
+    """Only c_exp=0 gives the declared Gaussian propagated width as signal grows.
+
+    Use one exactly aligned k=2 reading (g=eta=1), F=m0 a, increasing a with fixed
+    correlated Sigma. The exact mass law has infinite variance: compare its local
+    central 95% width with 2 z_.975 sigma_propagated, not its global variance.
+    Alternative coefficients are test-local; production supplies the flat H/2 law.
+    """
+    from met.full import ours30
+
+    exponents = np.array([-0.25, 0.0, 0.2])
+    expected = 1 - 2 * exponents
+    width_variance_ratios = []
+    for signal in [25.0, 100.0, 400.0]:
+        reading, m0 = _t6_aligned_full_reading(signal)
+        a = reading.acceleration
+        residual_map = np.hstack([np.eye(2), -m0 * np.eye(2)])
+        residual_cov = residual_map @ reading.cov @ residual_map.T
+        information = a @ np.linalg.solve(residual_cov, a)
+        sigma_propagated = 1 / math.sqrt(information)
+
+        # Eliminate the unknown latent acceleration from the Gaussian information.
+        si = np.linalg.inv(reading.cov)
+        cm = _phys_c(reading, m0)
+        d = np.r_[a, np.zeros(2)]
+        projected_si = si - si @ cm @ np.linalg.solve(cm.T @ si @ cm, cm.T @ si)
+        assert d @ projected_si @ d == pytest.approx(information, rel=1e-12)
+        _, _, h2 = _h_terms(reading.pre(), 1.0, np.array([math.atan(m0)]), 2)
+        assert -0.5 * h2[0] / (1 + m0 * m0) ** 2 == pytest.approx(information, rel=1e-11)
+
+        result = ours30([reading], 1.0, readout=False)
+        assert result["g"] == [1.0]
+        assert result["eta"] == 1.0
+        assert result["interval"] == result["raw_interval"]
+        radius = 15 * sigma_propagated * math.sqrt(expected.max())
+        masses = np.linspace(m0 - radius, m0 + radius, 10001)
+        assert masses[0] > 0
+        h = _h_terms(reading.pre(), 1.0, np.arctan(masses))
+        ratios = []
+        for c_exp, variance_factor in zip(exponents, expected):
+            beta = 1 / variance_factor
+            # Physical-mass density: half-Cauchy prior once, coefficient beta on H.
+            log_density = -np.log1p(masses * masses) + beta * (h - h.max()) / 2
+            density = np.exp(log_density - log_density.max())
+            cdf = integrate.cumulative_trapezoid(density, masses, initial=0)
+            interval = np.interp(np.array([0.025, 0.975]) * cdf[-1], cdf, masses)
+            ratio = ((interval[1] - interval[0]) /
+                     (2 * stats.norm.ppf(0.975) * sigma_propagated)) ** 2
+            ratios.append(ratio)
+            if c_exp == 0:
+                np.testing.assert_allclose(interval, result["raw_interval"], rtol=0, atol=1e-6)
+        width_variance_ratios.append(ratios)
+
+    errors = np.abs(np.array(width_variance_ratios) - expected)
+    assert np.all(np.diff(errors, axis=0) < 0)
+    np.testing.assert_allclose(width_variance_ratios[-1], expected, rtol=2e-4, atol=0)
+    assert abs(width_variance_ratios[-1][0] - 1) > 0.4
+    assert abs(width_variance_ratios[-1][2] - 1) > 0.3
+
+
 def test_t7_a_push_weight_in_physical_units_puts_m_into_the_reading():
     """The same Gaussian in physical units, alpha ~ N(0, omega^2 I), leaves an m-dependent
     determinant: something attached to the reading depends on m, which T7 forbids."""
