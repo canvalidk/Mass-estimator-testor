@@ -1,6 +1,6 @@
 # B12: which temperings are admissible under L24 (and is η?)
 
-**Status:** open
+**Status:** merged 2026-10-30: corrected Bernstein/proper-prior criterion; checker and 57-case report under both mean conventions; shared-noise-size obstruction for η.
 **Item:** `definition/premises.md` L24 (candidate), `problems/O14.md`; theorems T36, T37. **Branch:** `codex/b12`.
 **Written:** 2026-10-30, Claude.
 

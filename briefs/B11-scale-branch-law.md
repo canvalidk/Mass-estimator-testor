@@ -1,6 +1,6 @@
 # B11: the raw law on the "Σ declared up to a scale" branch
 
-**Status:** done, awaiting check: scale derivation and 1D impropriety counterexamples; null-padding median finding; coverage study stopped under the false-premise protocol.
+**Status:** merged 2026-10-30: scale derivation; the brief's law is improper on valid measured inputs (exact fits, boundaries, all-zero), so the coverage study was correctly stopped under the false-premise rule; null-padding medians.
 **Item:** `problems/O14.md` (primary), `problems/O7.md` (one finding). **Branch:** `codex/b11`.
 **Written:** 2026-10-29, Claude.
 
