@@ -20,6 +20,7 @@ in its problem file and does not come here. Can may add, reorder or strike any b
 | [B09](B09-demoted-theorems-bookkeeping.md) | audit, O2, O5, ladder | The nine theorems and L12 that the median took off the path, marked as such; the audit reports it | open |
 | [B10](B10-short-proofs.md) | T5, T12, T13, T22 | Four short proofs written into their files; T5 re-derived for the median | open |
 | [B11](B11-scale-branch-law.md) | O14, O7 | The raw law on the "Σ up to a scale" branch, π·K^−(n/2+a−1): derived, tested, coverage against ours30; null readings | open |
+| [B12](B12-admissible-tempering.md) | L24, O14 | Which temperings are cut posteriors of a mean-1 noise-size law (Bernstein test): ours30's g, the smooth form, the floor, T37 controls; and η | open |
 
 Order is priority. Since 29 Oct briefs are cut from the holes table in `../definition/proof.md` §5 (the *derive* rows); a brief names its hole. Several can run at once: each branches from `main` and writes to
 different files, except the one log line each adds to `docs/STATE.md`.

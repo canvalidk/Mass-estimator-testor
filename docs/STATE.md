@@ -312,6 +312,10 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (afternoon, Claude): **L24 candidate** (the law may not alter the declared noise law; a tempering is
+  admissible iff it is the cut posterior of a mean-1 noise-size law), from Can's "any degree of freedom in the law
+  that changes sigma as a banned one", R1 and R-2026-09-29-8. The test briefed to Sol as **B12** (Bernstein criterion;
+  ours30's g, the smooth form, the floor, T37 controls, and η).
 - 2026-10-30 (later, Claude): **R-2026-10-30-1 and T37.** Can: a misaligned reading is possible under the declared σ's,
   only unlikely; it conveys low information, direction kept. Formalised as Σ the covariance, each reading's noise size
   its shared state (L8), mean 1. Then T30 forces a power-law noise size, tail weight (ν + 2α)/Q with α > 1, so above
