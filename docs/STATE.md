@@ -312,6 +312,12 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (night, Claude): **O15, the latent measure:** the flat law is a profile likelihood with N incidental parameters
+  (Neyman–Scott); its information identity fails, and η = 𝓗/J is the standard quasi-likelihood correction. Every non-hierarchical
+  cure coincides with the flat law here (Cox–Reid, reference prior: the push's information is m-free in whitened arc-length) or does
+  not exist (conditional, marginal); the hierarchical cure, a size law, restores Bayesian calibration (0.96/0.93/0.94 vs the flat
+  law's 0.70/0.85/0.91; `tests/test_latent_measure.py`) and is forbidden by L10. So η's job is forced; B12's noise test was the wrong
+  test for it; L24 proposed narrowed to the reading channel. One cure unchecked: the modified profile likelihood, brief B14.
 - 2026-10-30 (evening, Claude): **coverage sorted into two regimes** (O15). The corner (signal → 0) is Gleser–Hwang: no always-finite
   law covers uniformly; brief B13 checks the hypotheses. N growing at fixed signal is Neyman–Scott: the flat factor gets worse with N
   (0.84 → 0.72 at signal 1), ours30 reaches nominal (0.93–0.95 at N = 80–200; `tools/ours30_coverage_vs_n.py`). Property N as ruled is
