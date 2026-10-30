@@ -312,6 +312,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (Codex, B11): the proposed common-scale density fails totality on valid 1D readings (aligned, boundary and all-zero examples); O14 derives the scale integral and its conditions, O7 records a proper null-padding example whose median moves, and `tests/test_scale_branch.py` checks them (19 pass). Stopped before the coverage study under the brief protocol; no production equation or ruling changed. Full suite: 1,750 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (afternoon, Claude): **G20 sorted** (T37): α = ν_eff/2, the effective degrees of freedom of the stated uncertainty
   (GUM Annex G), on calibration certificates; T30 is the GUM's "no uncertainty is exact". Correction: practice normalises the
   precision (E[1/v] = 1), not the covariance; so ours30's κ = k − ½ is a σ declared with ν_eff = ½, and the cap holds exactly
