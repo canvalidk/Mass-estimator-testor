@@ -312,6 +312,12 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (Claude): **B12 checked and merged.** Audit unchanged; suite 1807 passed. Codex corrected the sketch (Bernstein gives a
+  measure; a proper noise-size law also needs a normalisable inverse tilt) and found: every capped weight min(1, b/Q) fails Bernstein
+  (a plateau forces a point mass), so ours29's and ours30's g fail L24 in k ≥ 2 under both normalisations; the smooth form has no
+  proper law; the floor fails both normalisations; inverse-gamma controls pass in their own normalisation; **η fails too**: equal
+  precisions give the same plateau, unequal ones make J depend on residual direction, and a shared noise size is a joint
+  declaration the type does not make. Checked by hand: the kink jump, the improper smooth tilt, the η counterexample.
 - 2026-10-30 (Codex, B12): corrected the Bernstein criterion with the proper-prior recovery gate and both mean conventions; `met/admissible.py` gives analytic verdicts for the requested forms and a finite-grid diagnostic that remains unknown. The 57-case isolated preset and 76 tests check the smooth form's improper inverse tilt, floor/inverse-gamma controls and the shared-noise-size obstruction for η at N>=2 (O14). No production equation, premise row or ruling changed. Full suite: 1,807 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (afternoon, Claude): **G20 sorted** (T37): α = ν_eff/2, the effective degrees of freedom of the stated uncertainty
   (GUM Annex G), on calibration certificates; T30 is the GUM's "no uncertainty is exact". Correction: practice normalises the
