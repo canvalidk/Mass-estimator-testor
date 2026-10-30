@@ -312,6 +312,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-30 (Codex, B09): marked the nine theorems about the comparison cloud readout, O5 and the two series-size/weight questions as not load-bearing for ours30; the audit retains all three untested-theorem findings, labels T21's scope from its Status, and shows it in `--table` (checked by `tests/test_audit.py`). Full suite: 1707 passed, 26 skipped, 16 xfailed.
 - 2026-10-29 (night, Claude): briefs checked against T36: B11 added (the raw law on O7's "up to a scale" branch,
   a Student-type law in the one residual; the scale prior's exponent sorted as an input); frame pointers in B04, B06,
   B07; B08 told to leave T36's measure item alone. T36 gets the declared-subspace count (2d − k per reading on that branch).

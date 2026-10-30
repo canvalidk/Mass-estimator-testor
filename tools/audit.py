@@ -2,7 +2,8 @@
 
 Reports, without changing anything:
 
-  1. theorems whose Test line is "none yet" or "partial";
+  1. theorems whose Test line is "none yet" or "partial", retaining the finding
+     but marking those whose Status says "not load-bearing";
   2. premises whose status neither cites a dated ruling that exists in rulings.md
      nor carries a grade (bedrock, strong, medium, mild), nor is struck;
   3. premises that no theorem's From line uses;
@@ -56,11 +57,13 @@ def main(argv):
         frm = re.search(r"\*\*From:\*\*\s*(.*)", t)
         test = re.search(r"\*\*Test:\*\*\s*(.*)", t)
         status = re.search(r"\*\*Status[^*]*\*\*\s*(.*)", t)
+        status_text = status.group(1).strip() if status else ""
         theorems[tid] = {
             "file": f.name,
             "from": frm.group(1).strip() if frm else "",
             "test": test.group(1).strip() if test else "",
-            "status": status.group(1).strip() if status else "",
+            "status": status_text,
+            "not_load_bearing": "not load-bearing" in status_text.casefold(),
             "text": t,
         }
 
@@ -79,7 +82,8 @@ def main(argv):
     # 1. untested theorems
     for tid, th in theorems.items():
         if th["test"].startswith("none") or th["test"].startswith("partial"):
-            problems.append(("untested theorem", f"{tid} ({th['file']}): {th['test'][:80]}"))
+            scope = " [not load-bearing for ours30]" if th["not_load_bearing"] else ""
+            problems.append(("untested theorem", f"{tid} ({th['file']}){scope}: {th['test'][:80]}"))
 
     # 2. uncited premises; 6. ruled dates with no ruling
     all_text_for_dates = prem_text + "".join(th["text"] for th in theorems.values())
@@ -135,7 +139,8 @@ def main(argv):
             print(f"| {'~~' if struck else ''}{pid}{'~~' if struck else ''} | {name} {stmt} | {status} |")
         for tid, th in theorems.items():
             stmt = re.search(r"## Statement\s+(.*?)\s+## ", th["text"], re.S)
-            print(f"| {tid} | {stmt.group(1).strip() if stmt else ''} | from {th['from']}; test: {th['test']} |")
+            scope = "; not load-bearing for ours30 (comparison readout only)" if th["not_load_bearing"] else ""
+            print(f"| {tid} | {stmt.group(1).strip() if stmt else ''} | from {th['from']}; test: {th['test']}{scope} |")
         return 0
 
     print(f"definition/: {len(prem)} premise rows, {len(theorems)} theorems; problems/: {len(files)} files; "
