@@ -1,6 +1,6 @@
 # B14: Barndorff-Nielsen's modified profile likelihood for the latent pairs
 
-**Status:** open
+**Status:** done, awaiting check: Jacobian is nonconstant (exact scalar control; general expected-score approximation), but the global law fails on allowed inputs; calibration branch stopped, with eight obstruction/invariance checks.
 **Item:** `problems/O15.md` (30 Oct, later: the table of non-hierarchical cures). **Branch:** `codex/b14`.
 **Written:** 2026-10-30, Claude.
 

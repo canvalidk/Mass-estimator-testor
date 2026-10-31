@@ -314,6 +314,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-31 (Codex, B14): O15 derives the exact regular scalar BN inverse Jacobian and the labelled Severini expected-score approximation: the isotropic correction is $|\cos(\theta-\widehat\theta)|^{-k}$, not constant. Its global continuation has nonintegrable positive-mass poles; restricting the fit to positive mass instead produces allowed inputs outside the regular interior-MLE domain. Eight tests check the Jacobian, expected covariance, properness obstruction, Z limits, coordinate invariance and private/shared constructions. The global-law/calibration branch stops under the false-premise protocol; no coverage of an undefined law is reported, no production code or premise changes, and no uniqueness claim for η follows. Full suite: 1,912 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-31 (Claude): **B01 checked and merged** (audit unchanged; branch suite 1787 passed; default robot table byte-identical;
   one row reproduced from the CLI). The calibration-side budget does not close O16's gap: without the floor the misfit is 13–1100×
   what the declared noise produces and autocorrelation raises g only 2–5×, so the miss is error shared between readings (O16).
