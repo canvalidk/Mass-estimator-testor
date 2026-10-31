@@ -124,7 +124,9 @@ prints the table (ours30; `--equation ours29` for the table before 29 Oct). On 1
 with 0.2 s windows ours30 gives median 0.9213, [0.9145, 0.9282] (ours29: 0.9213,
 [0.9137, 0.9290]), against the static calibration mass 0.9323 (strict xfail under both);
 static orientations held out give 0.9302 and 0.9320 and cover it. Why the dynamic runs
-miss is O16: the declared budget is not yet right (28 Oct; brief B01).
+miss is O16. The calibration-side budget (autocorrelated white part, static rotation; B01, `--white`,
+`--rotation`, `--matrix`) does not close it, so the miss points at error shared between readings.
+The robot is a testbed for probes, not the experiment check (R-2026-10-31-1).
 
 ## Where the truth lives
 
@@ -312,6 +314,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-31 (Claude): **B01 checked and merged** (audit unchanged; branch suite 1787 passed; default robot table byte-identical;
+  one row reproduced from the CLI). The calibration-side budget does not close O16's gap: without the floor the misfit is 13–1100×
+  what the declared noise produces and autocorrelation raises g only 2–5×, so the miss is error shared between readings (O16).
 - 2026-10-30 (night, Claude): **O15, the latent measure:** the flat law is a profile likelihood with N incidental parameters
   (Neyman–Scott); its information identity fails, and η = 𝓗/J is the standard quasi-likelihood correction. Every non-hierarchical
   cure coincides with the flat law here (Cox–Reid, reference prior: the push's information is m-free in whitened arc-length) or does
@@ -342,6 +347,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   declaration the type does not make. Checked by hand: the kink jump, the improper smooth tilt, the η counterexample.
 - 2026-10-30 (Codex, B12): corrected the Bernstein criterion with the proper-prior recovery gate and both mean conventions; `met/admissible.py` gives analytic verdicts for the requested forms and a finite-grid diagnostic that remains unknown. The 57-case isolated preset and 76 tests check the smooth form's improper inverse tilt, floor/inverse-gamma controls and the shared-noise-size obstruction for η at N>=2 (O14). No production equation, premise row or ruling changed. Full suite: 1,807 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (Codex, B11): the proposed common-scale density fails totality on valid 1D readings (aligned, boundary and all-zero examples); O14 derives the scale integral and its conditions, O7 records a proper null-padding example whose median moves, and `tests/test_scale_branch.py` checks them (19 pass). Stopped before the coverage study under the brief protocol; no production equation or ruling changed. Full suite: 1,750 passed, 26 skipped, 16 xfailed; audit findings unchanged.
+- 2026-10-30 (Codex, B01, pressure): declared the robot's autocorrelated white budget and optional static rotation from calibration-side data only; seeded preset `robot_budget.yaml` retains all 48 ours30 rows with ours29 medians, tau bootstrap spreads and rotation covariance. O16 contains the table and four predeclared answers: the gap remains, width compatibility is mixed, and no autocorrelated group covers the reference at all three widths. Defaults, existing xfails and equation unchanged. Full regression run: 1785 passed, 26 skipped, 16 xfailed; updated CLI guards: 8 passed; audit unchanged.
 - 2026-10-30 (afternoon, Claude): **G20 sorted** (T37): α = ν_eff/2, the effective degrees of freedom of the stated uncertainty
   (GUM Annex G), on calibration certificates; T30 is the GUM's "no uncertainty is exact". Correction: practice normalises the
   precision (E[1/v] = 1), not the covariance; so ours30's κ = k − ½ is a σ declared with ν_eff = ½, and the cap holds exactly

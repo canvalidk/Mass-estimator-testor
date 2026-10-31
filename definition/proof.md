@@ -383,7 +383,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G7 | 15 | T5 for the median: the law's swap symmetry, two lines | write | T05 → brief B10 |
 | G6 | 16 | L23 | rule | O2 |
 | G12 | 4 | the audit and the problem files still count L12, O5, T9–T10's freedoms as the definition's | write | `tools/audit.py`, O2, `ladder.md` → brief B09 |
-| G14 | — | agreement with experiment (`../TASK.md` §5) | derive (a study) | brief B01 |
+| G14 | — | agreement with experiment (`../TASK.md` §5): a check on the survivor, not on a probe; no venue yet. The robot is a phase-one testbed, not this check (R-2026-10-31-1); B01 merged 31 Oct as a robot input check | derive (a study), later | — |
 
 Not holes, but noted: step 5's reliance on L13's "independent across readings" (a declaration;
 O16 is where it may gain a slot); the 95% level (a convention, step 18).

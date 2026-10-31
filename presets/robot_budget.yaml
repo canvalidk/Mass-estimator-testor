@@ -1,0 +1,19 @@
+kind: robot_budget
+name: robot-budget
+question: >-
+  How do the robot's declared white-noise autocorrelation and calibration-side
+  rotation affect ours30 across window widths, with the original floor retained
+  or omitted, and with ours29 medians alongside for comparison?
+notes: >-
+  B01, O16. Every declaration is derived from the rest recordings and static
+  calibration rows before reading the dynamic runs. Every factorial row is
+  retained. Bootstrap spreads describe one second of calibration-side data;
+  rotation uncertainty is reported but not propagated. No equation is changed.
+runs: [1-baseline, 2-vibrations]
+widths: [0.05, 0.2, 1.0]
+white: [independent, autocorrelated]
+floors: [true, false]
+rotations: [nominal, static]
+bootstrap_replicates: 500
+seed: 20261030
+block_fraction: 0.2
