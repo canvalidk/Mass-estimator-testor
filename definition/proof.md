@@ -70,12 +70,16 @@ second clause). → gaps G10, G11.
 **Step 2. The noise model is Gaussian with the declared $\Sigma_i$.** The model attaches to the
 data a density $\phi_{\Sigma_i}(\mathbf y_i-\text{true pair})$. L13 says the model uses only the declared
 second moments and is not a claim about the world's errors (R-2026-09-27-12). That the family is
-*Gaussian* and not another second-moment family: T23 gives two routes. The Z route: only the
-Gaussian leaves an exact-zero reading's factor constant in $m$ (L20); written as a test,
-`tests/test_theorems.py::test_t23_only_gaussian_noise_leaves_a_zero_reading_alone`, under the
-flat weight. The consistency route (L11) under the tempered evidence is O4, unwritten.
-*forced (test only)* from L20 and L11. The derivation behind the Z route is not written out;
-the consistency route is open. → gap G1.
+*Gaussian* and not another second-moment family was attributed to two routes in T23.
+**B05 (30 Oct, Codex): neither establishes the forcing claim.** Z admits elliptical
+non-Gaussian laws and even an independent-channel non-Gaussian counterexample; the
+zero-line integral does not imply full spherical symmetry. Under current ours30,
+positive-misfit weights also give a Gaussian-world counterexample to literal L11
+with fixed nonzero weak signal and increasing N. T23 writes out both arguments and
+names their tests. The narrower fixed-N amplitude consistency result includes
+non-Gaussian bounded-scale mixtures. The Gaussian remains the model stipulated by
+L13; its uniqueness from L20 and L11 is a **gap**, not "forced (test only)". O4 remains
+open; no premise row or equation changes here. → gap G1.
 
 **The frame for steps 1–5 (T36, 29 Oct).** The reading space $W_i$, with the noise metric
 $\Sigma_i^{-1}$ forced by units; the hypothesis $m$ as the subspace $L_i(m)$ (step 1's candidates);
@@ -272,7 +276,7 @@ of the definition: the law is the output and the interval summarises it. *ruled.
 | L4 (swap, law) | $\pi$ symmetric; the whole law symmetric (step 15) | same |
 | L5, L14 (composition, law level) | computed and measured laws cover alike | `tests/test_composition_law.py` |
 | L8, L9, L10 | the per-reading factor is the flat Gaussian endpoint | `tests/test_theorems.py::test_t6_t7_*`; `tests/test_cartesian.py` |
-| L11 (consistency) | T17 | `tests/test_theorems.py::test_t17_*` |
+| L11 (consistency) | **fails** (B05, 31 Oct): at fixed per-reading signal as N grows the point converges to a wrong mass (truth 2, signal 1: 1.73 in 1D, 1.81 in 3D), because $g(Q_+)$ is correlated with the score. Holds for fixed N as the signal grows (T23). T17 is the flat weight's → G22 | `tests/test_theorems.py::test_t23_gaussian_ours30_fails_literal_total_signal_consistency`; `tests/test_weight_consistency.py` |
 | L13 (Gaussian model) | by construction | T23's test |
 | L16 (frame) | T22 | `tests/test_full.py::test_rotation_with_covariance_changes_nothing` |
 | L17 (same candidate law, same mass) | the point is a law functional (step 13) | by construction since 28 Oct |
@@ -342,6 +346,13 @@ constrains the weight (the sort above, and L24), **steps 9–11 are open and our
 function**; T37 gives the form the reading level would take (a cut posterior of a mean-1 noise size
 with a power-law tail), with its tail index an input whose principal branch is unknown (G20).
 
+**And ours30 fails L11 (31 Oct, B05; G22).** The sign of F·a entered the weight through $Q_+$
+(step 8, R-2026-10-29-1, to meet T30 on anti-parallel pairs). A weight that sees the sign is
+correlated with the score, so at fixed per-reading signal the point is inconsistent; a weight that is a
+function of the Gram eigenvalues alone (ours29's) is not. So T30 with R-2026-09-07-1 and L11, as
+stated, cannot all hold for a power-form weight: steps 8–10 are open on this ground too, independently
+of G18. The statement above holds only with L11 read as fixed-$N$ amplitude consistency (T23).
+
 **What is no longer load-bearing.** Switching the point to the median (28 Oct) took these off
 the path from premises to ours30: T3, T4 (ratio of means), T9 (stacked size), T10 (the cloud
 readout), T11 (sufficiency through the stacked sums), T14, T15 (the readout at zero readings and
@@ -367,7 +378,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | --- | --- | --- | --- | --- |
 | G10 | 1 | L22, scalar mass, as a clause of L1 | rule | O17 |
 | G11 | 1, 4 | $N_i$ as an input (L18's second clause); R3 unwritten, R5 provisional | rule; VD-Newton | L18; `ladder.md` |
-| G1 | 2 | T23: the Z route's derivation written out; the consistency route under tempered evidence | write; derive | O4 → brief B05 |
+| G1 | 2 | T23's Gaussian-forcing claim: B05 delivered counterexamples to both routes as stated; further justification is open. **Merged 31 Oct;** L13 is now stipulated, conditionally forced by Herschel–Maxwell given full sphericity and independent channels | write; derive; rule | O4 → brief B05, merged |
 | G2 | 3 | T6's argument moved from the O3 record into T06.md | write | T06 → brief B07 |
 | G17 | 3 | the 1D factor: "a reading declared $k=1$ is the 1D reading" needs stating as a premise or deriving from L8 and L18 | sort | T25, L8 |
 | G15 | 4, 5, 15, and the consistency theorems | 31 theorem files with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → briefs B06 (T16–T19, T24, T25), B10 (T5, T12, T13, T22) |
@@ -378,9 +389,10 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G19 | 7 | L21's ruled power form, or the cut's exact factor (T37 (4)), as the body | rule | T37 |
 | G20 | 9 | T37's tail index α: an input, but TASK §5's guard asks that practice supply it. **Sorted 30 Oct, provisional (T37, G20 section):** α = ν_eff/2, the effective degrees of freedom of the stated uncertainty (GUM Annex G), on calibration certificates; the inverse-gamma shape forced by L13 applied to how σ was obtained. Practice normalises the precision ($E[1/v]=1$), which restates T37 (2) and (3): ours30 is a σ declared with ν_eff = ½; the cap holds exactly in 1D | sort (done) | T37 |
 | G21 | 9, 11 | L24's test: which temperings are cut posteriors of a mean-1 noise size; η's series version | derive | L24 → brief B12 |
+| G22 | 8–10, 11 | **The sign in the weight against consistency** (31 Oct, from B05). T30 with R-2026-09-07-1 put the sign of F·a into the misfit ($Q_+$); L11 forbids a weight correlated with the score at the truth. Eigenvalue-only weights keep the population optimum at the truth (T38's step 1 symmetry); $g(Q_+)$ moves it (2D/3D: −10%/−9% at signal 1, −3%/−2% at signal 2). Forced, input, or which premise is mis-stated | sort (Claude) → rule | T30, T32, L11; `tests/test_weight_consistency.py`; T23 |
 | ~~G4~~ | 10 | ~~$S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved~~ **closed 31 Oct: T38** (B02); load-bearing only if G18 keeps O12's meaning | derive | brief B02, merged |
 | G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after G18 (only if it keeps O12's meaning) | O13 |
-| G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open. **30 Oct (O15):** property N is stated in the limit, and ours30 meets it there (0.93–0.95 at $N=80$–200, signal 1–2, 3D); only the finite-$N$ form is left. **31 Oct (B04 merged):** the leverage identity $E[J]=C(1-1/n_{\rm eff})$ holds for fixed nonnegative curvatures only; ours30's observed curvatures are signed, so $n_{\rm eff}$ is not a count and the target has no finite mean. Standard remedy (HC2 leverages from Fisher, not observed, information) is a pointer, unsorted |
+| G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open. **30 Oct (O15):** property N is stated in the limit, and ours30 meets it there (0.93–0.95 at $N=80$–200, signal 1–2, 3D); only the finite-$N$ form is left. **31 Oct correction:** that is finite-$N$ only; ours30's point is inconsistent at fixed signal (G22), so its coverage must fall as $N$ grows. **31 Oct (B04 merged):** the leverage identity $E[J]=C(1-1/n_{\rm eff})$ holds for fixed nonnegative curvatures only; ours30's observed curvatures are signed, so $n_{\rm eff}$ is not a count and the target has no finite mean. Standard remedy (HC2 leverages from Fisher, not observed, information) is a pointer, unsorted |
 | G7 | 15 | T5 for the median: the law's swap symmetry, two lines | write | T05 → brief B10 |
 | G6 | 16 | L23 | rule | O2 |
 | G12 | 4 | the audit and the problem files still count L12, O5, T9–T10's freedoms as the definition's | write | `tools/audit.py`, O2, `ladder.md` → brief B09 |
@@ -408,3 +420,4 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 - 2026-10-29 (later): point-level Z removed as a premise (R-2026-10-29-2); steps 13, 16, 17 and §3 reworded.
 - 2026-10-29 (night): the frame for steps 1–5 named (T36), on R-2026-10-29-3.
 - 2026-10-30: steps 7, 9, 10, 11 and §§3–4 brought up to T37 and L24: the rulings at steps 9–10 conflict (R1 against O12), sorted provisionally; what is proved restated; holes G18–G21.
+- 2026-10-31: B01, B02 (T38, G4 closed), B04 and B05 merged; ours30 fails L11 (G22, new); L13 stipulated.

@@ -153,7 +153,9 @@ strict xfail, kept as ours29's record). Sorted 27 Oct as a wrong premise (L8's c
 inequality); the misfit is the smallest error under the law, $m>0$ included (R-2026-09-07-1), so
 it is $Q_+$; the numerator is O12's meaning read without a size, $k-\tfrac12$ (O13, 29 Oct).
 **R-2026-10-29-1** switched the definition to ours30. The value $k-\tfrac12$ is proved (T38, 31 Oct); owed:
-κ under a general covariance (unknown yet), only if G18 keeps O12's meaning.
+κ under a general covariance (unknown yet), only if G18 keeps O12's meaning. **31 Oct (B05):** the
+fix costs consistency: a weight that sees the sign is correlated with the score, so ours30 fails L11 at
+fixed per-reading signal as N grows; ours29's sign-blind weight does not (G22, a sort owed).
 
 ### O2: the readout (provisionally resolved 28 Oct; Can's check of L23 pending)
 
@@ -200,7 +202,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 | Item | Kind | One line |
 | --- | --- | --- |
-| O4 | proof | Gaussian noise forced under the tempered evidence |
+| O4 | proof | Gaussian noise forced? B05 (31 Oct): neither stated route forces it; L13 stipulated, conditionally forced by Herschel–Maxwell; the consistency route found G22 |
 | O5 | proof | Write out the betweenness representation step behind T21 |
 | O7 | ruling; part sorted as input (27 Oct) | Does Z cover zeros beside a signal? Separately: Z for mass and Z for noise split by whether Σ is declared exact or up to a scale |
 | O9 | ruling | Is the window the criterion for one reading versus several? (proposed 10 Oct) |
@@ -314,6 +316,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-31 (Claude): **B05 checked and merged; ours30 breaks L11.** Both routes to "Gaussian forced" fail as stated (Z admits
+  non-Gaussian elliptical and independent-channel models; Codex's density checked to 9 digits): L13 is stipulated. The consistency
+  counterexample confirmed with production code (1D, truth 2, signal 1, N = 3000: ours30 1.764 [1.597, 1.959]; ours29 2.002) and in
+  2D/3D by population optimum (1.79, 1.81). Cause: g(Q₊) sees the sign of F·a, so it is correlated with the score; ours29's
+  eigenvalue-only weight stays consistent. New hole G22 (sort); `tests/test_weight_consistency.py`. O15's ours30 N-study read as finite-N.
 - 2026-10-31 (Claude): **B04 checked and merged.** The leverage identity E[J] = C(1 − 1/n_eff) holds for fixed nonnegative curvatures;
   ours30's observed curvatures are signed, so n_eff is not a count (G3). Strong-signal J/C (0.955, 0.943 in 2D, 3D) is E[g²]/E[g]: the cap tempers
   22–29% of readings the exact declared noise explains, T37 (3)'s efficiency cost seen from η (G18). η′ reported, not adopted.
@@ -326,6 +333,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 - 2026-10-31 (Claude): **B01 checked and merged** (audit unchanged; branch suite 1787 passed; default robot table byte-identical;
   one row reproduced from the CLI). The calibration-side budget does not close O16's gap: without the floor the misfit is 13–1100×
   what the declared noise produces and autocorrelation raises g only 2–5×, so the miss is error shared between readings (O16).
+- 2026-10-30 (Codex, B05): T23 now derives the scope of both claimed Gaussian-forcing routes. Ours30's positive-misfit weights give a Gaussian-world counterexample to L11 with fixed weak nonzero signal and N growing; Z admits an explicit non-Gaussian independent-channel model. Fixed-N amplitude consistency is proved for Gaussian and bounded-mixture models. O4 stays open and proof step 2 is marked a gap; production code, premises and historical numerical assertions are unchanged. Six focused T23 checks pass; full suite: 1,847 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (night, Claude): **O15, the latent measure:** the flat law is a profile likelihood with N incidental parameters
   (Neyman–Scott); its information identity fails, and η = 𝓗/J is the standard quasi-likelihood correction. Every non-hierarchical
   cure coincides with the flat law here (Cox–Reid, reference prior: the push's information is m-free in whitened arc-length) or does

@@ -1,6 +1,6 @@
 # B05: T23's consistency route under the tempered evidence (O4)
 
-**Status:** open
+**Status:** merged 2026-10-31 (checked by Claude): both routes refuted as stated; ours30's L11 counterexample confirmed with production code (G22).
 **Item:** `problems/O4.md`, `definition/theorems/T23.md`; `definition/proof.md` step 2, hole G1.
 **Branch:** `codex/b05`. **Written:** 2026-10-29, Claude.
 
