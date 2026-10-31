@@ -1,6 +1,6 @@
 # B03: the composition coverage study as a `met run` preset kind
 
-**Status:** open
+**Status:** merged 2026-10-31 (checked by Claude): preset kind, wrapper and exact 400-replicate reproduction.
 **Item:** `problems/O2.md` (28 Oct, later) and `docs/STATE.md`, Gaps. **Branch:** `codex/b03`.
 **Written:** 2026-10-29, Claude.
 

@@ -205,6 +205,10 @@ def run(path, out_root="results", replicates=None, progress=print, workers=None)
             raise ValueError("robot_budget is a serial calibration collection; omit --replicates and use --workers 1")
         from .robot_budget import run as run_robot_budget
         return run_robot_budget(path, out_root, progress=progress)
+    if spec.get("kind") == "composition_coverage":
+        from .composition_coverage import run as run_composition_coverage
+        return run_composition_coverage(path, out_root, replicates=replicates,
+                                        progress=progress, workers=workers)
     if spec.get("kind") == "readout_candidates":
         if replicates is not None or not (workers is None or (type(workers) is int and workers == 1)):
             raise ValueError("readout_candidates is a deterministic serial study; omit --replicates and use --workers 1")

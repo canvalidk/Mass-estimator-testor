@@ -56,10 +56,10 @@ def main(argv=None):
         import yaml
         with args.preset.open(encoding="utf-8") as handle:
             envelope = yaml.safe_load(handle)
-        serial_inspection = isinstance(envelope, dict) and envelope.get("kind") in ("inspection", "noise_path", "prior_path", "pooled_scale", "shared_tilt", "anisotropic_world", "readout_candidates", "robot_budget")
+        serial_inspection = isinstance(envelope, dict) and envelope.get("kind") in ("inspection", "noise_path", "prior_path", "pooled_scale", "shared_tilt", "anisotropic_world", "readout_candidates", "robot_budget", "composition_coverage")
     if serial_inspection:
         # Do this before importing NumPy on the standalone CLI path. Library users
-        # control their own numerical runtime; inspection never spawns processes.
+        # control their own numerical runtime; cell workers inherit these limits.
         for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
             os.environ[key] = "1"
     from . import preset as preset_mod
@@ -76,6 +76,8 @@ def main(argv=None):
             spec = preset_mod.load(args.preset)
             if spec.get("kind") == "robot_budget":
                 print(f"ok: {len(spec['cells'])} robot-budget calibration case(s); serial")
+            elif spec.get("kind") == "composition_coverage":
+                print(f"ok: {len(spec['cells'])} composition-coverage signal-size cell(s); ours29, workers supported")
             elif spec.get("kind") == "readout_candidates":
                 print(f"ok: {len(spec['cells'])} readout-candidate diagnostic cell(s); serial, no random draws")
             elif spec.get("kind") == "anisotropic_world":

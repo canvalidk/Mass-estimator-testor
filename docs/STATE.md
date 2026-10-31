@@ -166,7 +166,7 @@ common force 5.8% strong, 90% weak). So point-level composition at finite noise 
 mis-stated premise (TASK §3, outcome 3): the rungs commit exact values. **R-2026-10-28-1**
 restates L5 and L14 at the level of the law in three clauses (exact inputs add; the
 composite's law is computed from the parts' laws; a new measurement of the composite must
-be consistent with it, as coverage), checked by `tools/composition_coverage.py`: both laws
+be consistent with it, as coverage), checked by `presets/composition_coverage.yaml`: both laws
 cover at ~95% and overlap 99% wherever the parts do.
 
 What is left for the point: Z-exact (every law functional is, T24), c at the all-zero
@@ -215,8 +215,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Gaps (as of 2026-10-24; 27 Oct additions marked)
 
-- (28 Oct) `tools/composition_coverage.py` is a seeded script, not a preset kind of `met run`
-  (brief B03). (29 Oct) So is `tools/eta_sign_check.py` (T31). (30 Oct) So is `tools/ours31_coverage.py` (O18).
+- (29 Oct) `tools/eta_sign_check.py` (T31) is a seeded script, not a preset kind of `met run`. (30 Oct) So is `tools/ours31_coverage.py` (O18).
 
 - (27 Oct) L22 (isotropy of inertia) and T34 are Claude's, from the 26 Oct scratch session,
   whose two toy scripts (`comp.py`, `qnoise.py`) were not kept; numbers from them are marked
@@ -315,6 +314,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-31 (Claude): **B03 checked and merged.** The untouched 28 Oct script and the new wrapper, both run at 400 replicates,
+  give identical JSON and O2's printed table; the preset kind sits beside B01's robot_budget (merge conflicts in met/ resolved,
+  one elif restored). The preset is locked to the historical ours29 run; composition under ours30 has not been checked.
 - 2026-10-31 (Claude): **B02 checked and merged** (audit unchanged apart from T38; branch suite green). Proofs checked by hand;
   an independent Monte Carlo (four seeds, 4×10⁶ draws) agrees with the quadrature (|z| < 1.7). Written up as **T38**: sup E[Q₊] = k − ½,
   sup E[Q] = k − 1, neither attained; the brief's "only as both channels grow" was wrong. Load-bearing only if G18 keeps O12's meaning.
@@ -351,6 +353,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   declaration the type does not make. Checked by hand: the kink jump, the improper smooth tilt, the η counterexample.
 - 2026-10-30 (Codex, B12): corrected the Bernstein criterion with the proper-prior recovery gate and both mean conventions; `met/admissible.py` gives analytic verdicts for the requested forms and a finite-grid diagnostic that remains unknown. The 57-case isolated preset and 76 tests check the smooth form's improper inverse tilt, floor/inverse-gamma controls and the shared-noise-size obstruction for η at N>=2 (O14). No production equation, premise row or ruling changed. Full suite: 1,807 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (Codex, B11): the proposed common-scale density fails totality on valid 1D readings (aligned, boundary and all-zero examples); O14 derives the scale integral and its conditions, O7 records a proper null-padding example whose median moves, and `tests/test_scale_branch.py` checks them (19 pass). Stopped before the coverage study under the brief protocol; no production equation or ruling changed. Full suite: 1,750 passed, 26 skipped, 16 xfailed; audit findings unchanged.
+- 2026-10-30 (Codex, B03): historical ours29 composition coverage is now an explicit preset kind; the old tool is a compatibility wrapper, and raw replicate outputs, job seeds and effective inputs are retained. Both the untouched original and the migrated 400-replicate runs reproduce all 21 recorded coverage/overlap entries and six L14 defect entries, and their full-precision legacy payloads are identical. Seed layout, numerical core and scientific records are preserved. Focused checks: 60 passed; slow record check: 1 passed; full regression: 1785 passed, 27 skipped, 16 xfailed; audit unchanged.
 - 2026-10-30 (Codex, B01, pressure): declared the robot's autocorrelated white budget and optional static rotation from calibration-side data only; seeded preset `robot_budget.yaml` retains all 48 ours30 rows with ours29 medians, tau bootstrap spreads and rotation covariance. O16 contains the table and four predeclared answers: the gap remains, width compatibility is mixed, and no autocorrelated group covers the reference at all three widths. Defaults, existing xfails and equation unchanged. Full regression run: 1785 passed, 26 skipped, 16 xfailed; updated CLI guards: 8 passed; audit unchanged.
 - 2026-10-30 (afternoon, Claude): **G20 sorted** (T37): α = ν_eff/2, the effective degrees of freedom of the stated uncertainty
   (GUM Annex G), on calibration certificates; T30 is the GUM's "no uncertainty is exact". Correction: practice normalises the
