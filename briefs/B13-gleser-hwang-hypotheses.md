@@ -1,6 +1,6 @@
 # B13: does Gleser–Hwang apply to the type? (the corner of O15)
 
-**Status:** open
+**Status:** done, awaiting check: zero uniform coverage proved directly for the type; original 1987 PDF unavailable, verified restatement cited; fixed-mass zero-limit clause disproved and positive-floor regression added.
 **Item:** `problems/O15.md` (30 Oct sort, regime (a)); property N (R-2026-09-29-4). **Branch:** `codex/b13`.
 **Written:** 2026-10-30, Claude.
 

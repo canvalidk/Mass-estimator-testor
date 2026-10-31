@@ -312,6 +312,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-31 (Codex, B13): O15 proves zero uniform coverage in the weak-identification corner for every finite reading count, even along nonzero-signal sequences, by a Gaussian total-variation argument. The original Gleser–Hwang PDF was unavailable; a published restatement and Dufour's author version were verified with that access limit explicit. The brief's fixed-$ce^{\pm3}$ zero-limit prediction is false: both limits are positive, with 0.5367/0.5600 observed in the single 300-series paired regression (about 5 s). The prior-averaged floor and regime (b) stay open/unchanged; no production code, prior, tempering, premise or PDF catalogue changed. Full suite: 1,845 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (night, Claude): **O15, the latent measure:** the flat law is a profile likelihood with N incidental parameters
   (Neyman–Scott); its information identity fails, and η = 𝓗/J is the standard quasi-likelihood correction. Every non-hierarchical
   cure coincides with the flat law here (Cox–Reid, reference prior: the push's information is m-free in whitened arc-length) or does
