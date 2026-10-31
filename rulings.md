@@ -436,6 +436,12 @@ read. Line numbers refer to the files as they stood that day.
 - **Words:** "you keep analyzing it as if a 'mistake' has occured, but not necessarily. That misaligned value could have come from the same sigmas, its just unlikely. You keep trying to assume that there is something to fix when there isn't. Your reasoning can't assume that the info is wrong. Just that it conveys low info. Think like this, an anomaly occurs in a data fit and its way above the line, its likely misleading the determined value. But the fact that its way above and not way below still seems to tell you something?"; on the plan to sort it as "Σ is the covariance, each reading's noise size is its shared state": "Yes! go ahead."
 - **Source:** the conversation of 2026-10-30; recorded directly.
 
+### R-2026-10-31-1 — The robot data is a phase-one testbed, not the experiment check
+- **Decides:** The public robot dataset is a testbed for phase one, like the synthetic worlds: a place where a probe can break and name a premise (O16 is one such find). It is not the agreement-with-experiment check of `TASK.md` §5, which is a check on the survivor, not on a probe. TASK §5, GOAL.md and `proof.md` G14 stop naming it as that check. Claude's wording of the scope; the words below are his.
+- **Replaces / closes:** TASK §5's "The robot data in `legacy/vd-newton-lab/raw/robot/` is the first place to make it", and G14's pointer at brief B01 (B01 merged the same day as a robot input check).
+- **Words:** "You were getting obsessed by the robot example. That might have been before you understood phase one vs phase two of the project. robot data is instructive but nothing more than another testbed to continue with phase one." Earlier, 29 Oct (from Claude's notes of that conversation, not in this repo's records): "no more thinking about the robot. It is simply not relevant."
+- **Source:** the conversation of 2026-10-31 (this session); recorded directly.
+
 ---
 
 ## Owed

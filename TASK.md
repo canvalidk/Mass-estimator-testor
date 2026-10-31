@@ -108,8 +108,9 @@ Moving things into the input is powerful enough to abuse. Two checks stop that:
 - **It must agree with experiment.** The definition is whatever is unique *and* reproduces
   what practice does when the inputs are known: detection limits on null measurements,
   combination with other routes (the density route, a spring, weighing), and real data.
-  Until the function has been run on real data, this check has not been made. The robot
-  data in `legacy/vd-newton-lab/raw/robot/` is the first place to make it.
+  It is a check on the survivor, not on a probe, and it has not been made. The robot data in
+  `legacy/vd-newton-lab/raw/robot/` is not this check: it is a phase-one testbed like the
+  synthetic worlds, where a probe can break and name a premise (R-2026-10-31-1).
 
 ## 6. What this does to the open items
 
