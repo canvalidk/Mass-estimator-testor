@@ -34,7 +34,7 @@ so the goal is uniqueness, not a good estimator.
 from the type to ours30 is in `definition/proof.md` (29 Oct), eighteen steps: what is proved
 today is that on isotropic uncorrelated channels any function meeting the premises as ruled,
 with L22, L23 and η's finite-N form taken as given, is ours30 up to the declared inputs. Those
-three, plus 31 theorem files whose proofs still say "carried from the records", are the
+three, plus 25 theorem files whose proofs still say "carried from the records", are the
 uniqueness half's work; the holes are typed there and that table is the queue. O2 (the readout) is provisionally
 resolved as of 28 Oct, pending Can's check of L23; O6 still needs a real idea, not more
 tests. The law's sign defect is closed by ours30 (29 Oct). Some premises are graded below bedrock or are
@@ -316,6 +316,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-31 (Claude): **B06 checked and merged.** T16–T19, T24, T25 written out; checked by hand (T25's correlated example gives H = 4/5 vs
+  1/2 directly). Three statements lacked conditions and now carry scope lines: T16 (tilt gλ under ours30), T17 (fixed N only; false for
+  ours30 through N, G22), T25 (zero axes inert only if uncorrelated; k = 1 through the conditional covariance). 25 files still "carried".
 - 2026-10-31 (Claude): **B05 checked and merged; ours30 breaks L11.** Both routes to "Gaussian forced" fail as stated (Z admits
   non-Gaussian elliptical and independent-channel models; Codex's density checked to 9 digits): L13 is stipulated. The consistency
   counterexample confirmed with production code (1D, truth 2, signal 1, N = 3000: ours30 1.764 [1.597, 1.959]; ours29 2.002) and in
@@ -333,6 +336,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 - 2026-10-31 (Claude): **B01 checked and merged** (audit unchanged; branch suite 1787 passed; default robot table byte-identical;
   one row reproduced from the CLI). The calibration-side budget does not close O16's gap: without the floor the misfit is 13–1100×
   what the declared noise produces and autocorrelation raises g only 2–5×, so the miss is error shared between readings (O16).
+- 2026-10-30 (Codex, B06): wrote T16–T19, T24 and T25 proofs with all Statements unchanged. Added needed scope: T16 raw g=η=1 and negative-tilt attenuation; T17 fixed-N amplitude growth with positive g/η bounds, not generic limits 1; T18 unweighted Gaussian local asymptotic widths, since the exact mass-law mean is infinite; T25 matching covariance/candidate blocks or conditional Schur reduction. T19's tail and T24's zero-law proofs cover arbitrary covariance/subspace. All 25 new focused tests pass; full suite: 1,869 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (Codex, B05): T23 now derives the scope of both claimed Gaussian-forcing routes. Ours30's positive-misfit weights give a Gaussian-world counterexample to L11 with fixed weak nonzero signal and N growing; Z admits an explicit non-Gaussian independent-channel model. Fixed-N amplitude consistency is proved for Gaussian and bounded-mixture models. O4 stays open and proof step 2 is marked a gap; production code, premises and historical numerical assertions are unchanged. Six focused T23 checks pass; full suite: 1,847 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (night, Claude): **O15, the latent measure:** the flat law is a profile likelihood with N incidental parameters
   (Neyman–Scott); its information identity fails, and η = 𝓗/J is the standard quasi-likelihood correction. Every non-hierarchical

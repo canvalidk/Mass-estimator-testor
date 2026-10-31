@@ -304,8 +304,9 @@ Reading §2 with the statuses:
 - **Forced, with the argument written in this repo:** steps 0, 8, 13, 15 (two lines owed), 17,
   T35's conditional (step 16).
 - **Forced, argument in the archive, not yet in the theorem file:** steps 3 (T6), 6 (the family
-  of $\pi$), 9's ends, 11 (T31, compressed), and most of the consistency theorems (T12, T17,
-  T18, T19, T22, T24, T25: 31 of 35 theorem files say "carried from the records").
+  of $\pi$), 9's ends, 11 (T31, compressed), and some of the consistency theorems (T12, T22; 25 of 38
+  theorem files still say "carried from the records"). T16–T19, T24, T25 written 31 Oct (B06), with
+  scope conditions; T17 holds for fixed $N$ only (G22).
 - **Ruled:** steps 0′, 7 (the form of the weight), 8, 9's middle, 10's meaning, 14 (provisional),
   18, the inputs of step 6.
 - **Provisional:** L22 (step 1), step 14, step 16 (L23).
@@ -381,7 +382,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G1 | 2 | T23's Gaussian-forcing claim: B05 delivered counterexamples to both routes as stated; further justification is open. **Merged 31 Oct;** L13 is now stipulated, conditionally forced by Herschel–Maxwell given full sphericity and independent channels | write; derive; rule | O4 → brief B05, merged |
 | G2 | 3 | T6's argument moved from the O3 record into T06.md | write | T06 → brief B07 |
 | G17 | 3 | the 1D factor: "a reading declared $k=1$ is the 1D reading" needs stating as a premise or deriving from L8 and L18 | sort | T25, L8 |
-| G15 | 4, 5, 15, and the consistency theorems | 31 theorem files with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → briefs B06 (T16–T19, T24, T25), B10 (T5, T12, T13, T22) |
+| G15 | 4, 5, 15, and the consistency theorems | 31 theorem files (25 since B06 merged, 31 Oct: T16–T19, T24, T25 written, with conditions T16, T17, T25's statements lacked) with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → briefs B06 (T16–T19, T24, T25), B10 (T5, T12, T13, T22) |
 | G8 | 6 | the family $m^{-1}g(\ln m/c)$ derived in one place (L3, L4, properness) | write | O6, T28 → brief B08 |
 | G9 | 6 | the centre: L3′'s first half, then $c=s$ | rule | O11 |
 | G13 | 7, 9 | why the weight is a power on $E_i$, and which premise makes bounded confidence a requirement | sort | T30, L21. **30 Oct, provisional:** the power is a noise scale read once (L21's cut, O14); bounded confidence derived from a noise size with a power-law tail (T37 (1)), which supersedes the morning's "from Σ as a floor" |

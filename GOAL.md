@@ -125,7 +125,7 @@ The one recorded case where three things could not all stand: O1 (Z at the point
 - *rule* (Can): **G18 R1 against O12's cap and κ's meaning (sorted provisionally: O12 is the mis-stated one; proof.md §4)**; G19 L21's power form or T37's exact cut factor; G10 L22 scalar mass as a clause of L1 (O17); G11 Nᵢ as an input, R3 unwritten, R5 provisional; G9 π's centre (O11, L3′'s first half); G6 L23 (O2).
 - *sort* (Claude): **G22 the sign in the weight against L11**; G17 the 1D factor; G13 why the weight is a power on Eᵢ and which premise makes bounded confidence a requirement; G3 η's cap and power form at finite N (O14).
 - *derive* (Codex briefs): G1 T23's Z route and the consistency route (B05); G5 κ under general Σᵢ (O13); G14 agreement with experiment (later: a check on the survivor; B01 merged 31 Oct as a robot input check).
-- *write* (Claude): G2 T6 into T06.md (B07); G15 31 theorem files still "carried from the records" (B06, B10); G8 π's family derived in one place (B08); G7 T5 for the median; G12 the audit still counts L12, O5, T9–T10's freedoms.
+- *write* (Claude): G2 T6 into T06.md (B07); G15 25 theorem files still "carried from the records" (B10; B06 merged 31 Oct); G8 π's family derived in one place (B08); G7 T5 for the median; G12 the audit still counts L12, O5, T9–T10's freedoms.
 
 **Problem files** (`problems/`): O2 readout, O4, O5, O6 π's shape (needs a real idea, not more tests), O7 Z's scope, O9 window criterion, O11 centre, O13 contradiction between readings, O14 η at small N, O15 the null floor, O16 shared errors / experiment, O17 anisotropy.
 
