@@ -1,6 +1,6 @@
 # B07: T6's argument, from the O3 record into T06.md
 
-**Status:** open
+**Status:** merged 2026-10-31 (checked by Claude): written; the coefficient's attribution to L7 was mis-sorted, found and stopped correctly.
 **Item:** `definition/theorems/T06.md`; `definition/proof.md` step 3, hole G2. **Branch:** `codex/b07`.
 **Written:** 2026-10-29, Claude.
 

@@ -316,6 +316,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-31 (Claude): **B07 checked and merged.** T6's argument is in T06.md (Herschel–Maxwell, cited and proved; the Gaussian
+  integral; T7's convention). Codex found my brief mis-sorted: L7 calibrates a point and cannot fix the coefficient ½. The remainder
+  attaches to G18: by T36's homogeneity any τ ≠ 0 member is the flat factor under a declared (1 − 2τ)Σ (R1 with L24, candidate).
 - 2026-10-31 (Claude): **B06 checked and merged.** T16–T19, T24, T25 written out; checked by hand (T25's correlated example gives H = 4/5 vs
   1/2 directly). Three statements lacked conditions and now carry scope lines: T16 (tilt gλ under ours30), T17 (fixed N only; false for
   ours30 through N, G22), T25 (zero axes inert only if uncorrelated; k = 1 through the conditional covariance). 25 files still "carried".
@@ -336,6 +339,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 - 2026-10-31 (Claude): **B01 checked and merged** (audit unchanged; branch suite 1787 passed; default robot table byte-identical;
   one row reproduced from the CLI). The calibration-side budget does not close O16's gap: without the floor the misfit is 13–1100×
   what the declared noise produces and autocorrelation raises g only 2–5×, so the miss is error shared between readings (O16).
+- 2026-10-30 (Codex, B07): wrote T06's conditional Herschel–Maxwell proof, exact Gaussian integral and four coefficient/width checks; G17, G13 and T36's measure question remain open. Found that literal L7 calibrates the point, not interval width: the archive's independent coefficient argument needs that extra condition, while L10 already states the flat factor; recorded the mismatch in T06 and proof step 3/G2 without changing the Statement, premises or `met/`. Full suite: 1,848 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (Codex, B06): wrote T16–T19, T24 and T25 proofs with all Statements unchanged. Added needed scope: T16 raw g=η=1 and negative-tilt attenuation; T17 fixed-N amplitude growth with positive g/η bounds, not generic limits 1; T18 unweighted Gaussian local asymptotic widths, since the exact mass-law mean is infinite; T25 matching covariance/candidate blocks or conditional Schur reduction. T19's tail and T24's zero-law proofs cover arbitrary covariance/subspace. All 25 new focused tests pass; full suite: 1,869 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (Codex, B05): T23 now derives the scope of both claimed Gaussian-forcing routes. Ours30's positive-misfit weights give a Gaussian-world counterexample to L11 with fixed weak nonzero signal and N growing; Z admits an explicit non-Gaussian independent-channel model. Fixed-N amplitude consistency is proved for Gaussian and bounded-mixture models. O4 stays open and proof step 2 is marked a gap; production code, premises and historical numerical assertions are unchanged. Six focused T23 checks pass; full suite: 1,847 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (night, Claude): **O15, the latent measure:** the flat law is a profile likelihood with N incidental parameters

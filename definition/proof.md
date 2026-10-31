@@ -89,25 +89,30 @@ $\sum_iK_i(m)$. T36 is geometry and a dimension count; it removes no hole, and i
 G3's questions (what the power on $E_i$ and η are for) in the form in which they are now asked (O14).
 
 **Step 3. The candidate weight, and the per-reading factor.** Integrating the candidates out
-needs a weight $w(\alpha_i)$ on the true acceleration. Four premises fix it:
+needs a weight $w(\alpha_i)$ on the true acceleration. The archived argument uses:
 
 - L8 (conditional form, ruled R-2026-09-29-9): components independent given the reading's
   shared state, so $w$ is a product over components;
 - L9 (strong): $w$ depends on $\alpha_i$ only through its whitened length;
-- a density on $\mathbb R^{k}$, $k\ge2$, that is both a product and rotation-invariant is
-  Gaussian, $e^{-\lVert\alpha\rVert^2/2\omega^2}$ (Herschel–Maxwell);
+- a proper density on $\mathbb R^{k}$, $k\ge2$, that is both a product and rotation-invariant is
+  Gaussian, $e^{-\lVert v\rVert^2/2\omega^2}$ in noise coordinates (Herschel–Maxwell);
 - L10 (ruled R-2026-09-30-6): no size is declared, so no $\omega$: the weight is the
   $\omega\to\infty$ endpoint, flat in the vector;
-- L7 with L13 (the width at strong signal is the Gaussian propagation of $\Sigma_i$) removes the
-  improper members $e^{+c\lVert\alpha\rVert^2}$ and fixes the coefficient $\tfrac12$;
+- the archive's strong-signal width condition, with L13, removes the improper members
+  $e^{+\tau\lVert v\rVert^2}$ and fixes the coefficient $\tfrac12$. **B07 finding (Codex, 30 Oct):**
+  literal L7 specifies point calibration and MAE continuity, not this width condition;
 - T7 (from L11): nothing attached to a reading may depend on $m$, which puts the weight in noise
   units and drops its $m$-free constant.
 
-Then $E_i(m)=\int\phi_{\Sigma_i}\big(\mathbf y_i-C_m\alpha\big)\,d\alpha\ \propto\ e^{H_i(m)/2}$, with
-$H_i$ the explained energy of `equation.md` (T6, T8's per-reading factor). *forced (argument in
-archive)*: the argument is written in full in
-`../docs/vd-docs-context/o3_what_supports_the_flat_weighting_and_the_stacked_length_2026-09-30.md`
-§2, not in T06.md. **Two things it does not cover.** (i) Herschel–Maxwell needs $k\ge2$. The 1D
+With T7's noise-volume convention, integrating against $dv$ gives a factor proportional to
+$e^{H_i(m)/2}$; physical $d\alpha$ would add $\det(C_m^\top\Sigma_i^{-1}C_m)^{-1/2}$.
+$H_i$ is the explained energy of `equation.md` (T6, T8's per-reading factor).
+**B07, 30 Oct:** T06 now contains the characterization proof, exact Gaussian integral and
+coefficient test. The flat coefficient is given explicitly by L10 as written, but its
+independent derivation from L7/L13 remains *gap*: the width condition attributed to L7 is
+absent from its row. The tests verify the conditional width calculation, not that missing
+premise. T36's measure/π question is unchanged. → G2.
+**Two further things it does not cover.** (i) Herschel–Maxwell needs $k\ge2$. The 1D
 factor is carried by "a reading declared $k=1$ is the 1D reading" (T25). T25 is a theorem about
 the kernel in use; as a *forcing* step it needs the premise that declaring $k=1$ of a
 $d$-dimensional reading is the same reading as a 1D one, which L8's "same data, different
@@ -380,7 +385,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G10 | 1 | L22, scalar mass, as a clause of L1 | rule | O17 |
 | G11 | 1, 4 | $N_i$ as an input (L18's second clause); R3 unwritten, R5 provisional | rule; VD-Newton | L18; `ladder.md` |
 | G1 | 2 | T23's Gaussian-forcing claim: B05 delivered counterexamples to both routes as stated; further justification is open. **Merged 31 Oct;** L13 is now stipulated, conditionally forced by Herschel–Maxwell given full sphericity and independent channels | write; derive; rule | O4 → brief B05, merged |
-| G2 | 3 | T6's argument moved from the O3 record into T06.md | write | T06 → brief B07 |
+| G2 | 3 | T6's argument: **written 31 Oct (B07, merged)**. Its remainder: the coefficient ½ (excluding the improper $e^{+\tau\lVert v\rVert^2}$, $0<\tau<\tfrac12$) does not follow from L7, which calibrates a point (B07 found the brief mis-sorted); L10 states $e^{H/2}$ as a clause. **Claude, 31 Oct, provisional:** by T36's homogeneity the $\tau$-member is the flat factor under a declared $(1-2\tau)\Sigma$, so the coefficient is forced exactly when the factor may not alter the declared noise law (R1 with L24, candidate); it rides on G18, not a new fork | write done; the remainder attaches to G18 | T06 §3; L24 |
 | G17 | 3 | the 1D factor: "a reading declared $k=1$ is the 1D reading" needs stating as a premise or deriving from L8 and L18 | sort | T25, L8 |
 | G15 | 4, 5, 15, and the consistency theorems | 31 theorem files (25 since B06 merged, 31 Oct: T16–T19, T24, T25 written, with conditions T16, T17, T25's statements lacked) with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → briefs B06 (T16–T19, T24, T25), B10 (T5, T12, T13, T22) |
 | G8 | 6 | the family $m^{-1}g(\ln m/c)$ derived in one place (L3, L4, properness) | write | O6, T28 → brief B08 |
