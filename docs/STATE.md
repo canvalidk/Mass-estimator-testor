@@ -40,7 +40,8 @@ resolved as of 28 Oct, pending Can's check of L23; O6 still needs a real idea, n
 tests. The law's sign defect is closed by ours30 (29 Oct). Some premises are graded below bedrock or are
 provisional (L12 medium; L14 and L15 provisional), and some choices are natural
 rather than forced (eta's cap at 1 and its power form at finite N). The misfit weight's
-numerator κ = k − ½ is fixed by meaning (O12, read size-free); its value awaits a proof (brief B02). The rest is rulings Can owes and proofs, some routine
+numerator κ = k − ½ is fixed by meaning (O12, read size-free); its value is proved for isotropic channels (T38),
+but that meaning is the one G18 says is mis-stated. The rest is rulings Can owes and proofs, some routine
 (O4, O5) and some open research (O14, O15).
 
 ## The current equation: ours30 (since 29 Oct, R-2026-10-29-1)
@@ -151,8 +152,8 @@ full weight, and T30's bounded-confidence requirement failed there (`tests/test_
 strict xfail, kept as ours29's record). Sorted 27 Oct as a wrong premise (L8's count omits L1's
 inequality); the misfit is the smallest error under the law, $m>0$ included (R-2026-09-07-1), so
 it is $Q_+$; the numerator is O12's meaning read without a size, $k-\tfrac12$ (O13, 29 Oct).
-**R-2026-10-29-1** switched the definition to ours30. Owed: the proof that $k-\tfrac12$ is the
-supremum (brief B02); κ under a general covariance (unknown yet); ours30's coverage, not yet measured.
+**R-2026-10-29-1** switched the definition to ours30. The value $k-\tfrac12$ is proved (T38, 31 Oct); owed:
+κ under a general covariance (unknown yet), only if G18 keeps O12's meaning.
 
 ### O2: the readout (provisionally resolved 28 Oct; Can's check of L23 pending)
 
@@ -204,7 +205,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 | O7 | ruling; part sorted as input (27 Oct) | Does Z cover zeros beside a signal? Separately: Z for mass and Z for noise split by whether Σ is declared exact or up to a scale |
 | O9 | ruling | Is the window the criterion for one reading versus several? (proposed 10 Oct) |
 | O11 | ruling | Does the default centre reference the instruments only (L3′), and is the swap-of-declarations premise accepted, which gives c = s for one noise pair? Then the several-instrument and anisotropic cases |
-| O13 | ruling; sign fork closed (ours30, 29 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a: closed by R-2026-10-29-1 (g on Q₊, numerator k − ½; proof of the value: B02) |
+| O13 | ruling; sign fork closed (ours30, 29 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a: closed by R-2026-10-29-1 (g on Q₊, numerator k − ½; the value proved, T38) |
 | O14 | proof | eta at small N: a correction that counts effective readings. The 26 Oct second noise channel is superseded by T36 (29 Oct). **30 Oct sort (provisional):** g and η are noise scales, per reading and per series, on an unwritten declaration that Σ is a floor; which levels a caller declares exact / floor / unknown is an input; G13 sorted |
 | O15 | proof | Is the bounded null floor the best any law can do? |
 | O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
@@ -314,6 +315,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-31 (Claude): **B02 checked and merged** (audit unchanged apart from T38; branch suite green). Proofs checked by hand;
+  an independent Monte Carlo (four seeds, 4×10⁶ draws) agrees with the quadrature (|z| < 1.7). Written up as **T38**: sup E[Q₊] = k − ½,
+  sup E[Q] = k − 1, neither attained; the brief's "only as both channels grow" was wrong. Load-bearing only if G18 keeps O12's meaning.
 - 2026-10-31 (Claude): **B01 checked and merged** (audit unchanged; branch suite 1787 passed; default robot table byte-identical;
   one row reproduced from the CLI). The calibration-side budget does not close O16's gap: without the floor the misfit is 13–1100×
   what the declared noise produces and autocorrelation raises g only 2–5×, so the miss is error shared between readings (O16).
@@ -366,6 +370,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   k + 1; ours30's κ = k − ½ needs a noise size with no mean, and its cap g ≤ 1 holds only for the fixed-size Gaussian.
   A break of ours30, provisional; at strong signal it costs width (3D: 0.093 vs 0.084), not coverage. α is an input.
   `tests/test_noise_size.py`.
+- 2026-10-30 (Codex, B02, pressure): O13 now proves the positive-domain supremum k - 1/2 and the sign-blind supremum k - 1, with finite nonattainment and the k=1 exception; independent compact quadrature checks a 256-cell grid per dimension with explicit exact-arithmetic discretization bounds (`tools/positivity_supremum.py`, `tests/test_positivity_supremum.py`). No equation change. Full suite: 1748 passed, 26 skipped, 16 xfailed; audit unchanged.
 - 2026-10-30 (Claude, pressure): **what g and η are** (O14, provisional). Both are noise scales (tempering by w is
   declaring Σ/w); their caps read Σ as a floor, a declaration ours29/30 has run on unwritten (O7 gets the row).
   G13 sorted: the power is a scale read once (L21's cut, standard name), bounded confidence follows from the floor.

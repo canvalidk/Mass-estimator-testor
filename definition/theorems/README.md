@@ -43,3 +43,4 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T35](theorems/T35.md) | The parametrisation-free point is the median | L23 (proposed), T5 | yes |
 | [T36](theorems/T36.md) | The reading space, its metric, and one residual | the type, L3, L1, L22, L13 | yes |
 | [T37](theorems/T37.md) | The per-reading noise size: what believing Σ and T30 force | L18, L13, L8, L21, T30 | yes |
+| [T38](theorems/T38.md) | The supremum of the expected positive-mass misfit is k − ½ | T32, L13, L9, L10 | yes |

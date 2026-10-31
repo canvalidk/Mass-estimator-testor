@@ -226,7 +226,7 @@ Everything in ours30 for this case is in that line, plus the median and the two 
 | Each reading's factor $e^{H_i/2}$, the true acceleration fitted freely | L8's conditional form with L9 forces the Gaussian candidate family; no size law is declared (L10), which gives its flat endpoint (T6) | forced; L10 ruled R-2026-09-30-6 |
 | Readings joined only through m | no borrowing between readings (L19) | ruled, R-2026-09-28-6 |
 | The misfit is $Q_+$, at the best **positive** mass | the smallest error under the law as assumed, $m>0$ included (R-2026-09-07-1); "misfit at the best mass is evidence about the reading" (L21) | ruled, R-2026-10-29-1 |
-| The weight's numerator $\kappa=k-\tfrac12$ | the declared noise's expected misfit (O12's meaning) read without a size (L10): the most it produces over every allowed size, $k-1$ for L8's conditions and ½ for L1's sign | ruled, R-2026-10-29-1; the value is numerical, its proof is owed (tester brief B02); under a general covariance, open |
+| The weight's numerator $\kappa=k-\tfrac12$ | the declared noise's expected misfit (O12's meaning) read without a size (L10): the most it produces over every allowed size, $k-1$ for L8's conditions and ½ for L1's sign | ruled, R-2026-10-29-1; the value is proved for isotropic channels (tester T38, 31 Oct); under a general covariance, open |
 | The form $\min(1,\kappa/Q_+)$ | a share, at every Q, capped at the whole | forced by the meaning; ruled, R-2026-09-30-10 |
 | η = min(1, ℋ/J) | the width must track how far the point moves under repeats (property N); one η because m is one number | forced in the long-series limit; property N ruled R-2026-09-29-4 |
 | J without a Bessel factor | an exact zero reading has $\ell'=\ell''=0$ and must leave η alone (Z) | forced from Z, ruled R-2026-09-27-5 |
@@ -309,10 +309,10 @@ about the declared noise budget of that dataset, not the equation (tester `probl
 
 ## 7. Open
 
-- **The value k − ½** is shown numerically for isotropic channels (a seeded grid over every pair
-  of channel strengths: maxima 0.4997, 1.4987, 2.5015 for k = 1, 2, 3); the proof, and the
-  companion fact that the sign-blind maximum is exactly k − 1, are queued (brief B02). Under a
-  general covariance (correlated channels) the value is not known yet.
+- **The value k − ½** is proved for isotropic channels (tester T38, 31 Oct): the supremum over every
+  pair of channel strengths, not attained, splitting as ½(k − 1) + ½k; the sign-blind maximum is
+  exactly k − 1. (The seeded grid's 2.5015 for k = 3 was sampling noise above the true supremum.)
+  Under a general covariance (correlated channels) the value is not known yet.
 - **ours30's coverage** has not been measured; only its efficiency at strong signal.
 - **The point** (O2): the median rests on L23, proposed, not ruled.
 - **π's shape** (O6) and, with several noise pairs, its centre (O11).

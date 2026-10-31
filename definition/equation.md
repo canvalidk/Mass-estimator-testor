@@ -48,7 +48,7 @@ declaration imposes (L8) and L1's sign condition $\mathbf F^\ast\cdot\mathbf a^\
 1D projections too. $\kappa_i$ is the most misfit the declared noise produces in expectation over
 every allowed signal size (O12's meaning, read without a size by L10): $k_i-1$ for the equalities
 and $\tfrac12$ for the sign, which noise decides half the time when one channel carries no signal
-(O13, 29 Oct; numerical for isotropic channels, proof: brief B02). $g_i$ is the misfit weight
+(O13, 29 Oct; for isotropic channels proved as a supremum, not attained: T38). $g_i$ is the misfit weight
 (L21, T30): a reading is evidence, just less; $g=1$ whenever $Q_{+,i}\le\kappa_i$, so on an aligned
 1D reading; never 0. The whole-line $Q_i=E_i-\max_\phi H_i$ with $\nu_i=k_i-1$ was ours29's (it
 cannot see the sign: an anti-parallel pair has $Q=0$).

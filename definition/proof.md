@@ -180,12 +180,13 @@ the misfit is not. See §4, "The rulings at steps 9–10 conflict". → G18.
 **Step 10. The numerator $\kappa$.** O12's meaning, "the declared noise's expected misfit", read
 without a declared size (L10): the most the noise produces over every allowed signal size.
 That reading is *ruled* (R-2026-10-29-1). Its value, $k-\tfrac12$ for isotropic uncorrelated
-channels, is **numerical** (a seeded grid: `tests/test_sign_numerator.py::test_the_numerator_is_the_supremum_over_sizes`;
-Codex's bounds $k-\tfrac12\le S_k\le k$ in O13). Under a general covariance the value is **unknown**.
-→ gaps G4 (the proof, brief B02), G5 (general $\Sigma$).
+channels, is **proved** (T38, 31 Oct: B02, `tests/test_positivity_supremum.py`): a supremum not attained
+at any finite signal size, splitting exactly as $\tfrac12(k-1)+\tfrac12k$. Under a general covariance the
+value is **unknown**. → gap G5 (general $\Sigma$); G4 closed.
 **30 Oct:** with Σ the covariance, the tail coefficient is $\nu+2\alpha>k+1$; $k-\tfrac12$ needs a noise size
 with no mean (T37 (2)). So the meaning ruled for $\kappa$, the most misfit the declared noise produces,
-is the floor's meaning (§4). → G18; G4 and G5 stand only if G18 keeps the ruled meaning.
+is the floor's meaning (§4). → G18; T38 is true either way, but it is load-bearing, and G5 worth
+deriving, only if G18 keeps the ruled meaning.
 
 ### 2.4 How much the series counts
 
@@ -377,8 +378,8 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G19 | 7 | L21's ruled power form, or the cut's exact factor (T37 (4)), as the body | rule | T37 |
 | G20 | 9 | T37's tail index α: an input, but TASK §5's guard asks that practice supply it. **Sorted 30 Oct, provisional (T37, G20 section):** α = ν_eff/2, the effective degrees of freedom of the stated uncertainty (GUM Annex G), on calibration certificates; the inverse-gamma shape forced by L13 applied to how σ was obtained. Practice normalises the precision ($E[1/v]=1$), which restates T37 (2) and (3): ours30 is a σ declared with ν_eff = ½; the cap holds exactly in 1D | sort (done) | T37 |
 | G21 | 9, 11 | L24's test: which temperings are cut posteriors of a mean-1 noise size; η's series version | derive | L24 → brief B12 |
-| G4 | 10 | $S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved | derive | brief B02 |
-| G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after B02 | O13 |
+| ~~G4~~ | 10 | ~~$S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved~~ **closed 31 Oct: T38** (B02); load-bearing only if G18 keeps O12's meaning | derive | brief B02, merged |
+| G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after G18 (only if it keeps O12's meaning) | O13 |
 | G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open. **30 Oct (O15):** property N is stated in the limit, and ours30 meets it there (0.93–0.95 at $N=80$–200, signal 1–2, 3D); only the finite-$N$ form is left |
 | G7 | 15 | T5 for the median: the law's swap symmetry, two lines | write | T05 → brief B10 |
 | G6 | 16 | L23 | rule | O2 |
