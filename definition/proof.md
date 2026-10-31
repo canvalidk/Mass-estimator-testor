@@ -115,15 +115,20 @@ T30 settles later, so the two steps lean on each other. → gaps G2, G17.
 candidate map $C_m$ is scaled so every slope is treated alike (`equation.md` §Per reading). That
 the law is covariant under a change of units (L3) and under a rotation of the reading's frame
 with its covariance (L16, T22) are checks: `tests/test_full.py::test_rotation_with_covariance_changes_nothing`,
-`::test_swap_gives_the_reciprocal`. *forced* from L3, L16; the covariance of $H_i$ under both is
-two lines of algebra, not yet written in T22. → part of G15.
+`::test_swap_gives_the_reciprocal`. *forced* from L3, L16. **B10, 31 Oct (Codex):**
+T22 now writes out the covariance-congruence proof, including the declared subspace,
+and an exact diagonal-discarding counterexample; T05 handles the two swap coordinates.
+This part of G15's writing is done.
 
 ### 2.2 Joining readings
 
 **Step 5. The product.** The joint factor of a series is $\prod_iE_i(m)$ (T12). Rests on L13
 (errors independent across readings: the joint density factorises) and L19 (no borrowing: no
 latent quantity shared across readings besides $m$, so no hierarchical or pooled factor). *forced*
-from L13 and L19. The argument is one sentence and is not written anywhere but here. **A premise
+from L13 and L19. **B10, 31 Oct (Codex):** T12 now writes the product proof with the prior
+counted once, compact Gram-state scope, common-candidate derivative state, and a two-reading
+example with $\eta=32/225$. The union recomputes $\eta$ and generally is not the product of
+its separately tempered laws. **A premise
 is doing silent work**: L13's "independent across readings" is a declaration about the instrument
 (errors shared across readings have no slot, O16). As a forcing step this is fine: the function
 is defined on what is declared. → noted, not a gap.
@@ -213,6 +218,10 @@ readings the type does not declare. Brief B12 item 4 checks it. → G21.
 **Step 12. The law.** $p(m)\propto\pi(m)\exp(\eta\sum_ig_iH_i(m)/2)$ on $m>0$ (T8). Steps 3–11
 assemble it. The closed form for one noise pair (`equation.md`, note d3 §3) is checked
 against the numerical path (`tests/test_ours30.py::test_the_closed_forms_in_equation_note_d3`).
+**B10, 31 Oct (Codex):** T13 proves $0\le H_i\le E_i<\infty$, so the multiplier is bounded
+above and below by positive constants. A proper starting law gives a proper output law
+and a finite positive median, including the all-zero case. This proves totality for the
+current median convention without using the old cloud readout.
 
 ### 2.5 The point
 
@@ -236,9 +245,16 @@ $m$ as $1/m$ must give the reciprocal answer: force and acceleration are equal i
 (*ruled* R-2026-09-24-1, R-2026-09-07-1). The *law* has this symmetry: $H_i$ is invariant under
 the swap with $\phi\mapsto\pi/2-\phi$, $\pi$ by L4, $Q_+$ and $\kappa$ unchanged, $\eta$ unchanged
 (`tests/test_sign_numerator.py::test_swap_and_units`, `tests/test_ours29.py::test_rotation_swap_and_units`).
-So the point must commute with $m\mapsto c^2/m$. **This replaces T5's old derivation** (T5 was a
-theorem of T4, the ratio of means, which is no longer the point). *forced* from R-2026-09-24-1 and
-the law's symmetry; the two-line argument is not written in T05.md. → part of G15 (G7).
+For a physical channel exchange the centre also becomes $1/c$, giving $m\mapsto1/m$.
+The fixed-centre form instead uses the calibrated channel swap
+$(F,a)\mapsto(ca,F/c)$, with its covariance transformed too, giving $m\mapsto c^2/m$.
+**B10, 31 Oct (Codex):** T05 now proves the image-law and median identities for both forms,
+without T4. For $\eta$ it states the needed correspondence of selected maximizers
+(a unique maximizing projective line suffices); it does not resolve an arbitrary tie
+rule. The current half-Cauchy gives a unique median; the proof also states the
+equivariant median-interval convention. This checks the declared median's symmetry,
+not the choice of median itself, which stays conditional on L23 at step 16. → G7's
+writing done; the remaining parts of G15 are unchanged.
 
 **Step 16. The median.** Among functionals of the law that commute with the swap, respect units
 (L3) and return $c$ on the all-zero experiment (step 17), a family remains: every location
@@ -369,7 +385,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G1 | 2 | T23: the Z route's derivation written out; the consistency route under tempered evidence | write; derive | O4 → brief B05 |
 | G2 | 3 | T6's argument moved from the O3 record into T06.md | write | T06 → brief B07 |
 | G17 | 3 | the 1D factor: "a reading declared $k=1$ is the 1D reading" needs stating as a premise or deriving from L8 and L18 | sort | T25, L8 |
-| G15 | 4, 5, 15, and the consistency theorems | 31 theorem files with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → briefs B06 (T16–T19, T24, T25), B10 (T5, T12, T13, T22) |
+| G15 | 4, 5, 15, and the consistency theorems | Remaining theorem files with archived support need their arguments written. B10 wrote T5, T12, T13 and T22, preserving their Statements; other files are unchanged on this branch | write; B10 part done, 31 Oct (Codex) | theorems/; brief B06 (T16–T19, T24, T25); B10's four proofs and `tests/test_short_law_proofs.py` |
 | G8 | 6 | the family $m^{-1}g(\ln m/c)$ derived in one place (L3, L4, properness) | write | O6, T28 → brief B08 |
 | G9 | 6 | the centre: L3′'s first half, then $c=s$ | rule | O11 |
 | G13 | 7, 9 | why the weight is a power on $E_i$, and which premise makes bounded confidence a requirement | sort | T30, L21. **30 Oct, provisional:** the power is a noise scale read once (L21's cut, O14); bounded confidence derived from a noise size with a power-law tail (T37 (1)), which supersedes the morning's "from Σ as a floor" |
@@ -380,7 +396,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G4 | 10 | $S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved | derive | brief B02 |
 | G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after B02 | O13 |
 | G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open. **30 Oct (O15):** property N is stated in the limit, and ours30 meets it there (0.93–0.95 at $N=80$–200, signal 1–2, 3D); only the finite-$N$ form is left |
-| G7 | 15 | T5 for the median: the law's swap symmetry, two lines | write | T05 → brief B10 |
+| G7 | 15 | ~~T5 for the median: write the law's swap symmetry~~ Written in T05, with physical/calibrated maps and maximizer-selection condition explicit | write (done, 31 Oct, Codex) | T05; `tests/test_short_law_proofs.py` → B10 |
 | G6 | 16 | L23 | rule | O2 |
 | G12 | 4 | the audit and the problem files still count L12, O5, T9–T10's freedoms as the definition's | write | `tools/audit.py`, O2, `ladder.md` → brief B09 |
 | G14 | — | agreement with experiment (`../TASK.md` §5) | derive (a study) | brief B01 |

@@ -1,6 +1,6 @@
 # B10: the short proofs: T5 (for the median), T12, T13, T22
 
-**Status:** open
+**Status:** done, awaiting check: four proofs written with Statements preserved, physical/calibrated swap and common-geometry state scope explicit; exact combination/rotation examples and nine current-law checks.
 **Item:** `definition/theorems/T05.md, T12.md, T13.md, T22.md`; `definition/proof.md` holes G7 and G15.
 **Branch:** `codex/b10`. **Written:** 2026-10-29, Claude.
 

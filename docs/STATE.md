@@ -312,6 +312,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-31 (Codex, B10): wrote T5's median-based swap proof (physical $1/m$ and calibrated $c^2/m$), T12's counted-once combination proof with the exact two-reading $\eta=32/225$ example, T13's projection/normalizer/median totality proof, and T22's covariance-congruence proof with $H(1)=13/10$ versus $29/35$ after induced correlations are discarded. Nine direct ours30 checks cover both swaps, the union, rotation and totality. G7's writing and B10's part of G15 are done, with maximizing-tie and compact-state conditions stated; no Statement, premise, equation default, `met/`, T6, T30 or T31 changed. Full suite: 1,853 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (night, Claude): **O15, the latent measure:** the flat law is a profile likelihood with N incidental parameters
   (Neyman–Scott); its information identity fails, and η = 𝓗/J is the standard quasi-likelihood correction. Every non-hierarchical
   cure coincides with the flat law here (Cox–Reid, reference prior: the push's information is m-free in whitened arc-length) or does
