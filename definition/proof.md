@@ -132,12 +132,19 @@ is defined on what is declared. → noted, not a gap.
 L11: a per-reading prior would make the law depend on $N$ at fixed total signal). It is declared
 before data (T20). Its family is forced: symmetric under $m/c\leftrightarrow c/m$ (L4), covariant under
 units (L3), proper (T27's reason: an improper $\pi$ gives no law on null input), so
-$\pi(m)=m^{-1}g(\ln(m/c))$ with $g$ even and integrable (O6). **Its shape within the family is an
+$\pi_c(m)=m^{-1}g(\ln(m/c))$ for nonnegative even $g$ of integral one, within the
+absolutely continuous class (O6). For a general starting law, which the type also permits,
+the exact form is $M=ce^X$ with $X$ any symmetric probability law; absolute continuity is
+not forced by those three conditions. **Its shape within the family is an
 input** (R-2026-10-24-3: the readings cannot decide it; the half-Cauchy, uniform in the angle the
 noise defines, is the principal branch, T28). **Its centre is an input**; $c=s$ for one noise pair
 is the principal branch (L3′, O11, the units argument of 10 Oct), *not ruled*. *input*, with the
-family *forced (argument in archive)*: the family derivation is spread over O6, T28 and the
-Jeffreys-check record, not written in one place. → gaps G8, G9.
+family *forced* by the three named conditions. **B08, 31 Oct (Codex):** O6 now contains
+the unit and reciprocal Jacobians, necessity and converse, the general-law qualification,
+and what counted once does and does not add. T28 derives its uniform-angle half-Cauchy
+member under the historical model without selecting it from the family. The three-member
+null tests are algebraic because `met/full.py` has no general-prior API. G8's writing is
+done; the centre question G9 and O6's principal-member question remain open.
 
 ### 2.3 How much each reading counts
 
@@ -370,7 +377,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G2 | 3 | T6's argument moved from the O3 record into T06.md | write | T06 → brief B07 |
 | G17 | 3 | the 1D factor: "a reading declared $k=1$ is the 1D reading" needs stating as a premise or deriving from L8 and L18 | sort | T25, L8 |
 | G15 | 4, 5, 15, and the consistency theorems | 31 theorem files with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → briefs B06 (T16–T19, T24, T25), B10 (T5, T12, T13, T22) |
-| G8 | 6 | the family $m^{-1}g(\ln m/c)$ derived in one place (L3, L4, properness) | write | O6, T28 → brief B08 |
+| G8 | 6 | B08 derived the density family with normalized nonnegative even $g$ and the broader symmetric log-law form; no principal member selected | write (done, 31 Oct, Codex) | O6, T28; `tests/test_starting_law_family.py` |
 | G9 | 6 | the centre: L3′'s first half, then $c=s$ | rule | O11 |
 | G13 | 7, 9 | why the weight is a power on $E_i$, and which premise makes bounded confidence a requirement | sort | T30, L21. **30 Oct, provisional:** the power is a noise scale read once (L21's cut, O14); bounded confidence derived from a noise size with a power-law tail (T37 (1)), which supersedes the morning's "from Σ as a floor" |
 | G18 | 9, 10 | R1 and its kin (the σ's believed) against O12's cap and κ's meaning (R-2026-09-30-10, R-2026-10-29-1) | sort (done, provisional: O12's meaning is the mis-stated one) → rule | §4; O14; T37 |

@@ -312,6 +312,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-31 (Codex, B08): O6 derives the unit-covariant reciprocal family with both Jacobians, nonnegative normalization and converse; the general-law form is $M=ce^X$ for symmetric $X$, with the density formula its absolutely continuous case. T28 writes out the historical Fisher calculation and uniform-angle half-Cauchy member. The 36 new checks cover three null-prior families, medians, units, reciprocal symmetry, atomic/gapped controls and the marginal Fisher matrix; no general-prior API exists in `met/full.py`, so the three-member update tests are algebraic. G8's writing is done; O6 stays open, the default is unchanged, no member is selected and T36's measure question is parked. Full suite: 1,880 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (night, Claude): **O15, the latent measure:** the flat law is a profile likelihood with N incidental parameters
   (Neyman–Scott); its information identity fails, and η = 𝓗/J is the standard quasi-likelihood correction. Every non-hierarchical
   cure coincides with the flat law here (Cox–Reid, reference prior: the push's information is m-free in whitened arc-length) or does

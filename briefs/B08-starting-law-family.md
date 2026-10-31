@@ -1,6 +1,6 @@
 # B08: the family of the starting law, derived in one place
 
-**Status:** open
+**Status:** done, awaiting check: O6 family derivation and T28 support written; 36 algebra/Fisher checks, density-versus-law and median qualifications explicit; no member selected, O6 remains open.
 **Item:** `problems/O6.md`, `definition/theorems/T28.md`; `definition/proof.md` step 6, hole G8.
 **Branch:** `codex/b08`. **Written:** 2026-10-29, Claude.
 
