@@ -209,6 +209,11 @@ def run(path, out_root="results", replicates=None, progress=print, workers=None)
         from .composition_coverage import run as run_composition_coverage
         return run_composition_coverage(path, out_root, replicates=replicates,
                                         progress=progress, workers=workers)
+    if spec.get("kind") == "eta_effective":
+        if not (workers is None or (type(workers) is int and workers == 1)):
+            raise ValueError("eta_effective is a serial research study; use --workers 1")
+        from .eta_effective_study import run as run_eta_effective
+        return run_eta_effective(path, out_root, replicates=replicates, progress=progress)
     if spec.get("kind") == "readout_candidates":
         if replicates is not None or not (workers is None or (type(workers) is int and workers == 1)):
             raise ValueError("readout_candidates is a deterministic serial study; omit --replicates and use --workers 1")

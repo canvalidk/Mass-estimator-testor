@@ -56,7 +56,7 @@ def main(argv=None):
         import yaml
         with args.preset.open(encoding="utf-8") as handle:
             envelope = yaml.safe_load(handle)
-        serial_inspection = isinstance(envelope, dict) and envelope.get("kind") in ("inspection", "noise_path", "prior_path", "pooled_scale", "shared_tilt", "anisotropic_world", "readout_candidates", "robot_budget", "composition_coverage")
+        serial_inspection = isinstance(envelope, dict) and envelope.get("kind") in ("inspection", "noise_path", "prior_path", "pooled_scale", "shared_tilt", "anisotropic_world", "readout_candidates", "robot_budget", "composition_coverage", "eta_effective")
     if serial_inspection:
         # Do this before importing NumPy on the standalone CLI path. Library users
         # control their own numerical runtime; cell workers inherit these limits.
@@ -78,6 +78,8 @@ def main(argv=None):
                 print(f"ok: {len(spec['cells'])} robot-budget calibration case(s); serial")
             elif spec.get("kind") == "composition_coverage":
                 print(f"ok: {len(spec['cells'])} composition-coverage signal-size cell(s); ours29, workers supported")
+            elif spec.get("kind") == "eta_effective":
+                print(f"ok: {len(spec['cells'])} effective-reading research cell(s); serial")
             elif spec.get("kind") == "readout_candidates":
                 print(f"ok: {len(spec['cells'])} readout-candidate diagnostic cell(s); serial, no random draws")
             elif spec.get("kind") == "anisotropic_world":

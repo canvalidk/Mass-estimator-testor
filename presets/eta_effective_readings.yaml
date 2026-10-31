@@ -1,0 +1,26 @@
+kind: eta_effective
+name: eta-effective-readings
+question: >-
+  Does the finite-sample identity for fitted Gaussian scores survive ours30's
+  random signed curvatures, and how do eta and the unadopted eta-prime compare
+  on paired 95 percent intervals?
+notes: >-
+  B04. The fixed-curvature identity is checked separately by exact moments.
+  This experiment reports the E[J]/E[C] ratio-of-means estimate separately from
+  sample J/C and target moments. Cancellations near C=0 make the target and gap
+  expectations divergent and J/C second moment infinite at every finite signal
+  strength (O14). Their empirical SEs are diagnostics; the ratio-of-means and
+  coverage SEs retain their usual Monte Carlo interpretation. Eta-prime is
+  study-only; coverage is not a rule for choosing between powers.
+world:
+  dimension: [1, 2, 3]
+  design: new_excitation
+  mass: 1.0
+  acceleration_snr: [0.0, 0.5, 1.0, 2.0, 5.0, 20.0]
+  direction: random
+  readings: [5, 20, 100, 400]
+  noise: {force_sd: 1.0, acceleration_sd: 1.0}
+  supplied_noise: exact
+replicates: 1000
+seed: 20261029
+numerics: {grid_points: 2001, batch_size: 128}

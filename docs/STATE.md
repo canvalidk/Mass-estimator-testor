@@ -314,6 +314,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-10-31 (Claude): **B04 checked and merged.** The leverage identity E[J] = C(1 − 1/n_eff) holds for fixed nonnegative curvatures;
+  ours30's observed curvatures are signed, so n_eff is not a count (G3). Strong-signal J/C (0.955, 0.943 in 2D, 3D) is E[g²]/E[g]: the cap tempers
+  22–29% of readings the exact declared noise explains, T37 (3)'s efficiency cost seen from η (G18). η′ reported, not adopted.
 - 2026-10-31 (Claude): **B03 checked and merged.** The untouched 28 Oct script and the new wrapper, both run at 400 replicates,
   give identical JSON and O2's printed table; the preset kind sits beside B01's robot_budget (merge conflicts in met/ resolved,
   one elif restored). The preset is locked to the historical ours29 run; composition under ours30 has not been checked.
@@ -341,6 +344,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   → c, T30 (anti-parallel included), units, swap, L24. **Breaks** at weak signal in 3D with N = 20 (coverage 0.57–0.71; ours30
   0.81–0.88), as predicted: the misfit's law given the noise size depends on the undeclared signal size (L10). Study:
   `tools/ours31_coverage.py` (a script, not a preset kind, as composition_coverage).
+- 2026-10-30 (Codex, B04): exact fixed-curvature Gaussian score identity checked; signed fitted-curvature cancellation gives target expectation -infinity and J/C infinite second moment (O14). New `eta_effective` preset ran 72 cells × 1,000 paired series, retaining η/η′ coverage and explicitly empirical ratio errors; no correction adopted. Full suite: 1,767 passed, 26 skipped, 16 xfailed; 36 focused tests pass and audit findings unchanged.
 - 2026-10-30 (Claude): **B11 checked and merged.** Codex found the brief's premise false: the integrated common-scale law
   π·K^−(n/2+a−1) with an improper scale prior is improper on valid measured inputs (an exact 1D fit puts a pole at its slope;
   boundary fits; the all-zero series), failing L2's totality, so it stopped before the coverage study, as the protocol asks.

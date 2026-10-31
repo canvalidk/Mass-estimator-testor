@@ -12,7 +12,7 @@ in its problem file and does not come here. Can may add, reorder or strike any b
 | [B01](B01-robot-budget.md) | O16 | The robot's noise budget declared from calibration-side data, then the rerun | merged 2026-10-31: the calibration-side budget does not close the gap (all four answers no or mixed); the robot is a phase-one testbed (R-2026-10-31-1) |
 | [B02](B02-positivity-supremum.md) | O13 | Prove S_k = k − ½ and sup E[Q] = k − 1 (the sorted numerator rests on both) | merged 2026-10-31: both proved (not attained at finite strength), T38; load-bearing for ours30 only if G18 keeps O12's meaning |
 | [B03](B03-composition-preset.md) | O2, Gaps | `tools/composition_coverage.py` as a `met run` preset kind, same numbers | merged 2026-10-31: the preset reproduces the 28 Oct ours29 study exactly (same JSON as the original script); locked to that historical run |
-| [B04](B04-eta-effective-readings.md) | O14 | Is J's finite-N bias a function of effective readings under the law? | open |
+| [B04](B04-eta-effective-readings.md) | O14 | Is J's finite-N bias a function of effective readings under the law? | merged 2026-10-31: the n_eff identity holds only for fixed nonnegative curvatures; ours30's are signed (target mean −∞); η′'s coverage reported, not adopted |
 | [B05](B05-gaussian-consistency-route.md) | O4, T23 | The consistency route to the Gaussian model under the tempered evidence, written out | open |
 | [B06](B06-write-out-the-law-theorems.md) | T16–T19, T24, T25 | The proofs of six theorems about the law, written into their files | open |
 | [B07](B07-t6-argument-into-the-file.md) | T6 | The per-reading factor's argument moved from the O3 record into T06.md, with its two stated limits | open |
