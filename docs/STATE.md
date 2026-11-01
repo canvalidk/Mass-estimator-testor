@@ -316,6 +316,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-01 (evening, Claude): **ours32, the fifteenth probe** (`met/ours32.py`, O18 1 Nov): ours31's reading level with η put back (Can: R-2026-11-01-1, which also leaves G18/G19 standing until forced; proof.md retyped them). Same-seed study `tools/ours32_coverage.py`: ours31's weak-signal break (0.57–0.71) goes to 0.82–0.87, ours30's level or slightly better; better than ours30 where the noise really varies (ν_eff = 10, 3D, N = 5). The remaining many-reading weak-signal shortfall is η's finite-N form and the latent measure (O14, O15). Tests: `tests/test_ours32.py` (8).
 - 2026-11-01 (Claude): **B08 checked and merged.** π's family from L3, L4, properness: m⁻¹g(ln(m/c)), g even and normalized, or M = ce^X with X
   symmetric for general laws (δ_c included); T28 written. Claude's note: L11 adds a full-support clause (prior mass near every m), which
   excludes δ_c and gapped shapes. met/full.py takes only the half-Cauchy. 23 theorem files still "carried".

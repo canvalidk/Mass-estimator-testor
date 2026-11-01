@@ -442,6 +442,12 @@ read. Line numbers refer to the files as they stood that day.
 - **Words:** "You were getting obsessed by the robot example. That might have been before you understood phase one vs phase two of the project. robot data is instructive but nothing more than another testbed to continue with phase one." Earlier, 29 Oct (from Claude's notes of that conversation, not in this repo's records): "no more thinking about the robot. It is simply not relevant."
 - **Source:** the conversation of 2026-10-31 (this session); recorded directly.
 
+### R-2026-11-01-1 — The G18/G19 contradiction stands until something forces it; η back in for the next probe
+- **Decides:** The conflict between L21's cap ($g\le1$), L24 (a tempering is the cut posterior of a declared size law) and T30 (G18, G19) is left standing, recorded, not ruled either way; the work moves on until an argument forces one side. A cap like $g\le1$ is not a property of mass and has no claim on the definition by being ruled. The next probe is ours31's reading level with η put back (ours32), the signal-size question η stands in for left for the equation after. "g" in the second quote is read by Claude as η (the series-level patch ours31 dropped); that reading is Claude's.
+- **Replaces / closes:** Claude's proposal of the same evening to settle G18/G19 by a ruling on the cap.
+- **Words:** "uh my rulings are provosional dog. I don't know what im doing! Just look at the guidance better, and the point of the project. Most likely the right way is to just leave the contradiction stand and move on till we get something forcing. Why would the definition of mass depend on an assumption like g<1."; then "just put g back in and we can deal with that question for the next equation. well test it with g and it'll be  easier after?"
+- **Source:** the conversation of 2026-11-01; recorded directly.
+
 ---
 
 ## Owed
