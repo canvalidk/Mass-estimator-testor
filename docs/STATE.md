@@ -34,7 +34,7 @@ so the goal is uniqueness, not a good estimator.
 from the type to ours30 is in `definition/proof.md` (29 Oct), eighteen steps: what is proved
 today is that on isotropic uncorrelated channels any function meeting the premises as ruled,
 with L22, L23 and η's finite-N form taken as given, is ours30 up to the declared inputs. Those
-three, plus 25 theorem files whose proofs still say "carried from the records", are the
+three, plus 23 theorem files whose proofs still say "carried from the records", are the
 uniqueness half's work; the holes are typed there and that table is the queue. O2 (the readout) is provisionally
 resolved as of 28 Oct, pending Can's check of L23; O6 still needs a real idea, not more
 tests. The law's sign defect is closed by ours30 (29 Oct). Some premises are graded below bedrock or are
@@ -316,6 +316,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-01 (Claude): **B08 checked and merged.** π's family from L3, L4, properness: m⁻¹g(ln(m/c)), g even and normalized, or M = ce^X with X
+  symmetric for general laws (δ_c included); T28 written. Claude's note: L11 adds a full-support clause (prior mass near every m), which
+  excludes δ_c and gapped shapes. met/full.py takes only the half-Cauchy. 23 theorem files still "carried".
 - 2026-10-31 (Claude): **B07 checked and merged.** T6's argument is in T06.md (Herschel–Maxwell, cited and proved; the Gaussian
   integral; T7's convention). Codex found my brief mis-sorted: L7 calibrates a point and cannot fix the coefficient ½. The remainder
   attaches to G18: by T36's homogeneity any τ ≠ 0 member is the flat factor under a declared (1 − 2τ)Σ (R1 with L24, candidate).
@@ -339,6 +342,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 - 2026-10-31 (Claude): **B01 checked and merged** (audit unchanged; branch suite 1787 passed; default robot table byte-identical;
   one row reproduced from the CLI). The calibration-side budget does not close O16's gap: without the floor the misfit is 13–1100×
   what the declared noise produces and autocorrelation raises g only 2–5×, so the miss is error shared between readings (O16).
+- 2026-10-31 (Codex, B08): O6 derives the unit-covariant reciprocal family with both Jacobians, nonnegative normalization and converse; the general-law form is $M=ce^X$ for symmetric $X$, with the density formula its absolutely continuous case. T28 writes out the historical Fisher calculation and uniform-angle half-Cauchy member. The 36 new checks cover three null-prior families, medians, units, reciprocal symmetry, atomic/gapped controls and the marginal Fisher matrix; no general-prior API exists in `met/full.py`, so the three-member update tests are algebraic. G8's writing is done; O6 stays open, the default is unchanged, no member is selected and T36's measure question is parked. Full suite: 1,880 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (Codex, B07): wrote T06's conditional Herschel–Maxwell proof, exact Gaussian integral and four coefficient/width checks; G17, G13 and T36's measure question remain open. Found that literal L7 calibrates the point, not interval width: the archive's independent coefficient argument needs that extra condition, while L10 already states the flat factor; recorded the mismatch in T06 and proof step 3/G2 without changing the Statement, premises or `met/`. Full suite: 1,848 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (Codex, B06): wrote T16–T19, T24 and T25 proofs with all Statements unchanged. Added needed scope: T16 raw g=η=1 and negative-tilt attenuation; T17 fixed-N amplitude growth with positive g/η bounds, not generic limits 1; T18 unweighted Gaussian local asymptotic widths, since the exact mass-law mean is infinite; T25 matching covariance/candidate blocks or conditional Schur reduction. T19's tail and T24's zero-law proofs cover arbitrary covariance/subspace. All 25 new focused tests pass; full suite: 1,869 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (Codex, B05): T23 now derives the scope of both claimed Gaussian-forcing routes. Ours30's positive-misfit weights give a Gaussian-world counterexample to L11 with fixed weak nonzero signal and N growing; Z admits an explicit non-Gaussian independent-channel model. Fixed-N amplitude consistency is proved for Gaussian and bounded-mixture models. O4 stays open and proof step 2 is marked a gap; production code, premises and historical numerical assertions are unchanged. Six focused T23 checks pass; full suite: 1,847 passed, 26 skipped, 16 xfailed; audit findings unchanged.

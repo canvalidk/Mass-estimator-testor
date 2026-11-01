@@ -1,6 +1,6 @@
 # B08: the family of the starting law, derived in one place
 
-**Status:** open
+**Status:** merged 2026-11-01 (checked by Claude): family derived, T28 written; no member selected.
 **Item:** `problems/O6.md`, `definition/theorems/T28.md`; `definition/proof.md` step 6, hole G8.
 **Branch:** `codex/b08`. **Written:** 2026-10-29, Claude.
 
