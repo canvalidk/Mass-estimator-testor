@@ -1,0 +1,22 @@
+kind: forward
+name: forward-ours31-ours32
+question: >-
+  Holding the truth still, is ours31's per-reading weight the precision the reading actually had
+  (E[1/v | the reading], L21's cut read as T37 reads it), and what does ours32's eta do at the
+  truth, in ours31's own world (v ~ InvGamma(nu/2, nu/2), nu = 10) and in the fixed-size Gaussian,
+  beside ours30's g and eta?
+notes: >-
+  met/forward.py with nu_declared = 10 (the equation's nu_eff). O18's holes 2 (the sign condition's
+  extra half not counted in the size posterior: shows near the boundary, angle 85) and 3 (weak
+  signal not modelled in the size posterior: shows at small push). w31 is the cut factor's local
+  weight at the reading's best line, (nu + k - 1)/(nu + Q+); calibrated means equal to the mean true
+  precision 1/v overall and in every decile of the weight. sigma_F = sigma_a = 1.
+seed: 20261103
+draws: 4000
+grid:
+  dimension: [1, 2, 3]
+  push: [0.0, 1.0, 2.0, 4.0, 30.0]
+  angle_deg: [45.0, 85.0]
+  readings: [1, 5, 20]
+  nu_eff: [.inf, 10.0]
+  nu_declared: [10.0]

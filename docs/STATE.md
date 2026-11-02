@@ -338,6 +338,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-02 (later, Claude): **forward model on ours31/32** (O18, 2 Nov): `w31` and `eta32` added to `met/forward.py`
+  (equal to met.ours32 to 1e-15) with `calibration` (weight against the true precision 1/v); preset
+  `presets/forward_ours31_ours32.yaml`. In its own world ours31's weight is the true precision at strong signal; holes 2 and 3
+  are ≤ 5%; so its weak-signal break is not the reading weight (confirms the 30 Oct re-attribution); ours32's η does not count the
+  size spread twice, ours30's absorbs it (0.90 vs 0.95). Tests: `tests/test_forward.py` (36).
 - 2026-11-02 (Claude): **the forward model** (`met/forward.py`, Can's "reverse function"): truth held still,
   the laws of E, K(m₀) and its channels, Q, Q₊, g, η, from met.full's code; preset kind `forward`
   (`presets/forward_noise_measures.yaml`, seed 20261102); `tests/test_forward.py` (28). It reproduces B02's null

@@ -198,3 +198,65 @@ def test_preset_validates_and_runs(tmp_path):
     strong = rows[(30.0, 5)]
     assert abs(strong["K_true_mean"] - 3) < 4 * strong["K_true_se"]
     assert (out / "summary.csv").exists()
+
+
+# ---------------------------------------------------------------- ours31 / ours32 (O18)
+
+from met.forward import calibration  # noqa: E402
+
+
+@pytest.mark.parametrize("k,push,angle_deg,c", [(1, 1.0, 60, 1.0), (2, 0.5, 30, 3.0), (3, 2.0, 55, 0.6)])
+def test_ours31_weight_and_ours32_eta_are_met_ours32(k, push, angle_deg, c):
+    """w31 and eta32 from the closed forms equal met.ours31/32's (the general engine calls them)."""
+    truths = from_invariants(k, push, math.radians(angle_deg), readings=5)
+    fast = forward(truths, draws=15, seed=4, nu_eff=8.0, c=c, engine="isotropic")
+    slow = forward(truths, draws=15, seed=4, nu_eff=8.0, c=c, engine="general")
+    for key in ("w31", "eta32"):
+        _close(fast[key], slow[key], 1e-9)
+
+
+@pytest.mark.parametrize("k", (2, 3))
+def test_ours31_weight_is_the_true_precision_at_strong_signal_in_its_own_world(k):
+    """v ~ InvGamma(5, 5), nu declared 10: inside the half-line at strong push the cut's local weight
+    (nu + k - 1)/(nu + Q+) is E[1/v | Q+], overall and decile by decile (T37 (4); O18 2 Nov)."""
+    res = forward(from_invariants(k, 30.0, math.radians(45)), draws=40000, seed=90 + k, nu_eff=10.0,
+                  series=False)
+    cal = calibration(res, "w31")
+    assert cal["ratio"] == pytest.approx(1.0, abs=0.01)
+    assert cal["worst_bin_gap"] < 0.03
+
+
+def test_o18_holes_measured_in_ours31s_own_world():
+    """O18 hole 3 (weak signal): in 3D at zero push the weight overstates the precision by about 5%,
+    because the fitted line absorbs misfit. Hole 2 (the sign condition's half): near the boundary at
+    moderate push it understates it by 1-3%. ours30's capped g gives about 0.86 of it at strong push."""
+    weak = calibration(forward(from_invariants(3, 0.0, math.radians(45)), draws=40000, seed=95, mass=1.0,
+                               nu_eff=10.0, series=False), "w31")
+    assert 1.03 < weak["ratio"] < 1.07
+    edge = calibration(forward(from_invariants(3, 4.0, math.radians(85)), draws=40000, seed=96,
+                               nu_eff=10.0, series=False), "w31")
+    assert 0.97 < edge["ratio"] < 0.998
+    strong = forward(from_invariants(3, 30.0, math.radians(45)), draws=40000, seed=97, nu_eff=10.0,
+                     series=False)
+    assert calibration(strong, "g30")["ratio"] == pytest.approx(0.86, abs=0.015)
+
+
+def test_eta32_in_ours31s_world_behaves_as_eta30_in_the_gaussian_world():
+    """3D, N = 20, strong push at m0 = s. With the reading level calibrated (ours32 in the inverse-gamma
+    world) eta is where ours30's is in the fixed-size Gaussian world: eta is not counting the size
+    spread twice. ours30's eta in the inverse-gamma world is lower: it absorbs the spread its capped
+    g does not track."""
+    truths = from_invariants(3, 30.0, math.radians(45), readings=20)
+    own = forward(truths, draws=2000, seed=98, nu_eff=10.0)
+    gauss = forward(truths, draws=2000, seed=99, nu_declared=10.0)
+    assert own["eta32"].mean() == pytest.approx(gauss["eta30"].mean(), abs=0.015)
+    assert own["eta30"].mean() < gauss["eta30"].mean() - 0.025
+
+
+def test_ours31_preset_validates():
+    import yaml
+    data = yaml.safe_load(open("presets/forward_ours31_ours32.yaml", encoding="utf-8"))
+    spec = validate(data)
+    assert len(spec["cells"]) == 3 * 5 * 2 * 3 * 2 and all(c["nu_declared"] == 10.0 for c in spec["cells"])
+    with pytest.raises(ValueError):
+        validate(dict(data, grid=dict(data["grid"], nu_declared=[float("inf")])))

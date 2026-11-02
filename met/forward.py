@@ -17,12 +17,16 @@ and returns, draw by draw, the noise measures the equations read, computed as me
     Q             misfit on the whole projective line (ours29; nu = k - 1)
     Q_plus        misfit at the best positive mass (ours30 to ours32; kappa = k - 1/2)
     g29, g30      min(1, nu/Q), min(1, kappa/Q_plus) (L21, T30)
+    w31           ours31/32's local weight (nu_d + k - 1)/(nu_d + Q_plus): its cut factor's curvature at
+                  the reading's best line over the Gaussian's, = E[1/v | Q_plus] under ours31's size
+                  posterior (T37 (4)); nu_d is the equation's declared nu_eff (`nu_declared`)
     m_own         the reading's own best line, signed (the whole projective line)
     v             the drawn noise size
     latent, score, misalignment     the noise vector's three channels (below)
   per series (draws,)
     K_total       sum of K_true (T36 (4))
     eta_flat, eta29, eta30          eta = min(1, curv/J) with g = 1, g29, g30 (T31)
+    eta32         ours32's eta, on the cut factors (nu_declared given)
     curv30, J30   eta30's curvature and squared-score sum
     m_series      the series' best line under ours30's weights, signed
 
@@ -87,9 +91,11 @@ from scipy.special import gammaincc
 from .full import (Reading, _h_terms, bartlett_eta, exact_mass, instrument_ratio, isotropic,
                    misfit_weight, positivity_numerator, reading_state)
 
-PER_READING = ("E", "H_true", "K_true", "Q", "Q_plus", "g29", "g30", "m_own", "v",
+PER_READING = ("E", "H_true", "K_true", "Q", "Q_plus", "g29", "g30", "w31", "m_own", "v",
                "latent", "score", "misalignment")
-PER_SERIES = ("K_total", "eta_flat", "eta29", "eta30", "curv30", "J30", "m_series")
+PER_SERIES = ("K_total", "eta_flat", "eta29", "eta30", "curv30", "J30", "m_series", "eta32")
+SCAN32 = 1024
+NEWTON32 = 30
 
 
 # ---------------------------------------------------------------- truths
@@ -280,14 +286,56 @@ def _isotropic_eta(gram, g, s, c):
     return eta, curv * dtheta_dphi ** 2, j * dtheta_dphi ** 2, s * np.tan(theta)
 
 
-def _general_engine(truths, eps, m0, c, series=True):
+def _isotropic_eta32(gram, q_plus, k, nu_d):
+    """ours32's eta (met.ours32.bartlett_eta) from the Grams: l_i = -a log(1 + (H+_i - H_i)/b_i),
+    a = (nu_d + k - 1)/2, b_i = nu_d + Q+_i, H+_i = E_i - Q+_i; best line on the whole projective line
+    by a scan and Newton steps, in the whitened angle (eta is the same in every parametrisation)."""
+    a_, b_, c_ = gram
+    e = a_ + b_
+    aa = 0.5 * (nu_d + k - 1)
+    bb = nu_d + q_plus
+    hp = e - q_plus
+
+    def terms(theta, order):                     # theta (draws, M) -> per-reading l (draws, N, M)
+        s2, c2 = np.sin(2 * theta)[:, None, :], np.cos(2 * theta)[:, None, :]
+        A, B, C = a_[..., None], b_[..., None], c_[..., None]
+        h = 0.5 * (A + B) + 0.5 * (B - A) * c2 + C * s2
+        u = 1.0 + (hp[..., None] - h) / bb[..., None]
+        l0 = -aa * np.log(u)
+        if order == 0:
+            return l0
+        h1 = (A - B) * s2 + 2 * C * c2
+        h2 = 2 * (A - B) * c2 - 4 * C * s2
+        bu = bb[..., None] * u
+        return l0, aa * h1 / bu, aa * (h2 / bu + h1 ** 2 / bu ** 2)
+
+    draws = a_.shape[0]
+    grid = -math.pi / 2 + math.pi * (np.arange(SCAN32) + 0.5) / SCAN32
+    total = terms(np.broadcast_to(grid, (draws, SCAN32)), 0).sum(axis=1)
+    theta = grid[np.argmax(total, axis=1)].astype(float)
+    step = math.pi / SCAN32
+    for _ in range(NEWTON32):
+        _, d1, d2 = (x.sum(axis=1)[:, 0] for x in terms(theta[:, None], 2))
+        move = np.where(d2 < 0, np.clip(-d1 / np.where(d2 < 0, d2, -1.0), -step, step),
+                        step * np.sign(d1))
+        theta = theta + move
+        if np.all(np.abs(move) < 1e-15):
+            break
+    _, d1, d2 = (x[..., 0] for x in terms(theta[:, None], 2))
+    curv, j = -d2.sum(-1), (d1 ** 2).sum(-1)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        return np.where((j <= 1e-300) | (curv <= 0), 1.0, np.minimum(1.0, curv / j))
+
+
+def _general_engine(truths, eps, m0, c, series=True, nu_d=None):
     """met.full per draw: any covariance, any subspace."""
     draws, n = eps.shape[:2]
     d = truths[0].dimension
     keys = ("E", "Q", "Q_plus", "m_own") + (("H_true", "K_true") if m0 is not None else ())
     out = {key: np.empty((draws, n)) for key in keys}
     out.update(g29=np.empty((draws, n)), g30=np.empty((draws, n)))
-    ser = {key: np.empty(draws) for key in ("eta_flat", "eta29", "eta30", "curv30", "J30", "m_series")}
+    ser = {key: np.empty(draws) for key in ("eta_flat", "eta29", "eta30", "curv30", "J30", "m_series")
+           + (("eta32",) if nu_d is not None else ())}
     phi0 = math.atan(m0 / c) if m0 is not None else None
     for r in range(draws):
         readings = [Reading(t.force + eps[r, i, :d], t.acceleration + eps[r, i, d:], t.cov, t.subspace)
@@ -309,20 +357,28 @@ def _general_engine(truths, eps, m0, c, series=True):
             ser["m_series"][r] = c * math.tan(phi)
             ser["eta29"][r] = bartlett_eta(readings, c, g29)[0]
             ser["eta_flat"][r] = bartlett_eta(readings, c, [1.0] * n)[0]
+            if nu_d is not None:
+                from .ours31 import _per_reading
+                from .ours32 import bartlett_eta as eta32
+                ser["eta32"][r] = eta32(_per_reading(readings, c, [nu_d] * n), c)[0]
     if not series:
         ser = {}
     return out, ser
 
 
-def forward(truths, *, draws, seed, mass=None, nu_eff=None, c=None, engine="auto", series=True,
-            keep_noise=False):
+def forward(truths, *, draws, seed, mass=None, nu_eff=None, nu_declared=None, c=None, engine="auto",
+            series=True, keep_noise=False):
     """Hold the truths still, draw the noise `draws` times, and return every measure's draws.
 
     truths: a list of met.full.Reading holding the TRUE force and acceleration and the covariance
       (the declared one, believed: L18) and subspace. `on_line` and `from_invariants` build them.
     mass: where K, H and the channels are read; default the truths' common exact mass (None if they
       have none: then only E, Q, Q_plus, g, eta are returned). Give it for an all-zero truth.
-    nu_eff: None or inf for the fixed-size Gaussian (L13); a number for the inverse-gamma size (T37).
+    nu_eff: the WORLD's noise size: None or inf for the fixed-size Gaussian (L13); a number for the
+      inverse-gamma size (T37).
+    nu_declared: the EQUATION's nu_eff, for ours31/32's measures (w31, eta32); default the world's when
+      finite, else none (w31 and eta32 are then not computed). Give it to run ours31/32 in a world
+      whose noise differs from their declaration (e.g. the fixed-size Gaussian).
     c: the parametrisation of the line, m = c tan(phi); default s. Only curv30 and J30 depend on it
       (as the square of dphi); every other measure, eta included, does not (tested).
     engine: "auto" (isotropic when the series allows it), "isotropic" or "general" (met.full).
@@ -340,6 +396,11 @@ def forward(truths, *, draws, seed, mass=None, nu_eff=None, c=None, engine="auto
     if m0 is not None and not m0 > 0:
         raise ValueError("mass must be positive")
     eps, v, z = draw_noise(truths, draws, rng, nu_eff)
+    nu_d = nu_declared
+    if nu_d is None and nu_eff is not None and not math.isinf(nu_eff):
+        nu_d = float(nu_eff)
+    if nu_d is not None and not (nu_d > 0 and math.isfinite(nu_d)):
+        raise ValueError("nu_declared must be positive and finite (ours31/32 take no infinite nu_eff)")
     s = _common_isotropic(truths)
     if c is None:
         c = s if s is not None else 1.0
@@ -366,17 +427,22 @@ def forward(truths, *, draws, seed, mass=None, nu_eff=None, c=None, engine="auto
             ser = dict(eta30=e30, curv30=curv, J30=j, m_series=m_series,
                        eta29=_isotropic_eta(gram, g29, s, c)[0],
                        eta_flat=_isotropic_eta(gram, np.ones_like(g30), s, c)[0])
+            if nu_d is not None:
+                ser["eta32"] = _isotropic_eta32(gram, out["Q_plus"], k, nu_d)
     elif engine == "general":
-        out, ser = _general_engine(truths, eps, m0, c, series)
+        out, ser = _general_engine(truths, eps, m0, c, series, nu_d)
     else:
         raise ValueError(f"unknown engine {engine!r}")
     out["v"] = v
+    if nu_d is not None:
+        kk = np.array([tr.k for tr in truths], dtype=float)
+        out["w31"] = (nu_d + kk - 1) / (nu_d + out["Q_plus"])
     info = np.full(len(truths), np.nan)
     if m0 is not None:
         out["latent"], out["score"], out["misalignment"], info = channels(truths, eps, m0)
         out["K_total"] = out["K_true"].sum(axis=1)
     out.update(ser)
-    out["truth"] = dict(mass=m0, nu_eff=nu_eff, engine=engine, draws=draws, seed=seed, c=c,
+    out["truth"] = dict(mass=m0, nu_eff=nu_eff, nu_declared=nu_d, engine=engine, draws=draws, seed=seed, c=c,
                         information=info, k=[t.k for t in truths],
                         invariants=[invariants(t, m0) for t in truths])
     if keep_noise:
@@ -497,6 +563,23 @@ def reference(truth, *, mass=None, nu_eff=None):
     return out
 
 
+# ---------------------------------------------------------------- calibration of a weight
+
+
+def calibration(result, key, bins=10):
+    """Is a per-reading weight the precision the reading actually had? The world knows v; L21's cut
+    reads g as E[1/v | the reading] (T37). Returns, over equal-count bins of the weight, the mean
+    weight and the mean true precision 1/v in each, the overall means, and the ratio E[w]/E[1/v].
+    A calibrated weight has the two columns equal."""
+    w = np.asarray(result[key], dtype=float).ravel()
+    p = 1.0 / np.asarray(result["v"], dtype=float).ravel()
+    order = np.argsort(w, kind="stable")
+    parts = np.array_split(order, bins)
+    table = [(float(w[i].mean()), float(p[i].mean())) for i in parts if i.size]
+    return dict(weight=float(w.mean()), precision=float(p.mean()), ratio=float(w.mean() / p.mean()),
+                bins=table, worst_bin_gap=max(abs(a - b) for a, b in table))
+
+
 # ---------------------------------------------------------------- summary
 
 
@@ -546,8 +629,11 @@ def validate(data):
     if type(data.get("draws")) is not int or data["draws"] < 2:
         raise ValueError("forward.draws must be an integer >= 2")
     grid = data.get("grid")
-    if not isinstance(grid, dict) or set(grid) != set(GRID_KEYS):
-        raise ValueError(f"forward.grid needs exactly {list(GRID_KEYS)}, each a list")
+    if not isinstance(grid, dict) or not set(GRID_KEYS) <= set(grid) or set(grid) - set(GRID_KEYS) - {"nu_declared"}:
+        raise ValueError(f"forward.grid needs {list(GRID_KEYS)}, each a list, and optionally nu_declared")
+    if "nu_declared" in grid and (not isinstance(grid["nu_declared"], list) or not grid["nu_declared"] or any(
+            not (isinstance(x, (int, float)) and 0 < x < float("inf")) for x in grid["nu_declared"])):
+        raise ValueError("nu_declared: positive finite numbers (ours31/32's declared nu_eff)")
     for key in GRID_KEYS:
         if not isinstance(grid[key], list) or not grid[key]:
             raise ValueError(f"forward.grid.{key} must be a nonempty list")
@@ -562,8 +648,9 @@ def validate(data):
     if any(not (isinstance(x, (int, float)) and x > 0) for x in grid["nu_eff"]):
         raise ValueError("nu_eff: positive numbers (.inf for the fixed-size Gaussian)")
     cells = []
-    for index, combo in enumerate(itertools.product(*(grid[key] for key in GRID_KEYS))):
-        cells.append(dict(id=f"f{index:03d}", **dict(zip(GRID_KEYS, combo))))
+    keys = GRID_KEYS + (("nu_declared",) if "nu_declared" in grid else ())
+    for index, combo in enumerate(itertools.product(*(grid[key] for key in keys))):
+        cells.append(dict(id=f"f{index:03d}", **dict(zip(keys, combo))))
     return dict(kind="forward", raw=data, cells=cells)
 
 
@@ -581,12 +668,13 @@ def run_cell(cell, seed, draws):
     m0 = math.tan(angle) if on else None
     if push == 0:
         m0 = math.tan(angle) if on else 1.0
-    res = forward(truths, draws=draws, seed=seed, mass=m0, nu_eff=None if math.isinf(nu) else nu)
+    res = forward(truths, draws=draws, seed=seed, mass=m0, nu_eff=None if math.isinf(nu) else nu,
+                  nu_declared=cell.get("nu_declared"))
     summ = summarize(res)
     row = dict(cell)
     row["mass"] = m0
     row["kappa"] = positivity_numerator(k)
-    for key in ("E", "K_true", "score", "misalignment", "Q", "Q_plus", "g30", "g29",
+    for key in ("E", "K_true", "score", "misalignment", "Q", "Q_plus", "g30", "g29", "w31",
                 "eta30", "eta29", "eta_flat", "K_total"):
         if key in summ:
             row[f"{key}_mean"] = summ[key]["mean"]
@@ -597,6 +685,15 @@ def run_cell(cell, seed, draws):
     if "eta30" in summ:
         row["eta30_sd"] = summ["eta30"]["sd"]
     fixed = math.isinf(nu)
+    for key in ("g30", "w31"):
+        if key in res:
+            cal = calibration(res, key)
+            row[f"{key}_over_precision"] = cal["ratio"]           # E[w] / E[1/v]
+            row[f"{key}_worst_bin_gap"] = cal["worst_bin_gap"]    # max over deciles |E[w] - E[1/v]|
+    if "eta32" in res:
+        row["eta32_mean"] = float(res["eta32"].mean())
+        row["eta32_sd"] = float(res["eta32"].std(ddof=1))
+        row["eta32_below_1"] = float(np.mean(res["eta32"] < 1))
     row["E_exact"] = 2 * k + push ** 2 if fixed else float("nan")
     row["K_true_exact"] = k if fixed else (k * nu / (nu - 2) if nu > 2 else float("inf"))
     row["Q_null_exact"] = null_misfit(k).mean() if (push == 0 and fixed) else float("nan")
