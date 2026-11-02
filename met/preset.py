@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "forward":
+        from .forward import validate as validate_forward
+        return validate_forward(data)
     if isinstance(data, dict) and data.get("kind") == "robot_budget":
         from .robot_budget import validate as validate_robot_budget
         return validate_robot_budget(data)

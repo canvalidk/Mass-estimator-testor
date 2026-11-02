@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-10-30 (later), by Claude (T37: the σ's believed; ours30's κ and cap break on it). Update this page in
+**Last updated:** 2026-11-02, by Claude (the forward model, `met/forward.py`: the truth held still, every noise measure's law). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -106,6 +106,28 @@ r["point"], r["interval"], r["raw_interval"], r["eta"], r["g"], r["Q_plus"]
 
 The window is carried on each `Reading` but not used by the equation (T33). The batch
 pipeline, presets and world still take isotropic and per-axis noise only.
+
+**The forward model (2 Nov, Can's ask: "given F, a, … what distribution of noise would we get").**
+`met/forward.py` holds the truth still (true pairs, Σ believed, optionally T37's ν_eff size) and
+returns the draws of every noise measure the equations read, computed by met.full's own code:
+E, H and K at the true mass, Q, Q₊, g29, g30, each reading's own line; per series K_total, η
+(flat, ours29, ours30), curv, J, the series' line. The noise vector itself is returned split into
+its three channels in the noise metric: latent (k), score (1, signed), misalignment (k − 1),
+each exactly N(0, vI) at every nonzero push. For isotropic channels the laws depend only on
+k, the push, the true line's angle atan(m₀/s), N and ν_eff (`invariants`). Exact reference
+laws beside the draws (`reference`, `null_misfit`, `null_positive_misfit`,
+`boundary_positive_misfit`); `tests/test_forward.py` checks them, B02's quadrature, and the two
+engines against met.full.
+
+```python
+import math
+from met.forward import forward, from_invariants, on_line, summarize
+r = forward(from_invariants(3, push=4.0, angle=math.radians(45), readings=20), draws=4000, seed=1)
+summarize(r)["Q_plus"]["mean"], summarize(r)["tempered30"], r["eta30"].mean()
+r = forward(on_line(2.0, [[1, 0, 0], [0.5, 0.2, 0]], 0.2, 0.1), draws=4000, seed=1, nu_eff=10)
+```
+
+The table over that grid: `python -m met run presets/forward_noise_measures.yaml` (252 cells, 1 min).
 
 **Pressure tools (Codex, 26 Oct).** `met/inspection/` inspects saved cases (any covariance,
 declared subspaces, several readings) against independent geometry and justified checks,
@@ -316,6 +338,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-02 (Claude): **the forward model** (`met/forward.py`, Can's "reverse function"): truth held still,
+  the laws of E, K(m₀) and its channels, Q, Q₊, g, η, from met.full's code; preset kind `forward`
+  (`presets/forward_noise_measures.yaml`, seed 20261102); `tests/test_forward.py` (28). It reproduces B02's null
+  means, T38's k − ½ (only on the boundary; inside the half-line Q₊ → χ²ₖ₋₁) and B04's 22–29% tempered by the cap.
+  T36 (4) refined: K(m₀) splits into a unit score and k − 1 misalignment, exactly, at every nonzero push. No equation change.
 - 2026-11-01 (evening, Claude): **ours32, the fifteenth probe** (`met/ours32.py`, O18 1 Nov): ours31's reading level with η put back (Can: R-2026-11-01-1, which also leaves G18/G19 standing until forced; proof.md retyped them). Same-seed study `tools/ours32_coverage.py`: ours31's weak-signal break (0.57–0.71) goes to 0.82–0.87, ours30's level or slightly better; better than ours30 where the noise really varies (ν_eff = 10, 3D, N = 5). The remaining many-reading weak-signal shortfall is η's finite-N form and the latent measure (O14, O15). Tests: `tests/test_ours32.py` (8).
 - 2026-11-01 (Claude): **B08 checked and merged.** π's family from L3, L4, properness: m⁻¹g(ln(m/c)), g even and normalized, or M = ce^X with X
   symmetric for general laws (δ_c included); T28 written. Claude's note: L11 adds a full-support clause (prior mass near every m), which

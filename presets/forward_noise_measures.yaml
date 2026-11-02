@@ -1,0 +1,22 @@
+kind: forward
+name: forward-noise-measures
+question: >-
+  Holding the truth still (true pair, declared covariance believed), what distribution does each
+  noise measure the equations read have (E, the residual at the true mass and its three channels,
+  Q, Q+, the misfit weights, eta), across the variables it can depend on: k, the push, the true
+  line's angle, N and the noise size's nu_eff?
+notes: >-
+  met/forward.py. The truth is the world, not the definition (L10 forbids the definition a size
+  law; the world has one, a point). sigma_F = sigma_a = 1, so s = 1 and m0 = tan(angle). Exact
+  reference means are written beside the draws' where standard results give them (E, K at the
+  true mass, Q and Q+ at zero push, Q's strong-push limit k - 1). Angle 45 is m0 = s; 80 is near
+  the m -> infinity boundary, where Q+'s supremum k - 1/2 lives (T38). nu_eff .inf is the
+  fixed-size Gaussian (L13); 10 is the inverse-gamma size of T37/G20 (E[1/v] = 1).
+seed: 20261102
+draws: 4000
+grid:
+  dimension: [1, 2, 3]
+  push: [0.0, 0.5, 1.0, 2.0, 4.0, 10.0, 30.0]
+  angle_deg: [45.0, 80.0]
+  readings: [1, 5, 20]
+  nu_eff: [.inf, 10.0]
