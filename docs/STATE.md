@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-03, by Codex (T39: ours32's two consistency limits and numerical projection/search repair). Update this page in
+**Last updated:** 2026-11-03, continuation by Codex (T40: conditional dual-regime calibration families and their unforced experiment scale). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -122,6 +122,17 @@ large-signal cancellation and a coordinate-dependent η. A separate native-grid
 peak-resolution discrepancy is retained as a strict xfail against angle quadrature.
 The forward η32 path uses observed-vector residual derivatives and the production
 search on unresolved peaks; high-signal fast/general checks pin that integration.
+
+**Calibration beyond the global power (3 Nov, continuation).** T40 proves that
+matching local curvature with a fixed nonlinear deviance map does not ensure
+Gaussian local intervals. Two different tail-preserving semigroups, supplied
+with an additional scale, conditionally repair T39's ordinary ν = 10 pair and
+retain the reference powered-law local limit when that scale grows with N.
+A continuous Z-safe scale can be built from the individual factor curves;
+its global use under L19, saturation and constants remain unforced (G24).
+These are research witnesses in `met/deviance_calibration.py`, with deterministic
+checks; they are not a new production equation or newly licensed physical inputs.
+The raw ν < 1 counterexample and arbitrary vanishing-η schedules remain open.
 
 **The forward model (2 Nov, Can's ask: "given F, a, … what distribution of noise would we get").**
 `met/forward.py` holds the truth still (true pairs, Σ believed, optionally T37's ν_eff size) and
@@ -354,6 +365,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-03 (continuation, Codex): T40: static local/tail obstruction, two conditional tail-preserving repairs, continuous Z-safe experiment state and explicit nonuniqueness (G24). No production equation or ruling changed; O14 records scope and authority. Full suite: 2,217 passed, 28 skipped, 17 xfailed, including all 17 new deterministic checks. Audit findings unchanged: T6/T21/T27 and unused L24; diff checks clean.
 - 2026-11-03 (Codex, pressure): T39: ours32 removes G22's population-direction bias; iid fixed-signal consistency proved. G23: a single-reading heavy-tail limit, and a stronger η-caused break at ν = 10 (limiting median 1.3107868 at truth 2; raw law concentrates). Equivalent residual/search fixes and independent deterministic references; O18 records scope and the native-grid strict xfail. Full run: 2,195 passed, 28 skipped, 17 xfailed; final forward integration: all 41 affected tests passed (including five new checks). Audit findings unchanged: T6/T21/T27 and unused L24. Windows multiprocessing required an unrestricted run, as in the saved baseline.
 - 2026-11-02 (later, Claude): **forward model on ours31/32** (O18, 2 Nov): `w31` and `eta32` added to `met/forward.py`
   (equal to met.ours32 to 1e-15) with `calibration` (weight against the true precision 1/v); preset
