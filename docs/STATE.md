@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-03, calibration and cut continuation by Codex (T43/T44: leverage-sensitive uncertainty and normalization of frozen-noise cuts). Update this page in
+**Last updated:** 2026-11-03, conditional-score and positive-weight continuation by Codex (T45/T46: exact Gaussian confidence sets, the proper-law coverage boundary and a quadratic-weight obstruction). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -51,6 +51,16 @@ remain open (G26/G3). T44 also shows that factor averaging and a frozen-noise
 cut are different operations. The normalized cut repairs the single-reading
 heavy-tail example but has a repeated-signal bias with the current positive
 misfit module. Its adoption remains G19, unsorted.
+
+T45 extends an earlier exact Gaussian score test to arbitrary declared
+covariances and subspaces, without a signal-size population. Its local
+inversion explains T43's spectral width, but the exact set can be unbounded
+or disconnected and is not the required proper mass law. The same theorem
+proves O15's fixed-N corollary: a proper law's central intervals have infimum
+coverage zero over arbitrarily weak signals. This does not weaken attainable
+identifying-regime calibration. T46 rules out curing T44's weak-signal bias
+by changing only a fixed monotone positive-misfit quadratic weight or its
+conditional mean precision; nonlinear residual factors remain outside it.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -192,6 +202,22 @@ positive-misfit weighted population bias in the stated weak Gaussian world.
 Temperature placement is explicit; unchanged ours32 is not repaired by
 renaming its cut. References and checks are in `met/leverage_calibration.py`
 and `met/cut_normalization.py`. No production factor, prior or ruling changed.
+
+**Exact sets and a quadratic-weight obstruction (3 Nov, continuation).**
+T45's research reference, `met/conditional_score.py`, conditions on each
+reading's own candidate projection. The common-mass score then has an exact
+Gaussian conditional variance in every nonempty experiment of the declared
+Gaussian covariance/subspace type, without fitting or transferring a signal
+population. Exact-zero padding and bookkeeping transformations preserve the
+test. Its inversion supplies a benchmark, not a proper-law output; O15's
+fixed-N uniform-coverage sketch is proved directly, while its prior-averaged
+null floor remains open. T46's `met/positive_weight_obstruction.py` derives
+the null crossmoment for a general fixed w(Q+) quadratic weight. Every
+nonconstant monotone member admits an identifying weak-signal inconsistency;
+the same mechanism reaches the stated normalized-cut mean-precision class.
+Thresholds or monotone tail changes do not repair that class. G19/G22 and
+the selection of a full uncertainty law remain open. No current estimator,
+input, output or ruling changed.
 
 **The forward model (2 Nov, Can's ask: "given F, a, … what distribution of noise would we get").**
 `met/forward.py` holds the truth still (true pairs, Σ believed, optionally T37's ν_eff size) and
@@ -424,6 +450,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-03 (conditional-score and positive-weight continuation, Codex): T45 extends the archived exact score test to full Gaussian covariance/subspace declarations, connects it to T43's local width and proves O15's model-specific fixed-N proper-law coverage corollary. T46 proves the generic best-positive-misfit quadratic-weight obstruction and its conditional-mean precision extension; with the uniform angular prior no global nonnegative temperature repairs its median witness. G26 gains an exact benchmark; G19/G22 remain unsorted. Independent research references and tests; no production equation, input, output, premise or ruling changed. All 111 relevant tests passed, including 37 new checks and the existing full-type, leverage and cut references. Independent mathematical, code and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. The previous full-suite baseline remains 2,271 passed, 28 skipped, 17 xfailed; it was not rerun for these isolated research additions.
 - 2026-11-03 (calibration and cut continuation, Codex): T43: fitted-point limit, leverage-sensitive quoted coverage and a Z-safe spectral comparison (G26). T44: normalization-bias identity, proper whole-series cut amplitude consistency and a separate positive-misfit repeated-signal failure (G19/G22). Independent research references and tests; no production equation, input or ruling changed. Full suite: 2,271 passed, 28 skipped, 17 xfailed, including all 31 new checks. Mathematical and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24); diff checks clean.
 - 2026-11-03 (information-growth continuation, Codex): T42: sharp flat-Gaussian/Bartlett consistency criterion for arbitrary deterministic signal arrays; critical random-law and median-failure converse; T40 comparison with scaled deviance and vanishing η. G25 gains a proved submodel criterion; full-type scope, map/state selection and L19 permission remain open. Research references and independent checks; no production equation, input, gate or ruling changed. Full suite: 2,240 passed, 28 skipped, 17 xfailed, including all 13 new checks. Mathematical and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24); diff checks clean.
 - 2026-11-03 (further continuation, Codex): T41: estimator-independent contradiction with literal L11, a fixed-stream argument and L16 all-positive corollary; G25/O19 records the missing identifying growth condition. Annotated the strong premise without replacing it; linked the named-regime results and corrected the stale L13 ladder status to B05/T23's stipulation. Research helpers and independent deterministic checks; no production equation or ruling changed. Full suite: 2,227 passed, 28 skipped, 17 xfailed, including all 10 new checks. Mathematical and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24), diff checks clean.

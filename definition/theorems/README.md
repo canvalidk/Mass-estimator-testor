@@ -50,3 +50,5 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T42](T42.md) | Sharp information growth for the flat Gaussian Bartlett law | T18, T31, T40, T41; stated Gaussian submodel and fixed-prior conditions | yes |
 | [T43](T43.md) | Leverage-sensitive interval calibration and a Z-safe spectral control | T18, T31, T41, T42; stated Gaussian/prior conditions | yes |
 | [T44](T44.md) | Factor averaging versus normalized whole-series cuts | T37, T39, provisional L21 cut; L19, L20; specified frozen noise module | yes |
+| [T45](T45.md) | Exact Gaussian score sets and the proper-law coverage boundary | L1, L13, L18, full Gaussian type; T43; proper positive output law | yes |
+| [T46](T46.md) | Positive-misfit quadratic weighting creates weak-signal bias | L13, L18; specified fixed weight class, T30, T42, T44 | yes |
