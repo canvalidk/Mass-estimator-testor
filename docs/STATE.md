@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-03, conditional-score and positive-weight continuation by Codex (T45/T46: exact Gaussian confidence sets, the proper-law coverage boundary and a quadratic-weight obstruction). Update this page in
+**Last updated:** 2026-11-03, CDF/residual continuation by Codex (T47/T48: conditional probability recalibration and the residual-density measure fork). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -61,6 +61,16 @@ coverage zero over arbitrarily weak signals. This does not weaken attainable
 identifying-regime calibration. T46 rules out curing T44's weak-signal bias
 by changing only a fixed monotone positive-misfit quadratic weight or its
 conditional mean precision; nonlinear residual factors remain outside it.
+
+T47/T48 now provide a conditional proper-law compatibility construction.
+An explicitly specified Gaussian residual integration gives the ordinary
+Student exponent and raw fixed-N amplification consistency for every positive
+nu. Normal-score recalibration of that normalized law preserves its median,
+retains concentration for bounded-positive eta, and gives regular iid Gaussian
+uncertainty. The global power remains broken even after the raw prefactor is
+corrected. Neither the latent measure nor the law-only calibration reduction
+is forced; vanishing eta needs a separate tail condition, and arbitrary
+leverage/full-type calibration and composition remain open.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -218,6 +228,22 @@ the same mechanism reaches the stated normalized-cut mean-precision class.
 Thresholds or monotone tail changes do not repair that class. G19/G22 and
 the selection of a full uncertainty law remain open. No current estimator,
 input, output or ruling changed.
+
+**A conditional proper-law construction (3 Nov, continuation).** T47's
+`met/cdf_calibration.py` acts on the normalized raw CDF and preserves its
+median exactly. A law-only/full-reparameterization class plus full Gaussian
+variance inflation selects the normal-score warp uniquely within that class;
+the reduction itself is unforced. T48's `met/residual_mixture.py` derives
+the ordinary Student residual density under an explicit variance-independent
+declared-metric latent measure. It repairs the raw single-reading heavy-tail
+failure and retains bounded relative evidence for the stated incompatible
+reading regime. The same outer Bartlett power cancels the prefactor repair
+exactly on the opposed pair. The CDF calibration avoids that power failure
+for a concentrating raw law with positive limiting eta. The combined named
+regimes pass conditionally; the measure, projected/ambient noise treatment,
+calibration class and full-type eta remain G19/G24/G26. Logarithmic ranks
+expose the extreme raw quantiles required; no production inverse or default
+is replaced, and no study score selects the construction.
 
 **The forward model (2 Nov, Can's ask: "given F, a, … what distribution of noise would we get").**
 `met/forward.py` holds the truth still (true pairs, Σ believed, optionally T37's ν_eff size) and
@@ -450,6 +476,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-03 (CDF/residual continuation, Codex): T47: normal-score CDF recalibration, conditional uniqueness, exact median preservation, regular Gaussian uncertainty and a vanishing-eta tail obstruction. T48: ordinary Student residual normalization under an explicit latent measure, raw amplification and bounded relative-evidence proofs, and exact persistence of the outer-power failure. Their named regimes are compatible conditionally; measure/class selection and full-type calibration remain open. No production equation, input, output, premise or ruling changed. All 99 relevant tests passed, including 36 new checks; the existing native-grid strict xfail remains. Independent mathematical, code and authority reviews found no blockers; subnormal-tail regressions pass, audit findings unchanged (T6/T21/T27, unused L24), diff checks clean. The full suite was not rerun for these isolated research additions; its last baseline is recorded below.
 - 2026-11-03 (conditional-score and positive-weight continuation, Codex): T45 extends the archived exact score test to full Gaussian covariance/subspace declarations, connects it to T43's local width and proves O15's model-specific fixed-N proper-law coverage corollary. T46 proves the generic best-positive-misfit quadratic-weight obstruction and its conditional-mean precision extension; with the uniform angular prior no global nonnegative temperature repairs its median witness. G26 gains an exact benchmark; G19/G22 remain unsorted. Independent research references and tests; no production equation, input, output, premise or ruling changed. All 111 relevant tests passed, including 37 new checks and the existing full-type, leverage and cut references. Independent mathematical, code and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. The previous full-suite baseline remains 2,271 passed, 28 skipped, 17 xfailed; it was not rerun for these isolated research additions.
 - 2026-11-03 (calibration and cut continuation, Codex): T43: fitted-point limit, leverage-sensitive quoted coverage and a Z-safe spectral comparison (G26). T44: normalization-bias identity, proper whole-series cut amplitude consistency and a separate positive-misfit repeated-signal failure (G19/G22). Independent research references and tests; no production equation, input or ruling changed. Full suite: 2,271 passed, 28 skipped, 17 xfailed, including all 31 new checks. Mathematical and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24); diff checks clean.
 - 2026-11-03 (information-growth continuation, Codex): T42: sharp flat-Gaussian/Bartlett consistency criterion for arbitrary deterministic signal arrays; critical random-law and median-failure converse; T40 comparison with scaled deviance and vanishing η. G25 gains a proved submodel criterion; full-type scope, map/state selection and L19 permission remain open. Research references and independent checks; no production equation, input, gate or ruling changed. Full suite: 2,240 passed, 28 skipped, 17 xfailed, including all 13 new checks. Mathematical and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24); diff checks clean.

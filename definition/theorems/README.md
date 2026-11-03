@@ -52,3 +52,5 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T44](T44.md) | Factor averaging versus normalized whole-series cuts | T37, T39, provisional L21 cut; L19, L20; specified frozen noise module | yes |
 | [T45](T45.md) | Exact Gaussian score sets and the proper-law coverage boundary | L1, L13, L18, full Gaussian type; T43; proper positive output law | yes |
 | [T46](T46.md) | Positive-misfit quadratic weighting creates weak-signal bias | L13, L18; specified fixed weight class, T30, T42, T44 | yes |
+| [T47](T47.md) | Normal-score CDF recalibration and its tail boundary | T39–T40, T43, T45; explicit law-only/naturality class and Gaussian benchmark | yes |
+| [T48](T48.md) | Normalized Gaussian residual mixing and the latent-volume fork | T36–T37, T39; specified variance-independent declared-metric latent measure | yes |
