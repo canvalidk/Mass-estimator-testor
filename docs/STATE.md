@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-03, further continuation by Codex (T41: literal total-energy consistency is unattainable; G25/O19 identify the missing information-growth condition). Update this page in
+**Last updated:** 2026-11-03, information-growth continuation by Codex (T42: a sharp Gaussian consistency regime and vanishing-power calibration comparison). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -35,6 +35,13 @@ is read literally over the unrestricted input type. No estimator can be
 consistent on every allowed divergent-energy signal history. L11 is strong;
 its replacement growth condition is unsorted (G25, O19). The existence working assumption does not discount this
 contradiction. L11's statement and grade are retained with the conflict exposed.
+
+T42 now supplies a sharp attainable regime for the flat Gaussian factors
+with the existing Bartlett correction: $\Delta_N^2/(N+\Delta_N)\to\infty$,
+where Δ is total true standardized signal energy. The result allows arbitrary
+deterministic amplitudes and signs and does not require η to stay positive
+in the limit. It characterizes this procedure under stated noise/prior
+conditions; the full-type growth condition remains open.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -150,6 +157,17 @@ corollary. `met/signal_identifiability.py` checks the exact mixture moments,
 uniform testing bounds and a separate Gaussian scatter growth benchmark.
 O19/G25 records the required consistency sort; no noise law, input, production
 factor or premise statement is replaced.
+
+**An attainable Gaussian consistency regime (3 Nov, continuation).** T42
+proves law/median consistency iff $\Delta_N^2/(N+\Delta_N)\to\infty$ as N
+grows for the flat Gaussian Bartlett procedure. It includes a converse with
+finite random quoted precision and inconsistent medians, without a bounded
+signal-size assumption. T40's research maps are TV-equivalent to this law
+on arbitrary deterministic Gaussian arrays when their stated oscillation
+scales are used; the comparison permits η to vanish. Those choices remain
+unforced (G24). This is a submodel characterization for G25, with no nominal
+coverage or finite-ν Student repair implied. Independent Gaussian moment
+and continuous angular references are in `met/gaussian_information.py`.
 
 **The forward model (2 Nov, Can's ask: "given F, a, … what distribution of noise would we get").**
 `met/forward.py` holds the truth still (true pairs, Σ believed, optionally T37's ν_eff size) and
@@ -382,6 +400,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-03 (information-growth continuation, Codex): T42: sharp flat-Gaussian/Bartlett consistency criterion for arbitrary deterministic signal arrays; critical random-law and median-failure converse; T40 comparison with scaled deviance and vanishing η. G25 gains a proved submodel criterion; full-type scope, map/state selection and L19 permission remain open. Research references and independent checks; no production equation, input, gate or ruling changed. Full suite: 2,240 passed, 28 skipped, 17 xfailed, including all 13 new checks. Mathematical and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24); diff checks clean.
 - 2026-11-03 (further continuation, Codex): T41: estimator-independent contradiction with literal L11, a fixed-stream argument and L16 all-positive corollary; G25/O19 records the missing identifying growth condition. Annotated the strong premise without replacing it; linked the named-regime results and corrected the stale L13 ladder status to B05/T23's stipulation. Research helpers and independent deterministic checks; no production equation or ruling changed. Full suite: 2,227 passed, 28 skipped, 17 xfailed, including all 10 new checks. Mathematical and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24), diff checks clean.
 - 2026-11-03 (continuation, Codex): T40: static local/tail obstruction, two conditional tail-preserving repairs, continuous Z-safe experiment state and explicit nonuniqueness (G24). No production equation or ruling changed; O14 records scope and authority. Full suite: 2,217 passed, 28 skipped, 17 xfailed, including all 17 new deterministic checks. Audit findings unchanged: T6/T21/T27 and unused L24; diff checks clean.
 - 2026-11-03 (Codex, pressure): T39: ours32 removes G22's population-direction bias; iid fixed-signal consistency proved. G23: a single-reading heavy-tail limit, and a stronger η-caused break at ν = 10 (limiting median 1.3107868 at truth 2; raw law concentrates). Equivalent residual/search fixes and independent deterministic references; O18 records scope and the native-grid strict xfail. Full run: 2,195 passed, 28 skipped, 17 xfailed; final forward integration: all 41 affected tests passed (including five new checks). Audit findings unchanged: T6/T21/T27 and unused L24. Windows multiprocessing required an unrestricted run, as in the saved baseline.

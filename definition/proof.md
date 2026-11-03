@@ -10,8 +10,9 @@ the history.
 satisfies literal L11 over the unrestricted reading type: its universal promise
 on divergent-energy histories would imply consistent discrimination of two
 proof mixtures that remain insufficiently separated. The current full premise
-list therefore has no model under those quantifiers. L11 is strong; its replacement information-growth condition
-is unsorted (G25, O19). The conditional chain below cannot establish existence
+list therefore has no model under those quantifiers. L11 is strong; its full-type information-growth condition
+is unsorted (G25, O19). T42 now characterizes the flat Gaussian Bartlett procedure's attainable scope.
+The conditional chain below cannot establish existence
 or uniqueness until this conflict is sorted. No premise or ruling is replaced.
 
 **Statuses.** Each step carries one:
@@ -429,6 +430,25 @@ condition illustrates attainable growth without selecting a new premise,
 gate or input. Because L11 is strong, this is evidence against consistency
 of the current premise list, under GOAL's guard. → G25, O19.
 
+**3 Nov, further continuation (Codex): a sharp attainable Gaussian regime.**
+T42 proves that the flat Gaussian factors with their actual Bartlett cap and
+fallback have law concentration and median consistency precisely when
+$\Delta_N^2/(N+\Delta_N)\to\infty$ as N grows, with a fixed regular prior,
+common noise ratio, independent Gaussian errors and arbitrary deterministic
+signal amplitudes/signs. No iid signal or leverage condition is needed for
+this consistency result. The converse gives a finite random-precision law
+and a wrong-angle event of positive probability; it proves median failure
+as well as failure of law concentration.
+
+The observable capped angular precision is $\eta\mathcal H$, not
+$\mathcal H^2/J$ alone. It can diverge even while η vanishes. A scaled-deviance
+comparison extends T40 to $a_N\eta_N\to\infty$; the stated oscillation scales
+make both research families TV-equivalent to the Gaussian Bartlett law for
+arbitrary deterministic arrays as N grows. Their global choice and L19
+permission remain G24. The theorem characterizes this procedure rather than
+selecting the full-type replacement for L11 (G25); T39's finite-ν amplitude
+failures remain. No gate, physical input, production equation or ruling changed.
+
 **What is no longer load-bearing.** Switching the point to the median (28 Oct) took these off
 the path from premises to ours30: T3, T4 (ratio of means), T9 (stacked size), T10 (the cloud
 readout), T11 (sufficiency through the stacked sums), T14, T15 (the readout at zero readings and
@@ -467,8 +487,8 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G21 | 9, 11 | L24's test: which temperings are cut posteriors of a mean-1 noise size; η's series version | derive | L24 → brief B12 |
 | G22 | 8–10, 11 | **The sign in the weight against consistency** (31 Oct, from B05). T30 with R-2026-09-07-1 put the sign of F·a into the misfit ($Q_+$); L11 forbids a weight correlated with the score at the truth. Eigenvalue-only weights keep the population optimum at the truth (T38's step 1 symmetry); $g(Q_+)$ moves it (2D/3D: −10%/−9% at signal 1, −3%/−2% at signal 2). Forced, input, or which premise is mis-stated | sort (Claude) → rule | T30, T32, L11; `tests/test_weight_consistency.py`; T23 |
 | G23 | L11, finite-ν probes; G3's finite-N power | **Tempered tail index against amplitude consistency** (3 Nov, Codex). Ours32 removes G22's population-direction bias (T39), but fails literal L11: one reading at $0<\nu<1$; more strongly two at ν = 10 where η alone changes a concentrating law into a nonconcentrating one (limiting median 1.3107868 at truth 2). The conflict of the current cut factors, finite-N global power and median is proved; a replacement is unsorted (a readout change reopens G6/L23). The iid fixed-signal result and a ν lower bound do not close it | derive done; repair unsorted; no premise changed | T39; O18; `tests/test_cut_consistency.py` |
-| G24 | G3/G23, global calibration shape | **Local η does not select a global correction** (3 Nov continuation, Codex). T40 proves fixed-scale curvature matching alone need not calibrate local intervals; two distinct tail-preserving semigroups with an additional experiment scale conditionally supply both growth limits. Their family, scale unit, saturation and use under L19 are unforced. These research parameters are not physical caller inputs under TASK §5. The no-go statement is for a pointwise scalar-deviance map and the explicit full-Gaussian local benchmark, not every possible calibration or property N itself | derive done; selection and L19 interpretation unsorted; no adoption | T40; O14; `tests/test_deviance_calibration.py` |
-| G25 | L11, identifying growth | **Divergent total push does not ensure identifying information** (3 Nov continuation, Codex). T41 proves no estimator satisfies literal L11 on every allowed deterministic signal sequence. For $r_i=b/\sqrt i$, quadratic energy diverges while quartic energy is finite; a fixed-stream testing argument prevents consistent discrimination of two masses. L16 gives an all-positive-signal corollary. This challenges a strong premise and the consistency of the present list; T17/T39/T40 retain their stated scopes. A sufficient Gaussian scatter condition is a benchmark, not the selected replacement | contradiction proved; replacement growth condition unsorted; L11 statement and grade retained | T41; O19; `tests/test_signal_identifiability.py` |
+| G24 | G3/G23, global calibration shape | **Local η does not select a global correction** (3 Nov continuation, Codex). T40's distinct tail-preserving semigroups need additional experiment state, whose family, scale unit, saturation and use under L19 are unforced. T42 extends the TV comparison to vanishing η and gives all-array asymptotic equivalence in the flat Gaussian benchmark; this does not select a map. The research parameters are not physical caller inputs under TASK §5. The fixed-map obstruction concerns the explicit full-Gaussian local benchmark, not every calibration or property N itself | derive done; selection and L19 interpretation unsorted; no adoption | T40, T42; O14, O19; `tests/test_deviance_calibration.py`; `tests/test_gaussian_information.py` |
+| G25 | L11, identifying growth | **Divergent total push does not ensure identifying information** (3 Nov continuation, Codex). T41 disproves literal L11 for every estimator over the unrestricted type, with an L16 all-positive-signal corollary. This challenges a strong premise and the consistency of the present list. T42 now gives a sharp consistency criterion for flat Gaussian/Bartlett inference with arbitrary deterministic signals, and its stated T40 extensions. It is a method-specific result, not the selected full-type replacement; T39's finite-ν failures remain | contradiction proved; sharp Gaussian criterion proved; full-type growth condition unsorted; L11 statement and grade retained | T41, T42; O19; `tests/test_signal_identifiability.py`; `tests/test_gaussian_information.py` |
 | ~~G4~~ | 10 | ~~$S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved~~ **closed 31 Oct: T38** (B02); load-bearing only if G18 keeps O12's meaning | derive | brief B02, merged |
 | G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after G18 (only if it keeps O12's meaning) | O13 |
 | G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open. **30 Oct (O15):** property N is stated in the limit, and ours30 meets it there (0.93–0.95 at $N=80$–200, signal 1–2, 3D); only the finite-$N$ form is left. **31 Oct correction:** that is finite-$N$ only; ours30's point is inconsistent at fixed signal (G22), so its coverage must fall as $N$ grows. **31 Oct (B04 merged):** the leverage identity $E[J]=C(1-1/n_{\rm eff})$ holds for fixed nonnegative curvatures only; ours30's observed curvatures are signed, so $n_{\rm eff}$ is not a count and the target has no finite mean. Standard remedy (HC2 leverages from Fisher, not observed, information) is a pointer, unsorted |
@@ -503,3 +523,4 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 - 2026-11-03: Codex, T39: ours32's residual identity and repeated fixed-signal consistency; an allowed single-reading heavy-tail counterexample opens G23. Numerical projection and whole-line-search fixes preserve the probe's continuous equation.
 - 2026-11-03 (continuation): Codex, T40: a state-free local/tail obstruction and two conditional dual-regime repairs; semigroup and common tail constant still do not force a rule. G24 records the unsorted experiment state and global shape.
 - 2026-11-03 (further continuation): Codex, T41: literal total-energy consistency is unattainable for every estimator over the unrestricted type; G25/O19 expose the missing identification condition. No premise or equation replaced.
+- 2026-11-03 (information-growth continuation): Codex, T42: necessary and sufficient flat-Gaussian/Bartlett consistency criterion, critical random-law converse and a vanishing-power comparison for T40. G25 gains an attainable submodel; G24's choices and the full-type premise remain unsorted.

@@ -47,3 +47,4 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T39](T39.md) | Ours32: repeated-signal consistency and the global-power tail obstruction | L1, L11, L13 (conditional noise), L18, T31, T36, T37 | yes |
 | [T40](T40.md) | Local curvature, tail preservation and experiment state | T31, T39, L11, L20, L3, L16; stated Gaussian-local benchmark | yes |
 | [T41](T41.md) | Divergent total signal need not identify mass | L1, L2, L13, L18, unrestricted type/L19; L11 under test; L16 for corollary | yes |
+| [T42](T42.md) | Sharp information growth for the flat Gaussian Bartlett law | T18, T31, T40, T41; stated Gaussian submodel and fixed-prior conditions | yes |
