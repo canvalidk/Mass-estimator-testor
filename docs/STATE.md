@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-02, by Claude (the forward model, `met/forward.py`: the truth held still, every noise measure's law). Update this page in
+**Last updated:** 2026-11-03, by Codex (T39: ours32's two consistency limits and numerical projection/search repair). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -106,6 +106,22 @@ r["point"], r["interval"], r["raw_interval"], r["eta"], r["g"], r["Q_plus"]
 
 The window is carried on each `Reading` but not used by the equation (T33). The batch
 pipeline, presets and world still take isotropic and per-axis noise only.
+
+**Ours32 consistency (3 Nov, Codex, pressure).** T39 proves that its per-reading
+criterion is $-a\log(\nu+K)$ up to a constant: Q₊ cancels. Its population optimum
+is the true mass under Gaussian scalar-scale-mixture noise, including full
+covariance shapes and subspaces. Iid fixed nonzero signal with finite-mean noise
+sizes gives law/median consistency as N grows. Literal L11 still fails: one 1D
+reading with allowed ν_eff = 0.5 and true mass 2 tends to median 1.8219669 as its
+amplitude grows (c = s = 1). More strongly, two readings at ν = 10 with bounded
+opposite errors have η → 1/90 and limiting median 1.3107868 instead of 2;
+the same uncalibrated law concentrates. The global finite-N power with the current median fails L11
+on a positive-probability noise set (T39 part 5). G23 names the tail/calibration
+repair, still unsorted; O18 gives the premise report. Direct residual evaluation and refined stationary search fix
+large-signal cancellation and a coordinate-dependent η. A separate native-grid
+peak-resolution discrepancy is retained as a strict xfail against angle quadrature.
+The forward η32 path uses observed-vector residual derivatives and the production
+search on unresolved peaks; high-signal fast/general checks pin that integration.
 
 **The forward model (2 Nov, Can's ask: "given F, a, … what distribution of noise would we get").**
 `met/forward.py` holds the truth still (true pairs, Σ believed, optionally T37's ν_eff size) and
@@ -338,6 +354,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-03 (Codex, pressure): T39: ours32 removes G22's population-direction bias; iid fixed-signal consistency proved. G23: a single-reading heavy-tail limit, and a stronger η-caused break at ν = 10 (limiting median 1.3107868 at truth 2; raw law concentrates). Equivalent residual/search fixes and independent deterministic references; O18 records scope and the native-grid strict xfail. Full run: 2,195 passed, 28 skipped, 17 xfailed; final forward integration: all 41 affected tests passed (including five new checks). Audit findings unchanged: T6/T21/T27 and unused L24. Windows multiprocessing required an unrestricted run, as in the saved baseline.
 - 2026-11-02 (later, Claude): **forward model on ours31/32** (O18, 2 Nov): `w31` and `eta32` added to `met/forward.py`
   (equal to met.ours32 to 1e-15) with `calibration` (weight against the true precision 1/v); preset
   `presets/forward_ours31_ours32.yaml`. In its own world ours31's weight is the true precision at strong signal; holes 2 and 3

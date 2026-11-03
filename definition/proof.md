@@ -366,6 +366,26 @@ function of the Gram eigenvalues alone (ours29's) is not. So T30 with R-2026-09-
 stated, cannot all hold for a power-form weight: steps 8–10 are open on this ground too, independently
 of G18. The statement above holds only with L11 read as fixed-$N$ amplitude consistency (T23).
 
+**3 Nov (Codex): ours32 repairs this population bias, with a different L11 limit.**
+T39 shows that its $Q_+$ is a mass-independent normalizing constant: its criterion
+is $-\sum_i(\nu_i+k_i-1)\log(\nu_i+K_i(m))/2$. Under correctly whitened Gaussian
+scalar-scale-mixture noise its population optimum is the true mass. With iid
+fixed nonzero signal and finite-mean noise scales the continuous ours32 law and
+median concentrate there as $N\to\infty$. However, one allowed 1D reading at
+$\nu=1/2$ has limiting median $1.8219669\ldots$ when the true mass is 2 and its
+amplitude tends to infinity ($c=s=1$). This is a separate tail-integrability
+failure of literal L11, not G22's directional weighting. No input restriction
+or new equation is adopted. → G23; O18; T39.
+
+The stronger T39 example uses two 1D readings at ordinary ν = 10 with fixed
+opposite perpendicular errors of size 3. Their true line remains the global
+mode, but $\eta_R\to1/90$ makes the combined tail index $2/9<1$ and the median
+tends to $1.3107868\ldots$ instead of 2. Without η the same law concentrates.
+The failure persists on a positive-probability Gaussian error set. Thus the
+finite-N global power with the current median conflicts with L11 on the cut factors; a lower
+bound on the declared ν alone cannot fix it. The repeated-signal asymptotic
+Bartlett argument remains valid in its named regime.
+
 **What is no longer load-bearing.** Switching the point to the median (28 Oct) took these off
 the path from premises to ours30: T3, T4 (ratio of means), T9 (stacked size), T10 (the cloud
 readout), T11 (sufficiency through the stacked sums), T14, T15 (the readout at zero readings and
@@ -403,6 +423,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G20 | 9 | T37's tail index α: an input, but TASK §5's guard asks that practice supply it. **Sorted 30 Oct, provisional (T37, G20 section):** α = ν_eff/2, the effective degrees of freedom of the stated uncertainty (GUM Annex G), on calibration certificates; the inverse-gamma shape forced by L13 applied to how σ was obtained. Practice normalises the precision ($E[1/v]=1$), which restates T37 (2) and (3): ours30 is a σ declared with ν_eff = ½; the cap holds exactly in 1D | sort (done) | T37 |
 | G21 | 9, 11 | L24's test: which temperings are cut posteriors of a mean-1 noise size; η's series version | derive | L24 → brief B12 |
 | G22 | 8–10, 11 | **The sign in the weight against consistency** (31 Oct, from B05). T30 with R-2026-09-07-1 put the sign of F·a into the misfit ($Q_+$); L11 forbids a weight correlated with the score at the truth. Eigenvalue-only weights keep the population optimum at the truth (T38's step 1 symmetry); $g(Q_+)$ moves it (2D/3D: −10%/−9% at signal 1, −3%/−2% at signal 2). Forced, input, or which premise is mis-stated | sort (Claude) → rule | T30, T32, L11; `tests/test_weight_consistency.py`; T23 |
+| G23 | L11, finite-ν probes; G3's finite-N power | **Tempered tail index against amplitude consistency** (3 Nov, Codex). Ours32 removes G22's population-direction bias (T39), but fails literal L11: one reading at $0<\nu<1$; more strongly two at ν = 10 where η alone changes a concentrating law into a nonconcentrating one (limiting median 1.3107868 at truth 2). The conflict of the current cut factors, finite-N global power and median is proved; a replacement is unsorted (a readout change reopens G6/L23). The iid fixed-signal result and a ν lower bound do not close it | derive done; repair unsorted; no premise changed | T39; O18; `tests/test_cut_consistency.py` |
 | ~~G4~~ | 10 | ~~$S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved~~ **closed 31 Oct: T38** (B02); load-bearing only if G18 keeps O12's meaning | derive | brief B02, merged |
 | G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after G18 (only if it keeps O12's meaning) | O13 |
 | G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open. **30 Oct (O15):** property N is stated in the limit, and ours30 meets it there (0.93–0.95 at $N=80$–200, signal 1–2, 3D); only the finite-$N$ form is left. **31 Oct correction:** that is finite-$N$ only; ours30's point is inconsistent at fixed signal (G22), so its coverage must fall as $N$ grows. **31 Oct (B04 merged):** the leverage identity $E[J]=C(1-1/n_{\rm eff})$ holds for fixed nonnegative curvatures only; ours30's observed curvatures are signed, so $n_{\rm eff}$ is not a count and the target has no finite mean. Standard remedy (HC2 leverages from Fisher, not observed, information) is a pointer, unsorted |
@@ -434,3 +455,4 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 - 2026-10-29 (night): the frame for steps 1–5 named (T36), on R-2026-10-29-3.
 - 2026-10-30: steps 7, 9, 10, 11 and §§3–4 brought up to T37 and L24: the rulings at steps 9–10 conflict (R1 against O12), sorted provisionally; what is proved restated; holes G18–G21.
 - 2026-10-31: B01, B02 (T38, G4 closed), B04 and B05 merged; ours30 fails L11 (G22, new); L13 stipulated.
+- 2026-11-03: Codex, T39: ours32's residual identity and repeated fixed-signal consistency; an allowed single-reading heavy-tail counterexample opens G23. Numerical projection and whole-line-search fixes preserve the probe's continuous equation.

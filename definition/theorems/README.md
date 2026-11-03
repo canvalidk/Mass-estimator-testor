@@ -44,3 +44,4 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T36](theorems/T36.md) | The reading space, its metric, and one residual | the type, L3, L1, L22, L13 | yes |
 | [T37](theorems/T37.md) | The per-reading noise size: what believing Σ and T30 force | L18, L13, L8, L21, T30 | yes |
 | [T38](theorems/T38.md) | The supremum of the expected positive-mass misfit is k − ½ | T32, L13, L9, L10 | yes |
+| [T39](theorems/T39.md) | Ours32: repeated-signal consistency and the global-power tail obstruction | L1, L11, L13 (conditional noise), L18, T31, T36, T37 | yes |

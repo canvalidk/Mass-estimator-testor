@@ -263,6 +263,7 @@ def _isotropic_engine(truths, eps, m0, s):
         out["H_true"] = h
         out["K_true"] = np.maximum(e - h, 0.0)
     out["_gram"] = (a_, b_, c_)
+    out["_observed"] = (x, y)
     return out
 
 
@@ -286,28 +287,38 @@ def _isotropic_eta(gram, g, s, c):
     return eta, curv * dtheta_dphi ** 2, j * dtheta_dphi ** 2, s * np.tan(theta)
 
 
-def _isotropic_eta32(gram, q_plus, k, nu_d):
-    """ours32's eta (met.ours32.bartlett_eta) from the Grams: l_i = -a log(1 + (H+_i - H_i)/b_i),
-    a = (nu_d + k - 1)/2, b_i = nu_d + Q+_i, H+_i = E_i - Q+_i; best line on the whole projective line
-    by a scan and Newton steps, in the whitened angle (eta is the same in every parametrisation)."""
+def _isotropic_eta32(gram, q_plus, k, nu_d, *, observations=None):
+    """Vectorised ours32 eta, with a robust fallback for unresolved narrow peaks.
+
+    The scan uses Grams; Newton/final residuals use the observed whitened vectors
+    when supplied. Q+ contributes only a mass-independent factor and is omitted.
+    Failed stationarity or sub-grid reading peaks use the production finite search
+    on those observations, without passing any investigator truth to the fit.
+    """
     a_, b_, c_ = gram
     e = a_ + b_
     aa = 0.5 * (nu_d + k - 1)
-    bb = nu_d + q_plus
-    hp = e - q_plus
 
     def terms(theta, order):                     # theta (draws, M) -> per-reading l (draws, N, M)
         s2, c2 = np.sin(2 * theta)[:, None, :], np.cos(2 * theta)[:, None, :]
         A, B, C = a_[..., None], b_[..., None], c_[..., None]
-        h = 0.5 * (A + B) + 0.5 * (B - A) * c2 + C * s2
-        u = 1.0 + (hp[..., None] - h) / bb[..., None]
-        l0 = -aa * np.log(u)
+        residual = np.maximum(0.5 * (A + B) + 0.5 * (A - B) * c2 - C * s2, 0.0)
+        if observations is not None and order:
+            x, y = observations
+            sine, cosine = np.sin(theta)[:, None, :, None], np.cos(theta)[:, None, :, None]
+            off = x[:, :, None, :] * cosine - y[:, :, None, :] * sine
+            along = x[:, :, None, :] * sine + y[:, :, None, :] * cosine
+            residual = np.sum(off**2, axis=-1)
+            h1 = 2 * np.sum(off * along, axis=-1)
+            h2 = 2 * (residual - np.sum(along**2, axis=-1))
+        l0 = -aa * np.log1p(residual / nu_d)
         if order == 0:
             return l0
-        h1 = (A - B) * s2 + 2 * C * c2
-        h2 = 2 * (A - B) * c2 - 4 * C * s2
-        bu = bb[..., None] * u
-        return l0, aa * h1 / bu, aa * (h2 / bu + h1 ** 2 / bu ** 2)
+        if observations is None:
+            h1 = (A - B) * s2 + 2 * C * c2
+            h2 = 2 * (A - B) * c2 - 4 * C * s2
+        denominator = nu_d + residual
+        return l0, aa * h1 / denominator, aa * (h2 / denominator + (h1 / denominator) ** 2)
 
     draws = a_.shape[0]
     grid = -math.pi / 2 + math.pi * (np.arange(SCAN32) + 0.5) / SCAN32
@@ -324,7 +335,23 @@ def _isotropic_eta32(gram, q_plus, k, nu_d):
     _, d1, d2 = (x[..., 0] for x in terms(theta[:, None], 2))
     curv, j = -d2.sum(-1), (d1 ** 2).sum(-1)
     with np.errstate(invalid="ignore", divide="ignore"):
-        return np.where((j <= 1e-300) | (curv <= 0), 1.0, np.minimum(1.0, curv / j))
+        eta = np.where((j <= 1e-300) | (curv <= 0), 1.0, np.minimum(1.0, curv / j))
+    if observations is not None:
+        narrow = np.any(e * step**2 > 0.25 * nu_d, axis=1)
+        score_scale = 1 + np.sqrt(j) + np.sqrt(np.abs(curv))
+        unresolved = (np.abs(d1.sum(-1)) > 1e-8 * score_scale)
+        unresolved |= ~np.isfinite(eta) | ~np.isfinite(curv) | ~np.isfinite(j)
+        unresolved |= (curv <= 0) & (j > 1e-20)
+        indices = np.flatnonzero(narrow | unresolved)
+        if indices.size:
+            from .ours31 import _per_reading
+            from .ours32 import bartlett_eta as stable_eta
+
+            x, y = observations
+            for index in indices:
+                readings = [isotropic(f, a, 1.0, 1.0) for f, a in zip(x[index], y[index])]
+                eta[index] = stable_eta(_per_reading(readings, 1.0, [nu_d] * len(readings)), 1.0)[0]
+    return eta
 
 
 def _general_engine(truths, eps, m0, c, series=True, nu_d=None):
@@ -415,6 +442,7 @@ def forward(truths, *, draws, seed, mass=None, nu_eff=None, nu_declared=None, c=
                              "subspace with one common s")
         out = _isotropic_engine(truths, eps, m0, s)
         gram = out.pop("_gram")
+        observations = out.pop("_observed")
         k = truths[0].k
         g29 = np.where(out["Q"] > 0, np.minimum(1.0, (k - 1) / np.where(out["Q"] > 0, out["Q"], 1.0)), 1.0)
         g29 = g29 if k > 1 else np.ones_like(g29)
@@ -428,7 +456,8 @@ def forward(truths, *, draws, seed, mass=None, nu_eff=None, nu_declared=None, c=
                        eta29=_isotropic_eta(gram, g29, s, c)[0],
                        eta_flat=_isotropic_eta(gram, np.ones_like(g30), s, c)[0])
             if nu_d is not None:
-                ser["eta32"] = _isotropic_eta32(gram, out["Q_plus"], k, nu_d)
+                ser["eta32"] = _isotropic_eta32(gram, out["Q_plus"], k, nu_d,
+                                               observations=observations)
     elif engine == "general":
         out, ser = _general_engine(truths, eps, m0, c, series, nu_d)
     else:
