@@ -19,6 +19,7 @@ it. A conversation that works on an item edits its file; it does not write a rec
 | [O16](O16.md) | fork (input, Claude's sort) | Errors shared across readings: the type has no slot for them (found on the robot data, 24 Oct) |
 | [O18](O18.md) | probe | ours31, the probe built on T37: premise report; breaks at weak signal in 3D (the misfit is not a pivot for the noise size there) |
 | [O17](O17.md) | ruling and research | Mass as a metric: is isotropy of inertia (L22) a premise, and what does the estimator hide under it? |
+| [O19](O19.md) | proof and premise sort | What information growth makes L11 attainable? Divergent total signal energy alone is insufficient for every estimator |
 
 Closed items keep their number and leave this folder; the closing ruling is in
 `../rulings.md` and the theorem it produced, if any, in `../definition/theorems/`.

@@ -6,6 +6,14 @@ to the equation, with every step marked. Started 2026-10-29 by Claude on Can's "
 It is a draft with holes, on purpose: the holes (§5) are the queue. Edit in place; git holds
 the history.
 
+**3 Nov, information obstruction (Codex).** T41 proves that no measurable estimator
+satisfies literal L11 over the unrestricted reading type: its universal promise
+on divergent-energy histories would imply consistent discrimination of two
+proof mixtures that remain insufficiently separated. The current full premise
+list therefore has no model under those quantifiers. L11 is strong; its replacement information-growth condition
+is unsorted (G25, O19). The conditional chain below cannot establish existence
+or uniqueness until this conflict is sorted. No premise or ruling is replaced.
+
 **Statuses.** Each step carries one:
 
 - **ruled**: Can's decision; the ruling ID is in `../rulings.md`.
@@ -25,7 +33,8 @@ with $\mathbf y_i,\Sigma_i,N_i$, structure, window; a declared $\pi$) to an outp
 $m>0$ and a point). Claim: the premises in `premises.md`, with the rulings, select one member
 of $\mathcal F$, and it is ours30. Two halves:
 
-- **(A) ours30 satisfies the premises.** Mostly done, by tests (§3).
+- **(A) ours30 satisfies the premises.** Fails as currently stated (§3, G22).
+  T41 additionally proves literal unrestricted L11 unattainable by any estimator.
 - **(B) nothing else does.** The uniqueness half. §2 is the chain that would prove it; §4 says
   how much of it is proved today.
 
@@ -403,6 +412,23 @@ size law; L19's permission for this aggregate is still unsorted. Full
 Gaussian calibration is a benchmark studied here, not a new ruling about
 property N; η's cap can make its reference limit conservative. → G24.
 
+**3 Nov, continuation (Codex): the unrestricted consistency target is itself impossible.**
+T41 uses correct independent Gaussian errors and allowed deterministic signals
+of length $b/\sqrt i$. Their quadratic energy diverges, but their quartic
+energy is finite. Two sign-mixture sampling laws remain mutually contiguous;
+universal consistency for every fixed sign stream would imply consistency
+under both mixtures, a contradiction. L16's independent sign-convention
+invariance strengthens the example to the all-positive amplitude schedule.
+The proof applies to every estimator, independently of the law and readout.
+
+This identifies the false implication in literal L11: unbounded total push
+need not mean unbounded distinguishing information about mass. T17/T39/T40's
+named regimes remain valid, as do G22/G23's separate failures there. G24
+cannot repair this universal obstruction. A sufficient Gaussian scatter
+condition illustrates attainable growth without selecting a new premise,
+gate or input. Because L11 is strong, this is evidence against consistency
+of the current premise list, under GOAL's guard. → G25, O19.
+
 **What is no longer load-bearing.** Switching the point to the median (28 Oct) took these off
 the path from premises to ours30: T3, T4 (ratio of means), T9 (stacked size), T10 (the cloud
 readout), T11 (sufficiency through the stacked sums), T14, T15 (the readout at zero readings and
@@ -442,6 +468,7 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G22 | 8–10, 11 | **The sign in the weight against consistency** (31 Oct, from B05). T30 with R-2026-09-07-1 put the sign of F·a into the misfit ($Q_+$); L11 forbids a weight correlated with the score at the truth. Eigenvalue-only weights keep the population optimum at the truth (T38's step 1 symmetry); $g(Q_+)$ moves it (2D/3D: −10%/−9% at signal 1, −3%/−2% at signal 2). Forced, input, or which premise is mis-stated | sort (Claude) → rule | T30, T32, L11; `tests/test_weight_consistency.py`; T23 |
 | G23 | L11, finite-ν probes; G3's finite-N power | **Tempered tail index against amplitude consistency** (3 Nov, Codex). Ours32 removes G22's population-direction bias (T39), but fails literal L11: one reading at $0<\nu<1$; more strongly two at ν = 10 where η alone changes a concentrating law into a nonconcentrating one (limiting median 1.3107868 at truth 2). The conflict of the current cut factors, finite-N global power and median is proved; a replacement is unsorted (a readout change reopens G6/L23). The iid fixed-signal result and a ν lower bound do not close it | derive done; repair unsorted; no premise changed | T39; O18; `tests/test_cut_consistency.py` |
 | G24 | G3/G23, global calibration shape | **Local η does not select a global correction** (3 Nov continuation, Codex). T40 proves fixed-scale curvature matching alone need not calibrate local intervals; two distinct tail-preserving semigroups with an additional experiment scale conditionally supply both growth limits. Their family, scale unit, saturation and use under L19 are unforced. These research parameters are not physical caller inputs under TASK §5. The no-go statement is for a pointwise scalar-deviance map and the explicit full-Gaussian local benchmark, not every possible calibration or property N itself | derive done; selection and L19 interpretation unsorted; no adoption | T40; O14; `tests/test_deviance_calibration.py` |
+| G25 | L11, identifying growth | **Divergent total push does not ensure identifying information** (3 Nov continuation, Codex). T41 proves no estimator satisfies literal L11 on every allowed deterministic signal sequence. For $r_i=b/\sqrt i$, quadratic energy diverges while quartic energy is finite; a fixed-stream testing argument prevents consistent discrimination of two masses. L16 gives an all-positive-signal corollary. This challenges a strong premise and the consistency of the present list; T17/T39/T40 retain their stated scopes. A sufficient Gaussian scatter condition is a benchmark, not the selected replacement | contradiction proved; replacement growth condition unsorted; L11 statement and grade retained | T41; O19; `tests/test_signal_identifiability.py` |
 | ~~G4~~ | 10 | ~~$S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved~~ **closed 31 Oct: T38** (B02); load-bearing only if G18 keeps O12's meaning | derive | brief B02, merged |
 | G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after G18 (only if it keeps O12's meaning) | O13 |
 | G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open. **30 Oct (O15):** property N is stated in the limit, and ours30 meets it there (0.93–0.95 at $N=80$–200, signal 1–2, 3D); only the finite-$N$ form is left. **31 Oct correction:** that is finite-$N$ only; ours30's point is inconsistent at fixed signal (G22), so its coverage must fall as $N$ grows. **31 Oct (B04 merged):** the leverage identity $E[J]=C(1-1/n_{\rm eff})$ holds for fixed nonnegative curvatures only; ours30's observed curvatures are signed, so $n_{\rm eff}$ is not a count and the target has no finite mean. Standard remedy (HC2 leverages from Fisher, not observed, information) is a pointer, unsorted |
@@ -475,3 +502,4 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 - 2026-10-31: B01, B02 (T38, G4 closed), B04 and B05 merged; ours30 fails L11 (G22, new); L13 stipulated.
 - 2026-11-03: Codex, T39: ours32's residual identity and repeated fixed-signal consistency; an allowed single-reading heavy-tail counterexample opens G23. Numerical projection and whole-line-search fixes preserve the probe's continuous equation.
 - 2026-11-03 (continuation): Codex, T40: a state-free local/tail obstruction and two conditional dual-regime repairs; semigroup and common tail constant still do not force a rule. G24 records the unsorted experiment state and global shape.
+- 2026-11-03 (further continuation): Codex, T41: literal total-energy consistency is unattainable for every estimator over the unrestricted type; G25/O19 expose the missing identification condition. No premise or equation replaced.

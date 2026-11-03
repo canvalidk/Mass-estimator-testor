@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-03, continuation by Codex (T40: conditional dual-regime calibration families and their unforced experiment scale). Update this page in
+**Last updated:** 2026-11-03, further continuation by Codex (T41: literal total-energy consistency is unattainable; G25/O19 identify the missing information-growth condition). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -30,19 +30,27 @@ definition**: there is no further mass behind the readout. F2 (ruled Sept) sets 
 standard: any choice the premises leave open is an alternative Newtonian mechanics,
 so the goal is uniqueness, not a good estimator.
 
-**Where it stands.** The equation is in good shape; the proof is not yet written. The chain
-from the type to ours30 is in `definition/proof.md` (29 Oct), eighteen steps: what is proved
-today is that on isotropic uncorrelated channels any function meeting the premises as ruled,
-with L22, L23 and η's finite-N form taken as given, is ours30 up to the declared inputs. Those
-three, plus 23 theorem files whose proofs still say "carried from the records", are the
-uniqueness half's work; the holes are typed there and that table is the queue. O2 (the readout) is provisionally
-resolved as of 28 Oct, pending Can's check of L23; O6 still needs a real idea, not more
-tests. The law's sign defect is closed by ours30 (29 Oct). Some premises are graded below bedrock or are
-provisional (L12 medium; L14 and L15 provisional), and some choices are natural
-rather than forced (eta's cap at 1 and its power form at finite N). The misfit weight's
-numerator κ = k − ½ is fixed by meaning (O12, read size-free); its value is proved for isotropic channels (T38),
-but that meaning is the one G18 says is mis-stated. The rest is rulings Can owes and proofs, some routine
-(O4, O5) and some open research (O14, O15).
+**Where it stands.** T41 proves that the full premise list has no model if L11
+is read literally over the unrestricted input type. No estimator can be
+consistent on every allowed divergent-energy signal history. L11 is strong;
+its replacement growth condition is unsorted (G25, O19). The existence working assumption does not discount this
+contradiction. L11's statement and grade are retained with the conflict exposed.
+
+Ours30 remains the working equation. It fails consistency at repeated fixed
+signal because of its sign-dependent weight (G22). Ours32 removes that
+population bias but has separate strong-amplitude failures (G23, T39).
+T40 supplies conditional calibration constructions in named regimes; their
+global form and experiment scale are unforced (G24). Those results survive
+T41, whose obstruction is upstream of any calibration or point readout.
+
+The eighteen-step chain in `definition/proof.md` records the conditional
+forcing arguments and typed holes. Besides the consistency scope, its open
+choices include L23 and the median (G6/O2), η's finite-N form (G3/O14), the
+meaning of bounded confidence (G18/G19), and the starting-law family (O6).
+T38 proves κ = k − ½ for isotropic channels; it does not settle G18's meaning.
+Some remaining proofs are writing tasks and some are research; the gap table
+is the queue. No candidate has been adopted by a study score or checked
+against experiment as the survivor.
 
 ## The current equation: ours30 (since 29 Oct, R-2026-10-29-1)
 
@@ -133,6 +141,15 @@ its global use under L19, saturation and constants remain unforced (G24).
 These are research witnesses in `met/deviance_calibration.py`, with deterministic
 checks; they are not a new production equation or newly licensed physical inputs.
 The raw ν < 1 counterexample and arbitrary vanishing-η schedules remain open.
+
+**The information limit (3 Nov, further continuation).** T41 constructs valid
+1D Gaussian readings with true amplitudes $r_i=b/\sqrt i$. Their total energy
+diverges, but a testing lower bound prevents any estimator from being
+consistent on every allowed signal history. L16 gives an all-positive-signal
+corollary. `met/signal_identifiability.py` checks the exact mixture moments,
+uniform testing bounds and a separate Gaussian scatter growth benchmark.
+O19/G25 records the required consistency sort; no noise law, input, production
+factor or premise statement is replaced.
 
 **The forward model (2 Nov, Can's ask: "given F, a, … what distribution of noise would we get").**
 `met/forward.py` holds the truth still (true pairs, Σ believed, optionally T37's ν_eff size) and
@@ -365,6 +382,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-03 (further continuation, Codex): T41: estimator-independent contradiction with literal L11, a fixed-stream argument and L16 all-positive corollary; G25/O19 records the missing identifying growth condition. Annotated the strong premise without replacing it; linked the named-regime results and corrected the stale L13 ladder status to B05/T23's stipulation. Research helpers and independent deterministic checks; no production equation or ruling changed. Full suite: 2,227 passed, 28 skipped, 17 xfailed, including all 10 new checks. Mathematical and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24), diff checks clean.
 - 2026-11-03 (continuation, Codex): T40: static local/tail obstruction, two conditional tail-preserving repairs, continuous Z-safe experiment state and explicit nonuniqueness (G24). No production equation or ruling changed; O14 records scope and authority. Full suite: 2,217 passed, 28 skipped, 17 xfailed, including all 17 new deterministic checks. Audit findings unchanged: T6/T21/T27 and unused L24; diff checks clean.
 - 2026-11-03 (Codex, pressure): T39: ours32 removes G22's population-direction bias; iid fixed-signal consistency proved. G23: a single-reading heavy-tail limit, and a stronger η-caused break at ν = 10 (limiting median 1.3107868 at truth 2; raw law concentrates). Equivalent residual/search fixes and independent deterministic references; O18 records scope and the native-grid strict xfail. Full run: 2,195 passed, 28 skipped, 17 xfailed; final forward integration: all 41 affected tests passed (including five new checks). Audit findings unchanged: T6/T21/T27 and unused L24. Windows multiprocessing required an unrestricted run, as in the saved baseline.
 - 2026-11-02 (later, Claude): **forward model on ours31/32** (O18, 2 Nov): `w31` and `eta32` added to `met/forward.py`

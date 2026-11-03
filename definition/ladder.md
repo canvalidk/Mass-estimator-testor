@@ -47,9 +47,9 @@ version's order.
 | L8 | one reading is one completeness claim (count mis-stated, 27 Oct sort) | ruled 29 Sept | **M**: what a reading declares about its own dimensionality. Written nowhere before 29 Sept |
 | L9 | isotropy of the noise, in noise units | strong | **M**: about instruments, not bodies. That the law *cannot be read without it* is a fact about Newton's text (the pattern this project exists to surface) |
 | L10 | no size law is declared | strong, ruled 30 Sept | **D**, via L19's reason: a definition cannot rely on a population of setups |
-| L11 | consistency | strong | **N**: the exact law is the estimator's limit (F1's "the law is its limit") |
+| L11 | consistency | strong; literal unrestricted scope contradicted by T41 (3 Nov, Codex) | **N**, in the original sort: the exact law is the estimator's limit (F1's "the law is its limit"). T41 separates this from the unattainable promise for every divergent-energy sequence; that statistical growth extension needs sorting (G25, O19). |
 | L12 | one joining rule for series sizes | **medium** | **M**; off the path since 28 Oct |
-| L13 | the Gaussian noise model | forced (T23) | derived from L11 (**N**) and L20 (**M**): no bin of its own |
+| L13 | the Gaussian noise model | stipulated, not forced (31 Oct, B05/T23) | **M**, as the stated noise model: the earlier derivation from L11 and L20 did not force it (T23). Full sphericity plus independent channels gives a conditional characterization; neither is inserted by this row. |
 | L15 | betweenness | ruled provisionally 28 Sept | **M**: a property of combining evidence, not of mass |
 | L17 | same candidate law, same mass | ruled 28 Sept | **D**: the readout is a function of the law; it cannot read instrument facts |
 | L18 | declared inputs are correct | ruled 28 Sept (σ, structure), 10 Oct (window) | **I** by construction |
@@ -129,6 +129,7 @@ decides.
 
 ## History
 
+- 2026-11-03 (Codex): T41 separates the exact-law limit from L11's unattainable universal energy-growth extension (G25/O19); L11 remains strong and its replacement unsorted. L13's row brought up to the already recorded B05/T23 stipulated status.
 - 2026-10-27: created by Claude from VD-Newton `61afb9e`.
 - 2026-10-27 (evening): the series join and the weight's noise part, from the L12 check.
 - 2026-10-28: the readout row revised (O2, 28 Oct).
