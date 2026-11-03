@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-03, information-growth continuation by Codex (T42: a sharp Gaussian consistency regime and vanishing-power calibration comparison). Update this page in
+**Last updated:** 2026-11-03, calibration and cut continuation by Codex (T43/T44: leverage-sensitive uncertainty and normalization of frozen-noise cuts). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -42,6 +42,15 @@ where Δ is total true standardized signal energy. The result allows arbitrary
 deterministic amplitudes and signs and does not require η to stay positive
 in the limit. It characterizes this procedure under stated noise/prior
 conditions; the full-type growth condition remains open.
+
+T43 separates that consistency result from uncertainty calibration. For
+flat Gaussian factors, the current fitted-J Bartlett power can under-cover
+even in an identifying, correctly specified Gaussian sequence. A Z-safe spectral comparison attains
+the Gaussian asymptotic target; its selection, L19 permission and full-type justification
+remain open (G26/G3). T44 also shows that factor averaging and a frozen-noise
+cut are different operations. The normalized cut repairs the single-reading
+heavy-tail example but has a repeated-signal bias with the current positive
+misfit module. Its adoption remains G19, unsorted.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -168,6 +177,21 @@ scales are used; the comparison permits η to vanish. Those choices remain
 unforced (G24). This is a submodel characterization for G25, with no nominal
 coverage or finite-ν Student repair implied. Independent Gaussian moment
 and continuous angular references are in `met/gaussian_information.py`.
+
+**Uncertainty and cut normalization (3 Nov, continuation).** T43 proves an
+allocation-free Gaussian sampling limit for the fitted line, but fitted J
+needs further leverage control to estimate that variance. With flat Gaussian
+factors, one strong reading
+among null readings gives limiting quoted 95% coverage 0.9272811852 despite
+T42 consistency. An unadopted observed-spectrum correction preserves Z and
+reaches the Gaussian asymptotic coverage target. T44 proves that factor
+averaging implicitly tilts the effective noise mixing law by the component mass normalizer.
+A mixture of normalized whole-series conditionals keeps that law frozen
+and concentrates for every single-reading ν > 0, but reintroduces a
+positive-misfit weighted population bias in the stated weak Gaussian world.
+Temperature placement is explicit; unchanged ours32 is not repaired by
+renaming its cut. References and checks are in `met/leverage_calibration.py`
+and `met/cut_normalization.py`. No production factor, prior or ruling changed.
 
 **The forward model (2 Nov, Can's ask: "given F, a, … what distribution of noise would we get").**
 `met/forward.py` holds the truth still (true pairs, Σ believed, optionally T37's ν_eff size) and
@@ -400,6 +424,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-03 (calibration and cut continuation, Codex): T43: fitted-point limit, leverage-sensitive quoted coverage and a Z-safe spectral comparison (G26). T44: normalization-bias identity, proper whole-series cut amplitude consistency and a separate positive-misfit repeated-signal failure (G19/G22). Independent research references and tests; no production equation, input or ruling changed. Full suite: 2,271 passed, 28 skipped, 17 xfailed, including all 31 new checks. Mathematical and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24); diff checks clean.
 - 2026-11-03 (information-growth continuation, Codex): T42: sharp flat-Gaussian/Bartlett consistency criterion for arbitrary deterministic signal arrays; critical random-law and median-failure converse; T40 comparison with scaled deviance and vanishing η. G25 gains a proved submodel criterion; full-type scope, map/state selection and L19 permission remain open. Research references and independent checks; no production equation, input, gate or ruling changed. Full suite: 2,240 passed, 28 skipped, 17 xfailed, including all 13 new checks. Mathematical and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24); diff checks clean.
 - 2026-11-03 (further continuation, Codex): T41: estimator-independent contradiction with literal L11, a fixed-stream argument and L16 all-positive corollary; G25/O19 records the missing identifying growth condition. Annotated the strong premise without replacing it; linked the named-regime results and corrected the stale L13 ladder status to B05/T23's stipulation. Research helpers and independent deterministic checks; no production equation or ruling changed. Full suite: 2,227 passed, 28 skipped, 17 xfailed, including all 10 new checks. Mathematical and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24), diff checks clean.
 - 2026-11-03 (continuation, Codex): T40: static local/tail obstruction, two conditional tail-preserving repairs, continuous Z-safe experiment state and explicit nonuniqueness (G24). No production equation or ruling changed; O14 records scope and authority. Full suite: 2,217 passed, 28 skipped, 17 xfailed, including all 17 new deterministic checks. Audit findings unchanged: T6/T21/T27 and unused L24; diff checks clean.

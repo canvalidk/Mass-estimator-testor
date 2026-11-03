@@ -48,3 +48,5 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T40](T40.md) | Local curvature, tail preservation and experiment state | T31, T39, L11, L20, L3, L16; stated Gaussian-local benchmark | yes |
 | [T41](T41.md) | Divergent total signal need not identify mass | L1, L2, L13, L18, unrestricted type/L19; L11 under test; L16 for corollary | yes |
 | [T42](T42.md) | Sharp information growth for the flat Gaussian Bartlett law | T18, T31, T40, T41; stated Gaussian submodel and fixed-prior conditions | yes |
+| [T43](T43.md) | Leverage-sensitive interval calibration and a Z-safe spectral control | T18, T31, T41, T42; stated Gaussian/prior conditions | yes |
+| [T44](T44.md) | Factor averaging versus normalized whole-series cuts | T37, T39, provisional L21 cut; L19, L20; specified frozen noise module | yes |
