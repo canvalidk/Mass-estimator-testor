@@ -59,3 +59,5 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T51](T51.md) | CDF recalibration, independent composition and joint covariance | T47; explicit additional universal interchange axiom; specified centered-Gaussian benchmark | yes |
 | [T52](T52.md) | Infinite active information does not reveal an unknown signal allocation | T41; unrestricted fixed positive supports; proof-only sparse Gaussian mixtures | yes |
 | [T53](T53.md) | Sharp uniform energy-class consistency in rank-one Gaussian estimation | T42, T52; specified exact-energy Gaussian nuisance classes | yes |
+| [T54](T54.md) | Physical joint Gaussian law and calibrated small-noise composition | O2/G27, T45, T50; specified acquisition, supplied joint prior and Gaussian profile | yes |
+| [T55](T55.md) | Joint profile sensitivity, sandwich covariance and scalar-inflation limits | T49, T51, T54; specified repeated-block regime and centered-Gaussian benchmark | yes |

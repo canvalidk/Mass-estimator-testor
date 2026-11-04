@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-04, composition and consistency continuation by Codex (T51–T53: joint-law scope, unknown allocation and a sharp uniform Gaussian threshold). Update this page in
+**Last updated:** 2026-11-04, joint-protocol continuation by Codex (T54/T55: a proper joint construction, calibrated small-noise composition and the joint sandwich target). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -99,6 +99,20 @@ benchmark, exact coverage for each part and their sum forces the missing
 cross-covariance. G27 makes the existing joint/protocol obligation explicit;
 this result neither rejects T47 under the recorded commitments nor selects
 eta=1 or a dependence model.
+
+T54 now constructs a proper joint law for a declared common-acceleration
+Gaussian acquisition and a supplied joint prior. It retains one observation
+of the shared acceleration, its cross-covariance, and each event's separate
+free signal. Whole-event zero neutrality and joint pushforwards hold exactly;
+joint/composite coverage is proved in a fixed-event small-noise regime.
+These local Gaussian shape and interval claims do not assert finite law
+moments. T55 derives the joint sandwich covariance in a specified regular
+repeated-block regime. A heterogeneous two-body protocol requires different
+scalar inflations for the individual masses and their sum under exact
+Gaussian matching; conservative scalar inflation remains possible.
+Observable Hessian/score sums estimate the local matrix target without true
+signal inputs. The global calibration map, state permission, joint-prior
+declaration and general physical protocol type remain G24/G26/G27.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -517,6 +531,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-04 (joint-protocol continuation, Codex): T54 constructs a proper physical joint Gaussian profile law, shared-error covariance and calibrated fixed-event small-noise pushforwards. T55 derives sensitivity/variability and Godambe local covariance, an exact scalar-inflation obstruction, conservative bounds and observable zero-safe Hessian/score sums in a specified repeated-block regime. Finite-atom references and independent continuous-window shape/interval-width quadrature check the construction without claiming global-tail certification or finite-law moments. G27 gains a conditional construction; the joint prior/type, global calibration and L19 state permission remain unadopted. All 214 relevant tests passed, including 37 new checks. Independent mathematical, numerical and authority reviews found no remaining blockers; regressions preserve prior weights under huge constant costs and transverse curvature at large masses. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. Full suite not rerun for these isolated research additions.
 
 - 2026-11-04 (composition and consistency continuation, Codex): T51 distinguishes supplied-joint pushforward from an extra universal calibration-interchange axiom, proves identity under the latter, and gives a centered-Gaussian cross-covariance constraint. G27 exposes the existing O2 joint/protocol obligation. T52 strengthens the fixed-history obstruction to unknown positive sparse supports with divergent oracle information; T53 proves the sharp uniform Gaussian energy-class threshold, matching T42 and rank-one matrix estimation. O19 records proposed experiment-scoped consistency obligations; L11, its grade, the physical type and production equation remain unchanged. All 254 relevant tests passed, including 44 new checks; one existing slow test skipped. The existing two-worker check initially hit the sandbox's Windows named-pipe restriction and passed on its isolated unrestricted rerun. Mathematical and authority reviews passed; numerical underflow and tiny-angle issues found in code review were fixed with regressions. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. Full suite not rerun for these isolated research additions.
 
