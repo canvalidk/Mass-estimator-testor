@@ -694,6 +694,37 @@ or median limit is inferred without tail control. The construction needs
 a further information-locality argument or another state class, still
 G24/G26/G27; no new input, prior, production equation or ruling is adopted.
 
+**4 Nov, local information and pairwise ordering (Codex).** T66 differentiates
+each candidate projector in supplied-prior rank. The resulting local state
+has summable null-instrument contributions on T65's compact mass regions.
+But multiplying a candidate-dependent weight by a globally centered profile
+deviance imports a remote random reference; a Gaussian window-ratio argument
+shows its local law fails the intended width limit. Ordering contrasts as
+well as their scales therefore need an information-locality argument.
+
+T67 gives a conditional alternative: integrate positive rival profile gains,
+each normalized by the observed squared difference between that pair's
+projections. The law is proper and invariant and keeps full normalized
+Godambe limits and composite quantiles for regular repeated Gaussian blocks
+and fixed-experiment amplification, with a full proper supplied prior. It
+repairs T65 under a separately fixed compact prior; the original full-prior
+history still needs remote-rival control. This advances G24/G26/G27 without
+selecting the criterion, denominator, prefactor, prior use or L19 permission.
+The references and proof checks are `met/pairwise_anchor.py`,
+`tests/test_local_reference_obstruction.py`, `tests/test_pairwise_anchor.py`
+and `tests/test_pairwise_continuum.py`. Broader weak-history and uniqueness
+claims remain open; no production change or ruling is inferred.
+
+T68 further controls remote rivals under T65's original full half-Cauchy.
+For the exact Gaussian projector contrast, the positive self-normalized
+improvement has first moment at most sqrt(18) and second moment at most 100,
+independently of event count and instrument shapes. Uniform integrability
+and a local triangle bound give a vanishing penalty on true sampling
+neighborhoods. The conditional true-basin law has its Godambe limit and
+the named false basin vanishes. Remote posterior tails, unconditional
+concentration and the global median remain unproved; this is neither a
+replacement for L11 nor selection of the finite pairwise law.
+
 **What is no longer load-bearing.** Switching the point to the median (28 Oct) took these off
 the path from premises to ours30: T3, T4 (ratio of means), T9 (stacked size), T10 (the cloud
 readout), T11 (sufficiency through the stacked sums), T14, T15 (the readout at zero readings and
@@ -761,6 +792,10 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 - `docs/STATE.md`'s "Read first" points here after `ladder.md`.
 
 ## History
+
+- 2026-11-04 (full-prior local control, Codex): T68 proves dimension-free Gaussian comparison bounds, uniform local smallness under T65's original full half-Cauchy, a conditional true-basin Gaussian limit and disappearance of the named false basin. Remote posterior tails and unconditional concentration remain unproved; no rule or input adopted.
+
+- 2026-11-04 (local information, Codex): T66 exposes a global-reference obstruction after localizing the scale; T67 supplies conditional pairwise full-law calibration and compact-prior T65 repair. G24/G26/G27 gain these conditional results; global full-prior tail control and finite-law selection remain open.
 
 - 2026-11-04 (mass-sensitive anchor continuation): Codex, T64 gives a prior projector-variance state retaining the named Gaussian full-law limits and repairing T63's fixed compact-prior example; T65 defeats every vanishing schedule of this state on a suitable fixed full-prior history. A seeded exact heterogeneous scatter study checks the conditional repair without selecting a rule. State class, prior use and authority remain unsorted.
 

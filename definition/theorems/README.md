@@ -71,3 +71,6 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T63](T63.md) | Degenerating instrument shapes defeat a total-energy anchor | T56, T60, T61; fixed identifying Gaussian covariance history and a fixed proper prior | yes |
 | [T64](T64.md) | Prior projection variance supplies an invariant mass-sensitive anchor | T54, T60–T63; additional prior-dependent operator-variance state and stated Gaussian regimes | yes |
 | [T65](T65.md) | Prior-tail disagreement defeats any vanishing schedule of that state | T56, T63, T64; unchanged full half-Cauchy, fixed identifying covariance histories and local basin ratio | yes |
+| [T66](T66.md) | A local projection scale can still inherit a remote profile reference | T56, T65; prior-rank derivative state, same fixed Gaussian history and a finite mechanism witness | yes |
+| [T67](T67.md) | Pairwise profile ordering preserves regular score calibration | T54, T55, T65, T66; additional pairwise criterion and stated prior/experiment conditions | yes |
+| [T68](T68.md) | Gaussian comparison bounds control full-prior local ordering | T56, T65, T67; exact Gaussian projector experiment and original full half-Cauchy history | yes |

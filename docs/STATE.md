@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-04, mass-sensitive anchor continuation by Codex (T64–T65: conditional projection-variance repair and a prior-tail state-class obstruction). Update this page in
+**Last updated:** 2026-11-04, local-information continuation by Codex (T66–T68: global-reference obstruction, pairwise ordering and full-prior local control). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -167,6 +167,20 @@ identifiable history. Only a local basin ratio and nonconcentration are
 proved there; no unexamined tail or median limit is asserted. State
 selection now needs a further information-locality argument, not another
 choice of exponent. No research family has been adopted.
+
+T66 shows that localizing the scale alone is insufficient: a remote global
+profile maximum can create a divergent local tilt when multiplied by a
+candidate-dependent weight. T67 instead compares each candidate with each
+rival using their own projection difference. This proper invariant research
+law retains full normalized Gaussian/composite limits in regular repeated
+blocks and fixed-experiment amplification, including full proper priors.
+It also repairs T65 with a separately declared compact prior. T68 controls
+remote rivals under the original full half-Cauchy using a dimension-free
+Gaussian comparison bound: the penalty vanishes on the true sampling scale,
+the conditional true-basin Gaussian limit holds and the named false basin
+vanishes. Remote posterior tails, unconditional concentration and the global
+median remain open there, along with broader weak histories and uniqueness.
+Neither candidate comparisons nor their new prior use are adopted rules.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -585,6 +599,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-04 (local information, Codex): T66 proves a local state still inherits a remote global-profile reference; T67 constructs a pairwise criterion with full-prior regular replication/amplification limits; T68 controls its true sampling neighborhoods and suppresses the named false basin under T65's original full half-Cauchy. Remote posterior tails, unconditional concentration/global median, broader weak histories, state authority and finite-law uniqueness remain open. Added finite joint and continuous full-prior references and independent physical GLS, projector-derivative and Gaussian cubature checks. All 67 new checks pass; independent mathematical/scope review found no blockers. Full suite: initially 2594 passed, 28 skipped, 17 xfailed and five failures; one new reciprocal-atom ordering assertion corrected and passing on rerun, four Windows sandbox named-pipe failures cleared in a six-test unrestricted rerun. The final focused run also covers 45 checks added after the full-suite collection. Common-score numerical centering and overflow handling checked. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. No physical input, premise, ruling or production equation changed.
 
 - 2026-11-04 (mass-sensitive state, Codex): T64 proves a proper invariant original-prior projection-variance anchor retaining the comparable-shape joint Gaussian/composite limits, fixed finite-experiment amplification and T63's full compact-prior repair. T65 then defeats every fixed positive finite vanishing schedule of this state on a suitable fixed identifiable full-half-Cauchy history; only a justified local basin ratio and nonconcentration are claimed. Added finite joint and continuous heterogeneous scalar references plus `presets/mass_contrast_sanity.yaml` (seed 6465, 32 worlds per count): both covariance-group sufficient scatters are actually sampled in a related triangular array. At M=512 the trace/new median of medians is 0.284123/1.203209 versus truth 1.2; false-side medians 32/0, new coverage 31/32 (descriptive). Independent saved-world refinements and physical residual checks passed. All 268 relevant tests passed, including 36 new checks; a tiny-variance adaptive quadrature accuracy issue was fixed with an analytic regression. Mathematical, numerical and integration-scope reviews passed; audit findings unchanged (T6/T21/T27, unused L24), diff checks clean. Full suite not rerun for isolated research/study additions. No state class, prior use, finite prefactor, physical input, premise, ruling or production equation adopted.
 
