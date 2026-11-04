@@ -338,6 +338,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-04 (B17, Codex): T48/O18 refute the proposed T36 forcing of the latent scale measure: b=-1 also gives a normalized residual density; fixed-v normalization would force b=0 but is an additional requirement. G19 remains a sort/rule hole; stopped per brief, no exponent or premise changed. Counterexample tests: `tests/test_latent_measure_exponent.py` (20). Full suite: 2,614 passed, 28 skipped, 17 xfailed; audit findings unchanged.
 - 2026-11-05 (B19, Codex): O19 now compares functional EIV/TLS consistency conditions with T41–T53 and T61: the verified Gaussian one-slope rate is Delta_N/sqrt(N) -> infinity; dropping the multivariate eigenvalue-ratio condition does not weaken that scalar rate. Primary-source versions/pages and unverified originals are marked; no premise, input or estimator changed.
 - 2026-11-04 (Claude, evening): two boards. Briefs stay on `briefs/README.md` (branches `codex/<brief id>`, merged); exploration
   directions go on `explore/README.md` (branches `explore/<id>-<slug>`, never merged, each with a `SUMMARY.md`; E1–E4). B20 struck as moot.

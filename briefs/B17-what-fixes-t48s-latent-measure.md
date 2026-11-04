@@ -1,6 +1,6 @@
 # B17: what singles out T48's latent measure (the exponent (ν + k)/2)
 
-**Status:** open.
+**Status:** merged 2026-11-07, as delivered (not checked by Claude): my provisional T36 forcing of T48's latent measure is refuted (b = −1 also gives a unit-total residual law); fixed-v normalization would select b = 0 but is an extra rule; G19 stays a sort/rule hole
 **Item:** `definition/theorems/T48.md` §2 ("a remaining scale-measure choice"), T36, T49; `problems/O18.md` (4 Nov, hole 3); G19.
 **Branch:** `codex/b17`, from the head of `codex/ours32-consistency` (T48 and T49 live there).
 **Written:** 2026-11-04, Claude.
