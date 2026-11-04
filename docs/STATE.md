@@ -340,6 +340,13 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 - 2026-11-04 (Claude, evening): two boards. Briefs stay on `briefs/README.md` (branches `codex/<brief id>`, merged); exploration
   directions go on `explore/README.md` (branches `explore/<id>-<slug>`, never merged, each with a `SUMMARY.md`; E1–E4). B20 struck as moot.
+- 2026-11-04 (Claude, on `codex/ours32-consistency`; harvested to main 7 Nov): **ours33** (`met/ours33.py`, O18): the probe Codex's T47 and T48 add up to and did not
+  build — T48's exponent (ν+k)/2 on ours32's residual, η applied as the normal-score warp of the raw law instead of a power,
+  point = raw median. Passes L2, Z, all-zero, units, swap, T30 and both T39 breaks (`tests/test_ours33.py`, 18). Coverage
+  (`tools/ours33_coverage.py`, truth at c and at 4c): no better than ours32 at weak signal and 1.3–2.5× wider; the earlier
+  cells' truth-at-c design rewarded the power form's pull toward c. **Break:** at small η the warped width is π's Cauchy tail
+  (T39's pair: 78 decades around a raw interval of 1.5%). Names the output-type question: the quoted width is not a quantile of
+  π·L. `met/ours32.py`: `bartlett_eta` takes a `terms` function (default unchanged). Equation unchanged.
 - 2026-11-04 (Claude, later): **η's target, and what ours28 was doing** (O14; Can's standing hypothesis that the correct
   equation fudges back to ours28). On long series η → Δ/(Δ+M), and that is exactly the empirical-Bayes shrinkage
   β̂ = 1 − M/H² of ours28b's declared shared size law (Lindley–El-Sayyad): η is the size law's factor recovered from the
