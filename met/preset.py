@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "joint_sanity":
+        from .joint_sanity import validate as validate_joint_sanity
+        return validate_joint_sanity(data)
     if isinstance(data, dict) and data.get("kind") == "forward":
         from .forward import validate as validate_forward
         return validate_forward(data)

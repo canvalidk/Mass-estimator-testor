@@ -1,0 +1,19 @@
+kind: joint_sanity
+name: joint-sanity
+question: Do the T54 joint law and T55 observable local correction behave as predicted in repeated Gaussian worlds?
+seed: 54155
+replicates: 400
+probability: 0.95
+small_noise:
+  masses: [1.0, 2.0]
+  acceleration: 1.0
+  scales: [0.5, 0.15, 0.05]
+  angle_nodes: 256
+  refinement_nodes: 512
+  refinement_replicates: 80
+  prior: independent_half_cauchy_center_1
+repeated:
+  masses: [1.0, 1.0]
+  accelerations: [1.0, 1.0]
+  variance_diagonals: [[1.0, 1.0, 1.0], [1.0, 9.0, 1.0]]
+  blocks: [50, 500]

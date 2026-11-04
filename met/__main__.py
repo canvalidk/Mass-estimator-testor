@@ -74,7 +74,9 @@ def main(argv=None):
             return 0
         if args.command == "validate":
             spec = preset_mod.load(args.preset)
-            if spec.get("kind") == "forward":
+            if spec.get("kind") == "joint_sanity":
+                print(f"ok: {len(spec['cells'])} joint Gaussian sanity cells; serial")
+            elif spec.get("kind") == "forward":
                 print(f"ok: {len(spec['cells'])} forward cell(s) (truth held still); serial")
             elif spec.get("kind") == "robot_budget":
                 print(f"ok: {len(spec['cells'])} robot-budget calibration case(s); serial")

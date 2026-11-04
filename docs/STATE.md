@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-04, joint-protocol continuation by Codex (T54/T55: a proper joint construction, calibrated small-noise composition and the joint sandwich target). Update this page in
+**Last updated:** 2026-11-04, joint simulation sanity check by Codex (T54 proper-law intervals and T55 observable local uncertainty, seeded repeated worlds). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -531,6 +531,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-04 (joint simulation sanity, Codex): added the serial joint_sanity preset/runner, seed 54155, 400 worlds per cell, saved data/intervals and paired quadrature refinement. At noise scale 0.05 full joint-law sum/parallel coverage is 96.25%/96.00%; at 500 repeated blocks raw local intervals cover 88.75%/89.00%, versus 94.25%/94.25% for observable sandwich intervals. Binomial Monte Carlo intervals and finite-grid limitations are recorded in O2; no checked-run fit failures remain after objective scaling was corrected. The repeated arm is a local Wald check, not a new global positive calibration map. All 88 relevant tests passed, including four new algebra, quadrature, replay and runner checks; audit findings unchanged and diff checks clean. Full suite not rerun. Production equations and rulings unchanged; no selection by score.
 
 - 2026-11-04 (joint-protocol continuation, Codex): T54 constructs a proper physical joint Gaussian profile law, shared-error covariance and calibrated fixed-event small-noise pushforwards. T55 derives sensitivity/variability and Godambe local covariance, an exact scalar-inflation obstruction, conservative bounds and observable zero-safe Hessian/score sums in a specified repeated-block regime. Finite-atom references and independent continuous-window shape/interval-width quadrature check the construction without claiming global-tail certification or finite-law moments. G27 gains a conditional construction; the joint prior/type, global calibration and L19 state permission remain unadopted. All 214 relevant tests passed, including 37 new checks. Independent mathematical, numerical and authority reviews found no remaining blockers; regressions preserve prior weights under huge constant costs and transverse curvature at large masses. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. Full suite not rerun for these isolated research additions.
 
