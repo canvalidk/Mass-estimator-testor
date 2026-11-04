@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-04, mass-sensitive anchor continuation by Codex (T64–T65: conditional projection-variance repair and a prior-tail state-class obstruction). Update this page in
+**Last updated:** 2026-11-04 (ours33 by Claude, O18; mass-sensitive anchor continuation by Codex (T64–T65: conditional projection-variance repair and a prior-tail state-class obstruction). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -586,6 +586,16 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-04 (Claude, on this branch): **ours33** (`met/ours33.py`, O18): the probe Codex's T47 and T48 add up to and did not
+  build — T48's exponent (ν+k)/2 on ours32's residual, η applied as the normal-score warp of the raw law instead of a power,
+  point = raw median. Passes L2, Z, all-zero, units, swap, T30 and both T39 breaks (`tests/test_ours33.py`, 18). Coverage
+  (`tools/ours33_coverage.py`, truth at c and at 4c): no better than ours32 at weak signal and 1.3–2.5× wider; the earlier
+  cells' truth-at-c design rewarded the power form's pull toward c. **Break:** at small η the warped width is π's Cauchy tail
+  (T39's pair: 78 decades around a raw interval of 1.5%). Names the output-type question: the quoted width is not a quantile of
+  π·L. `met/ours32.py`: `bartlett_eta` takes a `terms` function (default unchanged). Equation unchanged. Branch suite on Linux
+  (numpy 2.5.3): 2592 passed, 17 xfailed, **2 failed before and after this commit**, both Codex's `atol=1e-16` prior-preservation
+  checks (`test_joint_trace_anchor.py::test_separate_large_common_contrasts…`, `test_mass_contrast_anchor.py::test_exact_zero_padding…`,
+  the latter asserting 3.7e166 == 0): platform or construction, for the merge check; not touched here.
 - 2026-11-04 (mass-sensitive state, Codex): T64 proves a proper invariant original-prior projection-variance anchor retaining the comparable-shape joint Gaussian/composite limits, fixed finite-experiment amplification and T63's full compact-prior repair. T65 then defeats every fixed positive finite vanishing schedule of this state on a suitable fixed identifiable full-half-Cauchy history; only a justified local basin ratio and nonconcentration are claimed. Added finite joint and continuous heterogeneous scalar references plus `presets/mass_contrast_sanity.yaml` (seed 6465, 32 worlds per count): both covariance-group sufficient scatters are actually sampled in a related triangular array. At M=512 the trace/new median of medians is 0.284123/1.203209 versus truth 1.2; false-side medians 32/0, new coverage 31/32 (descriptive). Independent saved-world refinements and physical residual checks passed. All 268 relevant tests passed, including 36 new checks; a tiny-variance adaptive quadrature accuracy issue was fixed with an analytic regression. Mathematical, numerical and integration-scope reviews passed; audit findings unchanged (T6/T21/T27, unused L24), diff checks clean. Full suite not rerun for isolated research/study additions. No state class, prior use, finite prefactor, physical input, premise, ruling or production equation adopted.
 
 - 2026-11-04 (changing instruments and evidence state, Codex): T61 proves the full joint Gaussian and composite-interval limits for event-dependent, uniformly comparable covariance shapes with arbitrary overall declared precisions; no covariance frequencies, repeated signals, limiting information matrix or maximum-leverage condition is needed. T62 characterizes the extra posterior-only sequential-closure axiom and proves that no trace prefactor supplies it, while additive retained state still merges associatively as T12 records. T63 gives a fixed identifiable degenerating-shape Gaussian history where ambient energy disables the trace anchor and a false root retains 75.36% limiting probability under a fixed reciprocal-truncated prior. Independent physical-residual Gaussian cubature, actual finite heterogeneous fields and explicitly decoupled continuum mechanism checks support these results; no full-history simulation or finite-noise coverage is claimed. All 232 relevant tests passed, including 21 new checks. Independent mathematical and integration-scope reviews passed. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. Full suite not rerun for isolated research additions. Production numerics, premises, rulings and physical type unchanged.

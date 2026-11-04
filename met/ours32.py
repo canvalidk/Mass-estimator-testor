@@ -81,12 +81,16 @@ def _l_terms(states, c, phi, order):
     return per
 
 
-def bartlett_eta(states, c):
+def bartlett_eta(states, c, terms=None):
+    """eta (T31) on the per-reading terms. `terms(states, c, phi, order)` defaults to this probe's
+    _l_terms; met.ours33 passes its own (a different exponent). Default behaviour unchanged."""
     if not states:
         return 1.0, 0.0, 0.0, 0.0
+    if terms is None:
+        terms = _l_terms
 
     def fun(phi, order):
-        per = _l_terms(states, c, phi, 2 if order else 0)
+        per = terms(states, c, phi, 2 if order else 0)
         tot = [sum(p[j] for p in per) for j in range(3 if order else 1)]
         return tuple(tot) if order else tot[0]
 
@@ -137,7 +141,7 @@ def bartlett_eta(states, c):
         if abs(move) < 1e-15:
             break
     phi_hat = (phi_hat + math.pi / 2) % math.pi - math.pi / 2
-    per = _l_terms(states, c, np.array([phi_hat]), 2)
+    per = terms(states, c, np.array([phi_hat]), 2)
     d1 = np.array([p[1][0] for p in per])
     d2 = np.array([p[2][0] for p in per])
     curv, j = float(-d2.sum()), float((d1 ** 2).sum())
