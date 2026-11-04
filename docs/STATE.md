@@ -586,6 +586,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-04 (Codex, B16): false-premise stop: a positive uniform bound proves ours33's evidence alone is improper in both mass and log mass for every finite valid series, including conflicting and strong readings; a finite nonnegative power does not cure it and T47 has no parent CDF. All proposed evidence-only interval cells are unresolved, so no module or coverage study is constructed. O18 holds the proof and scope; 21 independent projection/endpoint/integral/cutoff checks passed, as did mathematical review. Full default suite: 2611 passed, 28 skipped, 17 existing xfails; four Windows sandbox pipe failures passed on an isolated unrestricted rerun (six worker checks passed). Audit findings unchanged (T6/T21/T27, unused L24), diff checks clean. Production code, priors, points, output type and rulings unchanged.
+
 - 2026-11-04 (Claude, on this branch): **ours33** (`met/ours33.py`, O18): the probe Codex's T47 and T48 add up to and did not
   build — T48's exponent (ν+k)/2 on ours32's residual, η applied as the normal-score warp of the raw law instead of a power,
   point = raw median. Passes L2, Z, all-zero, units, swap, T30 and both T39 breaks (`tests/test_ours33.py`, 18). Coverage
