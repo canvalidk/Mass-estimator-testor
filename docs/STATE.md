@@ -338,10 +338,6 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
-- 2026-11-04 (Claude, evening): **intake format for agents.** Every agent run ends with `findings/<branch>.md` (cards: claim, kind,
-  bears-on, status, one reproducible check, standard name, does-not-show, where, absorb-as, retracts; `findings/README.md`); agents write only
-  in their slots and Claude writes the living layer from the cards; `tools/gate.py` checks both (`tests/test_gate.py`). `AGENTS.md` added;
-  exploration runs stop when a break names their own construction. On Can's: "here is how to format ideas so we don't have to scurry".
 - 2026-11-04 (Claude, later): **η's target, and what ours28 was doing** (O14; Can's standing hypothesis that the correct
   equation fudges back to ours28). On long series η → Δ/(Δ+M), and that is exactly the empirical-Bayes shrinkage
   β̂ = 1 − M/H² of ours28b's declared shared size law (Lindley–El-Sayyad): η is the size law's factor recovered from the

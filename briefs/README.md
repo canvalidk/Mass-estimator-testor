@@ -35,10 +35,7 @@ different files, except the one log line each adds to `docs/STATE.md`. **Excepti
 
 ## For the agent running a brief
 
-0. **Report in `findings/<branch>.md`, in the card format of `../findings/README.md`, and write only in the
-   agent's slots listed there** (`python tools/gate.py <branch>` checks both). This supersedes any step below
-   that asks you to edit a file outside those slots: put that change in a card's "Absorb as" line instead.
-1. Read `AGENTS.md`, `TASK.md`, the brief, and the problem file it names.
+1. Read `CLAUDE.md`, `TASK.md`, the brief, and the problem file it names.
 2. Branch from the current `origin/main` as `codex/<brief id>` (for example `codex/b02`).
    One brief per branch. Never branch from another agent's branch.
 3. Do what the brief says, nothing outside it. The brief's "Do not" list is binding. If the
@@ -50,11 +47,6 @@ different files, except the one log line each adds to `docs/STATE.md`. **Excepti
    was delivered>` on your branch. Push the branch. **Never push to `main`, never merge.**
 
 ## For Claude, at each catch-up
-
-**Intake order (4 Nov):** `python tools/gate.py <branch>` → read `findings/<branch>.md` → for each headline card
-that a probe or a sort will rest on, reproduce its Check number independently → absorb by writing the
-living-layer lines yourself (proof.md, GOAL, STATE's main page) → merge code, tests and theorem files. Narration
-is not read. The steps below still apply to what is merged.
 
 `git fetch`; for every brief whose `codex/<id>` branch exists: check it out in its own
 worktree, install from `requirements-lock.txt`, run the audit and the full suite, read what it
