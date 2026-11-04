@@ -1,6 +1,6 @@
 # B14: Barndorff-Nielsen's modified profile likelihood for the latent pairs
 
-**Status:** open
+**Status:** merged 2026-11-04 (checked by Claude): not flat, not a law; stopped correctly before the calibration study.
 **Item:** `problems/O15.md` (30 Oct, later: the table of non-hierarchical cures). **Branch:** `codex/b14`.
 **Written:** 2026-10-30, Claude.
 

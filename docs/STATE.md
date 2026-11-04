@@ -338,6 +338,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-04 (Claude): **B14 checked and merged.** Barndorff-Nielsen's modified profile is not flat (Jacobian 1/|cos(θ − θ̂)|, exact for
+  k = 1) but not a law: it has poles at positive masses on anti-parallel readings, and its Bartlett moments do not exist. O15's cure table
+  is closed: no non-hierarchical latent measure does η's job, so η's job stays forced given L10 and L19.
 - 2026-11-04 (Claude): **B10 checked and merged.** T5 (the swap, now for the median, not through T4), T12, T13, T22 written; T12's
   η = 32/225 example and T22's 13/10 vs 29/35 recomputed by hand. 19 theorem files still "carried", ten on the path (proof.md G15).
 - 2026-11-04 (Claude): **B09 checked and merged.** T3, T4, T9–T11, T14, T15, T21, T29, L12, O5 and two ladder rows marked
@@ -377,6 +380,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 - 2026-10-31 (Claude): **B02 checked and merged** (audit unchanged apart from T38; branch suite green). Proofs checked by hand;
   an independent Monte Carlo (four seeds, 4×10⁶ draws) agrees with the quadrature (|z| < 1.7). Written up as **T38**: sup E[Q₊] = k − ½,
   sup E[Q] = k − 1, neither attained; the brief's "only as both channels grow" was wrong. Load-bearing only if G18 keeps O12's meaning.
+- 2026-10-31 (Codex, B14): O15 derives the exact regular scalar BN inverse Jacobian and the labelled Severini expected-score approximation: the isotropic correction is $|\cos(\theta-\widehat\theta)|^{-k}$, not constant. Its global continuation has nonintegrable positive-mass poles; restricting the fit to positive mass instead produces allowed inputs outside the regular interior-MLE domain. Eight tests check the Jacobian, expected covariance, properness obstruction, Z limits, coordinate invariance and private/shared constructions. The global-law/calibration branch stops under the false-premise protocol; no coverage of an undefined law is reported, no production code or premise changes, and no uniqueness claim for η follows. Full suite: 1,912 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-31 (Claude): **B01 checked and merged** (audit unchanged; branch suite 1787 passed; default robot table byte-identical;
   one row reproduced from the CLI). The calibration-side budget does not close O16's gap: without the floor the misfit is 13–1100×
   what the declared noise produces and autocorrelation raises g only 2–5×, so the miss is error shared between readings (O16).
