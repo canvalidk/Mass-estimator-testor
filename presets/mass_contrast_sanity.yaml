@@ -1,0 +1,17 @@
+kind: mass_contrast_sanity
+name: mass-contrast-sanity
+question: Does prior-weighted projector variance retain mass information when ambient trace is dominated by nearly uninformative Gaussian events?
+seed: 6465
+replicates: 32
+informative_counts: [32, 128, 512]
+mass: 1.2
+acceleration: 1.0
+correlation: 0.9
+prior_center: 1.0
+prior_bounds: [0.1, 10.0]
+anchor_prefactor: 1.0
+prior_nodes: 96
+epsabs: 1.0e-10
+epsrel: 1.0e-9
+limit: 400
+probability: 0.95

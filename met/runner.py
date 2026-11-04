@@ -200,6 +200,11 @@ def run(path, out_root="results", replicates=None, progress=print, workers=None)
     workers: processes running cells side by side; None (default) is half the cores,
     "max" every core, 1 the plain serial loop. The output is the same for any value."""
     spec = preset_mod.load(path)
+    if spec.get("kind") == "mass_contrast_sanity":
+        if not (workers is None or (type(workers) is int and workers == 1)):
+            raise ValueError("mass_contrast_sanity is serial; use --workers 1")
+        from .mass_contrast_study import run as run_mass_contrast
+        return run_mass_contrast(path, out_root, replicates=replicates, progress=progress)
     if spec.get("kind") == "weak_anchor_sanity":
         if not (workers is None or (type(workers) is int and workers == 1)):
             raise ValueError("weak_anchor_sanity is serial; use --workers 1")

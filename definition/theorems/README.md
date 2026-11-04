@@ -69,3 +69,5 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T61](T61.md) | Joint Gaussian calibration with changing covariance shapes and arbitrary precisions | T54, T55, T60; uniformly comparable covariance shapes and stated information growth | yes |
 | [T62](T62.md) | Posterior-only sequential closure versus additive carried state | T12, T56, T60; explicit additional sequential-closure condition | yes |
 | [T63](T63.md) | Degenerating instrument shapes defeat a total-energy anchor | T56, T60, T61; fixed identifying Gaussian covariance history and a fixed proper prior | yes |
+| [T64](T64.md) | Prior projection variance supplies an invariant mass-sensitive anchor | T54, T60–T63; additional prior-dependent operator-variance state and stated Gaussian regimes | yes |
+| [T65](T65.md) | Prior-tail disagreement defeats any vanishing schedule of that state | T56, T63, T64; unchanged full half-Cauchy, fixed identifying covariance histories and local basin ratio | yes |

@@ -74,7 +74,9 @@ def main(argv=None):
             return 0
         if args.command == "validate":
             spec = preset_mod.load(args.preset)
-            if spec.get("kind") == "weak_anchor_sanity":
+            if spec.get("kind") == "mass_contrast_sanity":
+                print(f"ok: {len(spec['cells'])} mass-contrast anchor cells; serial")
+            elif spec.get("kind") == "weak_anchor_sanity":
                 print(f"ok: {len(spec['cells'])} weak fixed-history anchor cells; serial")
             elif spec.get("kind") == "score_law_sanity":
                 print(f"ok: {len(spec['cells'])} full-law score sanity cells; serial")

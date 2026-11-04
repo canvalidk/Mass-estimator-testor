@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-04, changing-instrument continuation by Codex (T61–T63: heterogeneous Gaussian calibration, evidence-state distinction and degenerating-shape obstruction). Update this page in
+**Last updated:** 2026-11-04, mass-sensitive anchor continuation by Codex (T64–T65: conditional projection-variance repair and a prior-tail state-class obstruction). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -154,6 +154,19 @@ posterior-only sequential update; additive carried evidence still merges
 associatively, as T12 records. The stronger sequential axiom is not an
 existing requirement. Wider state selection and the unique finite law
 remain open.
+
+T64 supplies a conditional repair using the original prior's variance of
+each own-event graph projection. The state is bounded, zero-safe and
+coordinate/frame invariant without fitting a mass or choosing a parameter
+metric. It preserves the proved Gaussian limits, covers fixed-experiment
+amplification and repairs T63's compact-prior example. T65 exposes its
+remaining defect under a full half-Cauchy: distant prior regions can
+accumulate disagreement faster than useful local information grows. Every
+fixed vanishing scalar schedule of this state fails on a suitable fixed
+identifiable history. Only a local basin ratio and nonconcentration are
+proved there; no unexamined tail or median limit is asserted. State
+selection now needs a further information-locality argument, not another
+choice of exponent. No research family has been adopted.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -572,6 +585,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-04 (mass-sensitive state, Codex): T64 proves a proper invariant original-prior projection-variance anchor retaining the comparable-shape joint Gaussian/composite limits, fixed finite-experiment amplification and T63's full compact-prior repair. T65 then defeats every fixed positive finite vanishing schedule of this state on a suitable fixed identifiable full-half-Cauchy history; only a justified local basin ratio and nonconcentration are claimed. Added finite joint and continuous heterogeneous scalar references plus `presets/mass_contrast_sanity.yaml` (seed 6465, 32 worlds per count): both covariance-group sufficient scatters are actually sampled in a related triangular array. At M=512 the trace/new median of medians is 0.284123/1.203209 versus truth 1.2; false-side medians 32/0, new coverage 31/32 (descriptive). Independent saved-world refinements and physical residual checks passed. All 268 relevant tests passed, including 36 new checks; a tiny-variance adaptive quadrature accuracy issue was fixed with an analytic regression. Mathematical, numerical and integration-scope reviews passed; audit findings unchanged (T6/T21/T27, unused L24), diff checks clean. Full suite not rerun for isolated research/study additions. No state class, prior use, finite prefactor, physical input, premise, ruling or production equation adopted.
 
 - 2026-11-04 (changing instruments and evidence state, Codex): T61 proves the full joint Gaussian and composite-interval limits for event-dependent, uniformly comparable covariance shapes with arbitrary overall declared precisions; no covariance frequencies, repeated signals, limiting information matrix or maximum-leverage condition is needed. T62 characterizes the extra posterior-only sequential-closure axiom and proves that no trace prefactor supplies it, while additive retained state still merges associatively as T12 records. T63 gives a fixed identifiable degenerating-shape Gaussian history where ambient energy disables the trace anchor and a false root retains 75.36% limiting probability under a fixed reciprocal-truncated prior. Independent physical-residual Gaussian cubature, actual finite heterogeneous fields and explicitly decoupled continuum mechanism checks support these results; no full-history simulation or finite-noise coverage is claimed. All 232 relevant tests passed, including 21 new checks. Independent mathematical and integration-scope reviews passed. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. Full suite not rerun for isolated research additions. Production numerics, premises, rulings and physical type unchanged.
 

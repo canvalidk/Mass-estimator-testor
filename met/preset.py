@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "mass_contrast_sanity":
+        from .mass_contrast_study import validate as validate_mass_contrast
+        return validate_mass_contrast(data)
     if isinstance(data, dict) and data.get("kind") == "weak_anchor_sanity":
         from .weak_anchor_study import validate as validate_weak_anchor
         return validate_weak_anchor(data)
