@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-04, by Claude (all fourteen briefs merged; G22, and ours32 does not inherit it). Update this page in
+**Last updated:** 2026-11-04, by Claude (η's target identified with ours28b's shrinkage, O14; the briefs merged; G22). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -239,7 +239,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Gaps (as of 2026-10-24; 27 Oct additions marked)
 
-- (29 Oct) `tools/eta_sign_check.py` (T31) is a seeded script, not a preset kind of `met run`. (30 Oct) So is `tools/ours31_coverage.py` (O18).
+- (29 Oct) `tools/eta_sign_check.py` (T31) is a seeded script, not a preset kind of `met run`. (30 Oct) So is `tools/ours31_coverage.py` (O18), and (4 Nov) `tools/eta_vs_size_law.py` (O14).
 
 - (27 Oct) L22 (isotropy of inertia) and T34 are Claude's, from the 26 Oct scratch session,
   whose two toy scripts (`comp.py`, `qnoise.py`) were not kept; numbers from them are marked
@@ -338,6 +338,13 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-04 (Claude, later): **η's target, and what ours28 was doing** (O14; Can's standing hypothesis that the correct
+  equation fudges back to ours28). On long series η → Δ/(Δ+M), and that is exactly the empirical-Bayes shrinkage
+  β̂ = 1 − M/H² of ours28b's declared shared size law (Lindley–El-Sayyad): η is the size law's factor recovered from the
+  Bartlett identity's failure instead of from a declaration. The cheat made precise: ours28 declared the law of the one
+  quantity η must estimate, buying finite-N accuracy (N = 5, snr 0.5: η 0.90 against a target of 0.2–0.3) and, per
+  reading, the weighting the leverage case (Codex's theorem 43, on its branch) needs. β̂ fails Z where η does not (a zero reading adds k to M); constraint
+  on G3. `met/size_law.py`, `tools/eta_vs_size_law.py` (seed 2811), `tests/test_eta_target.py` (5). Equation unchanged.
 - 2026-11-04 (Claude): **the brief queue is empty** (B01–B14 merged). ours32's reading level checked against G22: its population optimum is the
   truth (2.00 ± 0.01 at signal 1–2, 1D/3D) where ours30's power form gives 1.73/1.81, so the inconsistency is the power form's, not the sign's;
   a candidate forcing argument for G19 (O18; `tests/test_weight_consistency.py`). GOAL.md refreshed (ours32's row, G18/G19 standing, property N).
