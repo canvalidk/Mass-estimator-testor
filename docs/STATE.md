@@ -34,7 +34,7 @@ so the goal is uniqueness, not a good estimator.
 from the type to ours30 is in `definition/proof.md` (29 Oct), eighteen steps: what is proved
 today is that on isotropic uncorrelated channels any function meeting the premises as ruled,
 with L22, L23 and η's finite-N form taken as given, is ours30 up to the declared inputs. Those
-three, plus 23 theorem files whose proofs still say "carried from the records", are the
+three, plus 19 theorem files (ten on the path) whose proofs still say "carried from the records", are the
 uniqueness half's work; the holes are typed there and that table is the queue. O2 (the readout) is provisionally
 resolved as of 28 Oct, pending Can's check of L23; O6 still needs a real idea, not more
 tests. The law's sign defect is closed by ours30 (29 Oct). Some premises are graded below bedrock or are
@@ -338,6 +338,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-04 (Claude): **B10 checked and merged.** T5 (the swap, now for the median, not through T4), T12, T13, T22 written; T12's
+  η = 32/225 example and T22's 13/10 vs 29/35 recomputed by hand. 19 theorem files still "carried", ten on the path (proof.md G15).
 - 2026-11-04 (Claude): **B09 checked and merged.** T3, T4, T9–T11, T14, T15, T21, T29, L12, O5 and two ladder rows marked
   "comparison readout only, since 28 Oct" (still true under ours32, whose point is the median); nothing removed. `tools/audit.py` keeps
   every finding and tags T21 as not load-bearing; the theorem index gains a scope column (T37, T38 rows carried over).
@@ -378,6 +380,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 - 2026-10-31 (Claude): **B01 checked and merged** (audit unchanged; branch suite 1787 passed; default robot table byte-identical;
   one row reproduced from the CLI). The calibration-side budget does not close O16's gap: without the floor the misfit is 13–1100×
   what the declared noise produces and autocorrelation raises g only 2–5×, so the miss is error shared between readings (O16).
+- 2026-10-31 (Codex, B10): wrote T5's median-based swap proof (physical $1/m$ and calibrated $c^2/m$), T12's counted-once combination proof with the exact two-reading $\eta=32/225$ example, T13's projection/normalizer/median totality proof, and T22's covariance-congruence proof with $H(1)=13/10$ versus $29/35$ after induced correlations are discarded. Nine direct ours30 checks cover both swaps, the union, rotation and totality. G7's writing and B10's part of G15 are done, with maximizing-tie and compact-state conditions stated; no Statement, premise, equation default, `met/`, T6, T30 or T31 changed. Full suite: 1,853 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-31 (Codex, B08): O6 derives the unit-covariant reciprocal family with both Jacobians, nonnegative normalization and converse; the general-law form is $M=ce^X$ for symmetric $X$, with the density formula its absolutely continuous case. T28 writes out the historical Fisher calculation and uniform-angle half-Cauchy member. The 36 new checks cover three null-prior families, medians, units, reciprocal symmetry, atomic/gapped controls and the marginal Fisher matrix; no general-prior API exists in `met/full.py`, so the three-member update tests are algebraic. G8's writing is done; O6 stays open, the default is unchanged, no member is selected and T36's measure question is parked. Full suite: 1,880 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (Codex, B07): wrote T06's conditional Herschel–Maxwell proof, exact Gaussian integral and four coefficient/width checks; G17, G13 and T36's measure question remain open. Found that literal L7 calibrates the point, not interval width: the archive's independent coefficient argument needs that extra condition, while L10 already states the flat factor; recorded the mismatch in T06 and proof step 3/G2 without changing the Statement, premises or `met/`. Full suite: 1,848 passed, 26 skipped, 16 xfailed; audit findings unchanged.
 - 2026-10-30 (Codex, B06): wrote T16–T19, T24 and T25 proofs with all Statements unchanged. Added needed scope: T16 raw g=η=1 and negative-tilt attenuation; T17 fixed-N amplitude growth with positive g/η bounds, not generic limits 1; T18 unweighted Gaussian local asymptotic widths, since the exact mass-law mean is infinite; T25 matching covariance/candidate blocks or conditional Schur reduction. T19's tail and T24's zero-law proofs cover arbitrary covariance/subspace. All 25 new focused tests pass; full suite: 1,869 passed, 26 skipped, 16 xfailed; audit findings unchanged.
