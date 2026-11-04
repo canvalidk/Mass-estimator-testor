@@ -61,3 +61,18 @@ def test_g22_production_ours30_concentrates_at_the_population_optimum_not_the_tr
     assert hi30 < 2.0, "ours30's 95% interval should exclude the true mass here"
     lo29, hi29 = p29["interval"]
     assert lo29 <= 2.0 <= hi29
+
+
+@pytest.mark.parametrize("k", [1, 2, 3])
+def test_g22_at_zero_signal_ours30_has_a_positive_cross_moment_and_ours29_none(k):
+    # 4 Nov (B13 merge): at zero signal the population optimum of ours30's weighted quadratic is m = c,
+    # so its pure-noise law concentrates on c as N grows (O15); recorded 3D E[gC] = 0.072, 1D 0.104 (B05).
+    rng = np.random.default_rng(1104 + k)
+    x = rng.normal(size=(400_000, k)); y = rng.normal(size=(400_000, k))
+    A, B, C = (x * x).sum(1), (y * y).sum(1), (x * y).sum(1)
+    lam = (A + B) / 2 - np.sqrt(((A - B) / 2) ** 2 + C ** 2)
+    q = np.where(C > 0, lam, np.minimum(A, B))
+    g30 = np.minimum(1.0, (k - 0.5) / np.maximum(q, 1e-300))
+    g29 = np.ones_like(lam) if k == 1 else np.minimum(1.0, (k - 1) / np.maximum(lam, 1e-300))
+    assert (g30 * C).mean() > 0.05
+    assert abs((g29 * C).mean()) < 0.01
