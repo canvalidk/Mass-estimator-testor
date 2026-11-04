@@ -1,0 +1,16 @@
+kind: score_law_sanity
+name: score-law-sanity
+question: Does normalizing the exact conditional score kernel retain the wrong positive root, and does a declared anchor comparison remove it?
+seed: 56157
+replicates: 32
+mass: 1.2
+acceleration: 1.0
+correlation: 0.9
+prior_center: 1.0
+anchor_exponent: 0.5
+counts: [100, 1000, 10000]
+population_counts: [100, 1000, 10000, 1000000]
+probability: 0.95
+epsabs: 1.0e-11
+epsrel: 1.0e-10
+limit: 500

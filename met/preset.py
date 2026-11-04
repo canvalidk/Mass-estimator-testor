@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "score_law_sanity":
+        from .score_law_study import validate as validate_score_law
+        return validate_score_law(data)
     if isinstance(data, dict) and data.get("kind") == "joint_sanity":
         from .joint_sanity import validate as validate_joint_sanity
         return validate_joint_sanity(data)

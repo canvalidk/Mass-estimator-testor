@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-04, joint simulation sanity check by Codex (T54 proper-law intervals and T55 observable local uncertainty, seeded repeated worlds). Update this page in
+**Last updated:** 2026-11-04, full score-law continuation by Codex (T56: a global false-root obstruction; T57: a conditional anchored compatibility family). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -113,6 +113,19 @@ Gaussian matching; conservative scalar inflation remains possible.
 Observable Hessian/score sums estimate the local matrix target without true
 signal inputs. The global calibration map, state permission, joint-prior
 declaration and general physical protocol type remain G24/G26/G27.
+
+T56 now shows why the exact conditional score cannot simply be normalized
+into the required law: a valid correlated Gaussian example gives a false
+positive root about 75.36% limiting mass and an inconsistent median under
+the same half-Cauchy prior. Its locally correct width does not fix this
+global failure. T57 constructs a complete conditional comparison family:
+a vanishing, Z-safe contribution from the original profile evidence
+suppresses false roots while preserving the Godambe local shape. The law
+is proper and its full pushforward intervals have nominal limits in the
+stated regular repeated-block Gaussian regime. Full-domain scalar seeded checks
+confirm the counterexample and the anchored comparison. The anchoring
+class, exponent and state permission remain unforced; no study score
+adopts a new equation or supplies a uniqueness proof.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -531,6 +544,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-04 (full score-law continuation, Codex): T56 proves the direct conditional-score law can assign 75.36% limiting mass to a false positive root and move its median there under an unchanged half-Cauchy prior; the exact test remains valid. T57 constructs a complete proper, invariant, whole-zero-neutral anchored family with global concentration and Godambe local shape in the stated regular Gaussian repeated-block regime. The full positive scalar study (seed 56157, 32 worlds per count) retains both roots: at N=10000 direct-score median of medians is 0.26411 versus truth 1.2; anchored comparison is 1.19717. No family/exponent or L19 state permission adopted by that result. All 149 relevant checks passed, including 22 new checks; independent mathematical, numerical and authority reviews found no remaining blockers. Duplicate-count replay validation fixed; independent N=10^6 integration agrees through about 13 digits. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. Full suite not rerun for isolated research/study additions.
 
 - 2026-11-04 (joint simulation sanity, Codex): added the serial joint_sanity preset/runner, seed 54155, 400 worlds per cell, saved data/intervals and paired quadrature refinement. At noise scale 0.05 full joint-law sum/parallel coverage is 96.25%/96.00%; at 500 repeated blocks raw local intervals cover 88.75%/89.00%, versus 94.25%/94.25% for observable sandwich intervals. Binomial Monte Carlo intervals and finite-grid limitations are recorded in O2; no checked-run fit failures remain after objective scaling was corrected. The repeated arm is a local Wald check, not a new global positive calibration map. All 88 relevant tests passed, including four new algebra, quadrature, replay and runner checks; audit findings unchanged and diff checks clean. Full suite not rerun. Production equations and rulings unchanged; no selection by score.
 

@@ -61,3 +61,5 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T53](T53.md) | Sharp uniform energy-class consistency in rank-one Gaussian estimation | T42, T52; specified exact-energy Gaussian nuisance classes | yes |
 | [T54](T54.md) | Physical joint Gaussian law and calibrated small-noise composition | O2/G27, T45, T50; specified acquisition, supplied joint prior and Gaussian profile | yes |
 | [T55](T55.md) | Joint profile sensitivity, sandwich covariance and scalar-inflation limits | T49, T51, T54; specified repeated-block regime and centered-Gaussian benchmark | yes |
+| [T56](T56.md) | A conditional score law can have a globally inconsistent median | T45, T50, T54, T55; explicit exponential-score proposal and correlated Gaussian witness | yes |
+| [T57](T57.md) | A vanishing profile anchor identifies a score law without changing its local width | T54–T56; additional oscillation-anchor family and stated repeated-block regime | yes |
