@@ -23,9 +23,15 @@ in its problem file and does not come here. Can may add, reorder or strike any b
 | [B12](B12-admissible-tempering.md) | L24, O14 | Which temperings are cut posteriors of a mean-1 noise-size law (Bernstein test): ours30's g, the smooth form, the floor, T37 controls; and η | merged 2026-10-30 |
 | [B13](B13-gleser-hwang-hypotheses.md) | O15, property N | Gleser–Hwang's hypotheses checked against the type; the corner's corollary proved; one test | merged 2026-11-04: infimum coverage 0 at every finite N; the planted ce^{±3} floors are positive (not 0), and under ours30 they erode with N (G22) |
 | [B14](B14-modified-profile-likelihood.md) | O15 | Barndorff-Nielsen's modified profile likelihood for the latent pairs: the one non-hierarchical cure not yet checked; m-free or not | merged 2026-11-04: not flat (Jacobian 1/|cos(θ − θ̂)|) but not a law: poles at positive masses on anti-parallel readings; O15's table closed |
+| [B20](B20-anchor-line-bookkeeping.md) | T54–T65, G24, G27 | The score-law and anchor constructions marked as benchmarks (quasi-Bayesian class), not probes; the audit tags them; the line stops | open — **first** |
+| [B15](B15-eta-with-the-conditional-score-variance.md) | O14, O18, G3, G26 | η with T45's exact conditional score variance in place of the fitted J: does it reach the target Δ/(Δ+M) at small N and under leverage (T43), and on T39's pair? | open |
+| [B16](B16-the-width-without-the-starting-laws-tails.md) | O18, step 18, R-2026-09-29-3 | The quoted width computed on the evidence L alone: when it is proper, its coverage, and the fraction "unresolved"; beside ours33's π·L width | open |
+| [B17](B17-what-fixes-t48s-latent-measure.md) | T48, T36, G19 | What singles out T48's latent measure (b = 0, exponent (ν+k)/2): T36 and L13, an input, or nothing | open |
+| [B18](B18-composition-coverage-under-ours32-and-ours33.md) | O2, L5, L14 | Composition at the level of the law under ours30, ours32, ours33 (clause (c) as coverage), truth at c and 4c; warp before or after the pushforward | open |
+| [B19](B19-l11-against-the-tls-consistency-literature.md) | O19, L11, G25 | L11's growth condition translated from Gleser, Gallo, Kukush–Van Huffel and Shklyar; which is T42/T53's threshold | open |
 
 Order is priority. Since 29 Oct briefs are cut from the holes table in `../definition/proof.md` §5 (the *derive* rows); a brief names its hole. Several can run at once: each branches from `main` and writes to
-different files, except the one log line each adds to `docs/STATE.md`.
+different files, except the one log line each adds to `docs/STATE.md`. **Exception, 4 Nov:** B15–B20 branch from the head of `codex/ours32-consistency`, because the code and theorems they need (ours33, T45, T48, O19) are on that branch and not yet merged; each still gets its own `codex/<id>` branch.
 
 ## For the agent running a brief
 
