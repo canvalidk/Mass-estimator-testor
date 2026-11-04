@@ -1,6 +1,6 @@
 # B16: the quoted width as a statement about the evidence, not a quantile of π·L
 
-**Status:** open.
+**Status:** merged 2026-11-07, as delivered (not checked by Claude): false-premise stop; ours33's evidence alone is improper in mass and in log mass on every finite valid series, disagreeing readings included, so no width exists without π; no study run
 **Item:** `problems/O18.md` (4 Nov: ours33's break at the report); `definition/proof.md` step 18; R-2026-09-29-3; `docs/vd-docs-context/why_mass_cannot_be_undefined_2026-09-29.md` §3; T47.
 **Branch:** `codex/b16`, from the head of `codex/ours32-consistency` (needs `met/ours33.py`).
 **Written:** 2026-11-04, Claude.
