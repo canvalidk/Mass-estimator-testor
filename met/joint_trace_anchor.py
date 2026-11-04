@@ -1,4 +1,4 @@
-"""T60 research finite joint law with a frame-invariant trace anchor.
+"""T60/T61 research finite joint law with a frame-invariant trace anchor.
 
 The law is a supplied joint prior times exp[-T/2-lambda*K/2], with exact
 conditional-score statistic T, Gaussian profile cost K, and explicit
@@ -6,9 +6,10 @@ lambda=kappa/sqrt(1+sum ||W_i Y_i||^2). Kappa and numerical rank tolerances
 are required inputs to this research comparison, not selected defaults.
 
 The finite construction accepts per-event SPD covariance declarations and
-is invariant under independent event frames. T60's asymptotic assertion
-requires its separately stated common-noise-geometry experiment; neither
-arbitrary covariance heterogeneity nor atomic-prior TV limits are claimed.
+is invariant under independent event frames. T61's asymptotic extension
+allows arbitrary overall precisions and uniformly comparable covariance
+shapes under its information-growth condition. T63 shows why unrestricted
+degenerating shapes need a different argument. No atomic-prior TV limit is claimed.
 No production estimator, signal population or prior coupling is selected.
 """
 import math
@@ -63,7 +64,7 @@ def _state(readings, mass_count, anchor_prefactor, rank_rtol, rank_atol):
                 spatial_dimension=dimension, rank_rtol=relative, rank_atol=absolute,
                 all_zero=bool(all_zero),
                 finite_scope="declared per-event SPD common-acceleration geometry",
-                asymptotic_scope="T60 common noise geometry up to declared bookkeeping; continuous regular prior")
+                asymptotic_scope="T60/T61 comparable covariance shapes and stated information growth; continuous regular prior")
 
 
 def joint_trace_anchor(readings, prior, *, anchor_prefactor, rank_rtol, rank_atol):
@@ -71,7 +72,7 @@ def joint_trace_anchor(readings, prior, *, anchor_prefactor, rank_rtol, rank_ato
 
     Each source event is used once. Covariances need not be numerically
     identical: independently rotated representations are valid, and the finite
-    law does not infer a common asymptotic geometry from matrix equality.
+    law does not infer an asymptotic covariance-shape bound from matrix equality.
     Body labels must be canonical and all bodies must share one acceleration
     in every event. Other declared protocols are outside this bounded helper.
 

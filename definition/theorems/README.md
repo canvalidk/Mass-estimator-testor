@@ -66,3 +66,6 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T58](T58.md) | Fixed power anchors can lose coverage on identifying weak histories | T42, T43, T53, T57; fixed Gaussian weakening history and normalized-law proof | yes |
 | [T59](T59.md) | Spectral half-power anchoring on all identifying scalar Gaussian histories | T43, T56, T58; common covariance, stated spectral power class and fixed regular prior | yes |
 | [T60](T60.md) | Frame-safe joint trace anchoring on arbitrary identifying Gaussian histories | T54, T55, T59; common physical covariance, full shared-acceleration protocol and regular joint prior | yes |
+| [T61](T61.md) | Joint Gaussian calibration with changing covariance shapes and arbitrary precisions | T54, T55, T60; uniformly comparable covariance shapes and stated information growth | yes |
+| [T62](T62.md) | Posterior-only sequential closure versus additive carried state | T12, T56, T60; explicit additional sequential-closure condition | yes |
+| [T63](T63.md) | Degenerating instrument shapes defeat a total-energy anchor | T56, T60, T61; fixed identifying Gaussian covariance history and a fixed proper prior | yes |

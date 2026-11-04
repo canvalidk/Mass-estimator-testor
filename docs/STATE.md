@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-04, anchor-rate and joint-history continuation by Codex (T58–T60: weak-history obstruction, conditional rate restriction and frame-safe joint Gaussian construction). Update this page in
+**Last updated:** 2026-11-04, changing-instrument continuation by Codex (T61–T63: heterogeneous Gaussian calibration, evidence-state distinction and degenerating-shape obstruction). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -141,6 +141,19 @@ covariance to handle arbitrary leverage. Full-law composite intervals
 have proved nominal limits in that model. Finite constants, broader
 class/state choices, heterogeneous geometry and other noise models remain
 open; neither a uniquely forced equation nor a production update is claimed.
+
+T61 now allows the covariance shape to change at every event within a
+uniformly comparable class, while the overall declared noise scale can
+vary arbitrarily. The full joint Gaussian and composite-interval limits
+need no repeated instrument types or limiting information matrix. T63
+marks the limit: degenerating shapes can add unbounded ambient energy
+but summable mass evidence, making this trace anchor retain a false peak
+even though an informative subsequence consistently identifies mass.
+T62 separately proves that no prefactor makes this construction a
+posterior-only sequential update; additive carried evidence still merges
+associatively, as T12 records. The stronger sequential axiom is not an
+existing requirement. Wider state selection and the unique finite law
+remain open.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -559,6 +572,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-04 (changing instruments and evidence state, Codex): T61 proves the full joint Gaussian and composite-interval limits for event-dependent, uniformly comparable covariance shapes with arbitrary overall declared precisions; no covariance frequencies, repeated signals, limiting information matrix or maximum-leverage condition is needed. T62 characterizes the extra posterior-only sequential-closure axiom and proves that no trace prefactor supplies it, while additive retained state still merges associatively as T12 records. T63 gives a fixed identifiable degenerating-shape Gaussian history where ambient energy disables the trace anchor and a false root retains 75.36% limiting probability under a fixed reciprocal-truncated prior. Independent physical-residual Gaussian cubature, actual finite heterogeneous fields and explicitly decoupled continuum mechanism checks support these results; no full-history simulation or finite-noise coverage is claimed. All 232 relevant tests passed, including 21 new checks. Independent mathematical and integration-scope reviews passed. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. Full suite not rerun for isolated research additions. Production numerics, premises, rulings and physical type unchanged.
 
 - 2026-11-04 (anchor rates and joint histories, Codex): T58 proves that T57's fixed profile-oscillation powers can remain consistent yet lose central-interval coverage on weak identifying fixed Gaussian histories. T59 identifies the half-power rate within the stated spectral-power class, retaining a free prefactor and the earlier T43 scalar Gaussian baseline. T60 extends the complete anchored joint law to fixed signal histories meeting its growth condition under common Gaussian geometry, without repeated signals or a maximum-leverage restriction; its observed trace respects independent event frames. These are conditional constructions, not a unique finite law or production adoption. The exact sufficient-scatter study (seed 5859, 32 worlds per case/count) confirms the scalar weak-history width failure and corrected comparison; its Monte Carlo results are descriptive. Added stable eigenbasis evaluation, replayable scatter output and a finite joint reference; extreme-contrast normalization preserves supplied prior weights. All 211 relevant checks passed, including 22 new checks. Independent mathematical, numerical and scope reviews passed; audit findings unchanged (T6/T21/T27, unused L24), diff checks clean. Full suite not rerun for isolated research/study additions.
 
