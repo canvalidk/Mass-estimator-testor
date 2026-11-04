@@ -338,6 +338,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-04 (Claude, evening): two boards. Briefs stay on `briefs/README.md` (branches `codex/<brief id>`, merged); exploration
+  directions go on `explore/README.md` (branches `explore/<id>-<slug>`, never merged, each with a `SUMMARY.md`; E1–E4). B20 struck as moot.
 - 2026-11-04 (Claude, later): **η's target, and what ours28 was doing** (O14; Can's standing hypothesis that the correct
   equation fudges back to ours28). On long series η → Δ/(Δ+M), and that is exactly the empirical-Bayes shrinkage
   β̂ = 1 − M/H² of ours28b's declared shared size law (Lindley–El-Sayyad): η is the size law's factor recovered from the

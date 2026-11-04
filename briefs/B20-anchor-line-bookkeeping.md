@@ -1,6 +1,6 @@
 # B20: the score-law and anchor constructions marked as benchmarks, not probes
 
-**Status:** open.
+**Status:** struck 2026-11-04 (Can): moot; exploration branches are never merged, so their theorems never reach `main`.
 **Item:** theorems T56–T65 (`codex/ours32-consistency`); `definition/theorems/README.md`; `definition/proof.md` G24, G26, G27; `tools/audit.py`.
 **Branch:** `codex/b20`, from the head of `codex/ours32-consistency`.
 **Written:** 2026-11-04, Claude.
