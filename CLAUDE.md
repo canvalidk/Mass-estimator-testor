@@ -48,6 +48,8 @@ matter most:
   STATE.md's log; study narration does not go on STATE.md's main page. Such runs are queued
   as files in `briefs/`, branch from `main` as `codex/<brief id>`, and are checked and merged
   by Claude (`briefs/README.md`).
+- **Agent output is read through its findings file** (`findings/README.md`), after `python tools/gate.py
+  <branch>`; the living layer is written by Claude from the cards, never merged from an agent's prose.
 - A theorem is "proved" only when its file names the test that checks it. Mark
   what is yours as yours; "forced" means forced from a named premise.
 
