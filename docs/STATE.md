@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-03, CDF/residual continuation by Codex (T47/T48: conditional probability recalibration and the residual-density measure fork). Update this page in
+**Last updated:** 2026-11-04, operator/subspace continuation by Codex (T49/T50: graph measures, scalar restriction and an exact vector-score benchmark). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -71,6 +71,16 @@ uncertainty. The global power remains broken even after the raw prefactor is
 corrected. Neither the latent measure nor the law-only calibration reduction
 is forced; vanishing eta needs a separate tail condition, and arbitrary
 leverage/full-type calibration and composition remain open.
+
+T49/T50 organize that remaining work as structured operator/subspace
+estimation. Canonical graph geometry gives an intrinsic scalar half-Cauchy
+reference under common uncorrelated noise, but ambient Haar restriction,
+latent-fiber volume and Fisher information are different measures. Full
+orthogonal hypothesis symmetry is not supplied by physical frame covariance.
+The Gaussian operator profile has the standard TLS/Bingham form, and an
+exact conditional vector score extends T45 with observed covariance rank.
+These are conditional geometric and uncertainty benchmarks; the scalar
+physical model, supplied prior and unforced measure/calibration choices remain.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -244,6 +254,20 @@ regimes pass conditionally; the measure, projected/ambient noise treatment,
 calibration class and full-type eta remain G19/G24/G26. Logarithmic ranks
 expose the extreme raw quantiles required; no production inverse or default
 is replaced, and no study score selects the construction.
+
+**Operator/subspace geometry (4 Nov, continuation).** T49 derives canonical
+graph volume with arbitrary fixed covariance. Its intrinsic scalar-curve
+volume recovers the half-Cauchy in the common uncorrelated case, independently
+of dimension; correlated scalar noise changes the shape but keeps median s.
+Different tube conventions around the Haar-null scalar curve give different
+limits, so matrix Haar uniqueness cannot be imported by density substitution.
+Graph volume also cannot select T48's latent noise-scale convention. T50
+derives the TLS/Bingham Gaussian profile and an exact conditional joint
+operator-score test. The test respects exact-zero padding and reduces to
+T45 for the scalar tangent; its noisy conditional rank is not an information-
+growth theorem. References are `met/graph_geometry.py` and
+`met/operator_score.py`. The operator experiment has a common known frame
+and full free signal vectors; it does not change the scalar physical type.
 
 **The forward model (2 Nov, Can's ask: "given F, a, … what distribution of noise would we get").**
 `met/forward.py` holds the truth still (true pairs, Σ believed, optionally T37's ν_eff size) and
@@ -475,6 +499,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-04 (operator/subspace continuation, Codex): T49: canonical graph/covariance volumes, intrinsic scalar reference and correlated extension, two tube-conditioning limits, and separation from latent/Fisher measures and active symmetry. T50: TLS/Bingham profile and exact conditional operator score with observed rank, scalar reduction and Z. Existing prior/measure/calibration choices remain open; no production equation, physical type, input, output, premise or ruling changed. All 188 relevant tests passed, including 47 new checks and the existing scalar/full-type, reading-space, prior-family and tensor-geometry references. Independent mathematical, code and authority reviews found no remaining blockers; the operator statistic range regression passes. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. Full suite not rerun for these isolated research additions.
 
 - 2026-11-03 (CDF/residual continuation, Codex): T47: normal-score CDF recalibration, conditional uniqueness, exact median preservation, regular Gaussian uncertainty and a vanishing-eta tail obstruction. T48: ordinary Student residual normalization under an explicit latent measure, raw amplification and bounded relative-evidence proofs, and exact persistence of the outer-power failure. Their named regimes are compatible conditionally; measure/class selection and full-type calibration remain open. No production equation, input, output, premise or ruling changed. All 99 relevant tests passed, including 36 new checks; the existing native-grid strict xfail remains. Independent mathematical, code and authority reviews found no blockers; subnormal-tail regressions pass, audit findings unchanged (T6/T21/T27, unused L24), diff checks clean. The full suite was not rerun for these isolated research additions; its last baseline is recorded below.
 - 2026-11-03 (conditional-score and positive-weight continuation, Codex): T45 extends the archived exact score test to full Gaussian covariance/subspace declarations, connects it to T43's local width and proves O15's model-specific fixed-N proper-law coverage corollary. T46 proves the generic best-positive-misfit quadratic-weight obstruction and its conditional-mean precision extension; with the uniform angular prior no global nonnegative temperature repairs its median witness. G26 gains an exact benchmark; G19/G22 remain unsorted. Independent research references and tests; no production equation, input, output, premise or ruling changed. All 111 relevant tests passed, including 37 new checks and the existing full-type, leverage and cut references. Independent mathematical, code and authority reviews found no blockers; audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. The previous full-suite baseline remains 2,271 passed, 28 skipped, 17 xfailed; it was not rerun for these isolated research additions.

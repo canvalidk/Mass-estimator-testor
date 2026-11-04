@@ -54,3 +54,5 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T46](T46.md) | Positive-misfit quadratic weighting creates weak-signal bias | L13, L18; specified fixed weight class, T30, T42, T44 | yes |
 | [T47](T47.md) | Normal-score CDF recalibration and its tail boundary | T39–T40, T43, T45; explicit law-only/naturality class and Gaussian benchmark | yes |
 | [T48](T48.md) | Normalized Gaussian residual mixing and the latent-volume fork | T36–T37, T39; specified variance-independent declared-metric latent measure | yes |
+| [T49](T49.md) | Graph geometry, scalar curve volume and measure distinctions | T36, T45, T48; canonical Grassmann metric, fixed declared covariance | yes |
+| [T50](T50.md) | Gaussian operator graphs, TLS/Bingham profile and a vector score test | T45, T49; specified matrix experiment, full subspaces and selected tangents | yes |
