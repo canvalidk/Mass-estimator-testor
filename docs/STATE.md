@@ -338,6 +338,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-04 (Claude): **B09 checked and merged.** T3, T4, T9–T11, T14, T15, T21, T29, L12, O5 and two ladder rows marked
+  "comparison readout only, since 28 Oct" (still true under ours32, whose point is the median); nothing removed. `tools/audit.py` keeps
+  every finding and tags T21 as not load-bearing; the theorem index gains a scope column (T37, T38 rows carried over).
 - 2026-11-02 (later, Claude): **forward model on ours31/32** (O18, 2 Nov): `w31` and `eta32` added to `met/forward.py`
   (equal to met.ours32 to 1e-15) with `calibration` (weight against the true precision 1/v); preset
   `presets/forward_ours31_ours32.yaml`. In its own world ours31's weight is the true precision at strong signal; holes 2 and 3
@@ -436,6 +439,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   G13 sorted: the power is a scale read once (L21's cut, standard name), bounded confidence follows from the floor.
   On a common 4× inflation in 3D they over-correct together (g·η 0.165 vs 0.25); η alone gets it in 1D; g catches one
   bad reading. Declarations per level (exact / floor / unknown) are the input. `tests/test_scale_reading.py`.
+- 2026-10-30 (Codex, B09): marked the nine theorems about the comparison cloud readout, O5 and the two series-size/weight questions as not load-bearing for ours30; the audit retains all three untested-theorem findings, labels T21's scope from its Status, and shows it in `--table` (checked by `tests/test_audit.py`). Full suite: 1707 passed, 26 skipped, 16 xfailed.
 - 2026-10-29 (night, Claude): briefs checked against T36: B11 added (the raw law on O7's "up to a scale" branch,
   a Student-type law in the one residual; the scale prior's exponent sorted as an input); frame pointers in B04, B06,
   B07; B08 told to leave T36's measure item alone. T36 gets the declared-subspace count (2d − k per reading on that branch).

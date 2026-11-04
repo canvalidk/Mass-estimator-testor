@@ -1,6 +1,6 @@
 # B09: the audit and the problem files after the median
 
-**Status:** open
+**Status:** merged 2026-11-04 (checked by Claude): marked, not removed; the audit tags T21.
 **Item:** `tools/audit.py`, `problems/O2.md`, `problems/O5.md`, `definition/ladder.md`,
 `definition/theorems/README.md`; `definition/proof.md` §4 "What is no longer load-bearing", hole G12.
 **Branch:** `codex/b09`. **Written:** 2026-10-29, Claude.
