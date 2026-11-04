@@ -76,3 +76,30 @@ def test_g22_at_zero_signal_ours30_has_a_positive_cross_moment_and_ours29_none(k
     g29 = np.ones_like(lam) if k == 1 else np.minimum(1.0, (k - 1) / np.maximum(lam, 1e-300))
     assert (g30 * C).mean() > 0.05
     assert abs((g29 * C).mean()) < 0.01
+
+
+def _population_mass_cut_factor(k, r, rule, m=2.0, n=100_000, nu=10.0, seed=3211):
+    # population optimum of the summed per-reading log factor over a grid near the truth
+    ms = np.linspace(1.4, 2.6, 121); phis = np.arctan(ms); s, c = np.sin(phis), np.cos(phis)
+    rng = np.random.default_rng(seed)
+    d = r * np.array([m, 1.0]) / np.sqrt(1 + m * m)
+    x = rng.normal(size=(n, k)); x[:, 0] += d[0]
+    y = rng.normal(size=(n, k)); y[:, 0] += d[1]
+    A, B, C = (x * x).sum(1), (y * y).sum(1), (x * y).sum(1)
+    lam = (A + B) / 2 - np.sqrt(((A - B) / 2) ** 2 + C ** 2)
+    hp = np.where(C > 0, A + B - lam, np.maximum(A, B))[:, None]   # best positive-slope energy
+    qp = (A + B)[:, None] - hp
+    H = A[:, None] * s ** 2 + B[:, None] * c ** 2 + 2 * C[:, None] * s * c
+    if rule == "ours32":
+        ell = -0.5 * (nu + k - 1) * np.log1p((hp - H) / (nu + qp))
+    else:
+        ell = np.minimum(1.0, (k - 0.5) / np.maximum(qp, 1e-300)) * H / 2
+    return ms[np.argmax(ell.mean(0))]
+
+
+@pytest.mark.parametrize("k", [1, 3])
+def test_g22_ours32_cut_factor_keeps_the_population_optimum_at_the_truth(k):
+    # 4 Nov: T37's cut factor (ours31/32's reading level) sees the sign through H+ and Q+ but is not biased:
+    # recorded with 3e5 draws x 5 seeds at signal 1: ours32 2.001 (1D), 1.993 (3D); ours30 1.727, 1.811.
+    assert _population_mass_cut_factor(k, 1.0, "ours32") == pytest.approx(2.0, abs=0.06)
+    assert _population_mass_cut_factor(k, 1.0, "ours30") < 1.86

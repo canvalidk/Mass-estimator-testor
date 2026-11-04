@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-02, by Claude (the forward model, `met/forward.py`: the truth held still, every noise measure's law). Update this page in
+**Last updated:** 2026-11-04, by Claude (all fourteen briefs merged; G22, and ours32 does not inherit it). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -338,6 +338,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-04 (Claude): **the brief queue is empty** (B01–B14 merged). ours32's reading level checked against G22: its population optimum is the
+  truth (2.00 ± 0.01 at signal 1–2, 1D/3D) where ours30's power form gives 1.73/1.81, so the inconsistency is the power form's, not the sign's;
+  a candidate forcing argument for G19 (O18; `tests/test_weight_consistency.py`). GOAL.md refreshed (ours32's row, G18/G19 standing, property N).
 - 2026-11-04 (Claude): **B13 checked and merged.** Gleser–Hwang's corner holds for the type: any always-finite interval has infimum
   coverage exactly 0 at every finite N (direct total-variation proof; the 1987 PDF unavailable, a verified restatement used). Codex corrected
   the brief: at ce^{±3} the null coverage is positive (0.54/0.56). Claude's check: under ours30 that floor erodes with N (0.52 → 0.30 at
