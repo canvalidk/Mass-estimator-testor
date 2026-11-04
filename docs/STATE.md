@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-04, operator/subspace continuation by Codex (T49/T50: graph measures, scalar restriction and an exact vector-score benchmark). Update this page in
+**Last updated:** 2026-11-04, composition and consistency continuation by Codex (T51–T53: joint-law scope, unknown allocation and a sharp uniform Gaussian threshold). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -40,8 +40,16 @@ T42 now supplies a sharp attainable regime for the flat Gaussian factors
 with the existing Bartlett correction: $\Delta_N^2/(N+\Delta_N)\to\infty$,
 where Δ is total true standardized signal energy. The result allows arbitrary
 deterministic amplitudes and signs and does not require η to stay positive
-in the limit. It characterizes this procedure under stated noise/prior
-conditions; the full-type growth condition remains open.
+in the limit. T53 now proves the same threshold necessary and sufficient
+for the **existence** of a uniformly consistent point estimator over the
+specified Gaussian exact-energy nuisance class and a compact interior mass
+interval. This is an attainable minimax benchmark with a direct rank-one matrix-estimation
+connection. It does not characterize every individual fixed history.
+T52 strengthens the obstruction: unknown fixed positive sparse supports can
+have infinitely many fixed-amplitude signals and divergent oracle information,
+yet no estimator is consistent on every such support at two masses. O19
+proposes separating identifying noiseless limits from explicitly quantified
+long-series classes; the full-type statement and L11 sort remain open.
 
 T43 separates that consistency result from uncertainty calibration. For
 flat Gaussian factors, the current fitted-J Bartlett power can under-cover
@@ -81,6 +89,16 @@ The Gaussian operator profile has the standard TLS/Bingham form, and an
 exact conditional vector score extends T45 with observed covariance rank.
 These are conditional geometric and uncertainty benchmarks; the scalar
 physical model, supplied prior and unforced measure/calibration choices remain.
+
+T51 separates actual composition scope from a stronger possible axiom.
+Universal CDF recalibration commuting with independent addition or parallel
+sum would force the identity. The recorded L5/L14 scope instead propagates
+one supplied joint law and checks a new measurement by coverage. Marginal
+calibration does not construct that joint. Under a centered-Gaussian
+benchmark, exact coverage for each part and their sum forces the missing
+cross-covariance. G27 makes the existing joint/protocol obligation explicit;
+this result neither rejects T47 under the recorded commitments nor selects
+eta=1 or a dependence model.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -499,6 +517,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-04 (composition and consistency continuation, Codex): T51 distinguishes supplied-joint pushforward from an extra universal calibration-interchange axiom, proves identity under the latter, and gives a centered-Gaussian cross-covariance constraint. G27 exposes the existing O2 joint/protocol obligation. T52 strengthens the fixed-history obstruction to unknown positive sparse supports with divergent oracle information; T53 proves the sharp uniform Gaussian energy-class threshold, matching T42 and rank-one matrix estimation. O19 records proposed experiment-scoped consistency obligations; L11, its grade, the physical type and production equation remain unchanged. All 254 relevant tests passed, including 44 new checks; one existing slow test skipped. The existing two-worker check initially hit the sandbox's Windows named-pipe restriction and passed on its isolated unrestricted rerun. Mathematical and authority reviews passed; numerical underflow and tiny-angle issues found in code review were fixed with regressions. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. Full suite not rerun for these isolated research additions.
 
 - 2026-11-04 (operator/subspace continuation, Codex): T49: canonical graph/covariance volumes, intrinsic scalar reference and correlated extension, two tube-conditioning limits, and separation from latent/Fisher measures and active symmetry. T50: TLS/Bingham profile and exact conditional operator score with observed rank, scalar reduction and Z. Existing prior/measure/calibration choices remain open; no production equation, physical type, input, output, premise or ruling changed. All 188 relevant tests passed, including 47 new checks and the existing scalar/full-type, reading-space, prior-family and tensor-geometry references. Independent mathematical, code and authority reviews found no remaining blockers; the operator statistic range regression passes. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. Full suite not rerun for these isolated research additions.
 

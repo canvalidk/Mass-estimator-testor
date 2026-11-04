@@ -56,3 +56,6 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T48](T48.md) | Normalized Gaussian residual mixing and the latent-volume fork | T36–T37, T39; specified variance-independent declared-metric latent measure | yes |
 | [T49](T49.md) | Graph geometry, scalar curve volume and measure distinctions | T36, T45, T48; canonical Grassmann metric, fixed declared covariance | yes |
 | [T50](T50.md) | Gaussian operator graphs, TLS/Bingham profile and a vector score test | T45, T49; specified matrix experiment, full subspaces and selected tangents | yes |
+| [T51](T51.md) | CDF recalibration, independent composition and joint covariance | T47; explicit additional universal interchange axiom; specified centered-Gaussian benchmark | yes |
+| [T52](T52.md) | Infinite active information does not reveal an unknown signal allocation | T41; unrestricted fixed positive supports; proof-only sparse Gaussian mixtures | yes |
+| [T53](T53.md) | Sharp uniform energy-class consistency in rank-one Gaussian estimation | T42, T52; specified exact-energy Gaussian nuisance classes | yes |
