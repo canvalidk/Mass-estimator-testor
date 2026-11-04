@@ -1,0 +1,17 @@
+kind: weak_anchor_sanity
+name: weak-anchor-sanity
+question: Does anchor calibration survive fixed weakening signal histories that remain identifiable?
+seed: 5859
+replicates: 32
+beta: 0.6
+counts: [1000, 10000000, 100000000000000]
+probability: 0.95
+prior_center: 1.0
+profile_anchor_exponent: 0.5
+cases:
+  - {name: independent_channels, mass: 1.0, correlation: 0.0}
+  - {name: correlated_channels, mass: 1.2, correlation: 0.9}
+generator: exact_noncentral_scatter
+epsabs: 1.0e-10
+epsrel: 1.0e-9
+limit: 600

@@ -63,3 +63,6 @@ only for the flat push; `[one pair]` marks results that need one noise pair.
 | [T55](T55.md) | Joint profile sensitivity, sandwich covariance and scalar-inflation limits | T49, T51, T54; specified repeated-block regime and centered-Gaussian benchmark | yes |
 | [T56](T56.md) | A conditional score law can have a globally inconsistent median | T45, T50, T54, T55; explicit exponential-score proposal and correlated Gaussian witness | yes |
 | [T57](T57.md) | A vanishing profile anchor identifies a score law without changing its local width | T54–T56; additional oscillation-anchor family and stated repeated-block regime | yes |
+| [T58](T58.md) | Fixed power anchors can lose coverage on identifying weak histories | T42, T43, T53, T57; fixed Gaussian weakening history and normalized-law proof | yes |
+| [T59](T59.md) | Spectral half-power anchoring on all identifying scalar Gaussian histories | T43, T56, T58; common covariance, stated spectral power class and fixed regular prior | yes |
+| [T60](T60.md) | Frame-safe joint trace anchoring on arbitrary identifying Gaussian histories | T54, T55, T59; common physical covariance, full shared-acceleration protocol and regular joint prior | yes |

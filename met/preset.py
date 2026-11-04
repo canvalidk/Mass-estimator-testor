@@ -76,6 +76,9 @@ def expand(world):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("kind") == "weak_anchor_sanity":
+        from .weak_anchor_study import validate as validate_weak_anchor
+        return validate_weak_anchor(data)
     if isinstance(data, dict) and data.get("kind") == "score_law_sanity":
         from .score_law_study import validate as validate_score_law
         return validate_score_law(data)

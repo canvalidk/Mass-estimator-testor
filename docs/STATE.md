@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-04, full score-law continuation by Codex (T56: a global false-root obstruction; T57: a conditional anchored compatibility family). Update this page in
+**Last updated:** 2026-11-04, anchor-rate and joint-history continuation by Codex (T58–T60: weak-history obstruction, conditional rate restriction and frame-safe joint Gaussian construction). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -126,6 +126,21 @@ stated regular repeated-block Gaussian regime. Full-domain scalar seeded checks
 confirm the counterexample and the anchored comparison. The anchoring
 class, exponent and state permission remain unforced; no study score
 adopts a new equation or supplies a uniqueness proof.
+
+T58 narrows that compatibility claim: each fixed oscillation-power
+exponent admits an identifying weak Gaussian history with vanishing
+interval coverage, despite a consistent point. T59 derives the two
+anchor-rate bounds and a scalar spectral scale that satisfies both on
+every identifying common-covariance Gaussian history. The half exponent
+is pinned only within that power class; a simpler scalar reference was
+already available in T43. T60 extends the construction to the joint
+common-acceleration protocol and arbitrary fixed signal histories meeting
+the stated growth condition in common physical Gaussian geometry. It uses total whitened energy to
+preserve independent event-frame invariance and exact conditional score
+covariance to handle arbitrary leverage. Full-law composite intervals
+have proved nominal limits in that model. Finite constants, broader
+class/state choices, heterogeneous geometry and other noise models remain
+open; neither a uniquely forced equation nor a production update is claimed.
 
 Ours30 remains the working equation. It fails consistency at repeated fixed
 signal because of its sign-dependent weight (G22). Ours32 removes that
@@ -544,6 +559,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-04 (anchor rates and joint histories, Codex): T58 proves that T57's fixed profile-oscillation powers can remain consistent yet lose central-interval coverage on weak identifying fixed Gaussian histories. T59 identifies the half-power rate within the stated spectral-power class, retaining a free prefactor and the earlier T43 scalar Gaussian baseline. T60 extends the complete anchored joint law to fixed signal histories meeting its growth condition under common Gaussian geometry, without repeated signals or a maximum-leverage restriction; its observed trace respects independent event frames. These are conditional constructions, not a unique finite law or production adoption. The exact sufficient-scatter study (seed 5859, 32 worlds per case/count) confirms the scalar weak-history width failure and corrected comparison; its Monte Carlo results are descriptive. Added stable eigenbasis evaluation, replayable scatter output and a finite joint reference; extreme-contrast normalization preserves supplied prior weights. All 211 relevant checks passed, including 22 new checks. Independent mathematical, numerical and scope reviews passed; audit findings unchanged (T6/T21/T27, unused L24), diff checks clean. Full suite not rerun for isolated research/study additions.
 
 - 2026-11-04 (full score-law continuation, Codex): T56 proves the direct conditional-score law can assign 75.36% limiting mass to a false positive root and move its median there under an unchanged half-Cauchy prior; the exact test remains valid. T57 constructs a complete proper, invariant, whole-zero-neutral anchored family with global concentration and Godambe local shape in the stated regular Gaussian repeated-block regime. The full positive scalar study (seed 56157, 32 worlds per count) retains both roots: at N=10000 direct-score median of medians is 0.26411 versus truth 1.2; anchored comparison is 1.19717. No family/exponent or L19 state permission adopted by that result. All 149 relevant checks passed, including 22 new checks; independent mathematical, numerical and authority reviews found no remaining blockers. Duplicate-count replay validation fixed; independent N=10^6 integration agrees through about 13 digits. Audit findings unchanged (T6/T21/T27, unused L24); diff checks clean. Full suite not rerun for isolated research/study additions.
 

@@ -3,7 +3,9 @@
 Full positive-mass quadrature uses m=c*tan(theta), theta in (0,pi/2).
 Observed scatter eigenlines locate integration breakpoints, never select a
 branch or remove a peak. Error estimates are numerical, not certificates.
-The anchor exponent is an explicit research choice, not a production rule.
+Anchor schedules, their constants and any weight override are explicit
+research choices, not production rules. The historical profile-oscillation
+schedule remains the constructor default so recorded comparisons reproduce.
 """
 import math
 
@@ -13,7 +15,16 @@ from scipy import integrate, optimize
 
 class ScalarScoreQuadrature:
     def __init__(self, scatter, covariance, *, prior_center, anchor_exponent,
-                 epsabs, epsrel, limit):
+                 epsabs, epsrel, limit, anchor_schedule="profile_oscillation",
+                 anchor_weight_override=None):
+        """Full-positive scalar law reference under a supplied half-Cauchy.
+
+        The profile schedule uses the explicit anchor_exponent. The spectral
+        comparison uses (1+largest whitened scatter eigenvalue)^(-1/2), with
+        prefactor one as an unforced named research choice. A construction-time
+        override is separately recorded and leaves cache keys unambiguous.
+        No count, true signal, prior patch or branch selection enters.
+        """
         scatter, covariance = np.asarray(scatter, dtype=float), np.asarray(covariance, dtype=float)
         if (scatter.shape != (2, 2) or covariance.shape != (2, 2)
                 or np.any(~np.isfinite(scatter)) or np.any(~np.isfinite(covariance))
@@ -23,8 +34,16 @@ class ScalarScoreQuadrature:
         self.center, self.alpha = float(prior_center), float(anchor_exponent)
         if not math.isfinite(self.center) or self.center <= 0 or not 0 < self.alpha < 1:
             raise ValueError("positive finite prior center and anchor exponent in (0,1) required")
-        if epsabs <= 0 or epsrel <= 0 or type(limit) is not int or limit < 1:
+        epsabs, epsrel = float(epsabs), float(epsrel)
+        if (not math.isfinite(epsabs) or not math.isfinite(epsrel)
+                or epsabs <= 0 or epsrel <= 0 or type(limit) is not int or limit < 1):
             raise ValueError("positive quadrature controls required")
+        if anchor_schedule not in ("profile_oscillation", "spectral"):
+            raise ValueError("anchor_schedule must be profile_oscillation or spectral")
+        if anchor_weight_override is not None:
+            anchor_weight_override = float(anchor_weight_override)
+            if not math.isfinite(anchor_weight_override) or anchor_weight_override < 0:
+                raise ValueError("an explicit anchor weight must be finite and nonnegative")
         chol = np.linalg.cholesky(covariance)
         self.whitening = np.linalg.solve(chol, np.eye(2))
         self.scatter = self.whitening@scatter@self.whitening.T
@@ -33,7 +52,14 @@ class ScalarScoreQuadrature:
         if eigenvalues[0] <= 0:
             raise ValueError("this continuous reference requires positive definite scatter")
         gap = eigenvalues[1]-eigenvalues[0]
+        eigenvalues.setflags(write=False)
+        eigenvectors.setflags(write=False)
+        self.eigenvalues = self.scatter_eigenvalues = eigenvalues
+        self._eigenvectors = eigenvectors
+        self.smallest_eigenvalue, self.largest_eigenvalue = map(float, eigenvalues)
+        self.gap = float(gap)
         candidates = [0., math.pi/2]
+        low_squares = [self._coordinates(theta)[0]**2 for theta in candidates]
         roots = []
         for j in range(2):
             physical = chol@eigenvectors[:, j]
@@ -41,10 +67,27 @@ class ScalarScoreQuadrature:
                 theta = math.atan((physical[0]/physical[1])/self.center)
                 candidates.append(theta)
                 roots.append((theta, eigenvalues[j]))
-        extrema = [self.components(t)[0] for t in candidates]
-        self.maximum = max(extrema)
-        self.oscillation = max(0., (max(extrema)-min(extrema))/2)
-        self.anchor_weight = (1+self.oscillation)**(-self.alpha)
+                # At a recognized eigenline this coordinate is known exactly;
+                # avoid a tiny rotation error in the profile baseline.
+                low_squares.append(1. if j == 0 else 0.)
+        self.minimum_low_squared = min(low_squares)
+        self.maximum_low_squared = max(low_squares)
+        self.maximum = self.largest_eigenvalue-gap*self.minimum_low_squared
+        self.oscillation = max(0., gap*(self.maximum_low_squared-self.minimum_low_squared)/2)
+        self.anchor_schedule = anchor_schedule
+        self.profile_anchor_weight = (1+self.oscillation)**(-self.alpha)
+        self.spectral_anchor_weight = math.exp(-.5*math.log1p(self.largest_eigenvalue))
+        self.derived_anchor_weight = (self.profile_anchor_weight
+            if anchor_schedule == "profile_oscillation" else self.spectral_anchor_weight)
+        self.anchor_weight_override = anchor_weight_override
+        self.anchor_weight = (self.derived_anchor_weight if anchor_weight_override is None
+                              else anchor_weight_override)
+        self.anchor_state = dict(schedule=self.anchor_schedule, profile_exponent=self.alpha,
+            eigenvalues=[self.smallest_eigenvalue, self.largest_eigenvalue], gap=self.gap,
+            profile_oscillation=self.oscillation, profile_anchor_weight=self.profile_anchor_weight,
+            spectral_anchor_weight=self.spectral_anchor_weight, spectral_prefactor=1.,
+            derived_anchor_weight=self.derived_anchor_weight,
+            anchor_weight_override=self.anchor_weight_override, effective_anchor_weight=self.anchor_weight)
         points = []
         for theta, value in roots:
             vector = self.whitening@np.array([self.center*math.sin(theta), math.cos(theta)])
@@ -56,17 +99,26 @@ class ScalarScoreQuadrature:
         self.roots = [self.center*math.tan(t) for t, _ in roots]
         self._totals = {}
 
-    def components(self, theta):
+    def _coordinates(self, theta):
         vector = self.whitening@np.array([self.center*math.sin(theta), math.cos(theta)])
-        norm = vector@vector
-        transverse = np.array([-vector[1], vector[0]])
-        projected = (vector@self.scatter@vector)/norm
-        cross = (transverse@self.scatter@vector)/norm
-        return float(projected), float(cross*cross/projected)
+        coefficients = self._eigenvectors.T@vector
+        length = math.hypot(float(coefficients[0]), float(coefficients[1]))
+        return float(coefficients[0]/length), float(coefficients[1]/length)
+
+    def components(self, theta):
+        low, high = self._coordinates(theta)
+        projected = self.smallest_eigenvalue+self.gap*high*high
+        standardized_cross = self.gap*low*high/math.sqrt(projected)
+        return float(projected), float(standardized_cross*standardized_cross)
+
+    def profile_log_factor(self, theta):
+        """Maximum-shifted profile without subtracting O(N) projections."""
+        low, _ = self._coordinates(theta)
+        return -.5*self.gap*max(0., low*low-self.minimum_low_squared)
 
     def kernel(self, theta, method):
         projection, statistic = self.components(theta)
-        profile = .5*(projection-self.maximum)
+        profile = self.profile_log_factor(theta)
         if method == "raw":
             exponent = profile
         elif method == "score":
