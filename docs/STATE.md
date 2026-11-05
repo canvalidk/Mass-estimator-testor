@@ -586,6 +586,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-05 (B15, Codex): T45 derives C33=sum[(nu+k)/(nu+k+2)]||RP'U||^2 under T48's specified residual model; the opt-in H/C study repairs the flat Gaussian leverage benchmark but still misses small-N signal fractions and keeps T39's pair at eta_C=0.0360. O14 records the 24-cell/three-leverage-size seeded study, cap rates and the fixed-signal conditioning limit. 27 new checks pass; defaults and the point unchanged. Final full suite: 2,621 passed, 28 skipped, 17 xfailed; audit findings unchanged. The standalone study replay reproduces every saved value exactly.
 - 2026-11-04 (Claude, on this branch): **ours33** (`met/ours33.py`, O18): the probe Codex's T47 and T48 add up to and did not
   build — T48's exponent (ν+k)/2 on ours32's residual, η applied as the normal-score warp of the raw law instead of a power,
   point = raw median. Passes L2, Z, all-zero, units, swap, T30 and both T39 breaks (`tests/test_ours33.py`, 18). Coverage

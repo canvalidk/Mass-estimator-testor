@@ -94,14 +94,18 @@ def _tail_quantiles(lm, lp, p):
     return math.exp(lo), math.exp(hi)
 
 
-def ours33(readings, c, nu_eff, *, calibrate=True, grid=None):
+def ours33(readings, c, nu_eff, *, calibrate=True, grid=None, eta_method="fitted"):
     """The ours33 probe on one series. Same arguments as ours32. calibrate=False gives eta = 1 (the raw
-    law; the quoted interval is then the raw interval).
+    law; the quoted interval is then the raw interval). eta_method="fitted" retains the original
+    H/J rule. eta_method="conditional" explicitly selects B15's study-only model variance H/C;
+    its fixed-candidate exactness is scoped in met.eta_conditional, not a sampling coverage claim.
 
     Returns a dict: point, median (the raw median), interval (95%, warped by eta), raw_interval (the raw
     law's 95%), eta, law (the raw law's weights on lm), lm, Q_plus, nu_eff."""
     if not c > 0:
         raise ValueError("the starting law's centre c must be positive")
+    if eta_method not in ("fitted", "conditional"):
+        raise ValueError("eta_method must be 'fitted' or 'conditional'")
     readings = list(readings)
     if np.ndim(nu_eff) == 0:
         nu_eff = [float(nu_eff)] * len(readings)
@@ -109,7 +113,11 @@ def ours33(readings, c, nu_eff, *, calibrate=True, grid=None):
     if len(nu_eff) != len(readings) or not all(x > 0 and math.isfinite(x) for x in nu_eff):
         raise ValueError("nu_eff: one positive finite value per reading")
     states = _per_reading(readings, c, nu_eff)
-    eta = bartlett_eta(states, c, terms=_l_terms)[0] if calibrate else 1.0
+    if calibrate and eta_method == "conditional":
+        from met.eta_conditional import eta_c
+        eta = eta_c(readings, c, nu_eff, factors="ours33")[0]
+    else:
+        eta = bartlett_eta(states, c, terms=_l_terms)[0] if calibrate else 1.0
 
     def log_law(lm):
         if not states:
