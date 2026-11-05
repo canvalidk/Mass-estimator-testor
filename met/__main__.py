@@ -87,7 +87,8 @@ def main(argv=None):
             elif spec.get("kind") == "robot_budget":
                 print(f"ok: {len(spec['cells'])} robot-budget calibration case(s); serial")
             elif spec.get("kind") == "composition_coverage":
-                print(f"ok: {len(spec['cells'])} composition-coverage signal-size cell(s); ours29, workers supported")
+                label = "case(s)" if spec['raw'].get('protocol') == 'b18' else "signal-size cell(s)"
+                print(f"ok: {len(spec['cells'])} composition-coverage {label}; {spec['raw']['equation']}, workers supported")
             elif spec.get("kind") == "eta_effective":
                 print(f"ok: {len(spec['cells'])} effective-reading research cell(s); serial")
             elif spec.get("kind") == "readout_candidates":

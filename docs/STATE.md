@@ -586,6 +586,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-05 (B18, Codex): extended the locked composition kind via explicit later-probe protocol; 400-replicate historical and q=c/4c worlds under ours30/32/33 show weak centred-sum undercoverage and an ours33 warp-order gap (87.75% pre versus 91.75% post-min), despite high overlap. O2 records all procedures, masses, MC errors and numerical scope; no warp order, eta combination, dependence model or equation adopted. 38 new checks pass. Full suite: 2,632 passed, 28 skipped, 17 xfailed; explicit 400-replicate ours29 reproduction passed; audit findings unchanged.
 - 2026-11-04 (Claude, on this branch): **ours33** (`met/ours33.py`, O18): the probe Codex's T47 and T48 add up to and did not
   build — T48's exponent (ν+k)/2 on ours32's residual, η applied as the normal-score warp of the raw law instead of a power,
   point = raw median. Passes L2, Z, all-zero, units, swap, T30 and both T39 breaks (`tests/test_ours33.py`, 18). Coverage

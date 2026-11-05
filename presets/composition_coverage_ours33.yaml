@@ -1,0 +1,26 @@
+kind: composition_coverage
+protocol: b18
+name: composition-coverage-ours33
+question: >-
+  Under ours33, do independently propagated parts and a new composite
+  measurement cover the same truth in the historical and centred worlds?
+notes: >-
+  B18 independent-measurement benchmark; no new dependence or joint prior.
+  Historical masses remain 1 and 2. The c and 4c cases put the direct
+  composite truth at that multiple of c separately for L5 and L14.
+  Ours33 reports warp-parts and post-warp min/geometric eta sensitivity
+  procedures. No order or eta combination is adopted.
+seed: 2810
+replicates: 400
+sizes: [2.0, 0.4, 0.1]
+truth_cases: [historical, c, 4c]
+m1: 1.0
+m2: 2.0
+sigma_f: 0.2
+sigma_a: 0.1
+c: 2.0
+n_readings: 4
+draws: 20000
+dimension: 3
+equation: ours33
+nu_eff: 10.0
