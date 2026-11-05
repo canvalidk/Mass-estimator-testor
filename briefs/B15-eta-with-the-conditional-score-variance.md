@@ -1,6 +1,6 @@
 # B15: η with the exact conditional score variance in place of the fitted J
 
-**Status:** open.
+**Status:** merged 2026-11-07, as delivered (not checked by Claude): T45 gives the working-model conditional score variance; η_C (opt-in in ours33, default unchanged) improves the flat leverage benchmark but misses the small-N target Δ/(Δ+M), and on T39's pair η_C = 0.036, not 1; G3 and G26 stay open
 **Item:** `problems/O14.md` (4 Nov: η's target), `problems/O18.md` (4 Nov: ours33, hole 1); holes G3, G26; theorems T31, T43, T45.
 **Branch:** `codex/b15`, **from the head of `codex/ours32-consistency`** (it needs `met/ours33.py` and `met/conditional_score.py`, which are not on `main` yet; recorded exception to the branch-from-main rule).
 **Written:** 2026-11-04, Claude.
