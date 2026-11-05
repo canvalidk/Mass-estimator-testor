@@ -338,6 +338,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-05 (B19, Codex): O19 now compares functional EIV/TLS consistency conditions with T41–T53 and T61: the verified Gaussian one-slope rate is Delta_N/sqrt(N) -> infinity; dropping the multivariate eigenvalue-ratio condition does not weaken that scalar rate. Primary-source versions/pages and unverified originals are marked; no premise, input or estimator changed.
 - 2026-11-04 (Claude, evening): two boards. Briefs stay on `briefs/README.md` (branches `codex/<brief id>`, merged); exploration
   directions go on `explore/README.md` (branches `explore/<id>-<slug>`, never merged, each with a `SUMMARY.md`; E1–E4). B20 struck as moot.
 - 2026-11-04 (Claude, on `codex/ours32-consistency`; harvested to main 7 Nov): **ours33** (`met/ours33.py`, O18): the probe Codex's T47 and T48 add up to and did not

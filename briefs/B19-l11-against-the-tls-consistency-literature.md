@@ -1,6 +1,6 @@
 # B19: L11's growth condition against the errors-in-variables consistency literature
 
-**Status:** open.
+**Status:** merged 2026-11-07, as delivered (not checked by Claude): the literature's scalar rate is Δ_N/√N → ∞ (Gallo, Kukush–Van Huffel, Shklyar), equal to T42's and T53's threshold; T41's Δ_N ~ log N fails it; L11 unchanged (a rule, G25)
 **Item:** `problems/O19.md`; L11 in `definition/premises.md`; G25; theorems T41, T42, T52, T53.
 **Branch:** `codex/b19`, from the head of `codex/ours32-consistency` (O19 and T41–T53 live there).
 **Written:** 2026-11-04, Claude.
