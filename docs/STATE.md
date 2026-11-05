@@ -586,6 +586,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-05 (E5, Codex): B17 exploration in T48/O18 finds a positive tilt preserving covariance and mean precision, and proper diffuse models preserving the unconditional noise marginal with different evidence limits. Calibration conditional on every true signal supplies a separation route in coherent diffuse approximations; the evidence bridge remains open. Branch explore/e5-latent-scale, summary SUMMARY.md.
+
 - 2026-11-04 (B17, Codex): T48/O18 refute the proposed T36 forcing of the latent scale measure: b=-1 also gives a normalized residual density; fixed-v normalization would force b=0 but is an additional requirement. G19 remains a sort/rule hole; stopped per brief, no exponent or premise changed. Counterexample tests: `tests/test_latent_measure_exponent.py` (20). Full suite: 2,614 passed, 28 skipped, 17 xfailed; audit findings unchanged.
 - 2026-11-04 (Claude, on this branch): **ours33** (`met/ours33.py`, O18): the probe Codex's T47 and T48 add up to and did not
   build — T48's exponent (ν+k)/2 on ours32's residual, η applied as the normal-score warp of the raw law instead of a power,
