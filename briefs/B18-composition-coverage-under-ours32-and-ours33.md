@@ -1,6 +1,6 @@
 # B18: composition at the level of the law under ours32 and ours33
 
-**Status:** open.
+**Status:** merged 2026-11-07, as delivered (not checked by Claude): presets for ours30/32/33, 400 replicates, truth at c and 4c: weak centred sums under-cover on every probe; under ours33 the warp's order matters (composite coverage 87.75% warp-before against 91.75% after), as T51 predicts; no order or dependence model adopted
 **Item:** `problems/O2.md` (R-2026-10-28-1, clause (c)); L5, L14; `presets/composition_coverage.yaml` (locked to ours29, B03); T51; `problems/O18.md` (4 Nov, hole 4).
 **Branch:** `codex/b18`, from the head of `codex/ours32-consistency` (needs `met/ours32.py`, `met/ours33.py`).
 **Written:** 2026-11-04, Claude.

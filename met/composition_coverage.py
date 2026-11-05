@@ -73,6 +73,9 @@ def _one(args):
 
 
 def validate(data):
+    if isinstance(data, dict) and data.get("protocol") == "b18":
+        from .composition_probe import validate as validate_probe
+        return validate_probe(data)
     required = {"kind", "name", "question", "replicates", "seed", "sizes", *FIXED}
     if not isinstance(data, dict) or required - data.keys():
         raise ValueError(f"composition_coverage needs {sorted(required)}")
@@ -160,6 +163,9 @@ def run(path, out_root="results", replicates=None, progress=print, workers=None)
     path = Path(path)
     source = path.read_bytes()
     spec = validate(yaml.safe_load(source))
+    if spec["raw"].get("protocol") == "b18":
+        from .composition_probe import run as run_probe
+        return run_probe(path, out_root, replicates=replicates, progress=progress, workers=workers)
     raw = deepcopy(spec["raw"])
     if replicates is not None:
         if type(replicates) is not int or replicates < 2:
