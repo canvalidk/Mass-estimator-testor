@@ -22,7 +22,7 @@ import math
 
 import numpy as np
 
-from met.full import _best_line, _h_terms, _log_prior, _quantiles
+from met.full import geometric_mean, _best_line, _h_terms, _log_prior, _quantiles
 from met.ours31 import COARSE_HALF, COARSE_NODES, FINE_NODES, SUPPORT_NATS, _per_reading
 
 
@@ -98,5 +98,5 @@ def ours32(readings, c, nu_eff, *, calibrate=True, grid=None):
         lm = np.linspace(coarse[keep[0]] - 2 * step, coarse[keep[-1]] + 2 * step, FINE_NODES)
     lp = log_law(lm)
     (lo, med, hi), p = _quantiles(lm, lp, [0.025, 0.5, 0.975])
-    return dict(point=float(med), median=float(med), interval=(float(lo), float(hi)), eta=eta,
+    return dict(point=float(med), median=float(med), geometric_mean=geometric_mean(lm, p), interval=(float(lo), float(hi)), eta=eta,
                 law=p, lm=lm, Q_plus=[s[2]["Q_plus"] for s in states], nu_eff=nu_eff)

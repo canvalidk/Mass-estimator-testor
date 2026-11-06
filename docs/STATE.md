@@ -338,6 +338,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-06 (Claude, evening): every equation's result dict now carries `geometric_mean` (exp E[ln m]) beside `median`; `point` unchanged.
+  G6's fork measured (`tools/readout_gap.py`): the two centres differ by 5–9% on typical weak-signal series, 0.3% at signal 5.
 - 2026-11-06 (Claude, later): **G6 sorted, provisionally** (O2): L23 is Stevens' ordinal-scale invariance, but mass's commitments (L1, L5, order)
   make it a ratio scale, so as a forcing argument L23 is mis-stated. Units and the swap leave the reflection-equivariant location functionals of ln m;
   L2 with O6 open removes the moment-based ones; the robust ones remain. G6 is now a sort, not a rule. Citations added to T5 (Horn, Umeyama) and T36 (TLS).
