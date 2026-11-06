@@ -29,9 +29,10 @@ in its problem file and does not come here. Can may add, reorder or strike any b
 | [B17](B17-what-fixes-t48s-latent-measure.md) | T48, T36, G19 | What singles out T48's latent measure (b = 0, exponent (ν+k)/2): T36 and L13, an input, or nothing | open |
 | [B18](B18-composition-coverage-under-ours32-and-ours33.md) | O2, L5, L14 | Composition at the level of the law under ours30, ours32, ours33 (clause (c) as coverage), truth at c and 4c; warp before or after the pushforward | open |
 | [B19](B19-l11-against-the-tls-consistency-literature.md) | O19, L11, G25 | L11's growth condition translated from Gleser, Gallo, Kukush–Van Huffel and Shklyar; which is T42/T53's threshold | open |
+| [B21](B21-maximal-invariant-likelihood.md) | O15, G3, O14 | Moreira's maximal invariant likelihood: the groups (per reading, and $O(Nk)$ across readings on one instrument), the noncentral-Wishart law of mass, its tempering against η's target, checked against the premises | open |
 
 Order is priority. Since 29 Oct briefs are cut from the holes table in `../definition/proof.md` §5 (the *derive* rows); a brief names its hole. Exploration directions, which are not briefs and are never merged, are on `../explore/README.md`. Several can run at once: each branches from `main` and writes to
-different files, except the one log line each adds to `docs/STATE.md`. **Exception, 4 Nov:** B15–B20 branch from the head of `codex/ours32-consistency`, because the code and theorems they need (ours33, T45, T48, O19) are on that branch and not yet merged; each still gets its own `codex/<id>` branch.
+different files, except the one log line each adds to `docs/STATE.md`. **Exception, 4 Nov:** B15–B20 branch from the head of `codex/ours32-consistency`, because the code and theorems they need (ours33, T45, T48, O19) are on that branch and not yet merged; each still gets its own `codex/<id>` branch. B21 (6 Nov) branches from `main` again.
 
 ## For the agent running a brief
 

@@ -338,6 +338,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-06 (Claude): **brief B21 queued** (O15, G3). Moreira's (2009) maximal invariant likelihood is the one standard incidental-parameter
+  cure not in O15's table and the only one acting across readings: on one instrument, $O(Nk)$ on the stacked rows collapses the $Nk$ latent
+  pushes to one total $\Delta$ (noncentral Wishart, LIML/TLS point). Question for the brief: does its tempering reach η's target $\Delta/(\Delta+M)$?
 - 2026-11-04 (Claude, evening): two boards. Briefs stay on `briefs/README.md` (branches `codex/<brief id>`, merged); exploration
   directions go on `explore/README.md` (branches `explore/<id>-<slug>`, never merged, each with a `SUMMARY.md`; E1–E4). B20 struck as moot.
 - 2026-11-04 (Claude, later): **η's target, and what ours28 was doing** (O14; Can's standing hypothesis that the correct
