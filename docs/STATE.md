@@ -338,6 +338,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-06 (Claude, later): **G6 sorted, provisionally** (O2): L23 is Stevens' ordinal-scale invariance, but mass's commitments (L1, L5, order)
+  make it a ratio scale, so as a forcing argument L23 is mis-stated. Units and the swap leave the reflection-equivariant location functionals of ln m;
+  L2 with O6 open removes the moment-based ones; the robust ones remain. G6 is now a sort, not a rule. Citations added to T5 (Horn, Umeyama) and T36 (TLS).
 - 2026-11-06 (Claude): **brief B21 queued** (O15, G3). Moreira's (2009) maximal invariant likelihood is the one standard incidental-parameter
   cure not in O15's table and the only one acting across readings: on one instrument, $O(Nk)$ on the stacked rows collapses the $Nk$ latent
   pushes to one total $\Delta$ (noncentral Wishart, LIML/TLS point). Question for the brief: does its tempering reach η's target $\Delta/(\Delta+M)$?
