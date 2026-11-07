@@ -5,7 +5,7 @@
 non-scalar inertia would explain); the phase-two sort (T70, "Phase-two sort").
 **Branch:** `codex/b23`, from `origin/main`.
 **Written:** 2026-11-07, Claude, from a conversation with Can (misalignment as imaginarity).
-**Size (intake, 7 Nov):** merged as delivered: `definition/theorems/T71.md` under about 150 lines, one test file,
+**Size (R-2026-11-07-2, merged as delivered):** `definition/theorems/T71.md` under about 150 lines, one test file,
 one paragraph in `problems/O17.md`, one STATE log line.
 
 Read T70, L16 and L22 in `definition/premises.md`, T36 (2), and O17's "three metrics".

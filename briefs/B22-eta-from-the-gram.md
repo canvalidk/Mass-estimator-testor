@@ -4,7 +4,7 @@
 **Item:** G3 (η's finite-$N$ form); `problems/O14.md` (7 Nov: η from the series' real density matrix); T70 (7).
 **Branch:** `codex/b22`, from `origin/main`.
 **Written:** 2026-11-07, Claude, from a conversation with Can (misalignment as imaginarity; T70).
-**Size (intake, 7 Nov):** merged as delivered, so keep to what is asked: one option in `met/full.py`, one test
+**Size (R-2026-11-07-2, merged as delivered):** keep to what is asked: one option in `met/full.py`, one test
 file, one script, one section in `problems/O14.md` under about 80 lines, one STATE log line.
 
 Read T70, O14's 4 Nov and 7 Nov sections, `met.full.gram_eta`, `met.full.bartlett_eta`, and T30, L11, L20 (Z) in
