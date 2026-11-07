@@ -6,6 +6,18 @@ to the equation, with every step marked. Started 2026-10-29 by Claude on Can's "
 It is a draft with holes, on purpose: the holes (§5) are the queue. Edit in place; git holds
 the history.
 
+**3 Nov, information obstruction (Codex).** T41 proves that no measurable estimator
+satisfies literal L11 over the unrestricted reading type: its universal promise
+on divergent-energy histories would imply consistent discrimination of two
+proof mixtures that remain insufficiently separated. The current full premise
+list therefore has no model under those quantifiers. L11 is strong; its full-type information-growth condition
+is unsorted (G25, O19). T42 characterizes the flat Gaussian Bartlett procedure's
+attainable scope; T53 gives the matching estimator-independent threshold
+for a specified uniform Gaussian energy class. T52 rules out even divergent
+oracle-information sums as a universal unknown-allocation guarantee.
+The conditional chain below cannot establish existence
+or uniqueness until this conflict is sorted. No premise or ruling is replaced.
+
 **Statuses.** Each step carries one:
 
 - **ruled**: Can's decision; the ruling ID is in `../rulings.md`.
@@ -25,7 +37,8 @@ with $\mathbf y_i,\Sigma_i,N_i$, structure, window; a declared $\pi$) to an outp
 $m>0$ and a point). Claim: the premises in `premises.md`, with the rulings, select one member
 of $\mathcal F$, and it is ours30. Two halves:
 
-- **(A) ours30 satisfies the premises.** Mostly done, by tests (§3).
+- **(A) ours30 satisfies the premises.** Fails as currently stated (§3, G22).
+  T41 additionally proves literal unrestricted L11 unattainable by any estimator.
 - **(B) nothing else does.** The uniqueness half. §2 is the chain that would prove it; §4 says
   how much of it is proved today.
 
@@ -382,6 +395,189 @@ function of the Gram eigenvalues alone (ours29's) is not. So T30 with R-2026-09-
 stated, cannot all hold for a power-form weight: steps 8–10 are open on this ground too, independently
 of G18. The statement above holds only with L11 read as fixed-$N$ amplitude consistency (T23).
 
+**3 Nov (Codex): ours32 repairs this population bias, with a different L11 limit.**
+T39 shows that its $Q_+$ is a mass-independent normalizing constant: its criterion
+is $-\sum_i(\nu_i+k_i-1)\log(\nu_i+K_i(m))/2$. Under correctly whitened Gaussian
+scalar-scale-mixture noise its population optimum is the true mass. With iid
+fixed nonzero signal and finite-mean noise scales the continuous ours32 law and
+median concentrate there as $N\to\infty$. However, one allowed 1D reading at
+$\nu=1/2$ has limiting median $1.8219669\ldots$ when the true mass is 2 and its
+amplitude tends to infinity ($c=s=1$). This is a separate tail-integrability
+failure of literal L11, not G22's directional weighting. No input restriction
+or new equation is adopted. → G23; O18; T39.
+
+The stronger T39 example uses two 1D readings at ordinary ν = 10 with fixed
+opposite perpendicular errors of size 3. Their true line remains the global
+mode, but $\eta_R\to1/90$ makes the combined tail index $2/9<1$ and the median
+tends to $1.3107868\ldots$ instead of 2. Without η the same law concentrates.
+The failure persists on a positive-probability Gaussian error set. Thus the
+finite-N global power with the current median conflicts with L11 on the cut factors; a lower
+bound on the declared ν alone cannot fix it. The repeated-signal asymptotic
+Bartlett argument remains valid in its named regime.
+
+**3 Nov, continuation (Codex): conditional repairs exist, with unforced global structure.**
+T40 studies corrections $\exp[-F_{\eta,a}(D(m))]$ of the total deviance
+$D=\widehat L-L$. Two different semigroups have the same local slope η and
+raw far-deviance rate, and conditionally preserve the concentrating raw law
+on T39's ν = 10 family. A fixed nonlinear map does not thereby have the
+correct Gaussian local limit: local deviance is O(1), not infinitesimal.
+Letting an additional scale a grow with repeated readings, while it stays
+bounded on fixed-N amplification, conditionally supplies both limits and
+preserves a bounded-null-tilt reference under stated null scalings.
+
+These are compatibility witnesses, not the next adopted equation. Their
+family, scale and observational state are not selected. Continuous Z-safe
+scales can be computed from individual factor oscillations without a latent
+size law; L19's permission for this aggregate is still unsorted. Full
+Gaussian calibration is a benchmark studied here, not a new ruling about
+property N; η's cap can make its reference limit conservative. → G24.
+
+**3 Nov, continuation (Codex): the unrestricted consistency target is itself impossible.**
+T41 uses correct independent Gaussian errors and allowed deterministic signals
+of length $b/\sqrt i$. Their quadratic energy diverges, but their quartic
+energy is finite. Two sign-mixture sampling laws remain mutually contiguous;
+universal consistency for every fixed sign stream would imply consistency
+under both mixtures, a contradiction. L16's independent sign-convention
+invariance strengthens the example to the all-positive amplitude schedule.
+The proof applies to every estimator, independently of the law and readout.
+
+This identifies the false implication in literal L11: unbounded total push
+need not mean unbounded distinguishing information about mass. T17/T39/T40's
+named regimes remain valid, as do G22/G23's separate failures there. G24
+cannot repair this universal obstruction. A sufficient Gaussian scatter
+condition illustrates attainable growth without selecting a new premise,
+gate or input. Because L11 is strong, this is evidence against consistency
+of the current premise list, under GOAL's guard. → G25, O19.
+
+**3 Nov, further continuation (Codex): a sharp attainable Gaussian regime.**
+T42 proves that the flat Gaussian factors with their actual Bartlett cap and
+fallback have law concentration and median consistency precisely when
+$\Delta_N^2/(N+\Delta_N)\to\infty$ as N grows, with a fixed regular prior,
+common noise ratio, independent Gaussian errors and arbitrary deterministic
+signal amplitudes/signs. No iid signal or leverage condition is needed for
+this consistency result. The converse gives a finite random-precision law
+and a wrong-angle event of positive probability; it proves median failure
+as well as failure of law concentration.
+
+The observable capped angular precision is $\eta\mathcal H$, not
+$\mathcal H^2/J$ alone. It can diverge even while η vanishes. A scaled-deviance
+comparison extends T40 to $a_N\eta_N\to\infty$; the stated oscillation scales
+make both research families TV-equivalent to the Gaussian Bartlett law for
+arbitrary deterministic arrays as N grows. Their global choice and L19
+permission remain G24. The theorem characterizes this procedure rather than
+selecting the full-type replacement for L11 (G25); T39's finite-ν amplitude
+failures remain. No gate, physical input, production equation or ruling changed.
+
+**3 Nov, calibration and cut continuation (Codex).** T43 separates a universal
+Gaussian fitted-point limit from fitted-J variance estimation. A sequence
+with one squared signal amplitude $4N$ and N − 1 null signals meets T42's
+growth condition, yet its quoted 95% interval covers only 0.9272811852 in
+the limit. A Z-safe observed-spectrum control reaches nominal Gaussian
+asymptotic coverage without a count input. Its finite-N body remains
+unforced. G26 records the leverage condition missing from a universal
+fitted-J argument, rather than treating the problem as finite-N only (G3).
+
+T44 separates factor averaging from a frozen-noise modular cut. Averaging
+factors and then normalizing weights the noise law by its component mass
+normalizer; preserving the specified noise marginal instead requires a
+mixture of normalized whole-series conditionals. That control fixes the
+single-reading ν < 1 amplitude failure, with a different temperature
+placement, but reintroduces the positive-misfit sign bias at repeated weak
+Gaussian signal. G19 therefore includes normalization order as well as
+power form. Neither the cut interpretation nor a new calibration is adopted.
+
+**3 Nov, conditional-score and positive-weight continuation (Codex).**
+T45 extends the archived directional score test to arbitrary declared
+Gaussian covariance and subspace. Conditioning on each reading's own
+candidate projection gives an exact common-mass score variance, without
+inferring a population of signals. Inversion is Z-safe and has exact
+pointwise coverage in every nonempty Gaussian experiment. Locally it gives
+T43's spectral width, but globally it can be disconnected or unbounded:
+this is a confidence set, not the required proper-law central interval.
+O15's model-specific corollary is also proved directly: at every fixed N,
+proper-law central intervals have infimum coverage zero over arbitrarily
+weak signals. That corner does not invalidate identifying-regime calibration.
+
+T46 shows that T44's weak-signal bias is generic for the stated fixed
+positive-misfit quadratic-weight class. Every nonconstant monotone w(Q+)
+has a positive Gaussian-null weighted crossmoment and an explicit nonzero
+identifying signal with the wrong population line. The corresponding
+normalized-cut mean-precision class has the same limit under its stated
+joint LLN. Changing only that monotone weight cannot repair the class;
+nonlinear residual factors such as ours32 remain outside the theorem.
+For the uniform angular prior, even a nonconcentrating nonnegative global
+temperature cannot repair the weighted-quadratic median in the explicit
+witness: it stays between the wrong fitted angle and the prior's centre.
+G19/G22 and the global-law selection in G26/G3 stay open. No equation,
+output, premise or ruling is replaced.
+
+**3 Nov, CDF/residual continuation (Codex).** T47 gives a probability
+recalibration alternative to a global likelihood power. A law-only operator
+natural under every increasing reparameterization, with a full Gaussian
+variance-inflation benchmark, is uniquely the normal-score CDF warp within
+that class. It preserves the raw median exactly, retains bounded-positive-eta
+concentration, and gives regular iid Gaussian calibration. Vanishing eta
+needs moving-tail control; ordinary BvM and diverging corrected curvature
+alone do not imply it. The operator-class reduction is not supplied by L23
+or L17 and remains unforced.
+
+T48 derives the Student residual exponent (nu+k)/2 from fully normalized
+Gaussian integration under a variance-independent declared-metric latent
+measure. It repairs the raw nu<1 single-reading amplification failure and
+the stated fixed-N regime. Bounded relative evidence also survives for a
+fixed incompatible reading with a positive residual floor. The same outer
+Bartlett power still cancels the prefactor change exactly on T39's pair.
+Using T47 instead provides a conditional proper-law construction compatible
+with these named regimes and regular iid Gaussian uncertainty. The measure,
+ambient conditioning and calibration class are still unsorted G19/G24;
+G26's full-type variance target and composition arguments remain open. No
+definition, input, output, premise or ruling is replaced.
+
+**4 Nov, operator/subspace continuation (Codex).** T49 derives canonical
+graph metric and volume with arbitrary fixed covariance and distinguishes
+the intrinsic scalar curve from its ambient matrix chart. The former gives
+a dimension-independent half-Cauchy under common uncorrelated noise; the
+correlated scalar construction changes shape while retaining median s.
+Different shrinking tubes around the Haar-null scalar curve give different
+limits. Physical frame covariance does not supply the full active symmetry
+that would select ambient Haar, and neither graph volume nor noisy score
+rank selects a latent-vector measure or an input prior.
+
+T50 connects the common-isotropic Gaussian profile to standard TLS/Bingham
+geometry and extends T45's scalar conditional score to a matrix tangent
+family. Its exact vector statistic uses observed covariance rank and
+respects zero padding. A scalar tangent recovers the scalar benchmark;
+using every operator tangent tests a different family. The comparison
+assumes full signal vectors in a common known frame and Gaussian world
+errors. It supplies an uncertainty benchmark, not a proper matrix law or
+a change of physical inertia. O6/G19/G26 remain open with these distinctions
+made explicit; no premise or production body is changed.
+
+**4 Nov, composition and consistency scope (Codex).** T51 proves that a
+universal law-only CDF warp commuting with independent addition or parallel
+sum must be the identity. This is a conditional result about an extra axiom,
+not a consequence attributed to L5/L14. Their provisional recorded scope is
+pushforward of a supplied joint law and coverage consistency of a new
+measurement. Correct univariate calibration leaves cross-body dependence
+unsettled. In the stronger centered-Gaussian benchmark, exact nominal
+coverage of both parts and their sum forces the cross-covariance; conservative
+coverage alone does not. O2/G27 records the already owed joint/protocol
+construction without importing universal convolution commutation.
+
+T52 strengthens the information obstruction using unknown fixed positive
+sparse supports, without sign invariance. Almost every support under one
+proof measure has infinitely many fixed-amplitude signals and divergent
+oracle information, yet the two mass mixtures retain a uniformly positive
+testing error. T53 supplies a positive counterpart: uniform point consistency
+over a fixed compact interior angle interval and arbitrary Gaussian
+exact-energy nuisance vectors is possible precisely when
+Delta_N^2/(N+Delta_N) diverges. This is now an estimator-independent sharp
+threshold for that class, rather than only T42's method-specific threshold.
+It does not characterize every individual fixed stream. O19 proposes
+separating fixed identifying noiseless limits from explicitly quantified
+long-series classes; the full-type statement remains unsorted. No premise,
+grade, type input, production equation or ruling is replaced.
+
 **What is no longer load-bearing.** Switching the point to the median (28 Oct) took these off
 the path from premises to ours30: T3, T4 (ratio of means), T9 (stacked size), T10 (the cloud
 readout), T11 (sufficiency through the stacked sums), T14, T15 (the readout at zero readings and
@@ -403,6 +599,10 @@ Each is one of: **write** (the argument exists, put it in the file: Claude), **d
 derivation with a named deliverable: a brief for Codex), **sort** (a fork to sort against the
 goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order is the chain's.
 
+Rows G23–G27, and the clauses of G8, G19 and G22 that cite T39–T53, were harvested 7 Nov from the exploration
+branch `codex/ours32-consistency` (Codex, 3–4 Nov): input, not checked by Claude. The branch's later rows and clauses
+(the joint, score-law and anchor line after T53) were left on it.
+
 | id | step | hole | type | where |
 | --- | --- | --- | --- | --- |
 | G10 | 1 | L22, scalar mass, as a clause of L1 | rule | O17 |
@@ -411,14 +611,19 @@ goal: Claude), **rule** (Can), **VD-Newton** (a rung to write there: Can). Order
 | G2 | 3 | T6's argument: **written 31 Oct (B07, merged)**. Its remainder: the coefficient ½ (excluding the improper $e^{+\tau\lVert v\rVert^2}$, $0<\tau<\tfrac12$) does not follow from L7, which calibrates a point (B07 found the brief mis-sorted); L10 states $e^{H/2}$ as a clause. **Claude, 31 Oct, provisional:** by T36's homogeneity the $\tau$-member is the flat factor under a declared $(1-2\tau)\Sigma$, so the coefficient is forced exactly when the factor may not alter the declared noise law (R1 with L24, candidate); it rides on G18, not a new fork | write done; the remainder attaches to G18 | T06 §3; L24 |
 | G17 | 3 | the 1D factor: "a reading declared $k=1$ is the 1D reading" needs stating as a premise or deriving from L8 and L18 | sort | T25, L8 |
 | G15 | 4, 5, 15, and the consistency theorems | 31 theorem files (19 by 4 Nov: B06 wrote T16–T19, T24, T25, with conditions T16, T17, T25's statements lacked; B07 T06; B08 T28; B10 T5, T12, T13, T22. Of the 19, nine are comparison-readout only (B09); **ten are on the path: T1, T2, T7, T8, T20, T26, T27, T30, T31, T33**, of which T30 and T31 are sorts, G13 and G3) with the proof "carried from the records": write them out in the chain's order, shortest first (T22, T24, T25, T12, T19, T17, T16, T18, T13) | write; the pure algebra ones can be briefs | theorems/ → briefs B06 (T16–T19, T24, T25), B10 (T5, T12, T13, T22) |
-| G8 | 6 | **Written 31 Oct (B08, merged):** L3, L4 and properness give exactly $\pi_c(m)=m^{-1}g(\ln(m/c))$ with $g\ge0$ even and normalized (density case), or $M=ce^X$ with $X$ symmetric (general laws, $\delta_c$ included); no member selected. **Claude, provisional:** L11 adds a support clause (standard: a consistent posterior needs prior mass near the truth), excluding $\delta_c$ and gapped $g$ | write (done) | O6, T28; `tests/test_starting_law_family.py` |
+| G8 | 6 | **Written 31 Oct (B08, merged):** L3, L4 and properness give the even log-mass family; no member selected. **Claude, provisional:** L11 adds a full-support clause. T49 gives the half-Cauchy as canonical scalar-graph curve volume in common uncorrelated noise and a correlated extension, but choosing that reference remains additional. Ambient Haar cannot be restricted to the scalar curve by density substitution; existing frame covariance does not select the larger active group | family derivation done; geometric reference conditional, no principal member selected | O6, T28, T49; `tests/test_starting_law_family.py`; `tests/test_graph_geometry.py` |
 | G9 | 6 | the centre: L3′'s first half, then $c=s$ | rule | O11 |
 | G13 | 7, 9 | why the weight is a power on $E_i$, and which premise makes bounded confidence a requirement | sort | T30, L21. **30 Oct, provisional:** the power is a noise scale read once (L21's cut, O14); bounded confidence derived from a noise size with a power-law tail (T37 (1)), which supersedes the morning's "from Σ as a floor" |
 | G18 | 9, 10 | R1 and its kin (the σ's believed) against O12's cap and κ's meaning (R-2026-09-30-10, R-2026-10-29-1) | sort (done, provisional: O12's meaning is the mis-stated one) → **open: stands until forced** (R-2026-11-01-1; not a ruling) | §4; O14; T37 |
-| G19 | 7 | L21's ruled power form, or the cut's exact factor (T37 (4)), as the body | **open: stands until forced** (R-2026-11-01-1; folds into G18: the cut factor exceeds the cap whenever $Q_+<k-1$, $k\ge2$, for any non-degenerate size law). **4 Nov, a candidate for what forces it (Claude, not a sort):** L11 with T30. The power form with a sign-blind $g(Q)$ fails T30 (ours29); with a sign-seeing $g(Q_+)$ it fails L11 (G22). The cut factor sees the sign through $H^+$ and $Q_+$ and still keeps the population optimum at the truth (2.00 ± 0.01 at signal 1–2, 1D/3D; `tests/test_weight_consistency.py`) | T37 |
+| G19 | 7 | L21's power form, T37's factor average, normalized whole-series cut (T44), or normalized Gaussian residual integration (T48), as the body. T44's frozen-marginal correction reintroduces T46's positive-misfit bias. T48's Student exponent depends on a specified latent volume and retained ambient residuals. T49 shows graph-hypothesis volume is a different measure and cannot select the latent noise-scale normalization. Relative normalization at fixed V, mixing V and temperature placement are not interchangeable | **open: stands until forced** (R-2026-11-01-1); cut, latent measure and retained data/model scope remain unforced; no adoption. **4 Nov, a candidate for what forces it (Claude, not a sort):** L11 with T30. The power form with a sign-blind $g(Q)$ fails T30 (ours29); with a sign-seeing $g(Q_+)$ it fails L11 (G22). The cut factor sees the sign through $H^+$ and $Q_+$ and still keeps the population optimum at the truth (2.00 ± 0.01 at signal 1–2, 1D/3D; `tests/test_weight_consistency.py`) | T37, T44, T46, T48, T49; O18; `tests/test_cut_normalization.py`; `tests/test_positive_weight_obstruction.py`; `tests/test_residual_mixture.py`; `tests/test_graph_geometry.py` |
 | G20 | 9 | T37's tail index α: an input, but TASK §5's guard asks that practice supply it. **Sorted 30 Oct, provisional (T37, G20 section):** α = ν_eff/2, the effective degrees of freedom of the stated uncertainty (GUM Annex G), on calibration certificates; the inverse-gamma shape forced by L13 applied to how σ was obtained. Practice normalises the precision ($E[1/v]=1$), which restates T37 (2) and (3): ours30 is a σ declared with ν_eff = ½; the cap holds exactly in 1D | sort (done) | T37 |
 | G21 | 9, 11 | L24's test: which temperings are cut posteriors of a mean-1 noise size; η's series version | derive | L24 → brief B12 |
-| G22 | 8–10, 11 | **The sign in the weight against consistency** (31 Oct, from B05). T30 with R-2026-09-07-1 put the sign of F·a into the misfit ($Q_+$); L11 forbids a weight correlated with the score at the truth. Eigenvalue-only weights keep the population optimum at the truth (T38's step 1 symmetry); $g(Q_+)$ moves it (2D/3D: −10%/−9% at signal 1, −3%/−2% at signal 2). **Not inherited by ours32 (4 Nov):** T37's cut factor keeps the optimum at the truth (G19). **Also at zero signal (4 Nov, B13 merge):** the weighted cross-moment is positive, so ours30's pure-noise law concentrates on $m=c$ as $N$ grows (O15). Forced, input, or which premise is mis-stated | sort (Claude) → rule | T30, T32, L11; `tests/test_weight_consistency.py`; T23 |
+| G22 | 8–10, 11 | **The sign in the weight against consistency** (31 Oct, from B05). T30 with R-2026-09-07-1 put the sign of F·a into the misfit ($Q_+$); L11 forbids a weight correlated with the score at the truth. Eigenvalue-only weights keep the population optimum at the truth (T38's step 1 symmetry); $g(Q_+)$ moves it (2D/3D: −10%/−9% at signal 1, −3%/−2% at signal 2). **Not inherited by ours32 (4 Nov):** T37's cut factor keeps the optimum at the truth (G19). **Also at zero signal (4 Nov, B13 merge):** the weighted cross-moment is positive, so ours30's pure-noise law concentrates on $m=c$ as $N$ grows (O15). T46 proves the scalar obstruction for every fixed nonconstant bounded monotone w(Q+) quadratic weight, and a separate analytic argument forces constant w for universal Gaussian stationarity even without monotonicity. Nonlinear residual factors remain outside this class. Forced, input, or which premise is mis-stated | sort (Claude) → rule; the fixed-quadratic class obstruction is proved, not a selected repair | T30, T32, T46, L11; `tests/test_weight_consistency.py`; `tests/test_positive_weight_obstruction.py`; T23 |
+| G23 | L11, finite-ν probes; G3's finite-N power | **Tempered tail index against amplitude consistency** (3 Nov, Codex). T39 proves raw nu<1 and eta-caused nu=10 failures for current factors. T48's specified Student residual measure repairs raw fixed-N amplification, but its prefactor change is canceled exactly by the outer Bartlett power on the opposed pair. T47's median-preserving CDF warp instead retains concentrating raw laws when eta has a positive lower bound. Together they give a conditional compatibility witness, not the selected replacement or unrestricted growth theorem | failures and conditional named-regime repair proved; measure/class selection unsorted; no premise changed | T39, T47, T48; O18; `tests/test_cut_consistency.py`; `tests/test_cdf_calibration.py`; `tests/test_residual_mixture.py` |
+| G24 | G3/G23, global calibration shape | **Local η does not select a global correction**. T40's scalar-deviance semigroups need unforced experiment state; T42 extends their stated Gaussian TV comparison to vanishing eta. T47 derives a unique normal-score warp under a law-only/full-reparameterization class and full Gaussian benchmark, without an extra scale. That class reduction is unforced, and vanishing eta needs raw-tail control beyond ordinary BvM. T51 rules out any nonidentity universal CDF warp under an additional independent-composition interchange axiom, which is not recorded VD scope. Research state and class assumptions are not newly licensed physical inputs under TASK §5 | conditional class uniqueness, calibration and limitations proved; stronger composition route closed; global selection and permitted state unsorted; no adoption | T40, T42, T47, T51; O14, O19, O2/G27; `tests/test_deviance_calibration.py`; `tests/test_gaussian_information.py`; `tests/test_cdf_calibration.py`; `tests/test_composition_calibration.py` |
+| G25 | L11, identifying growth | **Latent energy or oracle information alone does not justify universal consistency**. T41 disproves literal L11; T52 extends the obstruction to fixed positive sparse supports with every positive-power energy sum and known-magnitude information divergent, without L16. This challenges a strong premise and the consistency of the present list. T53 proves T42's energy threshold sharp for all estimators under specified uniform Gaussian energy-class quantifiers. It is not a criterion for each individual stream or the selected full-type replacement; T39's finite-ν failures remain | contradiction and sharp uniform Gaussian threshold proved; proposed experiment-scoped obligations recorded in O19; full-type statement unsorted; L11 statement and grade retained | T41, T42, T52, T53; O19; `tests/test_signal_identifiability.py`; `tests/test_gaussian_information.py`; `tests/test_sparse_identification.py`; `tests/test_energy_minimax.py` |
+| G26 | 11, long-series uncertainty | **Raw fitted J need not estimate sampling variance under concentrated leverage** (T43). A Z-safe spectral control attains Gaussian asymptotic coverage; T45 gives an exact full scalar-type Gaussian score benchmark. T50 extends this to vector scores in a specified common-frame/full-subspace operator comparison, using observed covariance rank. These exact sets are not proper-law intervals, and noisy conditional rank does not establish identifying growth. T49 separates the signal-independent graph metric from Fisher/score covariance. The selected law variance and finite-N body remain unsorted; marginal calibration alone does not settle the joint obligation G27 | counterexample, Gaussian attainability and exact scalar/operator tests proved; proper-law selection and full-type asymptotic law calibration open; no adoption | T43, T45, T49, T50, T51; T18, T31; O14, O15, O17, O2; `tests/test_leverage_calibration.py`; `tests/test_conditional_score.py`; `tests/test_operator_score.py` |
+| G27 | L5/L14, joint composition protocol | **A supplied joint law has a unique pushforward; calibrated marginal laws do not supply that joint**. This makes O2's existing bridge obligation explicit: multiple-body identities, shared/separate observations and cross-covariances, propagated joint prior, and the coverage protocol for a new composite measurement. T51 separates this from the unrecorded universal calibration-interchange axiom and derives a cross-covariance constraint under an explicitly stronger centered-Gaussian benchmark. R3/R5 remain provisional/unwritten as in G11 | joint/protocol construction open; stronger interchange route sorted; no new premise or type slot | T51; O2, G6/G11/G26; R-2026-10-28-1; `tests/test_composition_bridge.py`; `tests/test_composition_calibration.py` |
 | ~~G4~~ | 10 | ~~$S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved~~ **closed 31 Oct: T38** (B02); load-bearing only if G18 keeps O12's meaning | derive | brief B02, merged |
 | G5 | 10 | $\kappa$ under a general $\Sigma_i$ (correlated channels) | derive, after G18 (only if it keeps O12's meaning) | O13 |
 | G3 | 11 | $\eta$'s cap at 1 and its power form at finite $N$: forced, input, or a mis-stated premise (property N stated in the limit only?) | sort | O14; brief B04 supplies the finite-$N$ facts. **30 Oct, partly (O14):** the cap is the series floor and the power form is a scale; the finite-$N$ form is still open. **30 Oct (O15):** property N is stated in the limit, and ours30 meets it there (0.93–0.95 at $N=80$–200, signal 1–2, 3D); only the finite-$N$ form is left. **31 Oct correction:** that is finite-$N$ only; ours30's point is inconsistent at fixed signal (G22), so its coverage must fall as $N$ grows. **31 Oct (B04 merged):** the leverage identity $E[J]=C(1-1/n_{\rm eff})$ holds for fixed nonnegative curvatures only; ours30's observed curvatures are signed, so $n_{\rm eff}$ is not a count and the target has no finite mean. Standard remedy (HC2 leverages from Fisher, not observed, information) is a pointer, unsorted. **4 Nov (O14):** η's target identified: on long series η → Δ/(Δ+M), which is exactly the empirical-Bayes shrinkage $\hat\beta=1-M/H^2$ of ours28b's declared shared size law (Lindley–El-Sayyad); so η is that shrinkage recovered from the identity's failure rather than from a declaration. $\hat\beta$ itself fails Z (a zero reading adds $k$ to $M$). Constraint, provisional: the finite-$N$ form must estimate Δ/(Δ+M) continuously in the data; the shared/per-reading fork (the leverage case of Codex's theorem 43, branch `codex/ours32-consistency`) is where the form is open |
@@ -445,8 +650,18 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 
 ## History
 
+- 2026-11-04 (composition and consistency continuation): Codex, T51 separates joint-law propagation from stronger calibration interchange and gives a conditional Gaussian covariance constraint; G27 exposes the existing O2 joint/protocol obligation. T52 rules out unknown-allocation oracle-information promises; T53 gives the sharp uniform Gaussian energy-class threshold. O19 records a proposed experiment-scoped contract without changing L11, grades, type or rulings.
+
 - 2026-10-29: created (Claude). Eighteen steps, sixteen holes.
 - 2026-10-29 (later): point-level Z removed as a premise (R-2026-10-29-2); steps 13, 16, 17 and §3 reworded.
 - 2026-10-29 (night): the frame for steps 1–5 named (T36), on R-2026-10-29-3.
 - 2026-10-30: steps 7, 9, 10, 11 and §§3–4 brought up to T37 and L24: the rulings at steps 9–10 conflict (R1 against O12), sorted provisionally; what is proved restated; holes G18–G21.
 - 2026-10-31: B01, B02 (T38, G4 closed), B04 and B05 merged; ours30 fails L11 (G22, new); L13 stipulated.
+- 2026-11-03: Codex, T39: ours32's residual identity and repeated fixed-signal consistency; an allowed single-reading heavy-tail counterexample opens G23. Numerical projection and whole-line-search fixes preserve the probe's continuous equation.
+- 2026-11-03 (continuation): Codex, T40: a state-free local/tail obstruction and two conditional dual-regime repairs; semigroup and common tail constant still do not force a rule. G24 records the unsorted experiment state and global shape.
+- 2026-11-03 (further continuation): Codex, T41: literal total-energy consistency is unattainable for every estimator over the unrestricted type; G25/O19 expose the missing identification condition. No premise or equation replaced.
+- 2026-11-03 (information-growth continuation): Codex, T42: necessary and sufficient flat-Gaussian/Bartlett consistency criterion, critical random-law converse and a vanishing-power comparison for T40. G25 gains an attainable submodel; G24's choices and the full-type premise remain unsorted.
+- 2026-11-03 (calibration and cut continuation): Codex, T43/T44: an identifying Gaussian undercoverage counterexample and a Z-safe spectral comparison (G26); factor averaging versus normalized conditional cuts, amplitude repair and a separate weak-signal bias (G19/G22). No production or ruling change.
+- 2026-11-03 (conditional-score and positive-weight continuation): Codex, T45/T46: exact full Gaussian score tests and the proper-law corner boundary; generic fixed positive-misfit quadratic-weight bias. G26 gains a test benchmark, O15's model-specific corollary is proved, and G19/G22's class obstruction is strengthened. No production, output, premise or ruling change.
+- 2026-11-03 (CDF/residual continuation): Codex, T47/T48: law-level normal-score calibration with conditional uniqueness and a vanishing-eta tail boundary; normalized Student residual integration, raw amplification repair and persistence of the outer-power failure. A proper-law compatibility witness, with measure/class and full-type forcing still open. No production, input, output, premise or ruling change.
+- 2026-11-04 (operator/subspace continuation): Codex, T49/T50: canonical graph measures and scalar/tube restriction, covariance and Fisher/fiber distinctions; TLS/Bingham operator profile and an exact conditional vector-score benchmark. Prior, latent measure and law-calibration choices remain open; scalar physical type unchanged.
