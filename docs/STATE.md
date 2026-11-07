@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-04, by Claude (η's target identified with ours28b's shrinkage, O14; the briefs merged; G22). Update this page in
+**Last updated:** 2026-11-07, by Claude (intake: T39–T53, ours33 and E5 harvested from exploration; B15–B19 merged as delivered; provisional intake protocol). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -43,6 +43,22 @@ rather than forced (eta's cap at 1 and its power form at finite N). The misfit w
 numerator κ = k − ½ is fixed by meaning (O12, read size-free); its value is proved for isotropic channels (T38),
 but that meaning is the one G18 says is mis-stated. The rest is rulings Can owes and proofs, some routine
 (O4, O5) and some open research (O14, O15).
+
+**Since 3 Nov** (Codex's exploration and briefs B15–B19, on main since 7 Nov as delivered; **not checked by Claude**):
+
+- **L11 as written cannot be met by any estimator** (T41): true signals $b/\sqrt i$ make the total energy diverge
+  (like $\log N$) without ever identifying m. The errors-in-variables literature's condition for a consistent
+  slope is that the total signal energy $\Delta_N$ grows faster than $\sqrt N$ (B19: Gallo 1982, Kukush–Van Huffel 2004,
+  Shklyar 2018), the same threshold as T42's for the flat Bartlett law and T53's minimax one. So the strong premise
+  is mis-stated, with a candidate restatement from the literature; a rule owed (G25, O19). Claude's reading: a
+  restatement, not a drop, so it is not evidence against the working assumption.
+- **ours33**, the sixteenth probe (`met/ours33.py`, O18): T48's exponent (ν+k)/2 with T47's normal-score warp in place
+  of the power; point the raw median. Break: at small η the warped width is π's tail. **No width exists without π**
+  (B16: the evidence alone is improper on every finite series, so π is in every quoted interval; ties the width to O6).
+- **G19:** T48's latent measure is forced neither by T36 (B17) nor by the instrument's moments (E5). **G3:** η with T45's
+  exact conditional score variance still misses its small-N target (B15). **Composition:** under ours33 the warp's order
+  relative to the pushforward changes composite coverage, 87.75% against 91.75% (B18), as T51's non-commutation predicts (G27).
+- Left on the exploration branches, not harvested: T54–T68, the joint, score-law and anchor line (`../explore/README.md`).
 
 ## The current equation: ours30 (since 29 Oct, R-2026-10-29-1)
 
@@ -233,6 +249,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 | O14 | proof | eta at small N: a correction that counts effective readings. The 26 Oct second noise channel is superseded by T36 (29 Oct). **30 Oct sort (provisional):** g and η are noise scales, per reading and per series, on an unwritten declaration that Σ is a floor; which levels a caller declares exact / floor / unknown is an input; G13 sorted |
 | O15 | proof | Is the bounded null floor the best any law can do? |
 | O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
+| O19 | proof; premise sort | What growth of signal makes L11 attainable? T41: divergent total energy is not enough for any estimator; B19: the literature's rate is $\Delta_N/\sqrt N\to\infty$ (= T42, T53); a restatement of L11 is Can's rule (G25) |
 | O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type. On the robot: the static rows show a real 1.15° force–IMU misalignment, but neither it nor a lever arm explains the miss, and the white budget is understated 2–19× by autocorrelated samples (28 Oct). Next: the budget from calibration-side data and the rerun (briefed), then the slot |
 | L13, L18 | ruling | Confirm "the noise model is forced Gaussian, the data need not be"; is the subspace an input? |
 | E10 | ruling | Does the VD entry still name the estimator without supplying it, now that composition forces the readout? (ours26 sweep §3.2) |
@@ -338,11 +355,16 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-07 (Claude): **intake.** Provisional protocol (Can, 7 Nov; `../briefs/README.md`, Intake): briefs merged as
+  delivered, Claude owns the files, not a re-check; explorations are input. Harvested from `codex/ours32-consistency` by need:
+  T39–T53, O19, G23–G27, the ours32 numerics fix and ours33 (squash and cherry-pick; each file marked). B15–B19 cherry-picked
+  onto main as delivered (their branches sat on the exploration branch). E5's T48 section and tests harvested. T54–T68 left on
+  the branches; `tools/audit.py` reads `../explore/README.md`'s table of them. Suite 2,619 passed, 28 skipped, 17 xfailed (main before: 2,189, 28, 16; the new xfail is T39's native-grid one); audit unchanged.
+- 2026-11-05 (B19, Codex): O19 now compares functional EIV/TLS consistency conditions with T41–T53 and T61: the verified Gaussian one-slope rate is Delta_N/sqrt(N) -> infinity; dropping the multivariate eigenvalue-ratio condition does not weaken that scalar rate. Primary-source versions/pages and unverified originals are marked; no premise, input or estimator changed.
 - 2026-11-05 (B18, Codex): extended the locked composition kind via explicit later-probe protocol; 400-replicate historical and q=c/4c worlds under ours30/32/33 show weak centred-sum undercoverage and an ours33 warp-order gap (87.75% pre versus 91.75% post-min), despite high overlap. O2 records all procedures, masses, MC errors and numerical scope; no warp order, eta combination, dependence model or equation adopted. 38 new checks pass. Full suite: 2,632 passed, 28 skipped, 17 xfailed; explicit 400-replicate ours29 reproduction passed; audit findings unchanged.
 - 2026-11-05 (B15, Codex): T45 derives C33=sum[(nu+k)/(nu+k+2)]||RP'U||^2 under T48's specified residual model; the opt-in H/C study repairs the flat Gaussian leverage benchmark but still misses small-N signal fractions and keeps T39's pair at eta_C=0.0360. O14 records the 24-cell/three-leverage-size seeded study, cap rates and the fixed-signal conditioning limit. 27 new checks pass; defaults and the point unchanged. Final full suite: 2,621 passed, 28 skipped, 17 xfailed; audit findings unchanged. The standalone study replay reproduces every saved value exactly.
-- 2026-11-04 (Codex, B16): false-premise stop: a positive uniform bound proves ours33's evidence alone is improper in both mass and log mass for every finite valid series, including conflicting and strong readings; a finite nonnegative power does not cure it and T47 has no parent CDF. All proposed evidence-only interval cells are unresolved, so no module or coverage study is constructed. O18 holds the proof and scope; 21 independent projection/endpoint/integral/cutoff checks passed, as did mathematical review. Full default suite: 2611 passed, 28 skipped, 17 existing xfails; four Windows sandbox pipe failures passed on an isolated unrestricted rerun (six worker checks passed). Audit findings unchanged (T6/T21/T27, unused L24), diff checks clean. Production code, priors, points, output type and rulings unchanged.
 - 2026-11-04 (B17, Codex): T48/O18 refute the proposed T36 forcing of the latent scale measure: b=-1 also gives a normalized residual density; fixed-v normalization would force b=0 but is an additional requirement. G19 remains a sort/rule hole; stopped per brief, no exponent or premise changed. Counterexample tests: `tests/test_latent_measure_exponent.py` (20). Full suite: 2,614 passed, 28 skipped, 17 xfailed; audit findings unchanged.
-- 2026-11-05 (B19, Codex): O19 now compares functional EIV/TLS consistency conditions with T41–T53 and T61: the verified Gaussian one-slope rate is Delta_N/sqrt(N) -> infinity; dropping the multivariate eigenvalue-ratio condition does not weaken that scalar rate. Primary-source versions/pages and unverified originals are marked; no premise, input or estimator changed.
+- 2026-11-04 (Codex, B16): false-premise stop: a positive uniform bound proves ours33's evidence alone is improper in both mass and log mass for every finite valid series, including conflicting and strong readings; a finite nonnegative power does not cure it and T47 has no parent CDF. All proposed evidence-only interval cells are unresolved, so no module or coverage study is constructed. O18 holds the proof and scope; 21 independent projection/endpoint/integral/cutoff checks passed, as did mathematical review. Full default suite: 2611 passed, 28 skipped, 17 existing xfails; four Windows sandbox pipe failures passed on an isolated unrestricted rerun (six worker checks passed). Audit findings unchanged (T6/T21/T27, unused L24), diff checks clean. Production code, priors, points, output type and rulings unchanged.
 - 2026-11-04 (Claude, evening): two boards. Briefs stay on `briefs/README.md` (branches `codex/<brief id>`, merged); exploration
   directions go on `explore/README.md` (branches `explore/<id>-<slug>`, never merged, each with a `SUMMARY.md`; E1–E4). B20 struck as moot.
 - 2026-11-04 (Claude, on `codex/ours32-consistency`; harvested to main 7 Nov): **ours33** (`met/ours33.py`, O18): the probe Codex's T47 and T48 add up to and did not
