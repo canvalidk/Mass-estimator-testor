@@ -45,6 +45,7 @@ add, reorder or strike any brief.
 | [B19](B19-l11-against-the-tls-consistency-literature.md) | O19, L11, G25 | L11's growth condition translated from Gleser, Gallo, Kukush–Van Huffel and Shklyar; which is T42/T53's threshold | merged 2026-11-07, as delivered (not checked by Claude): the literature's scalar rate is Δ_N/√N → ∞ (Gallo, Kukush–Van Huffel, Shklyar), equal to T42's and T53's threshold; T41's Δ_N ~ log N fails it; L11 unchanged (a rule, G25) |
 | [B21](B21-maximal-invariant-likelihood.md) | O15, G3, O14 | Moreira's maximal invariant likelihood: the groups (per reading, and $O(Nk)$ across readings on one instrument), the noncentral-Wishart law of mass, its tempering against η's target, checked against the premises | open |
 | [B22](B22-eta-from-the-gram.md) | G3, O14, T70 | ours30 with η_G = 1 − Q/H (the series' Gram) in place of the Bartlett η: premises (Z, L3, swap, T30, L11) and coverage beside ours30 | open |
+| [B23](B23-what-makes-mass-real.md) | G10, O17, T70 | What makes mass real: the commutant of SO(k) and O(k) for k = 1, 2, 3 (Schur); in 2D rotations leave a phase and parity removes it; T71 with tests | open |
 
 Order is priority. Since 29 Oct briefs are cut from the holes table in `../definition/proof.md` §5 (the *derive* rows); a brief names its hole. Several can run at once: each writes to different files, except the one log line each adds to `docs/STATE.md`.
 

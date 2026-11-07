@@ -356,6 +356,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-07 (Claude, later): T70's misfit matched exactly to Hickey–Gour's geometric imaginarity; phase-two sort of the qubit picture into GOAL's bins
+  added to T70; brief B23 (what makes mass real: Schur; parity in 2D) and exploration directions E6–E9 (coherent sum, gyroscopic alternative,
+  Z-safe Gram estimates of the shrinkage, Fisher–Rao under the full type) queued.
 - 2026-11-07 (Claude): **T70, the reading as a qubit** (Can's question: is misalignment's lost confidence the complex numbers?). Misalignment is the
   relative phase; explained energy is the Born rule; the whole-line misfit is imaginarity; the sign is not a phase (G22). The series' Gram cannot tell
   misalignment from disagreement, but T30 with Z keeps g per reading (T70 (6)). η_G = 1 − Q/H tracks η's target far better than the Bartlett η (O14); B22 queued.
