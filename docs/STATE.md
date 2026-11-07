@@ -356,6 +356,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-07 (Claude, afternoon): `claude/b21-brief` merged: brief B21 (Moreira's maximal invariant likelihood, O15/G3) queued;
+  the 6 Nov G6 sort and the geometric-mean comparison readout (now on ours33 as well; `tests/test_geometric_mean.py`, 24). O2's
+  B18 section moved into date order. No branch deleted.
 - 2026-11-07 (Claude, later): **the premises are deductions, Claude's to make** (R-2026-11-07-1, Can's words in `../rulings.md`):
   "ruled" is provenance, not a grade; grades say how much of the goal goes with a row; the hole type "rule (Can)" becomes
   *sort* or *goal* (a question to Can, asked as one); the Owed table is retyped as deductions Claude owes and questions about
@@ -372,6 +375,14 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 - 2026-11-05 (B15, Codex): T45 derives C33=sum[(nu+k)/(nu+k+2)]||RP'U||^2 under T48's specified residual model; the opt-in H/C study repairs the flat Gaussian leverage benchmark but still misses small-N signal fractions and keeps T39's pair at eta_C=0.0360. O14 records the 24-cell/three-leverage-size seeded study, cap rates and the fixed-signal conditioning limit. 27 new checks pass; defaults and the point unchanged. Final full suite: 2,621 passed, 28 skipped, 17 xfailed; audit findings unchanged. The standalone study replay reproduces every saved value exactly.
 - 2026-11-04 (B17, Codex): T48/O18 refute the proposed T36 forcing of the latent scale measure: b=-1 also gives a normalized residual density; fixed-v normalization would force b=0 but is an additional requirement. G19 remains a sort/rule hole; stopped per brief, no exponent or premise changed. Counterexample tests: `tests/test_latent_measure_exponent.py` (20). Full suite: 2,614 passed, 28 skipped, 17 xfailed; audit findings unchanged.
 - 2026-11-04 (Codex, B16): false-premise stop: a positive uniform bound proves ours33's evidence alone is improper in both mass and log mass for every finite valid series, including conflicting and strong readings; a finite nonnegative power does not cure it and T47 has no parent CDF. All proposed evidence-only interval cells are unresolved, so no module or coverage study is constructed. O18 holds the proof and scope; 21 independent projection/endpoint/integral/cutoff checks passed, as did mathematical review. Full default suite: 2611 passed, 28 skipped, 17 existing xfails; four Windows sandbox pipe failures passed on an isolated unrestricted rerun (six worker checks passed). Audit findings unchanged (T6/T21/T27, unused L24), diff checks clean. Production code, priors, points, output type and rulings unchanged.
+- 2026-11-06 (Claude, evening): every equation's result dict now carries `geometric_mean` (exp E[ln m]) beside `median`; `point` unchanged.
+  G6's fork measured (`tools/readout_gap.py`): the two centres differ by 5–9% on typical weak-signal series, 0.3% at signal 5.
+- 2026-11-06 (Claude, later): **G6 sorted, provisionally** (O2): L23 is Stevens' ordinal-scale invariance, but mass's commitments (L1, L5, order)
+  make it a ratio scale, so as a forcing argument L23 is mis-stated. Units and the swap leave the reflection-equivariant location functionals of ln m;
+  L2 with O6 open removes the moment-based ones; the robust ones remain. G6 is now a sort, not a rule. Citations added to T5 (Horn, Umeyama) and T36 (TLS).
+- 2026-11-06 (Claude): **brief B21 queued** (O15, G3). Moreira's (2009) maximal invariant likelihood is the one standard incidental-parameter
+  cure not in O15's table and the only one acting across readings: on one instrument, $O(Nk)$ on the stacked rows collapses the $Nk$ latent
+  pushes to one total $\Delta$ (noncentral Wishart, LIML/TLS point). Question for the brief: does its tempering reach η's target $\Delta/(\Delta+M)$?
 - 2026-11-04 (Claude, evening): two boards. Briefs stay on `briefs/README.md` (branches `codex/<brief id>`, merged); exploration
   directions go on `explore/README.md` (branches `explore/<id>-<slug>`, never merged, each with a `SUMMARY.md`; E1–E4). B20 struck as moot.
 - 2026-11-04 (Claude, on `codex/ours32-consistency`; harvested to main 7 Nov): **ours33** (`met/ours33.py`, O18): the probe Codex's T47 and T48 add up to and did not

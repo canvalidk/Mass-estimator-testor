@@ -311,6 +311,18 @@ def _quantiles(lm, lp, probs):
     return np.exp(q), p
 
 
+def geometric_mean(lm, law):
+    """exp E[ln m] under the law: the comparison readout beside the median (O2, 6 Nov).
+
+    The L2 Frechet centre in the log metric, where the median is the L1 centre. Both commute
+    with units (a shift in log m) and the swap (a reflection); they differ only on laws
+    asymmetric in log m, i.e. at weak signal. Reported, not the point (G6 is a sort). It exists
+    because the half-Cauchy's log-tails are exponential; on a starting law with heavier
+    log-tails it would not (O2, 6 Nov, item 4), which is why it is reported beside the median
+    rather than in its place. `law` sums to 1 on `lm`."""
+    return float(math.exp(float(np.dot(np.asarray(law), np.asarray(lm)))))
+
+
 PLATEAU_TOL = 1e-12
 
 
@@ -401,7 +413,8 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
     grid: None for the adaptive grid, or (half_width, nodes) for log c +- half_width.
 
     Returns a dict: point, median, interval (95%, quoted: eta applied), raw_interval (eta = 1),
-    eta, g, Q, phi_hat, law (normalised weights on lm), lm, and, with readout=True, readout and A.
+    eta, g, Q, phi_hat, law (normalised weights on lm), lm, geometric_mean (exp E[ln m], the
+    comparison readout, 6 Nov), and, with readout=True, readout and A.
 
     point is the definition's point: the law's median (28 Oct, provisional; O2, T35, L23). It is
     the same number as median. readout is T10's cloud ratio of means, kept for comparison: it
@@ -427,6 +440,7 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
                Q=[s["Q"] for s in states], Q_plus=[s["Q_plus"] for s in states], curv=curv, J=j,
                phi_hat=phi_hat, law=p, lm=lm)
     out["point"] = out["median"]
+    out["geometric_mean"] = geometric_mean(lm, p)
     if eta < 1.0:
         lm_raw = _grid(readings, c, g, 1.0, grid)
         (rlo, _, rhi), _ = _quantiles(lm_raw, _log_law(readings, c, g, 1.0, lm_raw), [0.025, 0.5, 0.975])

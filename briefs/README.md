@@ -56,6 +56,7 @@ problem since we have other ways of checking."
 
 Order is priority. Since 29 Oct briefs are cut from the holes table in `../definition/proof.md` §5 (the *derive* rows); a brief names its hole. Exploration directions, which are not briefs and are never merged, are on `../explore/README.md`. Several can run at once: each branches from `main` and writes to
 different files, except the one log line each adds to `docs/STATE.md`. (The 4 Nov exception, B15–B20 branched from `codex/ours32-consistency`, is withdrawn: see Intake above.)
+| [B21](B21-maximal-invariant-likelihood.md) | O15, G3, O14 | Moreira's maximal invariant likelihood: the groups (per reading, and $O(Nk)$ across readings on one instrument), the noncentral-Wishart law of mass, its tempering against η's target, checked against the premises | open |
 
 ## For the agent running a brief
 

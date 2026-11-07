@@ -32,7 +32,7 @@ import math
 
 import numpy as np
 
-from met.full import _h_terms, _log_prior, _quantiles, reading_state
+from met.full import geometric_mean, _h_terms, _log_prior, _quantiles, reading_state
 
 COARSE_HALF = 25.0
 COARSE_NODES = 4001
@@ -92,5 +92,5 @@ def ours31(readings, c, nu_eff, *, grid=None):
         lm = np.linspace(coarse[keep[0]] - 2 * step, coarse[keep[-1]] + 2 * step, FINE_NODES)
     lp = log_law(lm)
     (lo, med, hi), p = _quantiles(lm, lp, [0.025, 0.5, 0.975])
-    return dict(point=float(med), median=float(med), interval=(float(lo), float(hi)), law=p, lm=lm,
+    return dict(point=float(med), median=float(med), geometric_mean=geometric_mean(lm, p), interval=(float(lo), float(hi)), law=p, lm=lm,
                 Q_plus=[s[2]["Q_plus"] for s in states], nu_eff=nu_eff)

@@ -33,7 +33,7 @@ import math
 import numpy as np
 from scipy.stats import norm
 
-from met.full import _h_terms, _log_prior, _quantiles
+from met.full import geometric_mean, _h_terms, _log_prior, _quantiles
 from met.ours31 import COARSE_HALF, COARSE_NODES, FINE_NODES, SUPPORT_NATS, _per_reading
 from met.ours32 import _residual_energy, bartlett_eta
 
@@ -150,6 +150,6 @@ def ours33(readings, c, nu_eff, *, calibrate=True, grid=None, eta_method="fitted
         else:
             lm_w, lp_w = lm, lp
         lo, hi = _tail_quantiles(lm_w, lp_w, plo)
-    return dict(point=float(med), median=float(med), interval=(float(lo), float(hi)),
-                raw_interval=(float(rlo), float(rhi)), eta=eta, law=p, lm=lm,
+    return dict(point=float(med), median=float(med), geometric_mean=geometric_mean(lm, p),
+                interval=(float(lo), float(hi)), raw_interval=(float(rlo), float(rhi)), eta=eta, law=p, lm=lm,
                 Q_plus=[s[2]["Q_plus"] for s in states], nu_eff=nu_eff)
