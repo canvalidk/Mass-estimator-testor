@@ -86,3 +86,22 @@ def test_removing_status_marker_restores_ordinary_finding(living_layer, capsys):
     output = capsys.readouterr().out
     assert "T2 (T02.md): none yet" in output
     assert "not load-bearing" not in output
+
+
+def test_ids_left_on_exploration_branches_are_known_not_dangling(tmp_path, monkeypatch):
+    """explore/README.md's 'Left on exploration branches' table names ids whose files are not on main (7 Nov)."""
+    (tmp_path / "explore").mkdir()
+    (tmp_path / "explore" / "README.md").write_text(
+        "## The board\n\n| E1 | T99 is not in the table below |\n\n"
+        "## Left on exploration branches\n\n| Ids | Branch | What |\n| --- | --- | --- |\n"
+        "| T54–T56 | `codex/x` | a line |\n| T66 | `codex/y` | one |\n\n## Next\n| T70 | no |\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(audit, "ROOT", tmp_path)
+    assert audit.left_on_branches() == {"T54", "T55", "T56", "T66"}
+
+
+def test_the_repo_table_covers_the_line_left_on_codex_ours32_consistency():
+    left = audit.left_on_branches()
+    assert {f"T{n}" for n in range(54, 69)} <= left
+    assert not left & {f"T{n}" for n in range(39, 54)}  # harvested, on main

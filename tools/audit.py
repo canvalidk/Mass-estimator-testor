@@ -43,6 +43,21 @@ def table_rows(text, prefix):
     return rows
 
 
+def left_on_branches():
+    """Ids whose files live only on an exploration branch: explore/README.md, "Left on exploration branches"."""
+    p = ROOT / "explore" / "README.md"
+    if not p.exists():
+        return set()
+    m = re.search(r"## Left on exploration branches\n(.*?)(?=\n## |\Z)", p.read_text(encoding="utf-8"), re.S)
+    ids = set()
+    for line in (m.group(1) if m else "").splitlines():
+        if not line.startswith("| T"):
+            continue
+        for a, b in re.findall(r"T(\d+)(?:[–-]T(\d+))?", line.split("|")[1]):
+            ids |= {f"T{n}" for n in range(int(a), int(b or a) + 1)}
+    return ids
+
+
 def main(argv):
     problems = []
     prem_text = (DEF / "premises.md").read_text(encoding="utf-8")
@@ -121,7 +136,7 @@ def main(argv):
         problems.append(("problem file not in problems/README.md", o))
 
     # 5. dangling ids
-    known = set(prem) | set(theorems) | files | {"O1", "O3", "O8", "O10", "O12"}
+    known = set(prem) | set(theorems) | files | {"O1", "O3", "O8", "O10", "O12"} | left_on_branches()
     for name, text in [("equation.md", (DEF / "equation.md").read_text(encoding="utf-8"))] + \
                       [(f"problems/{f.name}", f.read_text(encoding="utf-8")) for f in PROB.glob("O*.md")] + \
                       [(f"theorems/{th['file']}", th["from"]) for th in theorems.values()]:

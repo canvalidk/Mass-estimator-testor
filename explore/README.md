@@ -26,3 +26,14 @@ goes in. A harvested part says which branch and date it came from and whether Cl
 | E3 | Per-reading signal weighting without declaring a size law: ours28 weighted each reading by $\hat\beta_i=1-k/h_i^2$ from a declared law, and η is the series-level version recovered without one (`problems/O14.md`, 4 Nov). A per-reading statistic that is Z-safe, borrows nothing (L19) and declares no size law (L10), or a proof that none exists | the shared-vs-per-reading fork; whether η's form can be per reading | B15 tests one series-level estimate | — | open |
 | E4 | The weak-signal centre: is any Z-safe, π-free point better than the raw median, which carries the flat latent measure's tilt? | ours33 hole 6; O15's corner | B13 proved the coverage limit (Gleser–Hwang) | — | open |
 | E5 | What fixes T48’s latent measure across noise scales? | Whether instrument calibration determines the relative evidence for mass | B17 tested the metric argument | [explore/e5-latent-scale](https://github.com/canvalidk/Mass-estimator-testor/tree/explore/e5-latent-scale) | Explored 5 Nov. Counterexamples and conditional result in the [summary](https://github.com/canvalidk/Mass-estimator-testor/blob/explore/e5-latent-scale/SUMMARY.md). |
+
+## Left on exploration branches
+
+Ids that main's files cite but whose files live only on an exploration branch (not harvested; `../tools/audit.py`
+reads this table so the citations are not reported as dangling). Harvested 7 Nov from `codex/ours32-consistency`:
+T39–T53, O19 and ours33 (each file says so).
+
+| Ids | Branch | What it is |
+| --- | --- | --- |
+| T54–T65 | `codex/ours32-consistency` (also on `codex/local-information-anchor`) | Codex, 4 Nov: the joint Gaussian law and its sandwich covariance (T54, T55); the score law and its anchors (T56–T60, T62–T65); joint calibration with changing covariance shapes (T61). Claude's 4 Nov reading: a Laplace-type (quasi-Bayesian) class with an anchor, an exponent and a carried state that nothing forces; a benchmark of attainable width, not a probe |
+| T66–T68 | `codex/local-information-anchor` | Codex, 4 Nov: local projection scale and pairwise profile ordering, the same line |
