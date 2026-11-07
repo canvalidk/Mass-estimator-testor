@@ -50,8 +50,8 @@ but that meaning is the one G18 says is mis-stated. The rest is rulings Can owes
   (like $\log N$) without ever identifying m. The errors-in-variables literature's condition for a consistent
   slope is that the total signal energy $\Delta_N$ grows faster than $\sqrt N$ (B19: Gallo 1982, Kukush–Van Huffel 2004,
   Shklyar 2018), the same threshold as T42's for the flat Bartlett law and T53's minimax one. So the strong premise
-  is mis-stated, with a candidate restatement from the literature; a rule owed (G25, O19). Claude's reading: a
-  restatement, not a drop, so it is not evidence against the working assumption.
+  was mis-stated; **restated 7 Nov (Claude, provisional)** with that rate, the old wording struck in its slot (G25, O19). A
+  restatement, not a drop, so not evidence against the working assumption; open: the full type, and the phase-two bin.
 - **ours33**, the sixteenth probe (`met/ours33.py`, O18): T48's exponent (ν+k)/2 with T47's normal-score warp in place
   of the power; point the raw median. Break: at small η the warped width is π's tail. **No width exists without π**
   (B16: the evidence alone is improper on every finite series, so π is in every quoted interval; ties the width to O6).
@@ -311,7 +311,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
    assembled and audited.
 1. This page. Then `../definition/theorems/T36.md`: the frame everything is written in (the
    reading space, its noise metric, a mass as a subspace, one residual).
-2. `../definition/ladder.md`: which commitment of the version removes which freedom, and
+2. `../definition/bounds.md`: what Can's corrections have said the goal means, as Claude reads it, and the open
+   questions about the goal (7 Nov). Then `../definition/ladder.md`: which commitment of the version removes which freedom, and
    what is left. Then `../definition/proof.md`: the chain from the type to ours30 with every
    step's status and the holes, typed; it is the queue. Then `../definition/equation.md`,
    `../definition/premises.md` and `../definition/theorems/README.md`: what is claimed and
@@ -355,6 +356,12 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-07 (Claude, later): **the premises are deductions, Claude's to make** (R-2026-11-07-1, Can's words in `../rulings.md`):
+  "ruled" is provenance, not a grade; grades say how much of the goal goes with a row; the hole type "rule (Can)" becomes
+  *sort* or *goal* (a question to Can, asked as one); the Owed table is retyped as deductions Claude owes and questions about
+  the goal. **L11 restated** (provisional, wrong premise): m̂ → m when Δ_N/√N → ∞, the literature's rate (B19; T42, T53); the
+  "total push → ∞" wording struck in its slot (T41). New: `../definition/bounds.md`, Claude's running reading of the goal from
+  the corrections, kept apart from TASK.md.
 - 2026-11-07 (Claude): **intake.** Provisional protocol (Can, 7 Nov; `../briefs/README.md`, Intake): briefs merged as
   delivered, Claude owns the files, not a re-check; explorations are input. Harvested from `codex/ours32-consistency` by need:
   T39–T53, O19, G23–G27, the ours32 numerics fix and ours33 (squash and cherry-pick; each file marked). B15–B19 cherry-picked

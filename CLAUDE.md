@@ -38,7 +38,10 @@ matter most:
   A disagreement is a finding: add a `xfail(strict=True)` test that names both
   numbers, and leave both as they are.
 - Rulings are Can's. Quote them verbatim with the date. Do not write your own
-  suggestion as if it were decided; mark what is yours.
+  suggestion as if it were decided; mark what is yours. A ruling is his deduction from the
+  goal, provisional like every premise (R-2026-11-07-1): the premises are Claude's to deduce
+  and restate, with the argument; what Can holds is the goal, and a sort that turns on what
+  the goal means is a question to him, not a ruling he owes.
 - Only decisions go to VD-docs, through `outbox/VD-docs/`. Work stays in `docs/`.
 - When you change what `docs/STATE.md` describes, update it in the same commit,
   and add a line to its log at the end of a session.

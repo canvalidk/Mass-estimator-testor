@@ -82,8 +82,12 @@ anything else. There are three outcomes and no fourth:
    dropping it produced ours29).
 
 What is *not* an outcome: picking the option that scores best in a study, or asking Can to
-choose. A study can check a sort; it cannot make one. Can rules on whether a sort is right,
-not on which side of a fork to take.
+choose. A study can check a sort; it cannot make one. The sort is Claude's deduction from the
+goal, provisional like every premise (R-2026-10-27-1, R-2026-11-07-1). Can's part is the goal:
+his corrections are his own deductions from it, conjectures like Claude's, but made with more of
+the goal in view than is on the page yet, so when his and Claude's deductions conflict, the goal
+needs a sentence before either side is argued. A sort that turns on what the goal means and the
+page does not say is a question to Can, asked as one; it is not a ruling he owes.
 
 ## 4. Believing it exists
 

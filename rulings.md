@@ -448,33 +448,39 @@ read. Line numbers refer to the files as they stood that day.
 - **Words:** "uh my rulings are provosional dog. I don't know what im doing! Just look at the guidance better, and the point of the project. Most likely the right way is to just leave the contradiction stand and move on till we get something forcing. Why would the definition of mass depend on an assumption like g<1."; then "just put g back in and we can deal with that question for the next equation. well test it with g and it'll be  easier after?"
 - **Source:** the conversation of 2026-11-01; recorded directly.
 
+### R-2026-11-07-1 — The premises are deductions from the goal, Claude's to make; rulings are conjectures too; Can holds the goal
+- **Decides:** How to read every L, F and ruling. The goal is the bet that mass is well-defined in the VD sense, and whether it is remains undecided. A ruling is Can's deduction from that goal, conjecture-like, not a boundary of the problem; the Ls were Claude's deductions from the start, and Can's corrections to them were corrections of Claude's reading of the goal, not decisions Claude needed. So a premise is restated by whoever has the argument, Can does not "rule on the Ls", and the Ls stay provisional. The division is temporal: while the goal is mostly in Can's head his deductions carry more weight; as the goal gets onto the page, Claude makes the deductions and Can corrects where they go out of bounds. The goal statement itself is not rewritten at each iteration; Claude keeps a separate running reading of what the corrections say the goal means (`definition/bounds.md`, his suggestion, kept apart from "the goal"). Closes the "Owed" model below as a list of rulings Can owes.
+- **Replaces / closes:** The hole type *rule (Can)* in `definition/proof.md`; "Can rules on whether a sort is right" (TASK §3, GOAL rule 2); the Owed table as a list of rulings he owes (now questions about the goal and deductions Claude owes). Continues R-2026-10-27-1 and R-2026-11-01-1 ("my rulings are provosional dog").
+- **Words:** "I don't know where it says I decide on the Ls. I don't know where you get this idea every time, but every L was decided on by you via your own mathematical ability. In the past I made corrections to the Ls. That was because you didn't understand what was meant by 'unique' definition of mass." — "I personally believe, the purpose of the project is 'well defined' and when I make a ruling, I make it based on what I think logically follows from that 'well defined' goal. But of course, whether I am right is still undecided. Whether mass can really be 'well defined'. So we are ultimately in a position where we are exploring. This means, when I correct you by saying something like, 'surely mass can't depend on this or that right' I want you to understand that as a conjecture-like. Not as a defining boundary of the problem, but a proposed deduction that follows from it." — "I will be somewhat more capable than you at interpreting the goal than you, simply cause of my better long term memory and beliefs that I haven't gotten down on page yet (so its in my head). […] So we do have this idea that in the past it was better to rely on my Lemmas and judgements and as I am able to better communicate the goal, we can transition towards you producing the deductions yourself, with me to rely on behind you and help better define the goal increasingly." — "the Ls will simply have to remain provisional and the goal statement can't really be changed with every iteration on the Ls. I'll also be here to keep you on track, so its not a big deal to go out of bounds if that means we better understand the bounds so to speak. So if you want a cumulative understanding of such a list, that might be useful and a place to develop your understanding of the goal. But it likely better to keep it separate from 'the goal'."
+- **Source:** the conversation of 2026-11-07; recorded directly.
+
 ---
 
-## Owed
+## Open: deductions Claude owes, and questions about the goal
 
-Rulings that records say are owed. Each stays here until an entry above closes it. Since
-R-2026-10-27-1, Claude's sorts and provisional calls are not listed here: they sit in the
-premise or problem file with the status *provisional (from the goal)* or *unknown yet*, for
-Can to check against the goal.
+Until 7 Nov this table was "Owed: rulings that records say are owed". R-2026-11-07-1: these are not rulings Can
+owes. Each row is either a deduction Claude owes (a sort from the goal, provisional) or a question about what the
+goal means that the page does not answer, asked of Can as a question. A row leaves when the premise or problem
+file carries the deduction, or when `definition/bounds.md` carries the answer.
 
-| What | Where it is asked |
-| --- | --- |
-| O6, π's shape: forced by a property, or a parameter of an alternative mechanics? | lemma list d4:197-200, 211; `problems/O6.md` |
-| O7, Z's scope: whole null readings only, or zeros beside a signal? And does Z cover the point at all (R-2026-10-29-2: never ruled; his 27 Sept position was that the point prices a null reading in)? | lemma list d4:133, 212; `problems/O7.md` |
-| O9, the window criterion for one reading versus several (proposed 10 Oct) | lemma list d4:214; units-and-axes record:509-514; `problems/O9.md` |
-| O11 / L3′: the swap-of-declarations premise and L3′'s first half (c = s for one noise pair); then several instruments and anisotropic noise | lemma list d4:114, 189, 216; `problems/O11.md` |
-| O13: is anything more owed for readings that contradict each other? | lemma list d4:218; `problems/O13.md` |
-| L13: confirm "the noise model is forced Gaussian; the data need not be" is compatible with the 27 Sept line | lemma list d4:126 |
-| L18, Nᵢ: is the declared candidate subspace an input, not learned? | lemma list d4:131; full-covariance record:150-163 |
-| O2: must the readout be continuous at the all-zero experiment? and is "the value is c" a ruling or a derivation a readout may fail? | undefined record:209-211; `problems/O2.md` |
-| L23, the parametrisation-free point (the median rests on it): check against the goal | `definition/proof.md` G6; `problems/O2.md` |
-| L22, isotropy of inertia, as a clause of L1 | `definition/proof.md` G10; `problems/O17.md` |
-| E10 / the authority ruling: is the estimator still "named, not supplied" now that composition forces the readout? R-2026-10-27-2 reads it: named at the headword, filled by a theorem of the later commitments. Confirm that closes it | ours26 sweep:253-256 |
-| The direction lines of the lemma and equation notes (VD-docs) | equation note d2:48; VD-docs catalog |
-| Whether the 7 Sept no-gate ruling's intent covers g(Q) tempering | readings-are-evidence record:277-279 |
-| The back-calculated-error property as a named property | readings-are-evidence record:72-77, 290-291 |
-| Conditional calibration: is overconfidence on a region of the definition's own world a tier-2 failure? | null-series record:149-156, 172-173 |
-| Whether η's derivation counts as forcing (ours25's sandwich by another route) | scattered observations:93-99 |
-| Where the 10 Oct T32 check script goes (beside the record or as a test) | lemma list d4:239 |
+| What | Where it is asked | Kind (7 Nov) |
+| --- | --- | --- |
+| O6, π's shape: forced by a property, or a parameter of an alternative mechanics? | lemma list d4:197-200, 211; `problems/O6.md` | goal: is a declared shape of π an input a definition of mass may take (TASK §5's guard), or a choice of the function? |
+| O7, Z's scope: whole null readings only, or zeros beside a signal? And does Z cover the point at all (R-2026-10-29-2: never ruled; his 27 Sept position was that the point prices a null reading in)? | lemma list d4:133, 212; `problems/O7.md` | deduction (Claude): Z's scope from what "no information" means on the type; goal only for whether the point may price a null reading in |
+| O9, the window criterion for one reading versus several (proposed 10 Oct) | lemma list d4:214; units-and-axes record:509-514; `problems/O9.md` | deduction (Claude) |
+| O11 / L3′: the swap-of-declarations premise and L3′'s first half (c = s for one noise pair); then several instruments and anisotropic noise | lemma list d4:114, 189, 216; `problems/O11.md` | deduction (Claude); goal: whether "no knowledge of the object" is part of what the definition promises |
+| O13: is anything more owed for readings that contradict each other? | lemma list d4:218; `problems/O13.md` | deduction (Claude); R-2026-10-30-1 already says how to read them |
+| L13: confirm "the noise model is forced Gaussian; the data need not be" is compatible with the 27 Sept line | lemma list d4:126 | closed by B05: L13 is stipulated, not forced; the 27 Sept line stands as stated |
+| L18, Nᵢ: is the declared candidate subspace an input, not learned? | lemma list d4:131; full-covariance record:150-163 | deduction (Claude): TASK §5's inputs-cost test (G11) |
+| O2: must the readout be continuous at the all-zero experiment? and is "the value is c" a ruling or a derivation a readout may fail? | undefined record:209-211; `problems/O2.md` | deduction (Claude): "the value is c" was derived (R-2026-09-29-2), so it is a theorem a readout may fail |
+| L23, the parametrisation-free point (the median rests on it): check against the goal | `definition/proof.md` G6; `problems/O2.md` | deduction (Claude): a draft sort of 6 Nov is on `claude/b21-brief` (G6) |
+| L22, isotropy of inertia, as a clause of L1 | `definition/proof.md` G10; `problems/O17.md` | deduction (Claude); goal if the version's L1 does not say whether inertia is a scalar |
+| E10 / the authority ruling: is the estimator still "named, not supplied" now that composition forces the readout? R-2026-10-27-2 reads it: named at the headword, filled by a theorem of the later commitments. Confirm that closes it | ours26 sweep:253-256 | goal: a question about the VD's authority ruling, asked of Can |
+| The direction lines of the lemma and equation notes (VD-docs) | equation note d2:48; VD-docs catalog | VD-docs housekeeping (Can's repo), not a deduction |
+| Whether the 7 Sept no-gate ruling's intent covers g(Q) tempering | readings-are-evidence record:277-279 | deduction (Claude): R-2026-09-29-8 says it does (g > 0, no gate); R-2026-11-01-1 says a cap is not a property of mass; carried in G18/G19 |
+| The back-calculated-error property as a named property | readings-are-evidence record:72-77, 290-291 | deduction (Claude): whether it is a premise or a theorem of L21/T30 |
+| Conditional calibration: is overconfidence on a region of the definition's own world a tier-2 failure? | null-series record:149-156, 172-173 | deduction (Claude): property N and B13's corner (O15) already say what the width promises |
+| Whether η's derivation counts as forcing (ours25's sandwich by another route) | scattered observations:93-99 | deduction (Claude): O14/O15's cure table (B14) and the 4 Nov η-target result bear on it |
+| Where the 10 Oct T32 check script goes (beside the record or as a test) | lemma list d4:239 | housekeeping (Claude): a test |
 
 Moot, kept for the record: ours28b's premises (ours28b withdrawn, R-2026-09-28-6); learned ω's pull toward the prior (R-2026-09-27-8); an `ours28/` folder (ours28 withdrawn, R-2026-09-30-6); parked item 3 of the noise-measure view (dissolved by η being Z-exact, not formally ruled).
