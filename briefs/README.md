@@ -5,6 +5,30 @@ a test, a counterexample, a derivation or code, written into a named theorem or 
 file. Claude writes a brief only after sorting the fork; a question that is not sorted stays
 in its problem file and does not come here. Can may add, reorder or strike any brief.
 
+## Intake: what Claude owns (provisional, 7 Nov 2026; revised as it gets used)
+
+Can, 7 Nov 2026: "I mean responsibility of file organization and file sprawl. If a briefs
+returns with lines and lines, the understanding is that that's what you asked for. So you
+merge it into main regardless and have to find ways to successfully coexist with it in main.
+This is not the case for file sprawl by exploration." Also: "you don't need to check the
+briefs. Codex is trustworthy to an extent and adding incorrect ideas to main isn't really a
+problem since we have other ways of checking."
+
+- **A brief is merged as delivered.** Claude does not re-verify it before merging; main's other
+  checks (probes that break, strict xfails, later briefs, Can's reading) catch what is wrong.
+  Claude owns where the result sits, what links to it, and that main stays navigable.
+- **The size of a return is controlled when the brief is written:** the brief names the file,
+  the slot, and roughly how long the write-up should be.
+- **What lands unchecked says so** (Claude's addition): a theorem or result merged from a brief
+  carries "Codex, Bnn; not checked by Claude" in its status until someone checks it.
+- **Briefs branch from `main`.** If a brief needs material that exists only on an exploration
+  branch, that material is harvested to `main` first. The 4 Nov exception (B15–B20 branched from
+  `codex/ours32-consistency`) is withdrawn as of 7 Nov.
+- **Explorations are input** (`../explore/README.md`): never merged as branches; left behind,
+  scraped for parts, revised or iterated on before anything goes in. Harvested parts are taken
+  by need (a brief, a hole in `proof.md`, a probe on main cites them) and say where they came
+  from.
+
 ## The queue
 
 | Brief | Item | Deliverable, in one line | Status |
@@ -31,7 +55,7 @@ in its problem file and does not come here. Can may add, reorder or strike any b
 | [B19](B19-l11-against-the-tls-consistency-literature.md) | O19, L11, G25 | L11's growth condition translated from Gleser, Gallo, Kukush–Van Huffel and Shklyar; which is T42/T53's threshold | open |
 
 Order is priority. Since 29 Oct briefs are cut from the holes table in `../definition/proof.md` §5 (the *derive* rows); a brief names its hole. Exploration directions, which are not briefs and are never merged, are on `../explore/README.md`. Several can run at once: each branches from `main` and writes to
-different files, except the one log line each adds to `docs/STATE.md`. **Exception, 4 Nov:** B15–B20 branch from the head of `codex/ours32-consistency`, because the code and theorems they need (ours33, T45, T48, O19) are on that branch and not yet merged; each still gets its own `codex/<id>` branch.
+different files, except the one log line each adds to `docs/STATE.md`. (The 4 Nov exception, B15–B20 branched from `codex/ours32-consistency`, is withdrawn: see Intake above.)
 
 ## For the agent running a brief
 
@@ -48,11 +72,13 @@ different files, except the one log line each adds to `docs/STATE.md`. **Excepti
 
 ## For Claude, at each catch-up
 
-`git fetch`; for every brief whose `codex/<id>` branch exists: check it out in its own
-worktree, install from `requirements-lock.txt`, run the audit and the full suite, read what it
-wrote into the named file against the brief's questions and "Do not" list. Then either merge
-it to `main` with the status set to `merged <date>`, or set `returned <date>: <reason>` on
-`main` and leave the branch. Then sort what has come up since and add briefs.
+`git fetch`; for every brief whose `codex/<id>` branch exists: merge it to `main` (Intake
+above: as delivered), resolving conflicts so it coexists with what is there; run the audit and
+the full suite, which check coexistence, not the brief's mathematics; read it enough to write its
+status line and one STATE log line saying what it found and which premise or hole it names; set
+the status to `merged <date>`. `returned <date>: <reason>` is for a branch that cannot coexist
+(it breaks main's suite, or writes outside the files its brief names). Then sort what has come up
+since and add briefs.
 
 ## Status values
 

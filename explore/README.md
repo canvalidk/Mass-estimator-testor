@@ -3,6 +3,9 @@
 Directions for open exploration by other agents (Codex and the like). The brief board is `../briefs/README.md`:
 briefs are sorted forks with a named deliverable and are merged; explorations are open, and are **never merged**.
 Claude reads an exploration branch when there is a reason to and takes specific results across by hand.
+Explorations are input, not deliverables (provisional, 7 Nov; `../briefs/README.md`, Intake): Claude does not
+manage their file sprawl, and may leave a branch, scrape it for parts, or revise and iterate on a part before it
+goes in. A harvested part says which branch and date it came from and whether Claude checked it.
 
 ## Rules
 

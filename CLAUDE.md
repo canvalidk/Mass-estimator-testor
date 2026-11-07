@@ -46,8 +46,9 @@ matter most:
   a test, a counterexample, or a derivation, written into a named theorem or problem file.
   Not an open avenue to explore. Findings go into that file's attempts and one line of
   STATE.md's log; study narration does not go on STATE.md's main page. Such runs are queued
-  as files in `briefs/`, branch from `main` as `codex/<brief id>`, and are checked and merged
-  by Claude (`briefs/README.md`).
+  as files in `briefs/`, branch from `main` as `codex/<brief id>`, and are merged by Claude as
+  delivered; Claude owns the file organisation, not a re-check (provisional, 7 Nov: `briefs/README.md`, Intake).
+  Exploration branches (`explore/README.md`) are input: never merged, harvested by need.
 - A theorem is "proved" only when its file names the test that checks it. Mark
   what is yours as yours; "forced" means forced from a named premise.
 
