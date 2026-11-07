@@ -256,7 +256,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Gaps (as of 2026-10-24; 27 Oct additions marked)
 
-- (29 Oct) `tools/eta_sign_check.py` (T31) is a seeded script, not a preset kind of `met run`. (30 Oct) So is `tools/ours31_coverage.py` (O18), and (4 Nov) `tools/eta_vs_size_law.py` (O14).
+- (29 Oct) `tools/eta_sign_check.py` (T31) is a seeded script, not a preset kind of `met run`. (7 Nov) So are `tools/readout_gap.py` and `tools/cloud_readout_vs_median.py` (O2). (30 Oct) So is `tools/ours31_coverage.py` (O18), and (4 Nov) `tools/eta_vs_size_law.py` (O14).
 
 - (27 Oct) L22 (isotropy of inertia) and T34 are Claude's, from the 26 Oct scratch session,
   whose two toy scripts (`comp.py`, `qnoise.py`) were not kept; numbers from them are marked
@@ -359,6 +359,10 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 - 2026-11-07 (Claude, afternoon): `claude/b21-brief` merged: brief B21 (Moreira's maximal invariant likelihood, O15/G3) queued;
   the 6 Nov G6 sort and the geometric-mean comparison readout (now on ours33 as well; `tests/test_geometric_mean.py`, 24). O2's
   B18 section moved into date order. No branch deleted.
+- 2026-11-07 (Claude, afternoon): **the 5 Nov cloud-readout study committed** (`../tools/cloud_readout_vs_median.py`, O2): the
+  cloud readout (T10) on ours30's and ours33's laws beside the median and the geometric mean; the 5 Nov numbers reproduce
+  exactly with the same seeds. The cloud is a pull toward s on any law; whether a point that reads the sizes as well as the
+  law is borrowing (L19, 28 Oct) is parked, not sorted. Tests: `tests/test_cloud_readout_vs_median.py` (6).
 - 2026-11-07 (Claude, later): **the premises are deductions, Claude's to make** (R-2026-11-07-1, Can's words in `../rulings.md`):
   "ruled" is provenance, not a grade; grades say how much of the goal goes with a row; the hole type "rule (Can)" becomes
   *sort* or *goal* (a question to Can, asked as one); the Owed table is retyped as deductions Claude owes and questions about
