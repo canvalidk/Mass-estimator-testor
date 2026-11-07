@@ -41,7 +41,7 @@ matter most:
   suggestion as if it were decided; mark what is yours. A ruling is his deduction from the
   goal, provisional like every premise (R-2026-11-07-1): the premises are Claude's to deduce
   and restate, with the argument; what Can holds is the goal, and a sort that turns on what
-  the goal means is a question to him, not a ruling he owes.
+  the goal means is a question to him.
 - Only decisions go to VD-docs, through `outbox/VD-docs/`. Work stays in `docs/`.
 - When you change what `docs/STATE.md` describes, update it in the same commit,
   and add a line to its log at the end of a session.
@@ -50,8 +50,8 @@ matter most:
   Not an open avenue to explore. Findings go into that file's attempts and one line of
   STATE.md's log; study narration does not go on STATE.md's main page. Such runs are queued
   as files in `briefs/`, branch from `main` as `codex/<brief id>`, and are merged by Claude as
-  delivered; Claude owns the file organisation, not a re-check (provisional, 7 Nov: `briefs/README.md`, Intake).
-  Exploration branches (`explore/README.md`) are input: never merged, harvested by need.
+  delivered (`briefs/README.md`, "How a brief moves"). Exploration branches (`explore/README.md`)
+  are input: never merged; parts are harvested by need.
 - A theorem is "proved" only when its file names the test that checks it. Mark
   what is yours as yours; "forced" means forced from a named premise.
 

@@ -52,7 +52,7 @@ See `docs/existence_argument_audit_2026-10-29.md` for the chain and its audit. S
 | **Mass-estimator-testor** (public) | the work: `definition/` (type, premises, theorems, equation, proof, ladder), `problems/` (one file per open item), `rulings.md` (Can's, verbatim, append-only), `briefs/` (Codex queue), `met/` + `tests/` + `presets/` (code), `docs/` (archive, moved from VD-docs 22 Oct) | Claude; Codex (Sol) for briefs | the living layer is the state; do not reconstruct it from records; a theorem is proved only when its file names its test; decisions go back to VD-docs through `outbox/VD-docs/` |
 | **VD-Newton** (public) | the dictionary version itself: the ledger, the entry packets (E10 d4 is the mass entry, candidate, not promoted), the NML lesson drafts | Can | the rungs the proof rests on live here; R3 (persistence, lumping) is unwritten, R5 (Newton III) provisional, so the body cannot be written into E10 until both are settled (`ladder.md`) |
 
-Division of labour (29 Oct): proof-first; derivations briefed to Sol as one sorted fork with a named deliverable each; sorts and write-ups Claude's; rulings Can's. Intake (provisional, 7 Nov; `briefs/README.md`): Claude merges brief branches as delivered and owns the file organisation, not a re-check; exploration branches are input, harvested by need.
+Division of labour (29 Oct): proof-first; derivations briefed to Sol as one sorted fork with a named deliverable each; sorts and write-ups Claude's; rulings Can's. Since 7 Nov (`briefs/README.md`, provisional): briefs are merged as delivered; exploration branches are input, harvested by need.
 
 ---
 

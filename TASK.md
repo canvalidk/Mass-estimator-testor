@@ -87,7 +87,7 @@ goal, provisional like every premise (R-2026-10-27-1, R-2026-11-07-1). Can's par
 his corrections are his own deductions from it, conjectures like Claude's, but made with more of
 the goal in view than is on the page yet, so when his and Claude's deductions conflict, the goal
 needs a sentence before either side is argued. A sort that turns on what the goal means and the
-page does not say is a question to Can, asked as one; it is not a ruling he owes.
+page does not say is a question to Can.
 
 ## 4. Believing it exists
 

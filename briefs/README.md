@@ -1,33 +1,23 @@
 # Briefs: work queued for other agents
 
-One file per brief. Each brief is **one sorted fork and a named deliverable** (CLAUDE.md):
-a test, a counterexample, a derivation or code, written into a named theorem or problem
-file. Claude writes a brief only after sorting the fork; a question that is not sorted stays
-in its problem file and does not come here. Can may add, reorder or strike any brief.
+One file per brief. A brief is **one sorted fork and a named deliverable** (CLAUDE.md): a test, a
+counterexample, a derivation or code, written into a named theorem or problem file. Claude writes a
+brief only after sorting the fork; a question that is not sorted stays in its problem file. Can may
+add, reorder or strike any brief.
 
-## Intake: what Claude owns (provisional, 7 Nov 2026; revised as it gets used)
+## How a brief moves (provisional, 7 Nov 2026, R-2026-11-07-2)
 
-Can, 7 Nov 2026: "I mean responsibility of file organization and file sprawl. If a briefs
-returns with lines and lines, the understanding is that that's what you asked for. So you
-merge it into main regardless and have to find ways to successfully coexist with it in main.
-This is not the case for file sprawl by exploration." Also: "you don't need to check the
-briefs. Codex is trustworthy to an extent and adding incorrect ideas to main isn't really a
-problem since we have other ways of checking."
-
-- **A brief is merged as delivered.** Claude does not re-verify it before merging; main's other
-  checks (probes that break, strict xfails, later briefs, Can's reading) catch what is wrong.
-  Claude owns where the result sits, what links to it, and that main stays navigable.
-- **The size of a return is controlled when the brief is written:** the brief names the file,
-  the slot, and roughly how long the write-up should be.
-- **What lands unchecked says so** (Claude's addition): a theorem or result merged from a brief
-  carries "Codex, Bnn; not checked by Claude" in its status until someone checks it.
-- **Briefs branch from `main`.** If a brief needs material that exists only on an exploration
-  branch, that material is harvested to `main` first. The 4 Nov exception (B15–B20 branched from
-  `codex/ours32-consistency`) is withdrawn as of 7 Nov.
-- **Explorations are input** (`../explore/README.md`): never merged as branches; left behind,
-  scraped for parts, revised or iterated on before anything goes in. Harvested parts are taken
-  by need (a brief, a hole in `proof.md`, a probe on main cites them) and say where they came
-  from.
+1. **Claude writes it:** the fork, the deliverable, the file and slot it goes into, and about how
+   long. A brief branches from `main`; material it needs that exists only on an exploration branch
+   is harvested to `main` first (`../explore/README.md`).
+2. **Codex runs it** on `codex/<id>` and pushes (below, "For the agent running a brief").
+3. **Claude merges it as delivered:** resolves conflicts so it sits with what is there, runs the
+   audit and the suite, writes the brief's status line and one `docs/STATE.md` log line (what it
+   found, which premise or hole it names), and marks it `merged <date>`. Claude owns where the
+   result sits and what links to it. A result nobody has checked says so in its status line
+   ("Codex, Bnn; not checked by Claude").
+4. **`returned`** only when the branch cannot be merged: it breaks `main`'s suite, or writes outside
+   the files the brief names.
 
 ## The queue
 
@@ -54,8 +44,7 @@ problem since we have other ways of checking."
 | [B18](B18-composition-coverage-under-ours32-and-ours33.md) | O2, L5, L14 | Composition at the level of the law under ours30, ours32, ours33 (clause (c) as coverage), truth at c and 4c; warp before or after the pushforward | merged 2026-11-07, as delivered (not checked by Claude): presets for ours30/32/33, 400 replicates, truth at c and 4c: weak centred sums under-cover on every probe; under ours33 the warp's order matters (composite coverage 87.75% warp-before against 91.75% after), as T51 predicts; no order or dependence model adopted |
 | [B19](B19-l11-against-the-tls-consistency-literature.md) | O19, L11, G25 | L11's growth condition translated from Gleser, Gallo, Kukush–Van Huffel and Shklyar; which is T42/T53's threshold | merged 2026-11-07, as delivered (not checked by Claude): the literature's scalar rate is Δ_N/√N → ∞ (Gallo, Kukush–Van Huffel, Shklyar), equal to T42's and T53's threshold; T41's Δ_N ~ log N fails it; L11 unchanged (a rule, G25) |
 
-Order is priority. Since 29 Oct briefs are cut from the holes table in `../definition/proof.md` §5 (the *derive* rows); a brief names its hole. Exploration directions, which are not briefs and are never merged, are on `../explore/README.md`. Several can run at once: each branches from `main` and writes to
-different files, except the one log line each adds to `docs/STATE.md`. (The 4 Nov exception, B15–B20 branched from `codex/ours32-consistency`, is withdrawn: see Intake above.)
+Order is priority. Since 29 Oct briefs are cut from the holes table in `../definition/proof.md` §5 (the *derive* rows); a brief names its hole. Several can run at once: each writes to different files, except the one log line each adds to `docs/STATE.md`.
 | [B21](B21-maximal-invariant-likelihood.md) | O15, G3, O14 | Moreira's maximal invariant likelihood: the groups (per reading, and $O(Nk)$ across readings on one instrument), the noncentral-Wishart law of mass, its tempering against η's target, checked against the premises | open |
 
 ## For the agent running a brief
@@ -68,20 +57,15 @@ different files, except the one log line each adds to `docs/STATE.md`. (The 4 No
    file's attempts, and finish as below: that is a result.
 4. Run `python tools/audit.py` and the full suite. Both must pass; audit findings unchanged
    unless the brief says otherwise.
-5. Last commit: set this brief's status line to `done, awaiting check: <one line of what
-   was delivered>` on your branch. Push the branch. **Never push to `main`, never merge.**
+5. Last commit: set this brief's status line to `done: <one line of what was delivered>` on
+   your branch. Push the branch. **Never push to `main`, never merge.**
 
 ## For Claude, at each catch-up
 
-`git fetch`; for every brief whose `codex/<id>` branch exists: merge it to `main` (Intake
-above: as delivered), resolving conflicts so it coexists with what is there; run the audit and
-the full suite, which check coexistence, not the brief's mathematics; read it enough to write its
-status line and one STATE log line saying what it found and which premise or hole it names; set
-the status to `merged <date>`. `returned <date>: <reason>` is for a branch that cannot coexist
-(it breaks main's suite, or writes outside the files its brief names). Then sort what has come up
-since and add briefs.
+`git fetch`; every `codex/<id>` branch marked `done` is merged (How a brief moves, 3–4). Then sort
+what has come up since and add briefs.
 
 ## Status values
 
-`open` · `done, awaiting check: …` (agent, on its branch) · `merged <date>` (Claude) ·
+`open` · `done: …` (agent, on its branch) · `merged <date>` (Claude) ·
 `returned <date>: <reason>` (Claude) · `struck <date>: <reason>` (Can or Claude)
