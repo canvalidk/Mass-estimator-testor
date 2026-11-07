@@ -272,6 +272,31 @@ def bartlett_eta(readings, c, g):
     return float(min(1.0, curv / j)), curv, j, phi_hat
 
 
+def gram_eta(readings, c, g):
+    """eta_G = 1 - Q / H(phi_hat): one minus the series' whole-line misfit over its explained energy at
+    the best line, with H = sum g_i H_i and Q = sum g_i E_i - H(phi_hat) (T70 (6); O14, 7 Nov).
+
+    On one isotropic instrument this is 1 - lambda_min / lambda_max of the series' 2x2 Gram in noise
+    units: the eigenvalue ratio of the real part of the readings' qubit states. It is the shared size
+    law's shrinkage 1 - M / H^2 (O14, 4 Nov) with the declared count M replaced by the series' own
+    misfit Q, so an exact-zero reading leaves it unchanged (Z). A comparison quantity, not used by any
+    equation: ours30's eta is bartlett_eta. Returns (eta_G, Q, H, phi_hat); 1 when H = 0."""
+    if not readings:
+        return 1.0, 0.0, 0.0, 0.0
+
+    def fun(phi, order):
+        total, _ = _series_terms(readings, c, g, phi, order)
+        return tuple(total) if order else total[0]
+
+    phi_hat = _best_line(fun)
+    h = 2.0 * float(fun(np.array([phi_hat]), 0)[0])
+    e = float(sum(gi * r.pre()["energy"] for r, gi in zip(readings, g)))
+    q = max(e - h, 0.0)
+    if h <= 1e-300:
+        return 1.0, q, h, phi_hat
+    return float(1.0 - q / h), q, h, phi_hat
+
+
 def _log_prior(lm, c):
     """log of the half-Cauchy as a density in log m."""
     return math.log(c) + lm - np.logaddexp(2 * math.log(c), 2 * lm)

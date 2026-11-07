@@ -62,6 +62,14 @@ only through the summed Gram, with one shared nuisance $\Delta$, is borrowing un
 shared size *scale*; $\Delta$ is a parameter, not a declared population, but the brief does not decide this); and
 whether treating $\Delta$ by integration is a size law under L10 (profiling is not).
 
+**Added 7 Nov (Claude), before the run: a predicted break.** T70 (6): a law that depends on the data only
+through the series' Gram $G$ cannot meet both T30 and η's target, because one misaligned reading and a long
+aligned series can have the same $G$; what tells them apart is the null count, and Z allows a count only per
+reading. The $O(Nk)$ group erases exactly that reading boundary, so expect the invariant law to fail T30
+(item 4's check) while doing well on the target. If it does, report it as that break; if it passes T30, say
+how, since T70 (6) would then be wrong. T70 (7)'s $\eta_G=1-\lambda_{\min}/\lambda_{\max}$ is a function of the
+same $G$: compare item 3's tempering with it.
+
 ## Deliverable
 
 1. **The groups**, into a theorem file `definition/theorems/T69.md` (T69 is the next number free on `main` and on

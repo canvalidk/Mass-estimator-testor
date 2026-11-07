@@ -356,6 +356,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-07 (Claude): **T70, the reading as a qubit** (Can's question: is misalignment's lost confidence the complex numbers?). Misalignment is the
+  relative phase; explained energy is the Born rule; the whole-line misfit is imaginarity; the sign is not a phase (G22). The series' Gram cannot tell
+  misalignment from disagreement, but T30 with Z keeps g per reading (T70 (6)). η_G = 1 − Q/H tracks η's target far better than the Bartlett η (O14); B22 queued.
 - 2026-11-07 (Claude, afternoon): `claude/b21-brief` merged: brief B21 (Moreira's maximal invariant likelihood, O15/G3) queued;
   the 6 Nov G6 sort and the geometric-mean comparison readout (now on ours33 as well; `tests/test_geometric_mean.py`, 24). O2's
   B18 section moved into date order. No branch deleted.
