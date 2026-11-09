@@ -356,6 +356,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-09 (Codex, E6 continuation): exact GLS likelihood compression for fixed constraints, its Newton-II provenance caveat, full-experiment sufficiency obstruction for an unknown line, and a noisy-direction-calibration inconsistency witness; `explore/e6-declared-structure.md` §§8–12, 46 E6 checks. No production/premise change.
+
 - 2026-11-09 (Codex, E6 exploration): `explore/e6-declared-structure.md` derives Gaussian factorization iff fixed signal constraints are a product, and distinguishes frames, known/unknown lines, equal vectors and reused observations; Z alone does not classify sharing. Independent checks in `tests/test_declared_structure.py`; permission under L19 remains open, no production/premise change.
 
 - 2026-11-07 (Claude, later): T70's misfit matched exactly to Hickey–Gour's geometric imaginarity; phase-two sort of the qubit picture into GOAL's bins

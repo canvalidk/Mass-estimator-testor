@@ -6,7 +6,8 @@ from scipy.linalg import block_diag
 from scipy.optimize import minimize_scalar
 from scipy.special import hyp1f1
 
-from met.declared_structure import gaussian_profile, isotropic_profile, linear_mass_profile
+from met.declared_structure import (compress_gaussian_mean, compress_linear_experiment,
+                                    gaussian_profile, isotropic_profile, linear_mass_profile)
 from met.full import Reading, _h_terms
 
 
@@ -211,3 +212,134 @@ def test_profiles_bounded_by_observed_energy(structure):
     for m in np.geomspace(1e-6, 1e6, 11):
         k = isotropic_profile(f, a, m, structure, [1, 2, 3])
         assert 0 <= k <= np.sum(f*f + a*a) + 1e-12
+
+
+@pytest.mark.parametrize("seed", [6201, 6202, 6203])
+def test_gls_compression_preserves_full_likelihood_before_mass_is_imposed(seed):
+    from scipy.stats import multivariate_normal
+
+    rng = np.random.default_rng(seed)
+    basis = rng.normal(size=(7, 3))
+    y = rng.normal(size=7)
+    x = rng.normal(size=(7, 7))
+    cov = x @ x.T + np.eye(7)
+    estimate, reduced_cov, residual = compress_gaussian_mean(y, cov, basis)
+    log_ratios = []
+    for theta in rng.normal(size=(5, 3)):
+        log_ratios.append(multivariate_normal.logpdf(y, mean=basis @ theta, cov=cov) -
+                          multivariate_normal.logpdf(estimate, mean=theta, cov=reduced_cov))
+    np.testing.assert_allclose(log_ratios, log_ratios[0], atol=1e-12)
+    assert residual == pytest.approx(gaussian_profile(y, cov, basis))
+    transform = reduced_cov @ basis.T @ np.linalg.inv(cov)
+    residual_map = np.eye(7) - basis @ transform
+    np.testing.assert_allclose(transform @ cov @ residual_map.T, 0, atol=1e-13)
+
+
+@pytest.mark.parametrize("mass", [0.1, 0.7, 2.0, 9.0])
+def test_gls_pair_preserves_mass_profile_with_arbitrary_global_covariance(mass):
+    rng = np.random.default_rng(6204)
+    f, a = rng.normal(size=(2, 4, 2))
+    b = rng.normal(size=(8, 3))
+    x = rng.normal(size=(16, 16))
+    cov = x @ x.T + np.eye(16)
+    fc, ac, reduced_cov, ancillary = compress_linear_experiment(f, a, b, cov)
+    compressed = gaussian_profile(np.r_[fc, ac], reduced_cov,
+                                  np.vstack((mass*np.eye(3), np.eye(3))))
+    assert ancillary + compressed == pytest.approx(linear_mass_profile(f, a, mass, b, cov))
+
+
+def test_separable_channel_correlation_still_allows_channel_local_compression():
+    rng = np.random.default_rng(6205)
+    b = rng.normal(size=(4, 2))
+    x = rng.normal(size=(4, 4))
+    index_cov = x @ x.T + np.eye(4)
+    channel_cov = np.array([[2.0, 0.4], [0.4, 1.0]])
+    f, a = rng.normal(size=(2, 4, 1))
+    fc, ac, cov, _ = compress_linear_experiment(f, a, b, np.kron(channel_cov, index_cov))
+    precision = np.linalg.inv(index_cov)
+    small_cov = np.linalg.inv(b.T @ precision @ b)
+    own_transform = small_cov @ b.T @ precision
+    np.testing.assert_allclose(fc, own_transform @ f.ravel(), atol=1e-13)
+    np.testing.assert_allclose(ac, own_transform @ a.ravel(), atol=1e-13)
+    np.testing.assert_allclose(cov, np.kron(channel_cov, small_cov), atol=1e-13)
+
+
+def test_opposite_channel_contrasts_can_change_mass_despite_identical_marginal_means():
+    rho = 0.5
+    # Channel-major covariance; within-reading correlations have opposite signs.
+    cov = np.array([[1, 0, rho, 0], [0, 1, 0, -rho],
+                    [rho, 0, 1, 0], [0, -rho, 0, 1]])
+    f, b = np.array([[2.0], [2.0]]), np.ones((2, 1))
+    for delta in [0.0, 1.0]:
+        a = np.array([[1+delta], [1-delta]])
+        fc, ac, reduced_cov, ancillary = compress_linear_experiment(f, a, b, cov)
+        assert a.mean() == 1
+        assert fc[0] == pytest.approx(2-rho*delta)
+        assert ac[0] == pytest.approx(1)
+        np.testing.assert_allclose(reduced_cov, 0.375*np.eye(2), atol=1e-14)
+        assert ancillary == pytest.approx(2*delta*delta)
+        fitted = minimize_scalar(lambda m: linear_mass_profile(f, a, m, b, cov),
+                                 bounds=(0.1, 4.0), method="bounded").x
+        assert fitted == pytest.approx(2-rho*delta, abs=2e-6)
+
+
+@pytest.mark.parametrize("shape", [(2, 2), (3, 2), (2, 3)])
+def test_unknown_line_mean_family_has_full_linear_span(shape):
+    # Rank-one elementary matrices and two positive masses suffice.
+    size = np.prod(shape)
+    means = [np.r_[m*e, e] for m in [1.0, 2.0] for e in np.eye(size)]
+    assert np.linalg.matrix_rank(np.asarray(means)) == 2*size
+    # An explicit noninjective compression removes a direction that some
+    # allowed fixed mean can detect through a likelihood ratio.
+    discarded = np.eye(2*size)[0]
+    zero, shifted = np.zeros(2*size), discarded
+    compression = np.eye(2*size)[1:]
+    np.testing.assert_array_equal(compression @ zero, compression @ shifted)
+    mu = means[0]
+    assert (shifted-zero) @ mu != 0
+
+
+def test_finite_external_direction_uncertainty_cannot_be_declared_exact():
+    m0 = 2.0
+    n_cal = np.ones(2) / np.sqrt(2)
+    cov = np.diag([1.0, 0.25, 1.0, 1.0])
+    tau = 0.5
+    joint_masses = []
+    for amplitude in [1.0, 10.0, 100.0]:
+        f, a = np.array([[m0*amplitude, 0]]), np.array([[amplitude, 0]])
+        plugin = minimize_scalar(lambda m: linear_mass_profile(f, a, m, n_cal[:, None], cov),
+                                 bounds=(0.1, 4.0), method="bounded").x
+        assert plugin == pytest.approx(0.8, abs=2e-6)
+
+        def fit_at_direction(theta):
+            n = np.array([np.cos(theta), np.sin(theta)])
+            force_coefficient = (n @ np.diag([1.0, 4.0]) @ f[0]) / (n @ np.diag([1.0, 4.0]) @ n)
+            acceleration_coefficient = n @ a[0]
+            mass = force_coefficient / acceleration_coefficient
+            return mass, linear_mass_profile(f, a, mass, n[:, None], cov) + np.sum((n_cal-n)**2)/tau**2
+
+        fit = minimize_scalar(lambda theta: fit_at_direction(theta)[1],
+                              bounds=(-0.5, 1.2), method="bounded")
+        joint_masses.append(fit_at_direction(fit.x)[0])
+    assert abs(joint_masses[-1]-m0) < 1e-5
+    assert abs(joint_masses[-1]-m0) < abs(joint_masses[0]-m0)
+
+
+def test_shared_noise_scale_makes_a_gaussian_ancillary_residual_informative():
+    from scipy.integrate import quad
+    from scipy.stats import invgamma
+
+    nu, mean_rank, ancillary_rank = 10.0, 1, 2
+    ratios = []
+    for ancillary in [0.0, 20.0]:
+        integrals = []
+        for cost in [0.0, 4.0]:
+            value = quad(lambda v: invgamma.pdf(v, nu/2, scale=nu/2) *
+                         v**(-(mean_rank+ancillary_rank)/2) *
+                         np.exp(-(ancillary+cost)/(2*v)), 0, np.inf)[0]
+            integrals.append(value)
+        ratio = integrals[1] / integrals[0]
+        expected = ((nu+ancillary+4)/(nu+ancillary))**(-(nu+mean_rank+ancillary_rank)/2)
+        assert ratio == pytest.approx(expected, rel=1e-9)
+        ratios.append(ratio)
+    assert abs(ratios[0]-ratios[1]) > 0.1

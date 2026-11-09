@@ -273,6 +273,186 @@ existence and authority of a shared nuisance relation, its uncertainty,
 and its preservation through the prediction trace are the relevant questions.
 No coverage, universal consistency, unique finite law or new probe is claimed.
 
+## 8. Continuation: exact reduction for a fixed linear mean space
+
+This is Gaussian sufficiency and generalized least squares. The minimal-
+sufficiency test used in §10 is the likelihood-ratio criterion, stated in
+[Balakrishnan, 36-705 Lecture 12, Theorem 12.1](https://stat.cmu.edu/~siva/teaching/705/lec12.pdf).
+The specialization and square-completion proof here are explicit so the
+result does not rely on an unverified appeal to a statistical theorem.
+
+Let B be a fixed p-by-q full-column-rank matrix and L=diag(B,B). Suppose
+both channel means lie in col(B), independently parameterized as
+theta=(u_F,u_a), and y~N(L theta,Sigma) with fixed known Sigma SPD.
+Sigma may correlate different acquisitions and both channels. Define
+
+$$V=(L^T\Sigma^{-1}L)^{-1},\quad T=VL^T\Sigma^{-1},\quad
+\widehat\theta=Ty,\quad e=y-L\widehat\theta,\quad R=e^T\Sigma^{-1}e.$$
+
+Then, for every coefficient pair theta,
+
+$$(y-L\theta)^T\Sigma^{-1}(y-L\theta)
+=R+(\widehat\theta-\theta)^TV^{-1}(\widehat\theta-\theta).$$
+
+**Proof.** L^T Sigma^-1 e=0 kills the cross term. Moreover theta_hat has
+mean theta and covariance V; e has mean zero and covariance Sigma-LVL^T.
+Their cross-covariance is zero. Joint Gaussianity makes them independent,
+and the residual distribution is parameter-free. Thus the full density
+factors into h(y) times the normalized N(theta,V) density of theta_hat.
+
+Only now impose theta=(m t,t). The identity proves, at every candidate,
+
+$$K_{original}(m)=R+K_{compressed}(m;\widehat u_F,\widehat u_a,V).$$
+
+It preserves the entire likelihood in (m,t), not just its maximizing mass.
+Integrating it preserves an integrated likelihood if the **same nuisance
+measure** is retained or pushed forward consistently. It does not select
+that measure. In particular the original and compressed declared-metric
+graph arclengths agree: their Gram is the same
+C_m^T L^T Sigma^-1 L C_m=C_m^T V^-1 C_m. Profile equality does not in
+general authorize substituting a newly chosen flat reference measure.
+
+The coefficient dimension q can exceed three and need not be a physical
+spatial coordinate. A sufficient coefficient pair is not automatically
+an instance of the current `Reading` type. Nor does statistical sufficiency
+alone establish that g, eta, counts or a separately calibrated report must
+ignore the discarded residual; those rules require their own argument.
+
+## 9. Channel locality and the provenance of the reduction
+
+Separate-channel compression holds exactly when T's two off-diagonal
+channel blocks vanish. It holds if Sigma is block diagonal by channel.
+It also holds for Sigma=C tensor R_index, even with correlated channels:
+
+$$T=I_2\otimes[(B^TR_{index}^{-1}B)^{-1}B^TR_{index}^{-1}],\quad
+V=C\otimes(B^TR_{index}^{-1}B)^{-1}.$$
+
+It need not hold for the currently allowed within-reading correlations.
+Consider two scalar acquisitions of one common force and one common
+acceleration, with independent errors between acquisitions and
+Sigma_1=[[1,rho],[rho,1]], Sigma_2=[[1,-rho],[-rho,1]]. Direct GLS gives
+
+$$\widehat u_F=\bar F-\rho(A_1-A_2)/2,\qquad
+\widehat u_a=\bar A-\rho(F_1-F_2)/2,\qquad
+V=(1-\rho^2)I_2/2.$$
+
+At rho=1/2, compare F=(2,2), A=(1,1) with F=(2,2), A=(2,0).
+The separate channel means and their covariance agree. The exact reduced
+pairs are (2,1) and (1.5,1), so the best masses are 2 and 1.5. Opposite-
+channel contrasts contain information through declared noise correlations.
+For A=(1+delta,1-delta), the full profile is exactly
+
+$$K(m)=2\delta^2+
+\frac{(2-\rho\delta-m)^2}{[(1-\rho^2)/2](1+m^2)}.$$
+
+The compression never fits a mass or enforces u_F=m u_a. **But this alone
+does not make it permissible upstream of E10.** It already assumes that
+both force and acceleration obey B. If only acceleration's constraint is
+independently supplied, the force constraint may itself come from Newton II
+and persistence. Removing m from the algebra does not remove that premise.
+A wholly acceleration-only declaration has the larger ambient mean basis
+diag(I_p,B); it must not silently be replaced by diag(B,B).
+
+This qualifies the separate-channel reduction in §5. It is an exact
+conditional calculation; its location in a VD trace depends on the source
+of *both* mean constraints. A joint statistic using both observations can
+be evaluated inside E10, where both are available. Substituting it for an
+independently obtainable outward force or acceleration input needs the
+provenance argument in [why reconciliation cannot be upstream](../docs/vd-docs-context/why_reconciliation_cannot_be_upstream_of_E10.md).
+The present theorem supplies no loophole around that argument.
+
+## 10. Why a common unknown line has no equivalent fixed linear compression
+
+Let p=Nd and consider the full experiment
+Y~N((m vec(A),vec(A)),Sigma), m>0, rank(A)<=1, with fixed SPD Sigma.
+This is a nonlinear Gaussian mean family, with singular strata at zero or
+rank-deficient signals. Although its dimension is small, its linear span
+is all R^(2p).
+
+**Proof.** Elementary one-entry matrices are rank one and span R^(N d).
+For each such a, two distinct positive masses give (m1 a,a) and (m2 a,a).
+Their linear combinations span (a,0) and (0,a). These span both channels.
+For y and y', their Gaussian density ratio is parameter-independent iff
+(y-y')^T Sigma^-1 mu is constant over every allowed mean mu. Zero is an
+allowed mean, so the constant must be zero. Full span and invertible Sigma
+then imply y=y'. The likelihood-ratio criterion makes the raw observation
+minimal sufficient for the **full (m,A) experiment**. Every noninjective
+fixed linear compression loses information for that experiment.
+
+This does not forbid smaller statistics for an explicitly selected mass
+profile, nuisance integration or invariance reduction. Indeed §2's profile
+can be stored in three d-by-d scatter matrices; profiling intentionally
+eliminates the signals. Nor does this claim rule out pathological injective
+encodings into fewer real coordinates. The substantive distinction is
+loss of information, not the number of scalar labels in an encoding.
+
+## 11. A supplied direction with uncertainty is still a shared nuisance
+
+External supply of a direction is not equivalent to its being exact. A
+finite-calibration example shows why this matters even at infinite signal.
+Let the true direction be n0=e1, true mass m0=2, and means
+F*=m0 A_signal e1, a*=A_signal e1. Independent channel covariances are
+Sigma_F=diag(1,1/4), Sigma_a=I2. Independently calibrate the direction with
+Z~N(n0,tau² I2), fixed tau>0.
+
+Suppose n=Z/||Z|| is installed as an exact N_i. Write W_F=Sigma_F^-1,
+W_a=Sigma_a^-1. At increasing signal the fixed-line fit has limit
+
+$$m_{plug}=m_0\frac{n^TW_F n_0/(n^TW_F n)}
+{n^TW_a n_0/(n^TW_a n)}.$$
+
+**Proof.** At fixed n, fit the force and acceleration amplitudes separately
+in their respective metrics. Where their signs agree, their ratio is a
+positive mass achieving the joint optimum. Their large-signal limits are
+the two metric projections displayed above. At n=(e1+e2)/sqrt(2) the ratio
+is 2/5, so the plug-in result is 0.8 while the truth is 2. A neighborhood
+of such calibration outcomes has positive probability for every fixed
+tau>0. Measurement noise of order one does not remove this limit as
+A_signal grows. Proportional channel metrics make the ratio cancel, so
+the isotropic slice can hide this defect.
+
+The correctly specified profile retains the calibration likelihood:
+K_signal(m,n)+||Z-n||²/tau², with unit n and the same signal constraints.
+The finite calibration cost is O_p(1); any direction bounded away from the
+true line costs order A_signal² in the signal data. On the true line both
+nonzero channels fix m0. The profile therefore recovers the line and mass
+in this amplification limit. This is a profile consistency statement, not
+a proper-law or interval-calibration theorem.
+
+This is not a counterexample to correctness of an actually exact N_i. The
+plug-in procedure falsely declares a noisy calibration to be exact. The
+lesson for TASK §5 is narrower: an externally warranted relation needs its
+uncertainty and provenance, not just an externally supplied numerical value.
+Retaining finite calibration then introduces a legitimate statistical
+shared nuisance in the specified experiment; its admission into the mass
+definition's input type remains unsorted.
+
+## 12. Limit of the Gaussian reduction: a shared unknown noise scale
+
+The ancillary claim in §8 requires fixed known Gaussian covariance. With
+one additional shared scale v, conditional GLS still separates the residual
+R from the compressed mass cost K, but both conditional densities depend
+on v. For v~IG(nu/2,nu/2), integrating the normalized Gaussian density
+against the same declared-metric graph arclength, independent of v, gives
+
+$$L_{full}(m)\propto(\nu+R+K(m))^{-(\nu+r_0+q)/2},$$
+
+where r0=2p-2q is the ancillary dimension and q the compressed graph's
+residual dimension. Dropping R and using only the compressed pair would
+instead give (nu+K(m))^(-(nu+q)/2). Relative mass evidence differs.
+The residual is ancillary for the mean **conditional on v**, but informs
+v after mixing. This is the outside-span warning of T48 §2 applied to the
+proposed measurement reduction. It is not an asserted common scale in the
+current per-reading finite-nu model. With separate latent scales even the
+conditional GLS transformation can depend on their values.
+
+Consequently E6 has not produced a universal preprocessing adapter. It has
+identified a lossless fixed-Gaussian reduction, its precise provenance
+requirements, a curved-family obstruction to the same route, and a finite
+calibration failure if uncertainty is erased. These are additional tests
+of any proposed input permission; they do not settle that permission by
+declaring a relationship to be an input.
+
 ## Validation
 
 The 32 E6 checks pass. The default full suite gave 2,691 passed, 28 skipped,
@@ -283,3 +463,11 @@ suite also passed after the final covariance-tolerance edit. Slow opt-in tests
 were not enabled. `tools/audit.py` retains its existing T6/T21/T27 and unused
 L24 findings; `git diff --check` passes. Independent mathematical review
 found no blocker in the stated results or their scope.
+
+Continuation: 46 focused E6 checks now pass (14 new cases), including full
+Gaussian density factorization, correlated-channel witnesses, full-span
+checks, noisy direction calibration and independent noise-mixture quadrature.
+The focused suite plus the full-type, residual-mixture and latent-measure
+regressions pass: 125 tests. Independent review found no mathematical blocker.
+The original full-suite result above belongs to the first exploration
+commit; that full suite was not repeated for this research-only extension.

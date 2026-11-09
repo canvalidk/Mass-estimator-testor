@@ -50,6 +50,52 @@ def linear_mass_profile(force, acceleration, mass, basis, covariance=None):
     return gaussian_profile(y, cov, np.vstack((m * b, b)))
 
 
+def compress_gaussian_mean(observation, covariance, mean_basis):
+    """Sufficient GLS coordinates for a fixed known Gaussian mean subspace.
+
+    mean_basis has full column rank and does not depend on mass or data.
+    Returns estimate, covariance, and ancillary residual cost. This is an
+    exact statistical reduction conditional on the supplied mean constraint;
+    it does not establish that constraint's physical or VD provenance.
+    """
+    y = np.asarray(observation, dtype=float)
+    cov = np.asarray(covariance, dtype=float)
+    design = np.asarray(mean_basis, dtype=float)
+    # Reuse the profile's finite/SPD/shape checks, without imposing mass.
+    gaussian_profile(y, cov, design)
+    if design.shape[1] == 0 or np.linalg.matrix_rank(design) != design.shape[1]:
+        raise ValueError("a nonempty full-column-rank mean basis required")
+    chol = np.linalg.cholesky(cov)
+    z, w = np.linalg.solve(chol, y), np.linalg.solve(chol, design)
+    q, r = np.linalg.qr(w, mode="reduced")
+    estimate = np.linalg.solve(r, q.T @ z)
+    inverse_r = np.linalg.solve(r, np.eye(len(r)))
+    reduced_cov = inverse_r @ inverse_r.T
+    residual = z - q @ (q.T @ z)
+    return estimate, reduced_cov, float(residual @ residual)
+
+
+def compress_linear_experiment(force, acceleration, basis, covariance=None):
+    """GLS pair assuming BOTH channel means lie in col(basis).
+
+    No candidate mass is used. If the force constraint was inferred using
+    Newton II from acceleration's constraint, that provenance still belongs
+    to this reduction; mass-independent algebra does not remove it.
+    Output coefficient dimension need not be a physical Reading dimension.
+    """
+    f, a = _pairs(force, acceleration)
+    b = np.asarray(basis, dtype=float)
+    if b.ndim != 2 or b.shape[0] != f.size:
+        raise ValueError("basis must have one row per stacked channel component")
+    zero = np.zeros_like(b)
+    mean_basis = np.block([[b, zero], [zero, b]])
+    y = np.r_[f.ravel(), a.ravel()]
+    cov = np.eye(len(y)) if covariance is None else covariance
+    estimate, reduced_cov, cost = compress_gaussian_mean(y, cov, mean_basis)
+    count = b.shape[1]
+    return estimate[:count], estimate[count:], reduced_cov, cost
+
+
 def isotropic_profile(force, acceleration, mass, structure="free", direction=None):
     """Closed profiles on the unit, independent, isotropic Gaussian slice.
 
