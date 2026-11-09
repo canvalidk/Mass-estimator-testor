@@ -453,6 +453,194 @@ calibration failure if uncertainty is erased. These are additional tests
 of any proposed input permission; they do not settle that permission by
 declaring a relationship to be an input.
 
+## 13. Retain calibration as a joint state: a conditional construction
+
+The standard mathematics here is nuisance marginalization, sequential joint
+updating and propagation of a joint distribution through a deterministic
+quantity map. The mixture-versus-reset distinction is already explicit in
+the [axis-splitting audit](../docs/ours27/ours27_axis_splitting_does_not_force_independent_candidates_2026-09-28.md).
+The following specialization uses a calibrated physical direction rather
+than a population of push sizes. It does not select this construction as
+the mass definition.
+
+Let q0(dn) be a supplied proper direction reference and c(n) an independent
+calibration likelihood with a finite positive integral. Write
+q_C(dn)=c(n)q0(dn)/integral(c dq0). For the conditional experiment, each
+reading has its own unrestricted signed amplitude t_i, a common direction
+n, and fixed known Gaussian covariance Sigma_i independent of m,n.
+The Gaussian errors are independent between readings and independent of
+the external calibration observations.
+Use the full ambient profile cost
+
+$$K_i(m,n)=\min_{t_i}\|y_i-(m n t_i,n t_i)\|^2_{\Sigma_i^{-1}},\quad
+f_i(m,n)=\exp[-K_i(m,n)/2].$$
+
+Consider the **specified working joint law**
+
+$$Q_D(dm,dn)\propto\pi(dm)q_C(dn)\prod_{i\in D}f_i(m,n).$$
+
+The same factors also result from integrating the normalized Gaussian
+density against each line's declared-metric arclength. That is an explicit
+measure convention, not a new forcing argument for T48/G19. A proper q0
+is uncertainty about one fixture parameter; no distribution of the t_i
+is declared. Whether such fixture information belongs to the definition's
+input remains a separate question. No default q0 or new production prior
+is proposed.
+
+**Propriety and Z.** Zero amplitude is permitted, so
+0<=K_i<=E_i=y_i^T Sigma_i^-1 y_i. Hence
+exp[-sum_i E_i/2]<=product_i f_i<=1. Every proper pi and q_C give a
+strictly positive finite normalizer. The bounds also preserve divergent
+nonnegative moments of pi at finite data; proper does not imply finite
+mass variance. An exact-zero observed reading has K_i=0 at every (m,n).
+It therefore leaves the full joint law, both marginals and all their
+pushforwards unchanged. The empty experiment gives pi times q_C.
+
+This Z statement needs the stated covariance and amplitude domain. A
+direction-dependent noise law or constraints excluding zero amplitude
+need a separate calculation. It does not apply automatically to every
+calibrated experiment.
+
+## 14. A mass-neutral history can still change a future mass update
+
+Keeping Q_D permits exact associative updates:
+Q_(D+B) proportional to Q_D times product_(i in B) f_i. Marginalizing first
+instead requires a conditional direction law:
+
+$$p_{D+B}(m)\propto p_D(m)\,
+E_{Q_D(n\mid m)}[\prod_{i\in B}f_i(m,n)].$$
+
+The missing object cannot in general be recovered from p_D.
+
+**An exact Gaussian witness.** Let n take e1 or e2 with calibrated weights
+w,1-w, 0<w<1, and use unit isotropic errors. The two-reading history
+(F,a)=(e1,e1), (e1,-e1) has product factor e^-1 at e1 and e^-2 at e2,
+independent of mass. To check, its explained energies are (s+c)^2 and
+(s-c)^2 along e1, summing to 2; total observed energy is 4. Along e2
+the explained energy is zero. The mass marginal is exactly pi, just as
+for empty history, but the direction weight becomes
+
+$$w'=\frac{w e}{w e+1-w}.$$
+
+A later reading (F,a)=(2e1,e1) has factors
+A(m)=exp[-(2-m)^2/(2(1+m²))] and b=exp(-5/2). Its mass evidence is
+w A(m)+(1-w)b after empty history, and w' A(m)+(1-w')b after the block.
+Since A is nonconstant and w'!=w, these two functions are not proportional.
+For any prior supporting masses with different A, the normalized laws
+therefore differ. Identical mass marginals require different future updates.
+
+This is a nonzero mass-neutral block, not an appended exact-zero reading;
+§13's exact-zero neutrality still holds. It refutes universal updating from
+the mass marginal alone once the shared fixture is admitted. It does not
+contradict L17's same-law/same-point readout rule or T12's use of additional
+carried state. No stronger posterior-only closure axiom is adopted.
+
+## 15. Resetting a direction and repeating calibration change the experiment
+
+For two blocks A and B the common-fixture mass evidence is
+E_(q_C)[f_A f_B]. Separately marginalizing and multiplying gives
+E_(q_C)[f_A] E_(q_C)[f_B]. The difference is Cov_(q_C)(f_A,f_B).
+The latter calculation assigns independent directions to the blocks.
+
+For directions e1,e2 with weights 3/4,1/4 and the unit-noise pairs
+(2e1,e1), (0.5e2,e2), common/reset evidences are respectively
+0.331924444751 / 0.384720474049 at m=1 and
+0.417832622069 / 0.463141157284 at m=2. Their ratio depends on mass;
+normalizing the mass law cannot repair the reset. The same marginal
+direction uncertainty can describe either one persistent fixture or two
+independent fixtures. Its numerical probabilities do not encode identity.
+
+A different error occurs if already updated joint block laws are multiplied
+while retaining a common n. With densities in the same reference, on the
+common prior support (where the denominator is nonzero),
+
+$$Q_{A+B}\propto Q_AQ_B/(\pi q_C).$$
+
+Dividing out only pi repeats the same calibration. For uniform q0 and
+calibration odds 3, the repeated likelihood gives odds 9 (direction weight
+0.9 instead of 0.75) before signal data. A genuinely new independent
+calibration contributes another likelihood; copying the same calibration
+record does not. These two mistakes are distinct: resetting the shared
+parameter and counting its evidence twice.
+
+The finite-state tests are exact supplied-reference experiments, not
+quadrature approximations or a proposed discrete default. Gaussian
+calibration can produce these weights: under uniform direction reference,
+unit calibration variance and observation Z, c(e1)/c(e2)=exp(Z1-Z2).
+The mismatches persist under small perturbations of observations and under
+concentrated smooth proper references.
+
+## 16. Composition can inherit dependence from geometry alone
+
+Two bodies can have independent mass priors and independent measurement
+errors while sharing an uncertain fixture direction. Their joint law is
+
+$$Q(dm_1,dm_2,dn)\propto
+\pi_1(dm_1)\pi_2(dm_2)q_C(dn)f_1(m_1,n)f_2(m_2,n).$$
+
+Given n, the masses are independent. After marginalizing n they generally
+are not. For bounded functions g1,g2 the law of total covariance gives
+Cov(g1,g2)=Cov_(n|D)(E[g1|n,D],E[g2|n,D]). Use bounded functions here:
+the finite-law mass moments need not exist under a half-Cauchy reference.
+
+**Finite witness.** Each supplied mass prior is uniform on {1,2}; the
+direction reference gives e1,e2 equal weight. Body 1 observes (4e1,2e1),
+body 2 (4e2,2e2), with unit errors. Put a(1)=e^-1, a(2)=1. The likelihood
+of the direction perpendicular to each observed pair is e^-10, so the
+joint mass weights are proportional to a(m1)+a(m2). Normalization gives
+P(1,1)=0.134470710685, P(1,2)=P(2,1)=1/4 and P(2,2)=0.365529289315.
+Thus P(m1+m2=3)=0.5. Multiplying even the marginals of this same full
+joint instead gives 0.473305966621. The missing calibration dependence
+changes the actual sum distribution.
+
+This is a pushforward of persistent body masses under an explicit joint
+reference, not a new common-acceleration acquisition or a coverage result
+for L5(c). Independent errors alone do not supply the copula of inferred
+masses. It instantiates T51's existing obligation with shared geometry
+rather than copied acceleration data. Both sum and parallel sum use the
+retained joint law; neither operation manufactures independence.
+
+## 17. What this continuation decides, and what it does not
+
+Full ambient evidence must travel while n is uncertain. At fixed n,
+K_full(m,n)=K_inside(m,n)+B_out(n), where B_out is the squared noise-metric
+distance outside the two-channel span of n. B_out is mass-independent
+conditional on n but updates n. Dropping it before direction marginalization
+changes mass evidence, just as dropping §12's residual changed a shared
+noise scale. The tests contain an explicit Gaussian witness.
+
+These are compatibility results for bookkeeping, not a survivor equation:
+
+| Obligation | Result for the specified joint construction |
+| --- | --- |
+| proper joint mass/direction law at finite data | passes under the supplied proper references |
+| exact-zero law neutrality | passes under §13's Gaussian/noise/amplitude conditions |
+| combining independent data blocks | passes carrying joint (m,n), with calibration once |
+| universal update from mass marginal alone | fails, §14 |
+| independent multiplication of body marginals for composition | fails, §16 |
+| bounded confidence on fixed incompatible data (T30) | fails in general for these Gaussian factors |
+| literal current L19 | fails: the signals still update a shared direction |
+| unique nuisance measure, finite-law selection, general coverage | unproved |
+
+For the T30 failure, take one fixed pair F=(2,0), a=(1,1), directions
+e1/e2 equally weighted and covariance sigma² I4. The log evidence contrast
+between m=2 and m=1 grows as 1/(4 sigma²): it is 6.25, 25 and 100 for
+sigma=0.2,0.1,0.05. Retaining proper calibration does not cure the
+fixed-Gaussian confidence problem or replace the current probe line.
+
+**Proposed input sort, Codex, provisional.** If a richer experiment admits
+fixture calibration, it needs the identity and persistence of the calibrated
+parameter, its uncertainty, and the identities of the calibration observations.
+Whether two readings refer to one fixture or two cannot be deduced from
+their matching marginal direction laws. This information has an experimental
+source and is a candidate measurement input, unlike inventing a population
+of pushes from a pattern in the readings. But exact joint bookkeeping still
+learns shared signal direction and does not satisfy literal L19. The next
+goal question is therefore specific: whether the definition may consume such
+addressed calibration evidence, or requires a determination in the existing
+type which preserves all information it is entitled to use. A direction
+value or its marginal error bar alone does not supply that determination.
+
 ## Validation
 
 The 32 E6 checks pass. The default full suite gave 2,691 passed, 28 skipped,
@@ -471,3 +659,11 @@ The focused suite plus the full-type, residual-mixture and latent-measure
 regressions pass: 125 tests. Independent review found no mathematical blocker.
 The original full-suite result above belongs to the first exploration
 commit; that full suite was not repeated for this research-only extension.
+
+Calibrated-state continuation: 53 focused E6 checks pass (seven new cases).
+They check joint Z, sequential combination, mass-neutral history, direction
+reset, duplicated calibration, the composition witness, ambient evidence
+and the explicit T30 failure. These plus the composition-bridge, short-law
+and full-type regressions pass: 126 tests. Independent review found no
+mathematical blocker; audit findings are unchanged. The full default suite
+was not repeated for this isolated research extension.

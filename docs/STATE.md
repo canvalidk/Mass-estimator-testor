@@ -356,6 +356,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-09 (Codex, E6 calibrated state): proper joint direction/mass construction passes Z but a mass-neutral history defeats mass-only updating; shared geometry changes a sum probability from 0.4733 to 0.5. Fixture/calibration identity must travel; this Gaussian family still fails T30 and literal L19. `explore/e6-declared-structure.md` §§13–17, 53 E6 checks; no adoption.
+
 - 2026-11-09 (Codex, E6 continuation): exact GLS likelihood compression for fixed constraints, its Newton-II provenance caveat, full-experiment sufficiency obstruction for an unknown line, and a noisy-direction-calibration inconsistency witness; `explore/e6-declared-structure.md` §§8–12, 46 E6 checks. No production/premise change.
 
 - 2026-11-09 (Codex, E6 exploration): `explore/e6-declared-structure.md` derives Gaussian factorization iff fixed signal constraints are a product, and distinguishes frames, known/unknown lines, equal vectors and reused observations; Z alone does not classify sharing. Independent checks in `tests/test_declared_structure.py`; permission under L19 remains open, no production/premise change.

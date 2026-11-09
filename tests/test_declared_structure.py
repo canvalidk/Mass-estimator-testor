@@ -6,8 +6,10 @@ from scipy.linalg import block_diag
 from scipy.optimize import minimize_scalar
 from scipy.special import hyp1f1
 
-from met.declared_structure import (compress_gaussian_mean, compress_linear_experiment,
-                                    gaussian_profile, isotropic_profile, linear_mass_profile)
+from met.declared_structure import (calibrated_discrete_joint, compress_gaussian_mean,
+                                    compress_linear_experiment, direction_log_factors,
+                                    gaussian_profile, isotropic_profile, linear_mass_profile,
+                                    update_discrete_joint)
 from met.full import Reading, _h_terms
 
 
@@ -343,3 +345,117 @@ def test_shared_noise_scale_makes_a_gaussian_ancillary_residual_informative():
         assert ratio == pytest.approx(expected, rel=1e-9)
         ratios.append(ratio)
     assert abs(ratios[0]-ratios[1]) > 0.1
+
+
+def test_calibrated_joint_has_exact_zero_neutrality_and_associative_updates():
+    masses, directions = [0.5, 1.0, 2.0, 4.0], np.eye(2)
+    rng = np.random.default_rng(6301)
+    f, a = rng.normal(size=(2, 5, 2))
+    factors = direction_log_factors(f, a, masses, directions)
+    prior_m, qcal = [1, 2, 2, 1], [3, 1]
+    direct = calibrated_discrete_joint(prior_m, qcal, factors)
+    first = calibrated_discrete_joint(prior_m, qcal, factors[:2])
+    sequential = update_discrete_joint(first, factors[2:].sum(axis=0))
+    np.testing.assert_allclose(direct, sequential, atol=2e-16)
+    reversed_joint = calibrated_discrete_joint(prior_m, qcal, factors[::-1])
+    np.testing.assert_allclose(direct, reversed_joint, atol=2e-16)
+    zero = direction_log_factors([[0, 0]], [[0, 0]], masses, directions)
+    np.testing.assert_array_equal(zero, 0)
+    np.testing.assert_allclose(update_discrete_joint(direct, zero[0]), direct, atol=2e-16)
+    empty = calibrated_discrete_joint(prior_m, qcal, np.zeros((0, 4, 2)))
+    np.testing.assert_allclose(empty, np.outer(np.array(prior_m)/6, [0.75, 0.25]))
+
+
+def test_mass_neutral_history_can_change_shared_direction_and_future_mass():
+    masses, directions = [0.5, 1.0, 2.0], np.eye(2)
+    prior, qcal = np.array([1, 2, 1])/4, np.array([0.25, 0.75])
+    history = direction_log_factors([[1, 0], [1, 0]], [[1, 0], [-1, 0]], masses, directions)
+    # Independent full Gaussian formulas: the block likelihood is m-free.
+    np.testing.assert_allclose(history.sum(axis=0), np.tile([-1.0, -2.0], (3, 1)), atol=1e-14)
+    empty = calibrated_discrete_joint(prior, qcal, np.zeros((0, 3, 2)))
+    after = calibrated_discrete_joint(prior, qcal, history)
+    np.testing.assert_allclose(after.sum(axis=1), prior, atol=1e-15)
+    w_new = np.e/(np.e+3)
+    assert after.sum(axis=0)[0] == pytest.approx(w_new)
+    future = direction_log_factors([[2, 0]], [[1, 0]], masses, directions)[0]
+    from_empty = update_discrete_joint(empty, future).sum(axis=1)
+    from_history = update_discrete_joint(after, future).sum(axis=1)
+    aligned = np.exp(-(2-np.asarray(masses))**2/(2*(1+np.asarray(masses)**2)))
+    for actual, weight in [(from_empty, qcal[0]), (from_history, w_new)]:
+        expected = prior*(weight*aligned + (1-weight)*np.exp(-2.5))
+        np.testing.assert_allclose(actual, expected/expected.sum(), atol=1e-15)
+    assert not np.allclose(from_history, from_empty, rtol=1e-6)
+
+
+def test_resetting_uncertain_direction_changes_relative_mass_evidence():
+    masses, directions = np.array([1.0, 2.0]), np.eye(2)
+    factors = direction_log_factors([[2, 0], [0, 0.5]], [[1, 0], [0, 1]], masses, directions)
+    qcal = np.array([0.75, 0.25])
+    f1, f2 = np.exp(factors)
+    common = (f1*f2) @ qcal
+    reset = (f1 @ qcal)*(f2 @ qcal)
+    covariance = qcal.prod()*(f1[:, 0]-f1[:, 1])*(f2[:, 0]-f2[:, 1])
+    np.testing.assert_allclose(common-reset, covariance, atol=1e-16)
+    np.testing.assert_allclose(common, [0.3319244447506508, 0.4178326220655613], rtol=1e-10)
+    assert abs(common[0]/reset[0]-common[1]/reset[1]) > 0.03
+
+
+def test_shared_calibration_is_included_once_when_combining_joint_blocks():
+    factors = direction_log_factors([[2, 0], [0, 0.5]], [[1, 0], [0, 1]], [1, 2], np.eye(2))
+    prior, qcal = np.array([0.5, 0.5]), np.array([0.75, 0.25])
+    base = np.outer(prior, qcal)
+    left = calibrated_discrete_joint(prior, qcal, factors[:1])
+    right = calibrated_discrete_joint(prior, qcal, factors[1:])
+    correct = calibrated_discrete_joint(prior, qcal, factors)
+    combined = left*right/base
+    combined /= combined.sum()
+    np.testing.assert_allclose(combined, correct, atol=2e-16)
+    # Dividing out only the mass prior repeats the SAME calibration likelihood.
+    repeated = left*right/prior[:, None]
+    repeated /= repeated.sum()
+    np.testing.assert_allclose((repeated[:, 0]/repeated[:, 1]) /
+                               (correct[:, 0]/correct[:, 1]), 3.0, atol=1e-14)
+
+
+def test_shared_fixture_induces_mass_dependence_despite_independent_errors():
+    masses, directions = [1.0, 2.0], np.eye(2)
+    f1 = np.exp(direction_log_factors([[4, 0]], [[2, 0]], masses, directions)[0])
+    f2 = np.exp(direction_log_factors([[0, 4]], [[0, 2]], masses, directions)[0])
+    joint = np.einsum("ik,jk,k->ij", f1, f2, [0.5, 0.5])
+    joint /= joint.sum()
+    expected = np.array([[np.exp(-1)/(2*(1+np.exp(-1))), 0.25],
+                         [0.25, 1/(2*(1+np.exp(-1)))]])
+    np.testing.assert_allclose(joint, expected, atol=1e-15)
+    true_sum_three = joint[0, 1]+joint[1, 0]
+    independent = np.outer(joint.sum(axis=1), joint.sum(axis=0))
+    independent_sum_three = independent[0, 1]+independent[1, 0]
+    assert true_sum_three == pytest.approx(0.5)
+    assert independent_sum_three == pytest.approx(0.4733059666207409)
+
+
+def test_uncertain_direction_requires_full_ambient_evidence():
+    masses, directions = [0.5, 1.0, 2.0], np.eye(2)
+    f, a = np.array([[2.0, 0.0]]), np.array([[1.0, 1.0]])
+    full = direction_log_factors(f, a, masses, directions)
+    projected = np.empty_like(full)
+    for j, n in enumerate(directions):
+        for k, m in enumerate(masses):
+            fp, ap = float(f[0] @ n), float(a[0] @ n)
+            projected[0, k, j] = -0.5*(fp-m*ap)**2/(1+m*m)
+    outside = np.array([1.0, 5.0])
+    np.testing.assert_allclose(full[0], projected[0]-outside/2, atol=1e-14)
+    proper = calibrated_discrete_joint([1, 1, 1], [1, 1], full).sum(axis=1)
+    dropped = calibrated_discrete_joint([1, 1, 1], [1, 1], projected).sum(axis=1)
+    assert np.max(np.abs(proper-dropped)) > 0.05
+
+
+def test_gaussian_calibrated_joint_still_fails_bounded_incompatible_confidence():
+    from scipy.special import logsumexp
+
+    contrasts = []
+    for sd in [0.2, 0.1, 0.05]:
+        factors = direction_log_factors([[2, 0]], [[1, 1]], [1, 2], np.eye(2),
+                                        [sd**2*np.eye(4)])[0]
+        log_evidence = logsumexp(factors-np.log(2), axis=1)
+        contrasts.append(log_evidence[1]-log_evidence[0])
+    np.testing.assert_allclose(contrasts, [6.25, 25.0, 100.0], rtol=1e-10)

@@ -8,6 +8,7 @@ See explore/e6-declared-structure.md for the declarations and their scope.
 import math
 
 import numpy as np
+from scipy.special import logsumexp
 
 
 def gaussian_profile(observation, covariance, design):
@@ -94,6 +95,71 @@ def compress_linear_experiment(force, acceleration, basis, covariance=None):
     estimate, reduced_cov, cost = compress_gaussian_mean(y, cov, mean_basis)
     count = b.shape[1]
     return estimate[:count], estimate[count:], reduced_cov, cost
+
+
+def direction_log_factors(force, acceleration, masses, directions, covariances=None):
+    """Own-reading Gaussian profile factors on explicit finite hypotheses.
+
+    Result axes: reading, mass, direction. These finite references are for
+    exact E6 witnesses, not a quadrature/default direction prior. Each push
+    amplitude remains a separate unrestricted nuisance. Full ambient costs
+    retain evidence about the shared direction outside its candidate line.
+    """
+    f, a = _pairs(force, acceleration)
+    ms = np.asarray(masses, dtype=float)
+    ns = np.asarray(directions, dtype=float)
+    if ms.ndim != 1 or len(ms) == 0:
+        raise ValueError("a nonempty vector of candidate masses required")
+    ms = np.array([_mass(m) for m in ms])
+    if ns.ndim != 2 or ns.shape[1] != f.shape[1] or not len(ns) or not np.isfinite(ns).all():
+        raise ValueError("directions must be a finite nonempty J by d array")
+    lengths = np.linalg.norm(ns, axis=1)
+    if np.any(lengths == 0):
+        raise ValueError("directions must be nonzero")
+    ns = ns / lengths[:, None]
+    size = 2*f.shape[1]
+    covs = np.tile(np.eye(size), (len(f), 1, 1)) if covariances is None else np.asarray(covariances)
+    if covs.shape != (len(f), size, size):
+        raise ValueError("one covariance per reading required")
+    result = np.empty((len(f), len(ms), len(ns)))
+    for i, (fi, ai, cov) in enumerate(zip(f, a, covs)):
+        y = np.r_[fi, ai]
+        for j, m in enumerate(ms):
+            c, s = 1/math.hypot(1, m), m/math.hypot(1, m)
+            for k, n in enumerate(ns):
+                result[i, j, k] = -0.5*gaussian_profile(y, cov, np.r_[s*n, c*n][:, None])
+    return result
+
+
+def update_discrete_joint(joint, log_factor):
+    """Normalize one joint-state update; the shared reference enters once."""
+    base, factor = np.asarray(joint, dtype=float), np.asarray(log_factor, dtype=float)
+    if (base.ndim != 2 or factor.shape != base.shape or
+            not np.isfinite(base).all() or np.any(base < 0) or not np.any(base > 0) or
+            not np.isfinite(factor).all()):
+        raise ValueError("a nonnegative nonzero finite joint and matching finite log factor required")
+    with np.errstate(divide="ignore"):
+        log_joint = np.log(base) + factor
+    return np.exp(log_joint - logsumexp(log_joint))
+
+
+def calibrated_discrete_joint(mass_weights, direction_weights, log_factors):
+    """Joint (m,n) working law on explicit finite references.
+
+    direction_weights already contain independent calibration evidence.
+    They describe ONE shared fixture parameter, not a population of pushes.
+    log_factors has axes reading, mass, direction; zero readings can be empty.
+    """
+    mw, nw = np.asarray(mass_weights, dtype=float), np.asarray(direction_weights, dtype=float)
+    factors = np.asarray(log_factors, dtype=float)
+    if mw.ndim != 1 or nw.ndim != 1 or factors.ndim != 3 or factors.shape[1:] != (len(mw), len(nw)):
+        raise ValueError("weight vectors and reading by mass by direction factors required")
+    if (not np.isfinite(mw).all() or not np.isfinite(nw).all() or
+            np.any(mw < 0) or np.any(nw < 0) or not np.any(mw > 0) or not np.any(nw > 0)):
+        raise ValueError("nonnegative nonzero finite reference weights required")
+    # Normalize first so the outer product cannot overflow for large weights.
+    mw, nw = mw / mw.max(), nw / nw.max()
+    return update_discrete_joint(np.outer(mw, nw), factors.sum(axis=0))
 
 
 def isotropic_profile(force, acceleration, mass, structure="free", direction=None):
