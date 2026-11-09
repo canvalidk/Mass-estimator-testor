@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-07, by Claude (intake: T39–T53, ours33 and E5 harvested from exploration; B15–B19 merged as delivered; provisional intake protocol). Update this page in
+**Last updated:** 2026-11-09, by Codex on the E6 exploration branch (declared signal structure; main's status below retained). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -355,6 +355,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-09 (Codex, E6 exploration): `explore/e6-declared-structure.md` derives Gaussian factorization iff fixed signal constraints are a product, and distinguishes frames, known/unknown lines, equal vectors and reused observations; Z alone does not classify sharing. Independent checks in `tests/test_declared_structure.py`; permission under L19 remains open, no production/premise change.
 
 - 2026-11-07 (Claude, later): T70's misfit matched exactly to Hickey–Gour's geometric imaginarity; phase-two sort of the qubit picture into GOAL's bins
   added to T70; brief B23 (what makes mass real: Schur; parity in 2D) and exploration directions E6–E9 (coherent sum, gyroscopic alternative,
