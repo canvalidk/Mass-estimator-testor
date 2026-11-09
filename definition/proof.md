@@ -1,8 +1,10 @@
-# The proof: from the type to ours30, and what is left
+# The proof: what is to be proved, the chain so far, and the holes
 
-**What this is.** The second half of the deliverable. `equation.md` states ours30; this file is
-the argument that ours30 is *the* function, written as one chain from the type and the premises
-to the equation, with every step marked. Started 2026-10-29 by Claude on Can's "Ok go ahead".
+**What this is.** The second half of the deliverable: the argument that one function meets the
+requirements and no other does, with every step marked. Started 2026-10-29 by Claude on Can's
+"Ok go ahead", as one chain from the type and the premises to ours30. Since 9 Nov the target is
+stated without a named function ("What is to be proved", below), because ours30 fails two of the
+premises and every later probe breaks; the chain (§2) is kept as the arguments for the parts.
 It is a draft with holes, on purpose: the holes (§5) are the queue. Edit in place; git holds
 the history.
 
@@ -32,18 +34,63 @@ or uniqueness until this conflict is sorted. No premise or ruling is replaced.
 **The rule for this file.** A step may cite a test as its check, but a test is not a proof.
 Where the proof is missing the step says *gap*, however well the test passes.
 
-**What is to be proved.** Let $\mathcal F$ be the functions from the type (`type.md`: readings
-with $\mathbf y_i,\Sigma_i,N_i$, structure, window; a declared $\pi$) to an output (a law on
-$m>0$ and a point). Claim: the premises in `premises.md`, with the rulings, select one member
-of $\mathcal F$, and it is ours30. Two halves:
+**What is to be proved (restated 9 Nov, Claude, provisional).** Let $\mathcal F$ be the functions
+from the type (`type.md`: readings with $\mathbf y_i,\Sigma_i,N_i$, structure, window; a declared
+$\pi$) to an output (a law on $m>0$ and a point). Until 9 Nov the claim here was that the premises
+select one member of $\mathcal F$ and that it is ours30. The claim, without a named function:
 
-- **(A) ours30 satisfies the premises.** Fails as currently stated (§3, G22).
-  T41 additionally proves literal unrestricted L11 unattainable by any estimator.
-- **(B) nothing else does.** The uniqueness half. §2 is the chain that would prove it; §4 says
-  how much of it is proved today.
+- **Existence.** Some member of $\mathcal F$ meets every requirement in the table.
+- **Uniqueness.** Any two members that meet them return the same output on every input: the only
+  freedom left is the declared inputs.
+
+A requirement is *written* when it says over which inputs, in which limit and about which part of
+the output it holds. A part is *one* when the requirements are proved to leave a single body, *a
+family* when they leave several, *none known* when no body is known to meet them. Neither half can
+be proved for a part whose requirement is not written.
+
+| Part | What is required | Written? | What is known to meet it | One, a family, none known | Holes; briefs |
+| --- | --- | --- | --- | --- | --- |
+| **The type and the exact branch** (steps 0, 0′) | exact inputs go to the three-way check; measured inputs return a law and a point, never "undefined"; $\Sigma_i$, the structure, the window and $\pi$ are declared | yes | by construction | one | G11 ($N_i$ as an input); O16 (shared errors have no slot) |
+| **What one reading contributes** (steps 1–4, 7–10) | a function of the reading alone (L19), covariant under its frame, units and the swap (L16, L3, T5); an exact-zero reading contributes nothing (L20); at every fixed signal size the truth is the population optimum (L11 at the reading level: Fisher consistency); bounded, non-vanishing confidence on a fixed pair no positive mass fits as its noise shrinks (T30); the declared σ's believed (R1, R-2026-10-30-1) | yes, each clause | the cut factor (T37, T39) meets the consistency clause and, for the raw law, T30 (O18). A power weight that sees the sign of $F\cdot a$ fails consistency (T46); a sign-blind one fails T30 (ours29). Nothing is proved to meet all of them: the σ's believed against the cap is standing (G18) | a family: four candidate bodies (G19), the latent measure unforced (B17, E5) | G2, G13, G17, G18, G19, G20, G22; B25 |
+| **Joining the readings; the series level** (steps 5, 11) | the product over readings with $\pi$ counted once (T12, T7); a correction that reads only the readings' disagreement about $m$ (L19's scope), leaves exact-zero readings alone and is parametrisation-free (T31); in the long-series limit the quoted width is a true statement (property N); it must not undo consistency at fixed $N$ (T39's pair) | in the limit only; no finite-$N$ requirement is written (G3) | the Bartlett power in the repeated-signal limit, but not under concentrated leverage (T43) and not on T39's pair; the warp of T47 within its class; no estimate reaches the target $\Delta/(\Delta+M)$ at small $N$ (B15) | none known for the whole; the form (a power, a warp, a deviance map) is a family (G24) | G3, G21, G23, G24, G26; B21, B22, B24 |
+| **The starting law** (step 6) | declared once, before the data (T7, T20); in the family $m^{-1}g(\ln(m/c))$, $g$ even and proper (L3, L4, T27), with full support (provisional) | yes | every member | an input. The family is forced; the member and, past one noise ratio, the centre are the caller's (O6, O11, 9 Nov) | G8, G9; B26; the question about the goal in `bounds.md` |
+| **Consistency** (L11) | written below | on the scalar slice, yes (9 Nov); on the full type, no | the flat Gaussian law with the Bartlett power (T42, growing $N$; T17 and T23, fixed $N$). No probe with a misfit weight: ours30 (G22), ours32 (T39) | a requirement on the whole function, not a part | G22, G23, G25; B27 |
+| **What the output says on noise; the quoted width** (step 18) | not written. Bounded on one side by B13 and T45 (no always-finite interval covers uniformly near zero signal), on the other by O15, 9 Nov (a law that returns to $\pi$ on pure noise cannot meet the consistency requirement when the order of readings is free). Property N has two halves (R-2026-09-29-4) and only the first is a statement about the law | no | nothing, there being no statement | none known | G28; B24; exploration E2. A question about the goal if the page does not say where "we know nothing" must show |
+| **Composition** (step 14) | at the level of the law (R-2026-10-28-1): exact inputs add; the composite's law is computed from the parts' laws; a new measurement of the composite agrees with it, as coverage. The joint law of the parts, the protocol and the composite's starting law are not written (G27) | in part | weak sums under-cover on every probe (B18) | none known | G27; G11 (R3 unwritten, R5 provisional: VD-Newton); B26 |
+| **The point** (steps 13, 15–17) | a functional of the law (L19); units and the swap; $c$ on the all-zero experiment; defined on every law the function returns (L2) | yes | every location functional of $\ln m$ that commutes with negation and needs no moments: the median, and others | a family (G6); the median is the member in `met/` | G6 |
+
+**The consistency requirement, with its quantifiers (Claude, 9 Nov, provisional; the scalar slice
+only).** Readings are 1D on one instrument, and the world's errors are independent between readings
+with the declared covariance. An experiment is $N$ readings with true signals $r_1,\dots,r_N$:
+fixed numbers of any sign and size, with no population behind them; $\Delta=\sum_ir_i^2$ in noise
+units. For every true mass $m\in(0,\infty)$, every declared $\pi$ with a positive continuous density
+near $m$, and every sequence of experiments, in which the number of readings $N_n$ and the signals
+may both change with $n$, such that
+
+$$\frac{\Delta_n^2}{N_n+\Delta_n}\longrightarrow\infty,$$
+
+the point converges to $m$ in probability. One growing series is the case $N_n=n$, where the
+condition is L11's row, $\Delta_N/\sqrt N\to\infty$; a fixed number of readings with growing signals
+is the case $\Delta_n\to\infty$. The requirement is about the point: it does not ask that the law
+concentrate, and it promises nothing when the condition fails. It is attainable (T42 for growing
+$N$, by the flat Gaussian law with the Bartlett power; T17 and T23 for fixed $N$; Gaussian errors;
+T42 is Codex's and not checked by Claude). It cannot be weakened to $\Delta_n\to\infty$ (T41), and
+over energy classes the rate is sharp (T53). Not written: readings with $k_i>1$, different
+$\Sigma_i$ or declared subspaces (B27), and errors that are not Gaussian in the world.
+
+**Where the two halves stand.** Existence: no function is known to meet the written requirements
+together. Uniqueness: the type is the one part where it is proved. For the reading level, the
+starting law and the point it can be stated, and what is known is a family. For the series level,
+the quoted width and composition the requirement is not written, so there is nothing yet to be
+unique about.
+
+**How the rest of this file relates.** §2 is the chain as it was built toward ours30 on 29 Oct:
+its steps are the parts' arguments, in the order that probe assembled them, with their statuses.
+§3 is ours30 against the premises, a probe's report. §4 says what the chain proves, conditionally.
+§5 is the queue.
 
 Agreement with experiment (`../TASK.md` §5) is a check on the result, not part of this proof;
-it has not been made (O16, brief B01).
+it has not been made (G14; the robot is a testbed, R-2026-10-31-1).
 
 ---
 
@@ -625,7 +672,7 @@ branch `codex/ours32-consistency` (Codex, 3–4 Nov): input, not checked by Clau
 | G22 | 8–10, 11 | **The sign in the weight against consistency** (31 Oct, from B05). T30 with R-2026-09-07-1 put the sign of F·a into the misfit ($Q_+$); L11 forbids a weight correlated with the score at the truth. Eigenvalue-only weights keep the population optimum at the truth (T38's step 1 symmetry); $g(Q_+)$ moves it (2D/3D: −10%/−9% at signal 1, −3%/−2% at signal 2). **Not inherited by ours32 (4 Nov):** T37's cut factor keeps the optimum at the truth (G19). **Also at zero signal (4 Nov, B13 merge):** the weighted cross-moment is positive, so ours30's pure-noise law concentrates on $m=c$ as $N$ grows (O15). T46 proves the scalar obstruction for every fixed nonconstant bounded monotone w(Q+) quadratic weight, and a separate analytic argument forces constant w for universal Gaussian stationarity even without monotonicity. Nonlinear residual factors remain outside this class. Forced, input, or which premise is mis-stated | sort (Claude) → rule; the fixed-quadratic class obstruction is proved, not a selected repair | T30, T32, T46, L11; `tests/test_weight_consistency.py`; `tests/test_positive_weight_obstruction.py`; T23 |
 | G23 | L11, finite-ν probes; G3's finite-N power | **Tempered tail index against amplitude consistency** (3 Nov, Codex). T39 proves raw nu<1 and eta-caused nu=10 failures for current factors. T48's specified Student residual measure repairs raw fixed-N amplification, but its prefactor change is canceled exactly by the outer Bartlett power on the opposed pair. T47's median-preserving CDF warp instead retains concentrating raw laws when eta has a positive lower bound. Together they give a conditional compatibility witness, not the selected replacement or unrestricted growth theorem | failures and conditional named-regime repair proved; measure/class selection unsorted; no premise changed | T39, T47, T48; O18; `tests/test_cut_consistency.py`; `tests/test_cdf_calibration.py`; `tests/test_residual_mixture.py` |
 | G24 | G3/G23, global calibration shape | **Local η does not select a global correction**. T40's scalar-deviance semigroups need unforced experiment state; T42 extends their stated Gaussian TV comparison to vanishing eta. T47 derives a unique normal-score warp under a law-only/full-reparameterization class and full Gaussian benchmark, without an extra scale. That class reduction is unforced, and vanishing eta needs raw-tail control beyond ordinary BvM. T51 rules out any nonidentity universal CDF warp under an additional independent-composition interchange axiom, which is not recorded VD scope. Research state and class assumptions are not newly licensed physical inputs under TASK §5 | conditional class uniqueness, calibration and limitations proved; stronger composition route closed; global selection and permitted state unsorted; no adoption | T40, T42, T47, T51; O14, O19, O2/G27; `tests/test_deviance_calibration.py`; `tests/test_gaussian_information.py`; `tests/test_cdf_calibration.py`; `tests/test_composition_calibration.py` |
-| G25 | L11, identifying growth | **L11 restated 7 Nov (Claude, provisional): $\widehat m_N\to m$ when $\Delta_N/\sqrt N\to\infty$**, the literature's rate (B19), = T42's and T53's threshold; the old wording struck in its slot. Sorted as a wrong premise (the deduction misread F1, not the goal). Still open: the full type ($k>1$, general $\Sigma_i$) and the phase-two bin. **9 Nov (exploration E10; O15, O19):** the restated rate holds only beside a law that keeps its tilt on pure noise: with reading order free, a law that returns to $\pi$ on noise is inconsistent on some identifying series (triangular arrays and one fixed history, the median included: both checked by Claude, 9 Nov; `tests/test_washout_fixed_history.py`). The row does not yet say whether it quantifies over one series or over arrays, or over the point or the law. The 3–4 Nov branch's text follows. **Latent energy or oracle information alone does not justify universal consistency**. T41 disproves literal L11; T52 extends the obstruction to fixed positive sparse supports with every positive-power energy sum and known-magnitude information divergent, without L16. This challenges a strong premise and the consistency of the present list. T53 proves T42's energy threshold sharp for all estimators under specified uniform Gaussian energy-class quantifiers. It is not a criterion for each individual stream or the selected full-type replacement; T39's finite-ν failures remain | contradiction and sharp uniform Gaussian threshold proved; proposed experiment-scoped obligations recorded in O19; full-type statement unsorted; L11 statement and grade retained | T41, T42, T52, T53; O19; `tests/test_signal_identifiability.py`; `tests/test_gaussian_information.py`; `tests/test_sparse_identification.py`; `tests/test_energy_minimax.py`; brief B27 (vector readings, 9 Nov) |
+| G25 | L11, identifying growth | **L11 restated 7 Nov (Claude, provisional): $\widehat m_N\to m$ when $\Delta_N/\sqrt N\to\infty$**, the literature's rate (B19), = T42's and T53's threshold; the old wording struck in its slot. Sorted as a wrong premise (the deduction misread F1, not the goal). Still open: the full type ($k>1$, general $\Sigma_i$) and the phase-two bin. **9 Nov (exploration E10; O15, O19):** the restated rate holds only beside a law that keeps its tilt on pure noise: with reading order free, a law that returns to $\pi$ on noise is inconsistent on some identifying series (triangular arrays and one fixed history, the median included: both checked by Claude, 9 Nov; `tests/test_washout_fixed_history.py`). The quantifiers are written, for the scalar slice, at the head of this file (9 Nov, provisional): sequences of experiments, the point. The 3–4 Nov branch's text follows. **Latent energy or oracle information alone does not justify universal consistency**. T41 disproves literal L11; T52 extends the obstruction to fixed positive sparse supports with every positive-power energy sum and known-magnitude information divergent, without L16. This challenges a strong premise and the consistency of the present list. T53 proves T42's energy threshold sharp for all estimators under specified uniform Gaussian energy-class quantifiers. It is not a criterion for each individual stream or the selected full-type replacement; T39's finite-ν failures remain | contradiction and sharp uniform Gaussian threshold proved; proposed experiment-scoped obligations recorded in O19; full-type statement unsorted; L11 statement and grade retained | T41, T42, T52, T53; O19; `tests/test_signal_identifiability.py`; `tests/test_gaussian_information.py`; `tests/test_sparse_identification.py`; `tests/test_energy_minimax.py`; brief B27 (vector readings, 9 Nov) |
 | G26 | 11, long-series uncertainty | **Raw fitted J need not estimate sampling variance under concentrated leverage** (T43). A Z-safe spectral control attains Gaussian asymptotic coverage; T45 gives an exact full scalar-type Gaussian score benchmark. T50 extends this to vector scores in a specified common-frame/full-subspace operator comparison, using observed covariance rank. These exact sets are not proper-law intervals, and noisy conditional rank does not establish identifying growth. T49 separates the signal-independent graph metric from Fisher/score covariance. The selected law variance and finite-N body remain unsorted; marginal calibration alone does not settle the joint obligation G27 | counterexample, Gaussian attainability and exact scalar/operator tests proved; proper-law selection and full-type asymptotic law calibration open; no adoption | T43, T45, T49, T50, T51; T18, T31; O14, O15, O17, O2; `tests/test_leverage_calibration.py`; `tests/test_conditional_score.py`; `tests/test_operator_score.py` |
 | G27 | L5/L14, joint composition protocol | **A supplied joint law has a unique pushforward; calibrated marginal laws do not supply that joint**. This makes O2's existing bridge obligation explicit: multiple-body identities, shared/separate observations and cross-covariances, propagated joint prior, and the coverage protocol for a new composite measurement. T51 separates this from the unrecorded universal calibration-interchange axiom and derives a cross-covariance constraint under an explicitly stronger centered-Gaussian benchmark. R3/R5 remain provisional/unwritten as in G11 | joint/protocol construction open; stronger interchange route sorted; no new premise or type slot | T51; O2, G6/G11/G26; R-2026-10-28-1; `tests/test_composition_bridge.py`; `tests/test_composition_calibration.py`; brief B26 (the starting law under lumping, 9 Nov) |
 | ~~G4~~ | 10 | ~~$S_k=k-\tfrac12$, and $\sup E[Q]=k-1$, proved~~ **closed 31 Oct: T38** (B02); load-bearing only if G18 keeps O12's meaning | derive | brief B02, merged |
@@ -654,6 +701,8 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 - `docs/STATE.md`'s "Read first" points here after `ladder.md`.
 
 ## History
+
+- 2026-11-09 (Claude, night): the head restated. "What is to be proved" no longer names ours30: existence and uniqueness, part by part, each requirement marked written or not and what is known to meet it; the consistency requirement written with its quantifiers for the scalar slice. §§1–6 unchanged.
 
 - 2026-11-09 (Claude): intake of the 9 Nov explorations (E6, E9 and exploration E10, Codex; read and left on their branches). G8, G9 and G25 gain their clauses; G28 opened (what the quoted width promises on noise). No step's status and no premise changed. Later: briefs B24–B27 cut from G28/G3, G19/G22, G27 and G25.
 

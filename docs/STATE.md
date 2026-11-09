@@ -31,7 +31,8 @@ standard: any choice the premises leave open is an alternative Newtonian mechani
 so the goal is uniqueness, not a good estimator.
 
 **Where it stands (9 Nov).** No candidate meets the premise list, and the list is still being restated.
-The chain from the type to ours30 is in `definition/proof.md` (29 Oct), eighteen steps, and what it proves is
+`definition/proof.md` opens with what is to be proved, part by part (9 Nov): existence and uniqueness without a named
+function. Its chain from the type to ours30 (29 Oct, eighteen steps) is kept as the parts' arguments; what it proves is
 conditional: on isotropic uncorrelated channels, any function meeting the premises as ruled, with R1 read as not
 constraining the misfit weight, L11 read as fixed-N amplitude consistency, and L22, L23 and η's finite-N form taken as
 given, is ours30 up to the declared inputs. ours30 fails two rows of its own list: R1 (a weight below 1 declares a
@@ -343,7 +344,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
    reading space, its noise metric, a mass as a subspace, one residual).
 2. `../definition/bounds.md`: what Can's corrections have said the goal means, as Claude reads it, and the open
    questions about the goal (7 Nov). Then `../definition/ladder.md`: which commitment of the version removes which freedom, and
-   what is left. Then `../definition/proof.md`: the chain from the type to ours30 with every
+   what is left. Then `../definition/proof.md`: what is to be proved, part by part (its head, 9 Nov), then the chain from the type to ours30 with every
    step's status and the holes, typed; it is the queue. Then `../definition/equation.md`,
    `../definition/premises.md` and `../definition/theorems/README.md`: what is claimed and
    what it rests on.
@@ -386,6 +387,10 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-09 (Claude, night): **`definition/proof.md`'s head restated**: what is to be proved no longer names ours30. A table by part (the type,
+  the reading level, the series level, the starting law, consistency, the quoted width, composition, the point): the requirement, whether it is
+  written with its quantifiers, what is known to meet it, and whether that is one body, a family or none. The consistency requirement written out
+  for the scalar slice (sequences of experiments, the point; provisional). The chain and the holes table are unchanged.
 - 2026-11-09 (Claude, night): **the fixed-history half of exploration E10 checked**, line by line, with its median corollary: no gap (O15).
   For each order-free procedure that returns to π on pure noise there is one series with Δ_N/√N → ∞ on which the median does not reach the
   truth. `../tests/test_washout_fixed_history.py` (20) holds the finite ingredients; the branch's 31 tests pass here. Unchecked still: the
