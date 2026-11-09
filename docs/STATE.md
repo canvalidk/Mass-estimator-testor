@@ -54,8 +54,8 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
 **Since 9 Nov** (three exploration branches of Codex's; read by Claude and left on their branches, `../explore/README.md`):
 
 - **The law cannot return to π on pure noise and keep L11's rate** (exploration E10; O15, O19). With reading order
-  free, a law that washes out on noise is inconsistent on some identifying series (triangular arrays: the bound checked
-  by Claude; one fixed history: not checked). So the bounded null tilt stays, and "we know nothing" is the quoted
+  free, a law that washes out on noise is inconsistent on some identifying series (triangular arrays and one fixed
+  history, the median included: both checked by Claude). So the bounded null tilt stays, and "we know nothing" is the quoted
   width's to carry; that statement is unwritten (G28), bracketed by this and B13's corner.
 - **No principal member of π from the type or from the null limit** (E9, exploration E10; O6, O11). Noise ratios
   1, 2, 3 give a proper curve volume with no reciprocal centre (checked by Claude); no full-support π on positive
@@ -386,6 +386,10 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-09 (Claude, night): **the fixed-history half of exploration E10 checked**, line by line, with its median corollary: no gap (O15).
+  For each order-free procedure that returns to π on pure noise there is one series with Δ_N/√N → ∞ on which the median does not reach the
+  truth. `../tests/test_washout_fixed_history.py` (20) holds the finite ingredients; the branch's 31 tests pass here. Unchecked still: the
+  controls, and the averaged-null result behind O6's second closed route.
 - 2026-11-09 (Claude, later): **queued, on Can's "ok add em":** briefs B24 (the quoted width and η against the weak-instrument literature; G28, G3),
   B25 (which per-reading factors keep the truth as the population optimum, and what bounded confidence adds; G19, G22), B26 (is π's family closed
   under lumping, and is that B18's weak-signal under-coverage; O6, G27) and B27 (L11's rate on vector readings; G25). B22 amended before any run:
