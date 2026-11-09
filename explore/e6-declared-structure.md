@@ -641,6 +641,16 @@ addressed calibration evidence, or requires a determination in the existing
 type which preserves all information it is entitled to use. A direction
 value or its marginal error bar alone does not supply that determination.
 
+## Born-reconstruction continuation
+
+[E6 and Born reconstruction](e6-born-bridge.md) audits the operational
+connection to T70. The joint state has an exact commutative Born/Lüders
+representation, but that representation admits any bounded positive
+kernel. Positive mass rays do not resolve a POVM; real mass probes do not
+identify a unique complex state. The missing bridge is an operationally
+justified experiment and nuisance reduction, not a new chosen kernel.
+Independent checks: `tests/test_born_operational_bridge.py`.
+
 ## Validation
 
 The 32 E6 checks pass. The default full suite gave 2,691 passed, 28 skipped,
