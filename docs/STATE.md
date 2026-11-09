@@ -63,7 +63,8 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   noise ratio, not L4; π is declared, centre and shape.
 - **Shared signal structure** (E6; a pointer in O16). A joint law of mass and a shared calibrated direction fails T30
   and L19 as written; whether such evidence may enter is unsorted, and no hole depends on it.
-- Briefs B21, B22 and B23 are open and not yet run.
+- Briefs B21–B27 are open and not yet run; B24 (the width and η against the weak-instrument literature) and B25
+  (which per-reading factors keep the truth) are first (`../briefs/README.md`).
 
 **Since 3 Nov** (Codex's exploration and briefs B15–B19, on main since 7 Nov as delivered; **not checked by Claude**):
 
@@ -385,6 +386,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-09 (Claude, later): **queued, on Can's "ok add em":** briefs B24 (the quoted width and η against the weak-instrument literature; G28, G3),
+  B25 (which per-reading factors keep the truth as the population optimum, and what bounded confidence adds; G19, G22), B26 (is π's family closed
+  under lumping, and is that B18's weak-signal under-coverage; O6, G27) and B27 (L11's rate on vector readings; G25). B22 amended before any run:
+  a sign-blind base beside ours30. Exploration E2 rewritten around G28's two walls and put first; E11 added (the sibling constant, Ohm's R = V/I:
+  the phase-two bins and a venue for G14).
 - 2026-11-09 (Claude): **intake of the 9 Nov explorations** (Codex: E6, E9 and exploration E10; read, left on their branches, nothing merged).
   E10: a law that returns to π on pure noise cannot keep L11's rate when reading order is free (the triangular-array bound checked by hand;
   O15, O19). E9 with E10: neither the type's geometry nor the pure-noise limit selects a member of π's family (ratios 1, 2, 3 checked by hand;

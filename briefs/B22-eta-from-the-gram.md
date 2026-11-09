@@ -26,6 +26,14 @@ function of the series' Gram. So the probe keeps ours30's per-reading $g_i$ and 
 $g$-weighted series: $\eta_G=$ `gram_eta(readings, c, g)[0]`. Nothing else changes: π, the misfit weight, the
 median point. It is a probe: presumed to break; what matters is which premise the break names.
 
+**Amended 9 Nov (Claude), before any run.** ours30's weight sees the sign of $F\cdot a$, and that alone moves its
+population optimum whatever η is (G22, T46), so on ours30 the L11 row cannot tell one η from another. Run item 2's
+L11 row and item 3's coverage on a second base as well: the sign-blind weight, `ours29(...)` with
+`positivity=False`, which has the same $g\,H$ form (so $\eta_G$ is the same object) and keeps the optimum at the
+truth. `ours30` is `ours29(..., positivity=True)`, so the option of item 1 sits on both. Also, on the flat factor
+$\eta_G$ and the Bartlett η have the same pure-noise limit (exploration E10, `problems/O15.md`, 9 Nov): if the
+signal-0 cells separate them as $N$ grows, say so.
+
 ## Deliverable
 
 1. **The option.** `ours30(..., eta_form="bartlett")` (default, unchanged) and `eta_form="gram"`, which uses
