@@ -280,3 +280,8 @@ The heterogeneous extension is not needed to refute a universal fixed-point
 selector: the full input type includes this one-instrument slice. O6 and O15
 remain open. The useful next issue is the intended operational meaning of
 null neutrality, not searching harder for a fixed prior inside this class.
+
+**Continuation, 9 Nov:** `e10-null-washout-consistency.md` tests the stronger
+law-by-law washout requirement against slow identification. It proves a
+triangular-array obstruction and, with explicit permutation invariance,
+a fixed-history obstruction, with positive controls delineating the scope.

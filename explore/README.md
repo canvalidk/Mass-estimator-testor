@@ -35,6 +35,12 @@ hole in `proof.md`, a probe), and a harvested part says which branch it came fro
 | --- | --- | --- | --- |
 | E10 | Can T42's pure-null limit select the principal prior through averaged self-consistency? Follow-up to E9, authorized 9 Nov | [explore/e10-null-limit-prior](https://github.com/canvalidk/Mass-estimator-testor/tree/explore/e10-null-limit-prior) | [No full-support fixed point on positive mass](e10-null-limit-prior.md) for nontrivial isotropic exponential tilts; uniform full-circle control fails after per-result positive restriction. Added calibration condition, not a new ruling; O6/O15 open. |
 
+E10's [continuation](e10-null-washout-consistency.md), also 9 Nov, proves
+that stronger null washout conflicts with arbitrarily slow identifying
+consistency; the fixed-history result explicitly assumes permutation
+invariance. Ordered and stronger-margin controls delimit the obstruction.
+No prior, correction or premise is adopted.
+
 ## Left on exploration branches
 
 Ids that main's files cite but whose files live only on an exploration branch (not harvested; `../tools/audit.py`

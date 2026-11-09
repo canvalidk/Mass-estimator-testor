@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-09, by Codex on the E10 exploration branch (null-limit prior test; main's status below retained). Update this page in
+**Last updated:** 2026-11-09, by Codex on the E10 exploration branch (null limits and consistency; main's status below retained). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -355,6 +355,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-09 (Codex, E10 continuation): proved the null-washout/slow-consistency obstruction, including fixed histories under explicit permutation invariance and the current median; ordered and stronger-margin controls delimit the result. `explore/e10-null-washout-consistency.md`, research helpers and 17 new checks; 117 focused tests pass. No production, prior or premise change.
 
 - 2026-11-09 (Codex, E10 exploration): T42's averaged pure-null update has no full-support fixed prior on positive mass; proved the full-circle control, positive-restriction obstruction and common raw Bartlett/Gram limit. Derivation in `explore/e10-null-limit-prior.md`, research quadrature and tests added; O6/O15 pointers only, no production or premise change.
 
