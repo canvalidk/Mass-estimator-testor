@@ -283,6 +283,12 @@ Those remain separate tests of which ingredients the physical type
 supplies. This continuation makes no claim that any of them has been
 completed or rendered unnecessary.
 
+Continuation: [which state preserves allowed future experiments?](e6-predictive-state.md)
+calculates the closed expectation space for normalized experiments, gives
+a concrete two-axis calibration case requiring joint association, and
+proves the common-null limit of exact amplitude elimination. These are
+conditional operational results, not adoption of a calibration input.
+
 ## Validation
 
 The 18 new checks pass. Together with T70's reading-qubit checks, E6's

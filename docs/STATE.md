@@ -356,6 +356,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-09 (Codex, E6 predictive state): normalized future events separate the mass-neutral histories; closed future-effect/readout spaces give the exact state criterion. Mass-only operations preserve the marginal, while addressed calibration can require full joint association; a common-null proof excludes informative exact amplitude-free normalized reductions through one fixed kernel. `explore/e6-predictive-state.md`, 24 new checks and 188 relevant regressions pass. Conditional experiments only; no production/premise change.
+
 - 2026-11-09 (Codex, E6 Born bridge): positive mass rays do not resolve a POVM; real probes leave complex completion undetermined; diagonal Born/Lüders form admits arbitrary bounded kernels. `explore/e6-born-bridge.md` audits the missing operational hypotheses and the original-experiment/nuisance-reduction gap, with 18 new checks. No production/premise change.
 
 - 2026-11-09 (Codex, E6 calibrated state): proper joint direction/mass construction passes Z but a mass-neutral history defeats mass-only updating; shared geometry changes a sum probability from 0.4733 to 0.5. Fixture/calibration identity must travel; this Gaussian family still fails T30 and literal L19. `explore/e6-declared-structure.md` §§13–17, 53 E6 checks; no adoption.

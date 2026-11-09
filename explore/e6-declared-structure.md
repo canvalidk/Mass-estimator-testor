@@ -651,6 +651,13 @@ identify a unique complex state. The missing bridge is an operationally
 justified experiment and nuisance reduction, not a new chosen kernel.
 Independent checks: `tests/test_born_operational_bridge.py`.
 
+[Predictive-state continuation](e6-predictive-state.md) replaces future
+profile expectations by normalized event witnesses. It derives the exact
+state criterion relative to allowed operations: mass-only operations need
+only the mass marginal, while addressed recalibration can require the
+joint association. It also proves a common-null obstruction to informative
+exact amplitude-free reductions through a single normalized kernel.
+
 ## Validation
 
 The 32 E6 checks pass. The default full suite gave 2,691 passed, 28 skipped,
