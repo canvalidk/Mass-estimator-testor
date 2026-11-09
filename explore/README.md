@@ -29,6 +29,12 @@ hole in `proof.md`, a probe), and a harvested part says which branch it came fro
 | E8 | **Z-safe estimates of the shrinkage from the Gram alone.** $\eta_G=1-\lambda_{\min}/\lambda_{\max}$ of the series' 2×2 Gram overshoots $\Delta/(\Delta+M)$ at small $N$ (O14, 7 Nov). The class of estimators of $\Delta/(\Delta+M)$ that are functions of $G$ only (hence Z-safe): is there an unbiased or minimax member, what is its small-$N$ bias, or a proof that less bias needs a count of noise dimensions (which Z forbids at the series level, T70 (6)). Standard mathematics first: eigenvalues of the noncentral $2\times2$ Wishart (James 1964; Muirhead 1982) | G3's finite-$N$ form: within the Gram class, or not | B22 (ours30 with $\eta_G$ as is); E2 (the width class); B04, B15 | — | open |
 | E9 | **The Fisher–Rao geometry of the mass line under the full type.** On one instrument the Fisher volume on $m$ is uniform in the angle (T28) and Wootters' distinguishability distance is that angle. Under several instruments and anisotropic $\Sigma_i$: is the hypothesis set still a ray space with one inner product; what volume form does the type induce on $m$; is it a member of T28's family $m^{-1}g(\ln m/c)$, and which? Standard mathematics first: Wootters 1981; Jeffreys/reference priors for the structural EIV model | whether O6's shape can come from a property of the *type* (O6's "group larger than the swap" route) rather than a declaration; note O6 already says the one-instrument agreement "was not evidence" | T28; B08 (the family); B21 (the groups per reading) | — | open |
 
+## User-directed follow-up
+
+| Id | Direction | Branch | Result |
+| --- | --- | --- | --- |
+| E10 | Can T42's pure-null limit select the principal prior through averaged self-consistency? Follow-up to E9, authorized 9 Nov | [explore/e10-null-limit-prior](https://github.com/canvalidk/Mass-estimator-testor/tree/explore/e10-null-limit-prior) | [No full-support fixed point on positive mass](e10-null-limit-prior.md) for nontrivial isotropic exponential tilts; uniform full-circle control fails after per-result positive restriction. Added calibration condition, not a new ruling; O6/O15 open. |
+
 ## Left on exploration branches
 
 Ids that main's files cite but whose files live only on an exploration branch (not harvested; `../tools/audit.py`
