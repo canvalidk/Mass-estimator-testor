@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-07, by Claude (intake: T39–T53, ours33 and E5 harvested from exploration; B15–B19 merged as delivered; provisional intake protocol). Update this page in
+**Last updated:** 2026-11-09, by Codex on the E9 exploration branch (mass geometry; main's status below retained). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -355,6 +355,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-09 (Codex, E9 exploration): structural Fisher orthogonality extends to full covariance, but normalized volume ignores arbitrary relative sizes iff metric profiles are proportional. Spectral anisotropy, single-linear-ray and reciprocal-multiset classifications sharpen T49; ratios 1,2,3 give a proper geometric candidate with no L4 centre. `explore/e9-fisher-geometry.md`, 28 new checks and 196 relevant regressions pass. O6 remains open; no population, prior or premise adopted.
 
 - 2026-11-07 (Claude, later): T70's misfit matched exactly to Hickey–Gour's geometric imaginarity; phase-two sort of the qubit picture into GOAL's bins
   added to T70; brief B23 (what makes mass real: Schur; parity in 2D) and exploration directions E6–E9 (coherent sum, gyroscopic alternative,
