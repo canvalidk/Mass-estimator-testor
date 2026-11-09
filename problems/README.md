@@ -12,7 +12,7 @@ it. A conversation that works on an item edits its file; it does not write a rec
 | [O5](O5.md) | proof | The betweenness representation step behind T21 |
 | [O7](O7.md) | ruling | Does Z cover zeros beside a signal, or whole null readings only? |
 | [O9](O9.md) | ruling | Is the window the criterion for one reading versus several? |
-| [O11](O11.md) | ruling | Does the default centre reference the instruments only; is the swap-of-declarations premise accepted? |
+| [O11](O11.md) | sort; goal | Does the default centre reference the instruments only; is the swap-of-declarations premise accepted? Past one noise ratio: declared, not derived (9 Nov, provisional) |
 | [O13](O13.md) | ruling | Is anything more owed for readings that contradict each other? |
 | [O14](O14.md) | proof | η at finite N: a correction that counts effective readings |
 | [O15](O15.md) | proof | Is the bounded null floor the best any law can do? |

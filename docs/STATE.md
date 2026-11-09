@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-07, by Claude (intake: T39–T53, ours33 and E5 harvested from exploration; B15–B19 merged as delivered; provisional intake protocol). Update this page in
+**Last updated:** 2026-11-09, by Claude (intake of the 9 Nov explorations E6, E9 and E10, left on their branches; "Where it stands" rewritten; hole G28). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -30,19 +30,40 @@ definition**: there is no further mass behind the readout. F2 (ruled Sept) sets 
 standard: any choice the premises leave open is an alternative Newtonian mechanics,
 so the goal is uniqueness, not a good estimator.
 
-**Where it stands.** The equation is in good shape; the proof is not yet written. The chain
-from the type to ours30 is in `definition/proof.md` (29 Oct), eighteen steps: what is proved
-today is that on isotropic uncorrelated channels any function meeting the premises as ruled,
-with L22, L23 and η's finite-N form taken as given, is ours30 up to the declared inputs. Those
-three, plus 19 theorem files (ten on the path) whose proofs still say "carried from the records", are the
-uniqueness half's work; the holes are typed there and that table is the queue. O2 (the readout) is provisionally
-resolved as of 28 Oct, pending Can's check of L23; O6 still needs a real idea, not more
-tests. The law's sign defect is closed by ours30 (29 Oct). Some premises are graded below bedrock or are
-provisional (L12 medium; L14 and L15 provisional), and some choices are natural
-rather than forced (eta's cap at 1 and its power form at finite N). The misfit weight's
-numerator κ = k − ½ is fixed by meaning (O12, read size-free); its value is proved for isotropic channels (T38),
-but that meaning is the one G18 says is mis-stated. The rest is rulings Can owes and proofs, some routine
-(O4, O5) and some open research (O14, O15).
+**Where it stands (9 Nov).** No candidate meets the premise list, and the list is still being restated.
+The chain from the type to ours30 is in `definition/proof.md` (29 Oct), eighteen steps, and what it proves is
+conditional: on isotropic uncorrelated channels, any function meeting the premises as ruled, with R1 read as not
+constraining the misfit weight, L11 read as fixed-N amplitude consistency, and L22, L23 and η's finite-N form taken as
+given, is ours30 up to the declared inputs. ours30 fails two rows of its own list: R1 (a weight below 1 declares a
+larger noise, G18) and L11 at fixed signal as N grows (the sign of F·a is in its power weight, G22). Each later probe
+breaks: ours31 at weak signal, ours32 on T39's inputs, ours33 at the quoted width (O18). By part:
+
+- **The input type:** settled, apart from errors shared between readings (O16).
+- **What one reading contributes:** four candidate bodies (G19). One forcing argument is forming, L11 with T30
+  against the power form (T46); the latent measure is unforced (B17, E5).
+- **How much the series counts:** η's target is known (O14, 4 Nov); its finite-N form and its place (a power, a warp)
+  are not (G3, G24, G26).
+- **The starting law:** the family is forced and no member is; two routes to a member closed on 9 Nov (O6).
+- **The point:** a family of location functionals of ln m; the median is the one in `met/` (G6).
+- **The quoted width:** what it promises on noise is not written (G28).
+
+Two rungs the proof leans on are not fixed in VD-Newton: R3 (persistence, lumping) is unwritten and R5 (Newton III)
+is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, still say "carried from the records"
+(G15). The holes are typed in `definition/proof.md` §5, and that table is the queue.
+
+**Since 9 Nov** (three exploration branches of Codex's; read by Claude and left on their branches, `../explore/README.md`):
+
+- **The law cannot return to π on pure noise and keep L11's rate** (exploration E10; O15, O19). With reading order
+  free, a law that washes out on noise is inconsistent on some identifying series (triangular arrays: the bound checked
+  by Claude; one fixed history: not checked). So the bounded null tilt stays, and "we know nothing" is the quoted
+  width's to carry; that statement is unwritten (G28), bracketed by this and B13's corner.
+- **No principal member of π from the type or from the null limit** (E9, exploration E10; O6, O11). Noise ratios
+  1, 2, 3 give a proper curve volume with no reciprocal centre (checked by Claude); no full-support π on positive
+  mass is preserved on average by T42's pure-noise update (not checked). Sorted, provisional: this bars L3′ past one
+  noise ratio, not L4; π is declared, centre and shape.
+- **Shared signal structure** (E6; a pointer in O16). A joint law of mass and a shared calibrated direction fails T30
+  and L19 as written; whether such evidence may enter is unsorted, and no hole depends on it.
+- Briefs B21, B22 and B23 are open and not yet run.
 
 **Since 3 Nov** (Codex's exploration and briefs B15–B19, on main since 7 Nov as delivered; **not checked by Claude**):
 
@@ -195,7 +216,7 @@ it is $Q_+$; the numerator is O12's meaning read without a size, $k-\tfrac12$ (O
 fix costs consistency: a weight that sees the sign is correlated with the score, so ours30 fails L11 at
 fixed per-reading signal as N grows; ours29's sign-blind weight does not (G22, a sort owed).
 
-### O2: the readout (provisionally resolved 28 Oct; Can's check of L23 pending)
+### O2: the readout (the median is provisional; 6 Nov: L23 does not force it, G6)
 
 The three requirements were composition at the point (L5, L14), Z at the point (never ruled:
 R-2026-10-29-2) and a value, c, at the all-zero experiment. Sorted 28 Oct (`../problems/O2.md`): under L19 the
@@ -220,8 +241,11 @@ The six-candidate table and the measurement-coarsening bridge (Codex, 28 Oct, in
 record of the candidates under the old point-level reading: on T4's full finite-law domain
 every size rule fails composition or point Z; and fitting the summed measurements differs
 from the pushforward of one joint law, which is why clause (c) asks for consistency, not
-equality. Still open in O2: Can's check of L23 against the goal, and whether the point must
-be continuous at the all-zero experiment.
+equality. **6 Nov (Claude, provisional; G6):** as a forcing argument L23 is mis-stated: it asks for
+ordinal-scale invariance, and mass's commitments make it a ratio scale. Units and the swap leave the
+reflection-equivariant location functionals of ln m, of which the robust ones remain; the point is a family, and
+the median is the member in `met/`. Still open in O2: that sort, and whether the point must be continuous at the
+all-zero experiment.
 
 ### O6: the shape of the starting law
 
@@ -234,6 +258,11 @@ the Jeffreys-check record judged the agreement not to be evidence for the princi
 Only weak-signal answers depend on the shape. Under F2 it needs either a forcing
 argument or a ruling that records it as a parameter of an alternative mechanics.
 
+**9 Nov (E9, exploration E10; `../problems/O6.md`):** two routes to a forcing argument are closed. The geometry of the
+declared instruments does not give a member of the family past one noise ratio, and the pure-noise limit selects
+nothing. What is left is the question about the goal in `../definition/bounds.md`: whether a declared shape is a
+branch cut or an alternative mechanics.
+
 ## Other open items
 
 Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README.md`.
@@ -244,12 +273,12 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 | O5 | proof | Write out the betweenness representation step behind T21 |
 | O7 | ruling; part sorted as input (27 Oct) | Does Z cover zeros beside a signal? Separately: Z for mass and Z for noise split by whether Σ is declared exact or up to a scale |
 | O9 | ruling | Is the window the criterion for one reading versus several? (proposed 10 Oct) |
-| O11 | ruling | Does the default centre reference the instruments only (L3′), and is the swap-of-declarations premise accepted, which gives c = s for one noise pair? Then the several-instrument and anisotropic cases |
+| O11 | ruling | Does the default centre reference the instruments only (L3′), and is the swap-of-declarations premise accepted, which gives c = s for one noise pair? The several-instrument and anisotropic cases: sorted 9 Nov (Claude, provisional), declared, not derived |
 | O13 | ruling; sign fork closed (ours30, 29 Oct) | Is anything more owed for readings that contradict each other? The sign of F·a: closed by R-2026-10-29-1 (g on Q₊, numerator k − ½; the value proved, T38) |
 | O14 | proof | eta at small N: a correction that counts effective readings. The 26 Oct second noise channel is superseded by T36 (29 Oct). **30 Oct sort (provisional):** g and η are noise scales, per reading and per series, on an unwritten declaration that Σ is a floor; which levels a caller declares exact / floor / unknown is an input; G13 sorted |
-| O15 | proof | Is the bounded null floor the best any law can do? |
+| O15 | proof | Is the bounded null floor the best any law can do? **9 Nov (exploration E10):** an order-free law consistent at L11's rate cannot remove the null tilt; what the quoted width promises there is G28 |
 | O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
-| O19 | proof; premise sort | What growth of signal makes L11 attainable? T41: divergent total energy is not enough for any estimator; B19: the literature's rate is $\Delta_N/\sqrt N\to\infty$ (= T42, T53); a restatement of L11 is Can's rule (G25) |
+| O19 | proof; premise sort | What growth of signal makes L11 attainable? T41: divergent total energy is not enough for any estimator; B19: the literature's rate is $\Delta_N/\sqrt N\to\infty$ (= T42, T53); L11 restated with it 7 Nov (Claude, provisional; G25). Open: the full type, the row's quantifiers, and (9 Nov) that the rate holds only beside a law that keeps its null tilt |
 | O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type. On the robot: the static rows show a real 1.15° force–IMU misalignment, but neither it nor a lever arm explains the miss, and the white budget is understated 2–19× by autocorrelated samples (28 Oct). Next: the budget from calibration-side data and the rerun (briefed), then the slot |
 | L13, L18 | ruling | Confirm "the noise model is forced Gaussian, the data need not be"; is the subspace an input? |
 | E10 | ruling | Does the VD entry still name the estimator without supplying it, now that composition forces the readout? (ours26 sweep §3.2) |
@@ -356,6 +385,12 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-09 (Claude): **intake of the 9 Nov explorations** (Codex: E6, E9 and exploration E10; read, left on their branches, nothing merged).
+  E10: a law that returns to π on pure noise cannot keep L11's rate when reading order is free (the triangular-array bound checked by hand;
+  O15, O19). E9 with E10: neither the type's geometry nor the pure-noise limit selects a member of π's family (ratios 1, 2, 3 checked by hand;
+  O6); sorted, provisional: L3′ does not extend past one noise ratio (O11). E6: a pointer in O16. New hole G28 (what the quoted width promises
+  on noise). "Where it stands" rewritten: it had called the equation in good shape since before G18 and G22. GOAL.md's ours32 row brought up to
+  T39. No premise, equation or code changed. Suite 2,664 passed, 28 skipped, 17 xfailed; audit unchanged.
 - 2026-11-07 (Claude, later): T70's misfit matched exactly to Hickey–Gour's geometric imaginarity; phase-two sort of the qubit picture into GOAL's bins
   added to T70; brief B23 (what makes mass real: Schur; parity in 2D) and exploration directions E6–E9 (coherent sum, gyroscopic alternative,
   Z-safe Gram estimates of the shrinkage, Fisher–Rao under the full type) queued.
