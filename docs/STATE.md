@@ -387,6 +387,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-10 (Codex, B25 continuation requested by Can; not checked by Claude): T72 §4/O18 show that Fisher consistency and bounded confidence together still allow noncancelling sign dependence: Gaussian damping/rescaling preserves the correct optimum while the extra term vanishes in T30's limit. Added checks beside B25's tests: 24 focused tests pass; full suite 2,708 passed, 28 skipped, 17 xfailed; audit findings unchanged. Fixed Gaussian near-line behavior still fails; mean-one cut-mixture representability is unestablished; no factor adopted.
+
 - 2026-11-10 (Codex, B25; not checked by Claude): T72/O18 refute the proposed Fisher-consistency restriction: a residual-increasing, Z/frame/units/swap-safe scalar factor retains noncancelling sign dependence yet has the unique correct population optimum at every nonzero fixed signal; deterministic Gaussian quadrature checks added. It fails T30 and the Gaussian near-line coefficient; B25 stops as instructed before tail-family classification. G19/G22 remain open; no factor adopted. All 17 new checks pass; full suite 2,701 passed, 28 skipped, 17 xfailed; audit findings unchanged.
 
 - 2026-11-09 (Claude, night): **`definition/proof.md`'s head restated**: what is to be proved no longer names ours30. A table by part (the type,

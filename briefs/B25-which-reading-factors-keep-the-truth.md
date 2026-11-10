@@ -1,6 +1,7 @@
 # B25: which per-reading factors keep the truth as the population optimum, and what bounded confidence adds
 
 **Status:** done: T72 proves a residual-increasing, sign-dependent Fisher-consistent counterexample, with deterministic quadrature and T30-failure checks; explicit counterexample stop before tail-family classification (Codex, 10 Nov 2026; not checked by Claude).
+**Subsequent local continuation (10 Nov, authorized by Can):** T72 §4 and O18 record a family satisfying Fisher consistency and T30 together while retaining sign dependence. The fixed Gaussian near-line condition still fails; mean-one mixture representability remains unestablished. This extends the investigation after the original brief's stop; no factor adopted.
 **Item:** G19 (the body of the per-reading factor), G22 (the sign in the weight against consistency);
 T30, T36, T37, T39 (parts 1–3), T46, T48; `problems/O18.md` (4 Nov).
 **Branch:** `codex/b25`, from `origin/main`.

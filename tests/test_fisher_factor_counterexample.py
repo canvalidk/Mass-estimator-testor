@@ -148,3 +148,98 @@ def test_antiparallel_noise_shrink_span_diverges_so_t30_is_not_claimed():
         high = loss(1/noise_sd, -2/noise_sd, math.atan(2.))
         assert noise_sd**6*(high-low) == pytest.approx(
             leading + next_order*noise_sd**2, rel=3e-14)
+
+
+# T72 section 4: authorized local continuation, without production adoption.
+JOINT_NODES, JOINT_WEIGHTS = hermgauss(80)
+JOINT_X, JOINT_Y = np.meshgrid(np.sqrt(2)*JOINT_NODES, np.sqrt(2)*JOINT_NODES)
+JOINT_NORMAL_WEIGHTS = np.outer(JOINT_WEIGHTS, JOINT_WEIGHTS)/math.pi
+
+
+def joint_expectation(function, mean):
+    return float(np.sum(JOINT_NORMAL_WEIGHTS * function(
+        JOINT_X+mean[0], JOINT_Y+mean[1])))
+
+
+def damped_loss(x, y, theta, decay):
+    v = 1/(1+2*decay)
+    e, h, k = x*x+y*y, x*y, residual(x, y, theta)
+    return np.exp(-decay*e)*((e*e+5*v*e)*k+h*(k*k-6*v*k))
+
+
+def joint_loss(x, y, theta, decay=.5, amplitude=1.):
+    # A=1, nu=2 gives Gaussian slope 1/2 for the logarithmic parent alone.
+    return np.log1p(residual(x, y, theta)/2)+amplitude*damped_loss(x,y,theta,decay)
+
+
+@pytest.mark.parametrize("decay", [.25, .5, 1.])
+def test_joint_gaussian_tilt_identity_global_gap_and_stationarity(decay):
+    v = 1/(1+2*decay)
+    for radius in (-3., -.2, 0., .3, 1.5, 4.):
+        for truth in (.15, .6, 1.2, 1.45):
+            mean = radius*np.array([math.sin(truth), math.cos(truth)])
+            prefactor = v**4*math.exp(-decay*v*radius**2)
+            for theta in (.05, .4, .9, 1.5):
+                actual = joint_expectation(lambda x,y: damped_loss(x,y,theta,decay),mean)
+                tilted = prefactor*normal_expectation(
+                    lambda x,y: loss(x,y,theta),math.sqrt(v)*mean)
+                assert actual == pytest.approx(tilted, abs=3e-10)
+                gap = joint_expectation(lambda x,y: damped_loss(x,y,theta,decay)
+                                        -damped_loss(x,y,truth,decay),mean)
+                expected = prefactor*theoretical_gap(math.sqrt(v)*mean,theta)
+                assert gap == pytest.approx(expected, abs=3e-10)
+                assert expected > 0 if radius else expected == 0
+                total = joint_expectation(lambda x,y: joint_loss(x,y,theta,decay)
+                                          -joint_loss(x,y,truth,decay),mean)
+                # Independent one-dimensional integral for the log parent's gap.
+                b = radius*math.sin(truth-theta)
+                parent = float(np.sum(JOINT_WEIGHTS*(np.log1p((math.sqrt(2)*JOINT_NODES+b)**2/2)
+                                                    -np.log1p(JOINT_NODES**2)))/math.sqrt(math.pi))
+                assert total == pytest.approx(parent+expected, abs=2e-8)
+                assert total > 0 if radius else abs(total) < 2e-8
+
+            def joint_score(x,y):
+                t = math.sin(truth)*x+math.cos(truth)*y
+                w = math.cos(truth)*x-math.sin(truth)*y
+                e, h, k = x*x+y*y, x*y, w*w
+                derivative = 1/(2+k)+np.exp(-decay*e)*(e*e+5*v*e+h*(2*k-6*v))
+                return -2*t*w*derivative
+            assert joint_expectation(joint_score,mean) == pytest.approx(0.,abs=3e-9)
+
+
+def test_joint_invariances_monotonicity_and_sign_dependence():
+    decay, v = .5, .5
+    for e in (.001,.1,1.,3.,10.,100.):
+        for h in (-e/2,0.,e/2):
+            for k in np.linspace(0,e,21):
+                assert e*e+5*v*e+h*(2*k-6*v) >= 2*v*e-1e-11
+    theta = .37
+    for x,y in [(1.,-2.),(.3,.7),(-2.,-1.)]:
+        assert joint_loss(x,y,theta) == pytest.approx(joint_loss(y,x,math.pi/2-theta))
+        assert joint_loss(x,y,theta) == pytest.approx(joint_loss(-x,-y,theta))
+    assert joint_loss(0.,0.,theta) == 0.
+    sigmas, scales, mass = np.array([.7,1.9]), np.array([2.3,.4]), 1.3
+    data = np.array([1.,-2.])
+    physical = data*sigmas
+    new_sigmas = sigmas*scales
+    converted = physical*scales/new_sigmas
+    new_mass = mass*scales[0]/scales[1]
+    assert joint_loss(*converted,math.atan(new_mass/(new_sigmas[0]/new_sigmas[1]))) == pytest.approx(
+        joint_loss(*data,math.atan(mass/(sigmas[0]/sigmas[1]))))
+    # Same feasible K interval as the original sign-flip witness.
+    differences = [4*math.exp(-5*decay)*(k*k-6*v*k) for k in (1.5,3.5)]
+    assert not np.isclose(*differences)
+    # The added term still fails the fixed near-line Gaussian coefficient.
+    assert .5+math.exp(-2*decay)*(4+10*v-6*v) > .5
+
+
+@pytest.mark.parametrize("amplitude", [.1, 1., 3.])
+def test_joint_t30_contrast_has_finite_nonzero_limit(amplitude):
+    decay, v = .5, .5
+    for sd in (1.,.5,.25,.1,.03,.01):
+        actual = joint_loss(1/sd,-2/sd,math.atan(2),decay,amplitude)-joint_loss(
+            1/sd,-2/sd,0.,decay,amplitude)
+        extra = math.exp(-5*decay/sd**2)*(52/sd**6+148*v/sd**4)
+        expected = math.log((2+5/sd**2)/(2+1/sd**2))+amplitude*extra
+        assert actual == pytest.approx(expected,abs=2e-11)
+    assert actual == pytest.approx(math.log(5),abs=2e-4)
