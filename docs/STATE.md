@@ -387,6 +387,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-10 (Codex, B24; not checked by Claude): O15/O14 compare weak-instrument sets and variance corrections: concentration is $\Delta\cos^2\theta$, the rate agrees but theorem quantifiers differ; AR/CLR fail Z, T45 is the Z-safe score set; exact pure-noise shape probabilities and known-covariance variance distinctions recorded, with deterministic checks and unavailable originals marked. G28/G3/G26 remain open; no output or estimator adopted. Checks pass; suite 2,684 passed, 28 skipped, 17 xfailed; audit unchanged.
+
 - 2026-11-09 (Claude, night): **`definition/proof.md`'s head restated**: what is to be proved no longer names ours30. A table by part (the type,
   the reading level, the series level, the starting law, consistency, the quoted width, composition, the point): the requirement, whether it is
   written with its quantifiers, what is known to meet it, and whether that is one body, a family or none. The consistency requirement written out

@@ -1,6 +1,6 @@
 # B24: the quoted width and η against the weak-instrument literature
 
-**Status:** open.
+**Status:** done: corrected canonical mapping and threshold quantifiers; AR/LM/CLR premise and exact null-shape audit, with T45 identified; Bekker/HHN/MS variance targets distinguished in O14/O15 and deterministic checks supplied (Codex, 10 Nov 2026; unverified original statements marked).
 **Item:** G28 (what the quoted width promises on noise), G3 and G26 (η's finite-$N$ form and its variance target);
 `problems/O15.md` (9 Nov), `problems/O14.md` (4 Nov: η's target); T42, T45, T53; B21 uses the same model.
 **Branch:** `codex/b24`, from `origin/main`.
