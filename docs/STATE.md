@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-17, by Claude (R-2026-11-17-3: the discount is the definition's to compute, σ believed; re-centred on ours33, R-2026-11-17-2; B21–B27 merged, B25 read and checked, B24 read, the other five not yet read). Update this page in
+**Last updated:** 2026-11-17, by Claude (R-2026-11-17-3: the discount is the definition's to compute, σ believed; the two sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged; B25 read and checked, B24 and B21 read, the other four not yet read). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -80,7 +80,10 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   per-reading body: sign-dependent factors that are no noise-size mixture meet both, in the fixed-size Gaussian world
   only (under a scale mixture with the declared covariance their optimum moves: 2 becomes 1.89). Sorted, provisional:
   the 4 Nov candidate is withdrawn as stated; L24 is the row that selects the cut form, and it is not ruled.
-- B21, B27, B26, B22, B23: merged, not yet read (B22's coverage table is used in O14, 17 Nov, point 4). B21 is next.
+- **B21, read** (O14, 17 Nov): the maximal-invariant likelihood (T69) does η's weak-signal job from the declared noise on
+  one instrument (coverage 0.94–1.00 where the flat law has 0.36–0.88), fails Z through its count, and gives no discount:
+  the far pair comes out ± 0.139 like the near pair. Spot-checked, not fully.
+- B27, B26, B22, B23: merged, not yet read (B22's coverage table is used in O14, 17 Nov, point 4). B27 is next.
 
 **Since 9 Nov** (three exploration branches of Codex's; read by Claude and left on their branches, `../explore/README.md`):
 
@@ -449,6 +452,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Claude, 16:30): B21 read (O14). T69's invariant likelihood is the weak-signal correction as a likelihood property, and no discount: η's two
+  jobs differ in kind, and the count Z forbids is the wall for both.
 - 2026-11-17 (Claude, 16:00): the two sorts owed on the discount (O14). The forcing premise is bounded, non-vanishing confidence (T30), whose domain
   is the whole leftover: between readings it is Can's far pair as σ shrinks, met by the squared-score η and failed by the Gaussian and the Gram η.
   With units it forces weight ~ κ/leftover, so the width's independence of σ past the threshold is required. T30's 30 Sept rule (expected over

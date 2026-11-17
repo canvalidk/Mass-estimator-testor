@@ -12,6 +12,7 @@ import pytest
 
 from met.full import Reading, ours30
 from met.ours33 import ours33
+from tools.maximal_invariant import angular_law
 
 A, B = (5.5, 5.6), (5.0, 6.0)
 
@@ -99,6 +100,26 @@ def test_nu_and_eta_together_discount_the_same_gap_twice():
     b = ours33(_pair(B), 5.0, 30.0)
     assert 5.1 < b["raw_interval"][0] < b["raw_interval"][1] < 5.9
     assert math.log10(b["interval"][1] / b["interval"][0]) > 70
+
+
+def _invariant_half_width(scene, kind, sigma=0.1):
+    # the common-instrument slice in whitened rows (F/sigma_F, a/sigma_a); mass = c tan(theta)
+    rows = np.array([[f / sigma, 1.0 / 0.002] for f in scene])
+    theta, density, _ = angular_law(rows.T @ rows, len(scene), kind=kind, nodes=400001)
+    cdf = np.concatenate([[0.0], np.cumsum(0.5 * (density[1:] + density[:-1]) * np.diff(theta))])
+    lo, hi = (sigma / 0.002) * np.tan(np.interp([0.025, 0.975], cdf / cdf[-1], theta))
+    return 0.5 * (hi - lo)
+
+
+@pytest.mark.parametrize("kind", ["profile", "integrated"])
+def test_the_maximal_invariant_likelihood_gives_no_discount(kind):
+    # B21 / T69: the exact likelihood of the series' Gram, the pushes removed by invariance. It does
+    # eta's weak-signal job (T69 section 4) and, being an exact Gaussian likelihood, none of the
+    # discount: the leftover sits in a factor free of the mass. The far scene is as narrow as the
+    # near one, and its width follows the declared sigma down.
+    a, b = _invariant_half_width(A, kind), _invariant_half_width(B, kind)
+    assert a == pytest.approx(0.139, abs=0.002) and b == pytest.approx(a, rel=5e-3)
+    assert _invariant_half_width(B, kind, 0.2) / _invariant_half_width(B, kind, 0.05) > 3.5
 
 
 def test_bounded_confidence_between_readings_as_the_declared_sigma_shrinks():
