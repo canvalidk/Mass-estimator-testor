@@ -101,6 +101,41 @@ def test_nu_and_eta_together_discount_the_same_gap_twice():
     assert math.log10(b["interval"][1] / b["interval"][0]) > 70
 
 
+def test_bounded_confidence_between_readings_as_the_declared_sigma_shrinks():
+    # T30's requirement, read for the disagreement between readings: the two readings stay at 5 and 6
+    # while the declared sigma shrinks. The Gaussian and the Gram eta become certain of 5.5 (width
+    # proportional to sigma); the squared-score eta and a handed-over nu keep a width set by the gap,
+    # and stay informative (the interval does not run off toward pi's).
+    widths = {name: [] for name in ("gaussian", "gram", "eta30", "eta33", "nu")}
+    for sigma in (0.2, 0.05):
+        rd = _pair(B, sigma)
+        runs = {"gaussian": ours33(rd, 5.0, math.inf, calibrate=False), "gram": ours30(rd, 5.0, eta_form="gram"),
+                "eta30": ours30(rd, 5.0), "eta33": ours33(rd, 5.0, math.inf),
+                "nu": ours33(rd, 5.0, 10.0, calibrate=False)}
+        for name, out in runs.items():
+            widths[name].append(_half(out["interval"]))
+            if name in ("eta30", "eta33", "nu"):
+                assert 4.5 < out["interval"][0] < out["interval"][1] < 6.5
+    for name in ("gaussian", "gram"):
+        assert widths[name][0] / widths[name][1] > 3.5              # sigma fell by 4; so did the width
+    for name, lo, hi in (("eta30", 0.68, 0.71), ("eta33", 0.68, 0.73), ("nu", 0.50, 0.57)):
+        assert all(lo < w < hi for w in widths[name])               # the gap is 1: the width tracks it
+
+
+def test_a_shared_weight_and_per_reading_weights_part_ways_on_three_readings():
+    # readings at 5, 5.05 and 6: one weight for the series widens the answer and keeps the point;
+    # weights per reading (here from a handed-over nu) mostly discount the 6 and move the point.
+    # Which the definition does is a fork owed a sort (problems/O14.md, 17 Nov).
+    cov = np.diag([0.1 ** 2, 0.002 ** 2])
+    rd = [Reading(np.array([f]), np.array([1.0]), cov) for f in (5.0, 5.05, 6.0)]
+    plain = ours33(rd, 5.0, math.inf, calibrate=False)
+    shared = ours30(rd, 5.0)
+    assigned = ours33(rd, 5.0, 10.0, calibrate=False)
+    assert plain["point"] == pytest.approx(5.35, abs=0.01)
+    assert shared["point"] == pytest.approx(plain["point"], abs=0.03) and _half(shared["interval"]) > 0.45
+    assert assigned["point"] == pytest.approx(5.08, abs=0.02) and assigned["interval"][1] < 5.3
+
+
 @pytest.mark.xfail(strict=True, raises=ValueError,
                    reason="ours33 raises on a measured input (L2): at sigma = 0.02 the pair is 50 sigma apart, "
                           "eta = 0.0016, and the warp's rank Phi(-1.96/sqrt(eta)) underflows to 0. ours30 returns "

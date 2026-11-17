@@ -449,6 +449,10 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Claude, 16:00): the two sorts owed on the discount (O14). The forcing premise is bounded, non-vanishing confidence (T30), whose domain
+  is the whole leftover: between readings it is Can's far pair as σ shrinks, met by the squared-score η and failed by the Gaussian and the Gram η.
+  With units it forces weight ~ κ/leftover, so the width's independence of σ past the threshold is required. T30's 30 Sept rule (expected over
+  observed, capped at 1) is the standing candidate; in its way are the count, G22, and shared against per-reading.
 - 2026-11-17 (Claude, 15:45): shared words for the discount pinned at the top of `problems/O14.md` (with Can).
 - 2026-11-17 (Claude, 15:30): on Can's "set ours33 to be the current equation you automatically follow": CLAUDE.md now says so in its opening lines; README's ours30
   section no longer calls it current; the audit's label and eleven theorem and ladder rows no longer tie "load-bearing" to ours30 alone.
