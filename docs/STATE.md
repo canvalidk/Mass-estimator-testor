@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-17, by Claude (R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged; B25 read and checked, B24, B21 and B27 read, B26, B22, B23 not yet read). Update this page in
+**Last updated:** 2026-11-17, by Claude (R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged; B25 read and checked, B24, B21, B27 and B26 read, B22 and B23 not yet read). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -88,7 +88,10 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   suffices. The condition is the signal energy times the signal share diverging. Two claims checked independently.
 - **Shared or assigned** (O14, 17 Nov; Claude, provisional): a reading's misalignment is discounted on that reading, the
   disagreement between readings on the series; ours30's architecture.
-- B26, B22, B23: merged, not yet read (B22's coverage table is used in O14, 17 Nov, point 4). B26 is next.
+- **B26, read** (O6, 17 Nov): no starting law of the family, except a point mass, is reproduced by lumping two independent
+  objects that have it (proof checked). Sorted, provisional: a composite's starting law is an input, and composition
+  cannot be equality of laws before data; lumping is a third closed route to a principal member of π.
+- B22, B23: merged, not yet read (B22's coverage table is used in O14, 17 Nov, point 4). B22 is next.
 
 **Since 9 Nov** (three exploration branches of Codex's; read by Claude and left on their branches, `../explore/README.md`):
 
@@ -457,6 +460,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Claude, 17:00): B26 read (O6, O2): the family is not closed under lumping; a composite's starting law is an input (provisional); the starting
+  law is one cause of weak composites under-covering, not the cause.
 - 2026-11-17 (Claude, 16:50): B27 read (O19): N becomes the noise components for one noise ratio; a weighted form for several; no written condition when
   covariances degenerate; the rate's bin sorted as measurement (provisional). Shared or assigned sorted provisionally in O14.
 - 2026-11-17 (Claude, 16:30): B21 read (O14). T69's invariant likelihood is the weak-signal correction as a likelihood property, and no discount: η's two
