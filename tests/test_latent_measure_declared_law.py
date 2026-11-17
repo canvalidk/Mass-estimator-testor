@@ -1,4 +1,5 @@
-"""G19's latent measure against R-2026-11-17-1 (Claude, 17 Nov 2026; problems/O18.md).
+"""G19's latent measure, inside the case study where how well sigma is known is handed over as q
+(Claude, 17 Nov 2026; problems/O18.md; R-2026-11-17-3: q is not an input of the definition).
 
 In noise units a reading is y = t*u + sqrt(v)*eps: t the push along the candidate's
 direction u, eps standard normal in k+1 dimensions, v the noise size with the declared

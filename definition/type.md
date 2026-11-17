@@ -14,7 +14,9 @@ A series of readings $i=1,\dots,N$, each declaring:
 - how well that covariance is known: the effective degrees of freedom $\nu_{{\rm eff},i}\in(0,\infty]$ of the
   stated uncertainty, as a calibration certificate gives it (GUM, JCGM 100:2008, Annex G); $\infty$ declares it
   exact, and the caller owns what follows (added 17 Nov, R-2026-11-17-1; the form is G20's sort, provisional).
-  ours31–ours33 take it; ours30 does not;
+  ours31–ours33 take it; ours30 does not. **17 Nov, afternoon (R-2026-11-17-3):** this is not an input of the
+  definition. It is the input of the case study in which the discount's parameter is handed over; "the caller
+  owns what follows" is withdrawn;
 - a candidate subspace $N_i\in\mathbb R^{d\times k_i}$ with orthonormal columns (default $I_d$:
   nothing known about the push's direction);
 - membership: which components belong to which reading (the reading structure);
@@ -47,4 +49,5 @@ no mass fits, every mass fits. "Undefined" survives only there, at exact 0/0.
 ## History
 
 - 2026-11-17: how well each covariance is known added to the input (R-2026-11-17-1).
+- 2026-11-17, afternoon: that input is the case study's, not the definition's (R-2026-11-17-3).
 - 2026-10-24: created from lemma list d4 §1.

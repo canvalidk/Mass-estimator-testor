@@ -31,11 +31,14 @@ line is kept struck, as a premise would be.
 
 ## What the definition may and may not depend on
 
-- On the consequences of the inputs, and on nothing that doubts them. What is declared is taken as
-  declared: "that is unrealistic" and "nobody would run the experiment that way" are not objections,
-  and a law that discounts or repairs a declared input has abdicated (R-2026-11-17-1). So a factor is
-  computed from the declaration, not chosen for behaving well, and a correction is admissible only as
-  a consequence of something declared.
+- On the consequences of the inputs, and on nothing that doubts them. What is declared is believed as
+  given: "that is unrealistic" and "nobody would run the experiment that way" are not objections
+  (R-2026-11-17-1). Believing a σ and believing a result are two things. When the readings are
+  improbable under their σ's the result is believed less, and how much less is computed by the
+  definition from the readings, without changing a σ and without a number handed over: "No one will
+  tell us what those parameters are… We will need to use the information already available to
+  'estimate them'. But 'estimate them' in an exact way" (R-2026-11-17-3). Handling extreme readings is
+  the job.
 - Only on what each reading declares: its vectors, its covariance, its structure, its window
   (R-2026-09-28-7, R-2026-09-30-2, R-2026-10-10-4). Instrument facts are legitimate information
   (R-2026-09-27-6); the score of a readout does not read them (R-2026-09-28-4).
@@ -66,10 +69,10 @@ line is kept struck, as a premise would be.
 - The readings are evidence, just less: a misaligned reading is not a mistake to fix, not a reason
   to doubt the σ's, and not a verdict on Newton II; under the declared σ's it is possible, only
   unlikely, and its direction still says something (R-2026-09-07-1, R-2026-09-28-1, R-2026-09-29-8,
-  R-2026-10-30-1). No gate. "Less" is a consequence, not a discount the law applies: a misaligned
-  reading carries less when the caller has declared how well the σ is known. With σ declared exact it
-  carries the extreme answer and the caller owns it: "extreme answers are what we are trying to handle"
-  (R-2026-11-17-1).
+  R-2026-10-30-1). No gate. "Less" is not a change to σ: "There should be, simultaneously, a way to
+  change the resulting confidence, without interpreting that as changing sigma"; g and η "were there to
+  ultimately find this value. How much do we believe the result less" (R-2026-11-17-3). "Extreme
+  answers are what we are trying to handle" (R-2026-11-17-1): handling them is the job.
 
 ## How the deductions are made
 

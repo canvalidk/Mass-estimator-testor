@@ -1,18 +1,19 @@
 # The equation: ours33, the frontier probe
 
 **Status (17 Nov 2026).** Not the definition. This page states the probe the work is at (R-2026-11-17-2): ours33,
-assembled on 4 Nov (`../problems/O18.md`). Its reading level, its raw law and its point stand, and they are what
-R-2026-11-17-1 asks for: computed from what is declared. It breaks at the report, the quoted width ("Series and
-report", below). ours30, which this page stated until 17 Nov, is history: its statement is this file at commit
+assembled on 4 Nov (`../problems/O18.md`). Its reading level takes how well each σ is known as a number handed over, which makes it a case study and
+not the definition's route (R-2026-11-17-3): nobody declares that number, and how much less an improbable result is
+believed has to be computed from the readings. It breaks at the report ("Series and report", below), where the
+handed-over number and η discount the same improbability twice. ours30, which this page stated until 17 Nov, is history: its statement is this file at commit
 `688cd8f`. Edit in place when the equation changes; git holds the history.
 
 ## Inputs
 
 A reading i declares its data $\mathbf y_i=(\tilde{\mathbf F}_i;\tilde{\mathbf a}_i)\in\mathbb R^{2d}$,
-an error covariance $\Sigma_i$ (positive definite, any correlation), how well that covariance is known,
-$\nu_i=\nu_{{\rm eff},i}\in(0,\infty]$ (the effective degrees of freedom of the stated uncertainty; $\infty$ declares it
-exact), a candidate subspace $N_i$ ($d\times k_i$, orthonormal columns; $I_d$ when nothing is known about the
-push's direction), and a window over which both channels are averaged (`type.md`). Declared once for the series:
+an error covariance $\Sigma_i$ (positive definite, any correlation), a candidate subspace $N_i$ ($d\times k_i$, orthonormal columns; $I_d$ when nothing is known about the
+push's direction), and a window over which both channels are averaged (`type.md`). **Handed over, the case study's
+input and not the definition's (R-2026-11-17-3):** $\nu_i=\nu_{{\rm eff},i}\in(0,\infty]$, read as the effective degrees
+of freedom of the stated uncertainty; $\infty$ switches the reading-level discount off. Declared once for the series:
 the starting law $\pi$, half-Cauchy with centre $c$, $\pi(m)=c/(c^2+m^2)$. The centre is an input; $c=s=\sigma_F/\sigma_a$
 is the caller's convention for one noise ratio (O11).
 
@@ -41,17 +42,20 @@ $$
 \ell_i(\phi)=-\tfrac12K_i(\phi)\quad(\nu_i=\infty).
 $$
 
-This is the declared noise law's probability density of the reading's residual at $m$, up to a constant free of
-$m$ (T48). Given its noise size $v$ the reading's error is $N(0,v\Sigma_i)$, with $v\sim\mathrm{IG}(\nu_i/2,\nu_i/2)$:
-how well $\Sigma_i$ is known, as declared (T37, G20). The push is integrated flat in noise units, and
-independently of $v$, since the declared noise-size law holds whatever the push (`../problems/O18.md`, 17 Nov).
+Given $\nu_i$ this is the probability density of the reading's residual at $m$, up to a constant free of $m$
+(T48), under an error $N(0,v\Sigma_i)$ with $v\sim\mathrm{IG}(\nu_i/2,\nu_i/2)$ (T37, G20). The push is integrated
+flat in noise units, and independently of $v$, since that law holds whatever the push (`../problems/O18.md`,
+17 Nov). The same function is the Gaussian factor at the declared $\Sigma_i$ with a weight
+$(\nu_i+k_i)\log(1+K_i/\nu_i)/K_i$ on the residual: a σ believed, and the reading counted for less
+(`../problems/O14.md`, 17 Nov, point 2).
 
-- The law applies no weight for a reading's own misfit. There is no $g$, no $\kappa$, no cap.
+- There is no $g$, no $\kappa$, no cap: the discount at this level comes from $\nu_i$, and it is not cut at the
+  reading's best mass, so it reads the disagreement between readings as well as the reading's own misfit.
 - The sign of $\mathbf F\cdot\mathbf a$ enters only through the domain $m>0$.
 - An exact-zero reading has $K_i\equiv0$ and contributes nothing (Z).
 - With $\nu_i<\infty$ the evidence from a reading no positive mass fits stays bounded as its noise shrinks, and its
-  direction is kept. With $\nu_i=\infty$ it grows without bound. Each is the consequence of its declaration
-  (R-2026-11-17-1).
+  direction is kept. With $\nu_i=\infty$ it grows without bound, which the definition must not do
+  (R-2026-11-17-3; T30).
 
 ## Raw law
 
@@ -98,6 +102,11 @@ not carry its own uncertainty).
   among nulls (T43), and no estimate reaches the target $\Delta/(\Delta+M)$ at small $N$ (O14; B15).
 - **Composition.** A warp that commutes with composition is the identity (T51); under ours33 the order matters
   (B18: 87.75% against 91.75%).
+- **Two discounts for one improbability (17 Nov).** $\nu_i$ already widens the raw law when readings disagree, and
+  η widens the report for the same disagreement. On two readings of one mass at 5 and 6, each ± 0.1: the Gaussian
+  alone gives 5.5 ± 0.14; η alone ($\nu=\infty$) 5.5 ± 0.70; $\nu=10$ alone ± 0.55; $\nu=30$ with η a quoted
+  width of 79 decades. At 50σ apart with $\nu=\infty$ the function raises (`tests/test_believed_less.py`).
+  One discount is wanted, computed from the readings (`../problems/O14.md`, 17 Nov).
 - **The weak-signal centre.** The warp widens around the raw median, and the raw median carries the flat push
   measure's tilt whatever $\eta$ is (O15).
 
@@ -111,18 +120,20 @@ is infinite (T19), so "mass ± SD" is not available.
 $\sigma=0$ does not enter this function. It goes to the exact branch (T1): compute
 $m_1=\mathbf F\cdot\mathbf a/\lvert\mathbf a\rvert^2$ and $m_2=\lvert\mathbf F\rvert^2/(\mathbf F\cdot\mathbf a)$;
 one mass iff $m_1=m_2\in(0,\infty)$; no mass if they disagree or agree outside $(0,\infty)$;
-every mass at exact 0/0, the only place "undefined" survives. A $\Sigma_i$ declared exactly known
-($\nu_i=\infty$) is not this: it is a measured input with $\sigma>0$.
+every mass at exact 0/0, the only place "undefined" survives. $\nu_i=\infty$ is not this: it is a measured input with $\sigma>0$ and no reading-level discount.
 
 ## What stands, and what is open
 
-- **Stands:** the type with $\nu_{\rm eff}$; the per-reading factor, forced for readings with the full subspace once
-  $\nu_{\rm eff}$ is declared (`proof.md` G19, 17 Nov; provisional); the product; the raw law.
-- **Open at the reading level:** a declared subspace with $k_i<d$ (ours33 keeps the residual inside the candidates'
-  span; keeping the whole reading gives exponent $(\nu+2d-k)/2$, T48); the normalisation of the noise-size law
-  (G20); the old gaps in the flat push (G2, G17).
+- **Inside the case study** ($\nu_{\rm eff}$ handed over): the per-reading factor is forced for readings with the
+  full subspace (`proof.md` G19, 17 Nov; provisional). Open there: a declared subspace with $k_i<d$ (ours33 keeps
+  the residual inside the candidates' span; keeping the whole reading gives exponent $(\nu+2d-k)/2$, T48); the
+  normalisation of the noise-size law (G20); the old gaps in the flat push (G2, G17).
+- **For the definition:** how much less an improbable result is believed is one quantity, computed from the
+  readings with every σ believed (R-2026-11-17-3). This page has two mechanisms for it and they overlap; ours30
+  had two that did not overlap and one of them broke (G22). Its form is the open item (`../problems/O14.md`).
 - **Open beside it:** the shape of $\pi$, an input (O6); which location functional the point is (G6); consistency
-  at the rate as $N$ grows, unknown for this raw law (O19); everything under "Series and report".
+  at the rate as $N$ grows, unknown for this raw law (O19); what the quoted width is when the evidence is weak
+  (G28); composition.
 
 ## In the tester
 
@@ -145,8 +156,10 @@ history.
 - 2026-10-24: this file created.
 - 2026-10-28: the point is the law's median (provisional); the cloud readout kept for comparison.
 - ours30 (29 Oct, R-2026-10-29-1): the misfit weight reads the misfit at the best positive mass, numerator k − ½.
-  Stated here until 17 Nov. Its weight was retired on principle by R-2026-11-17-1.
+  Stated here until 17 Nov. Its weight is one attempt at the discount (R-2026-11-17-3); it fails consistency at fixed
+  signal (G22).
 - ours31 (30 Oct): the exact cut factor per reading, $\nu_{\rm eff}$ declared, no η. ours32 (1 Nov): η put back, as a
   power. Both in `../problems/O18.md`.
 - ours33 (4 Nov): the declared noise's density of the residual (T48) and η as a warp of the report (T47).
-- **2026-11-17: this page states ours33** (R-2026-11-17-2); $\nu_{\rm eff}=\infty$ accepted (R-2026-11-17-1).
+- **2026-11-17: this page states ours33** (R-2026-11-17-2); $\nu_{\rm eff}=\infty$ accepted. The same afternoon:
+  $\nu_{\rm eff}$ is a number handed over, so ours33 is a case study, and it discounts twice (R-2026-11-17-3).

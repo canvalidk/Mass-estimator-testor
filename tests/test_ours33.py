@@ -168,7 +168,7 @@ def test_t30_bounded_as_the_declared_noise_shrinks(pair):
     assert widths[-1] > 0.05 and abs(widths[-1] - widths[-2]) < 0.05 * widths[-1]
 
 
-# --- a sigma declared exact (R-2026-11-17-1) -------------------------------------------------------
+# --- nu_eff = inf: the Gaussian factor, no reading-level discount -------------------------------------------------------
 
 def test_an_exact_sigma_is_the_limit_of_large_nu_eff():
     """nu_eff = inf is accepted and is the nu -> inf limit of the factor: the Gaussian's, l = -K/2."""
