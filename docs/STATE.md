@@ -86,8 +86,11 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
 - **B27, read** (O19, 17 Nov): for one noise ratio the consistency condition holds with N replaced by the number of noise
   components; several ratios have a sharp weighted form; with degenerate covariances no energy or information condition
   suffices. The condition is the signal energy times the signal share diverging. Two claims checked independently.
-- **Shared or assigned** (O14, 17 Nov; Claude, provisional): a reading's misalignment is discounted on that reading, the
-  disagreement between readings on the series; ours30's architecture.
+- **Where the leftover is read** (O14, 17 Nov, evening; scratch on scalar readings, `tools/leftover_at_series_best_mass.py`): read
+  at the series' best mass, one number per reading holds its misalignment and its disagreement, and ours30's sign problem goes
+  (2.00 against 1.73). The September rule applied at every candidate mass fails on agreeing readings. **Open, a question about
+  the goal:** one pooled weight or one per reading (99 agreeing readings and one stray: ± 0.081 against ± 0.022). The
+  afternoon's "misalignment assigned, disagreement shared" is withdrawn.
 - **B26, read** (O6, 17 Nov): no starting law of the family, except a point mass, is reproduced by lumping two independent
   objects that have it (proof checked). Sorted, provisional: a composite's starting law is an input, and composition
   cannot be equality of laws before data; lumping is a third closed route to a principal member of π.
@@ -467,6 +470,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Claude, 18:15): the sign problem and shared-or-assigned, worked (O14, evening). Reading each reading's leftover at the series' best mass
+  removes ours30's sign bias on scalar readings (simulated); evaluating the rule at every candidate fails on the near pair; pooled or per reading
+  is open and put to Can. The afternoon's shared-or-assigned sort is withdrawn; B22's two-cap form now depends on that fork.
 - 2026-11-17 (Claude, 17:35): B23 read (O17): T71 sound; G10 sorted as the output type's commitment (provisional). B21–B27 are all read.
 - 2026-11-17 (Claude, 17:20): B22 read (O14): η's two jobs are an exact product on one instrument; the joint cap lets good agreement narrow the width in
   most series; a cap on each factor sorted as the premise's meaning (provisional), checked on B22's cells by `tools/eta_two_caps.py`.
