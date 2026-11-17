@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-17, by Claude (briefs B21–B27 merged as delivered; not yet read, so "Where it stands" is as of 9 Nov). Update this page in
+**Last updated:** 2026-11-17, by Claude (briefs B21–B27 merged as delivered; B25 read and checked; the other six not yet read). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -40,8 +40,9 @@ larger noise, G18) and L11 at fixed signal as N grows (the sign of F·a is in it
 breaks: ours31 at weak signal, ours32 on T39's inputs, ours33 at the quoted width (O18). By part:
 
 - **The input type:** settled, apart from errors shared between readings (O16).
-- **What one reading contributes:** four candidate bodies (G19). One forcing argument is forming, L11 with T30
-  against the power form (T46); the latent measure is unforced (B17, E5).
+- **What one reading contributes:** four candidate bodies (G19). L11 with T30 removes the power form (T46, ours29)
+  and selects nothing further (T72, 17 Nov). The cut form is selected only by L24, a candidate; the latent measure
+  is unforced (B17, E5).
 - **How much the series counts:** η's target is known (O14, 4 Nov); its finite-N form and its place (a power, a warp)
   are not (G3, G24, G26).
 - **The starting law:** the family is forced and no member is; two routes to a member closed on 9 Nov (O6).
@@ -51,6 +52,14 @@ breaks: ours31 at weak signal, ours32 on T39's inputs, ours33 at the quoted widt
 Two rungs the proof leans on are not fixed in VD-Newton: R3 (persistence, lumping) is unwritten and R5 (Newton III)
 is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, still say "carried from the records"
 (G15). The holes are typed in `definition/proof.md` §5, and that table is the queue.
+
+**Since 17 Nov** (briefs B21–B27 merged as delivered; read one at a time, in the order B25, B24, B27, B26, B21, B22, B23):
+
+- **B25, read and checked** (T72; O18, 17 Nov). No error. Consistency and bounded confidence together do not select the
+  per-reading body: sign-dependent factors that are no noise-size mixture meet both, in the fixed-size Gaussian world
+  only (under a scale mixture with the declared covariance their optimum moves: 2 becomes 1.89). Sorted, provisional:
+  the 4 Nov candidate is withdrawn as stated; L24 is the row that selects the cut form, and it is not ruled.
+- B24, B27, B26, B21, B22, B23: merged, not yet read; nothing on this page reflects them.
 
 **Since 9 Nov** (three exploration branches of Codex's; read by Claude and left on their branches, `../explore/README.md`):
 
@@ -64,8 +73,6 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   noise ratio, not L4; π is declared, centre and shape.
 - **Shared signal structure** (E6; a pointer in O16). A joint law of mass and a shared calibrated direction fails T30
   and L19 as written; whether such evidence may enter is unsorted, and no hole depends on it.
-- Briefs B21–B27 came back and were merged as delivered on 17 Nov (`../briefs/README.md`; the log). None is checked or yet
-  read by Claude, so nothing on this page reflects them yet.
 
 **Since 3 Nov** (Codex's exploration and briefs B15–B19, on main since 7 Nov as delivered; **not checked by Claude**):
 
@@ -387,6 +394,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Claude, later): **B25 read and checked** (T72 §§1–4: the gap identity, stationarity, the change of measure, the T30 spans; no error).
+  Claude's expected class was false. `../tests/test_fisher_factor_world.py` (6): T72's factors are consistent only when the world is exactly Gaussian at
+  the declared variance; under a two-point scale mixture with the declared covariance the optimum for a true 2 is 1.887 (1.927 for the bounded one),
+  and a function of the residual alone stays at 2. Sorted, provisional (O18): "L11 with T30" removes the power form and does not select the cut
+  form; L24 (candidate) is what does. The reading level's row at the head of `../definition/proof.md` and G19 updated.
 - 2026-11-17 (Claude): **briefs B21–B27 merged as delivered** (Codex; none checked, none yet read by Claude: the seven lines below are
   Codex's own account of what each found). Conflicts only where two briefs added a section at the same place (O15: B21 and B24; O14: B24 and B22;
   this log); both sides kept. The theorem index gains T69, T71, T72, and T70's row, missed on 7 Nov. Suite 2,809 passed, 28 skipped, 25 xfailed
