@@ -97,7 +97,7 @@ def main(argv):
     # 1. untested theorems
     for tid, th in theorems.items():
         if th["test"].startswith("none") or th["test"].startswith("partial"):
-            scope = " [not load-bearing for ours30]" if th["not_load_bearing"] else ""
+            scope = " [not load-bearing]" if th["not_load_bearing"] else ""
             problems.append(("untested theorem", f"{tid} ({th['file']}){scope}: {th['test'][:80]}"))
 
     # 2. uncited premises; 6. ruled dates with no ruling
@@ -154,7 +154,7 @@ def main(argv):
             print(f"| {'~~' if struck else ''}{pid}{'~~' if struck else ''} | {name} {stmt} | {status} |")
         for tid, th in theorems.items():
             stmt = re.search(r"## Statement\s+(.*?)\s+## ", th["text"], re.S)
-            scope = "; not load-bearing for ours30 (comparison readout only)" if th["not_load_bearing"] else ""
+            scope = "; not load-bearing (comparison readout only)" if th["not_load_bearing"] else ""
             print(f"| {tid} | {stmt.group(1).strip() if stmt else ''} | from {th['from']}; test: {th['test']}{scope} |")
         return 0
 

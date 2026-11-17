@@ -21,6 +21,9 @@ ask Can to choose a side.
 statistics and what that theory already knows; the project's vocabulary is not a reason to
 re-derive known results, and Can should not have to supply them (GOAL.md, standing rule 6).
 
+**The equation the work is at is ours33** (`definition/equation.md`, `met/ours33.py`; R-2026-11-17-2). Read every
+result, brief and premise against it. ours30 and the probes before it are history.
+
 **The consequences of the inputs.** The definition computes what follows from what is declared, and a doubt about a
 declared input is outside the problem (R-2026-11-17-1). Every σ is believed as given. How much less an improbable set of
 readings is believed is computed by the definition from the readings, and handling such readings is the job

@@ -449,6 +449,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Claude, 15:30): on Can's "set ours33 to be the current equation you automatically follow": CLAUDE.md now says so in its opening lines; README's ours30
+  section no longer calls it current; the audit's label and eleven theorem and ladder rows no longer tie "load-bearing" to ours30 alone.
 - 2026-11-17 (Claude, later): **R-2026-11-17-3.** Can, on two readings at 5 and 6, each ± 0.1: "I am believing the sigma, and concluding that the reading
   is unlikely"; "There should be, simultaneously, a way to change the resulting confidence, without interpreting that as changing sigma"; g and η
   "were there to ultimately find this value". Claude had read the morning's principle as excluding any discount and made how well σ is known an

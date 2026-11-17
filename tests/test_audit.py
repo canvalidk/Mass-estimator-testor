@@ -55,7 +55,7 @@ def test_comparison_scope_keeps_untested_and_other_findings(living_layer, capsys
 
     assert "untested theorem (2)" in output
     assert "T1 (T01.md): none yet" in output
-    assert "T2 (T02.md) [not load-bearing for ours30]: none yet" in output
+    assert "T2 (T02.md) [not load-bearing]: none yet" in output
     assert "theorems/T02.md refers to L99" in output
     assert "premise no theorem uses (1)\n  - L2" in output
     assert "open item with no file (1)\n  - O2" in output
@@ -72,14 +72,14 @@ def test_table_scope_comes_from_status_only(living_layer, capsys):
 
     assert active.endswith("| from L1; test: none yet |")
     assert comparison.endswith(
-        "| from L1; test: none yet; not load-bearing for ours30 (comparison readout only) |"
+        "| from L1; test: none yet; not load-bearing (comparison readout only) |"
     )
 
 
 def test_removing_status_marker_restores_ordinary_finding(living_layer, capsys):
     living_layer(2, "Not load-bearing for ours30; comparison readout only")
     audit.main([])
-    assert "T2 (T02.md) [not load-bearing for ours30]" in capsys.readouterr().out
+    assert "T2 (T02.md) [not load-bearing]" in capsys.readouterr().out
 
     living_layer(2, "derived")
     audit.main([])

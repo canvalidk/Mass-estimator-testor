@@ -527,8 +527,10 @@ estimators see the same readings. See `presets/ours29_noise_vs_signal.yaml`.
 
 ### ours30: the misfit at the best positive mass (`positivity: true`, 29 October)
 
-ours30 (R-2026-10-29-1) is ours29 with `positivity: true` beside `misfit`. It is the current
-equation; `met/full.py`'s `ours30()` is the same in the full input type.
+ours30 (R-2026-10-29-1) is ours29 with `positivity: true` beside `misfit`. It was the working
+equation from 29 Oct to 17 Nov; `met/full.py`'s `ours30()` is the same in the full input type. The
+equation the work is at is ours33 (`definition/equation.md`; `met/ours33.py`, called from Python:
+`docs/STATE.md` has the example).
 
 ```yaml
 combine:
