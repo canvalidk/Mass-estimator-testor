@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-17, by Claude (R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged; B25 read and checked, B24, B21, B27 and B26 read, B22 and B23 not yet read). Update this page in
+**Last updated:** 2026-11-17, by Claude (R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged; B25 read and checked, B24, B21, B27, B26 and B22 read, B23 not yet read). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -91,7 +91,11 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
 - **B26, read** (O6, 17 Nov): no starting law of the family, except a point mass, is reproduced by lumping two independent
   objects that have it (proof checked). Sorted, provisional: a composite's starting law is an input, and composition
   cannot be equality of laws before data; lumping is a third closed route to a principal member of π.
-- B22, B23: merged, not yet read (B22's coverage table is used in O14, 17 Nov, point 4). B22 is next.
+- **B22, read** (O14, 17 Nov): on one instrument the Bartlett η is exactly the Gram η times expected-over-observed squared
+  scores, with one cap on the product. Sorted, provisional: the cap belongs on each factor (a weight never exceeds 1), which
+  gives the smaller of the two existing forms: it keeps the discount and covers at least as well as both in B22's 28 cells
+  (`tools/eta_two_caps.py`). Not in `met/`.
+- B23: merged, not yet read. It is next.
 
 **Since 9 Nov** (three exploration branches of Codex's; read by Claude and left on their branches, `../explore/README.md`):
 
@@ -460,6 +464,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Claude, 17:20): B22 read (O14): η's two jobs are an exact product on one instrument; the joint cap lets good agreement narrow the width in
+  most series; a cap on each factor sorted as the premise's meaning (provisional), checked on B22's cells by `tools/eta_two_caps.py`.
 - 2026-11-17 (Claude, 17:00): B26 read (O6, O2): the family is not closed under lumping; a composite's starting law is an input (provisional); the starting
   law is one cause of weak composites under-covering, not the cause.
 - 2026-11-17 (Claude, 16:50): B27 read (O19): N becomes the noise components for one noise ratio; a weighted form for several; no written condition when
