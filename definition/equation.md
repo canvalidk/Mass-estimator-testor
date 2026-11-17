@@ -1,24 +1,20 @@
-# The equation: ours30
+# The equation: ours33, the frontier probe
 
-**17 Nov 2026 (R-2026-11-17-1): this equation's per-reading misfit weight is retired on principle** (a weight for a
-reading's own misfit is the law doubting the declared noise; `premises.md` L21, L24). The reading levels of the admitted
-kind are ours31–ours33's (`../problems/O18.md`). Which equation this page should state is open until the series level
-is read (B21, B24); the text below is ours30's, kept as the equation the chain in `proof.md` was built toward.
-
-Stated once. ours30 (R-2026-10-29-1) is ours29 (`../docs/noise_vs_signal/ours29_misfit_weight_and_bartlett_power_2026-09-30.md`
-§3; lemma list d4: T8, T10, T30, T31) with one change: each reading's misfit weight reads its misfit at
-its best **positive** mass, with numerator $k_i-\tfrac12$. Edit in place when the equation changes; git
-holds the history. The equation note in VD-docs is cut from this file when Can asks for one (draft d3,
-for ours30: `../outbox/VD-docs/`).
+**Status (17 Nov 2026).** Not the definition. This page states the probe the work is at (R-2026-11-17-2): ours33,
+assembled on 4 Nov (`../problems/O18.md`). Its reading level, its raw law and its point stand, and they are what
+R-2026-11-17-1 asks for: computed from what is declared. It breaks at the report, the quoted width ("Series and
+report", below). ours30, which this page stated until 17 Nov, is history: its statement is this file at commit
+`688cd8f`. Edit in place when the equation changes; git holds the history.
 
 ## Inputs
 
 A reading i declares its data $\mathbf y_i=(\tilde{\mathbf F}_i;\tilde{\mathbf a}_i)\in\mathbb R^{2d}$,
-an error covariance $\Sigma_i$ (positive definite, any correlation), a candidate subspace
-$N_i$ ($d\times k_i$, orthonormal columns; $I_d$ when nothing is known about the push's
-direction), and, since 10 Oct, a window over which both channels are averaged
-(`type.md`). Declared once for the series: the starting law $\pi$, half-Cauchy with centre $c$,
-$\pi(m)=c/(c^2+m^2)$; by default $c=s=\sigma_F/\sigma_a$ (L3′, not yet ruled).
+an error covariance $\Sigma_i$ (positive definite, any correlation), how well that covariance is known,
+$\nu_i=\nu_{{\rm eff},i}\in(0,\infty]$ (the effective degrees of freedom of the stated uncertainty; $\infty$ declares it
+exact), a candidate subspace $N_i$ ($d\times k_i$, orthonormal columns; $I_d$ when nothing is known about the
+push's direction), and a window over which both channels are averaged (`type.md`). Declared once for the series:
+the starting law $\pi$, half-Cauchy with centre $c$, $\pi(m)=c/(c^2+m^2)$. The centre is an input; $c=s=\sigma_F/\sigma_a$
+is the caller's convention for one noise ratio (O11).
 
 ## Per reading
 
@@ -26,7 +22,7 @@ $\pi(m)=c/(c^2+m^2)$; by default $c=s=\sigma_F/\sigma_a$ (L3′, not yet ruled).
 components; the only declared metric on it is $\Sigma_i^{-1}$ (the axes carry N and m s⁻², so space
 supplies none). A mass $m$ is the $k_i$-dimensional subspace $\{(mN_i\alpha,N_i\alpha)\}$, the column
 space of $C(\phi)$ below; $H_i$ is the squared length of the reading's projection onto it, and
-$E_i-H_i(m)$ the residual. Everything in this section is that geometry written out.
+$K_i=E_i-H_i$ the residual: the squared distance, in the noise metric, from the reading to the candidate.
 
 For every candidate slope on the whole projective line, $m=c\tan\phi$,
 $\phi\in(-\pi/2,\pi/2]$ (negative and infinite m included):
@@ -34,121 +30,108 @@ $\phi\in(-\pi/2,\pi/2]$ (negative and infinite m included):
 $$
 H_i(\phi)=\mathbf b^\top G^{-1}\mathbf b,\qquad
 C(\phi)=\begin{pmatrix}c\sin\phi\,N_i\\ \cos\phi\,N_i\end{pmatrix},\quad
-G=C^\top\Sigma_i^{-1}C,\quad \mathbf b=C^\top\Sigma_i^{-1}\mathbf y_i,
+G=C^\top\Sigma_i^{-1}C,\quad \mathbf b=C^\top\Sigma_i^{-1}\mathbf y_i,\qquad
+K_i(\phi)=E_i-H_i(\phi),
 $$
 
-the explained energy. $E_i$ is the whitened energy of the data inside the span of all
-candidates, and
+with $E_i$ the whitened energy of the data inside the span of all candidates. The reading's factor is
 
 $$
-Q_{+,i}=E_i-\max_{0\le\phi\le\pi/2}H_i(\phi),\qquad \kappa_i=k_i-\tfrac12,\qquad
-g_i=\min\!\Big(1,\frac{\kappa_i}{Q_{+,i}}\Big),\qquad
-\ell_i(\phi)=\tfrac12\,g_i\,H_i(\phi).
+\ell_i(\phi)=-\frac{\nu_i+k_i}{2}\,\log\!\Big(1+\frac{K_i(\phi)}{\nu_i}\Big)\quad(\nu_i<\infty),\qquad
+\ell_i(\phi)=-\tfrac12K_i(\phi)\quad(\nu_i=\infty).
 $$
 
-$Q_{+,i}$ is the reading's misfit at its best **positive** mass ($m=0$ and $m=\infty$ included as
-limits; T32's $Q_+$): the smallest error that reconciles the reading with Newton II as assumed,
-$m>0$ included (R-2026-09-07-1). It counts the $k_i-1$ codirectionality conditions the reading's
-declaration imposes (L8) and L1's sign condition $\mathbf F^\ast\cdot\mathbf a^\ast>0$, which holds for
-1D projections too. $\kappa_i$ is the most misfit the declared noise produces in expectation over
-every allowed signal size (O12's meaning, read without a size by L10): $k_i-1$ for the equalities
-and $\tfrac12$ for the sign, which noise decides half the time when one channel carries no signal
-(O13, 29 Oct; for isotropic channels proved as a supremum, not attained: T38). $g_i$ is the misfit weight
-(L21, T30): a reading is evidence, just less; $g=1$ whenever $Q_{+,i}\le\kappa_i$, so on an aligned
-1D reading; never 0. The whole-line $Q_i=E_i-\max_\phi H_i$ with $\nu_i=k_i-1$ was ours29's (it
-cannot see the sign: an anti-parallel pair has $Q=0$).
+This is the declared noise law's probability density of the reading's residual at $m$, up to a constant free of
+$m$ (T48). Given its noise size $v$ the reading's error is $N(0,v\Sigma_i)$, with $v\sim\mathrm{IG}(\nu_i/2,\nu_i/2)$:
+how well $\Sigma_i$ is known, as declared (T37, G20). The push is integrated flat in noise units, and
+independently of $v$, since the declared noise-size law holds whatever the push (`../problems/O18.md`, 17 Nov).
 
-## Series
+- The law applies no weight for a reading's own misfit. There is no $g$, no $\kappa$, no cap.
+- The sign of $\mathbf F\cdot\mathbf a$ enters only through the domain $m>0$.
+- An exact-zero reading has $K_i\equiv0$ and contributes nothing (Z).
+- With $\nu_i<\infty$ the evidence from a reading no positive mass fits stays bounded as its noise shrinks, and its
+  direction is kept. With $\nu_i=\infty$ it grows without bound. Each is the consequence of its declaration
+  (R-2026-11-17-1).
 
-At $\hat\phi=\arg\max_\phi\sum_i\ell_i$ on the whole line (unchanged from ours29; checked against
-R-2026-09-07-1 on 29 Oct in T31: the whole line is forced here by Z and the stationary point),
+## Raw law
+
+$$
+p_0(m)\;\propto\;\pi(m)\,\exp\!\Big(\sum_i\ell_i(m)\Big)\qquad\text{on } m>0 .
+$$
+
+Proper: every factor is in $(0,1]$. On the all-zero series it is $\pi$.
+
+## Point
+
+The raw law's **median**, $\widehat m=F_0^{-1}(\tfrac12)$: a functional of the law alone (L19), respecting units and
+the swap, $c$ on the all-zero series. Provisional: units and the swap leave a family of location functionals of
+$\ln m$, and the median is the member in the code (G6). Nothing in the report moves it.
+
+## Series and report (where it breaks)
+
+At $\hat\phi=\arg\max_\phi\sum_i\ell_i$ on the whole line,
 
 $$
 \mathcal H=-\sum_i\ell_i''(\hat\phi),\qquad J=\sum_i\ell_i'(\hat\phi)^2,\qquad
-\eta=\min\!\Big(1,\frac{\mathcal H}{J}\Big)\quad(\eta=1\ \text{if}\ J=0).
+\eta=\min\!\Big(1,\frac{\mathcal H}{J}\Big)\quad(\eta=1\ \text{if}\ J=0\ \text{or}\ \mathcal H\le0),
 $$
 
-$\eta$ is the Bartlett power (T31): one per series, from the readings' disagreement about m
-alone, never from their sizes (L19). An exact zero reading has $\ell_i'=\ell_i''=0$ and
-leaves $\eta$ alone (Z).
-
-## Law
+one number per series, from the readings' disagreement about $m$ alone (T31). The quoted law is the normal-score
+warp of the raw law's distribution function (T47),
 
 $$
-p(m)\;\propto\;\pi(m)\,\exp\!\Big(\eta\sum_i\ell_i(m)\Big)\qquad\text{on } m>0 .
+F_\eta=\Phi\big(\sqrt\eta\,\Phi^{-1}(F_0)\big),
 $$
 
-With one noise ratio per series (isotropic noise) everything is closed form in
-$C_i=(Q_i-P_i)+2\mathrm iD_i$, where $P_i=\lvert\mathbf x_i\rvert^2$, $Q_i=\lvert\mathbf y_i\rvert^2$,
-$D_i=\mathbf x_i\cdot\mathbf y_i$ in noise units: the best line is $\arg(\sum_i g_iC_i)/2$,
-$\mathcal H=\lvert\sum_i g_iC_i\rvert$, $\ell_i'=-\tfrac12 g_i\,\mathrm{Im}(\bar C_ie^{2\mathrm i\hat\theta})$
-(tester README, "ours29" and "ours30"), and the positive-mass misfit is
-$Q_{+,i}=\tfrac12\big(P_i+Q_i-\lvert C_i\rvert\big)$ when $D_i>0$ and $\min(P_i,Q_i)$ otherwise. Note the
-two uses of the letter Q: the reading's misfit above, and the acceleration energy in this closed
-form; the records use both.
+so the quoted 95% interval is the raw law's quantiles at ranks $\Phi(\mp z_{0.975}/\sqrt\eta)$. The raw law is never
+raised to a power: $\eta$ widens the report and touches neither the law nor the point (R-2026-09-30-3: the law does
+not carry its own uncertainty).
 
-## Point (28 Oct, provisional)
+**Broken here (O18, 4 Nov).**
 
-The definition's point is the law's **median**: $\widehat m=F_p^{-1}(\tfrac12)$. It is a functional
-of the law alone (L19: readings are joined only through the mass), it is the only point that
-does not depend on the coordinate the law is read in (L23, proposed; T35, with the swap), and
-composition holds at the level of the law (L5, L14 restated, R-2026-10-28-1), not of the point.
-It meets Z exactly (T24), returns $c$ at the all-zero experiment for every $c$, and respects the
-swap and units. On a CDF flat to rounding it is the plateau's midpoint in $\ln m$.
-In `met/full.py`: `ours30(...)["point"]`, the same number as `["median"]`.
-
-## Candidates and the cloud readout (kept for comparison)
-
-
-Each reading keeps its own flat candidate cloud, $\alpha_i\mid m\sim N(G^{-1}\mathbf b,\,G^{-1})$,
-$\mathbf a^\ast_i=N_i\alpha_i$, $\mathbf F^\ast_i=m\,\mathbf a^\ast_i$. The readout is the
-ratio of means on the stacked length (T4, T9, T10):
-
-$$
-\widehat m=\frac{\int m\,A(m)\,p(m)\,dm}{\int A(m)\,p(m)\,dm},\qquad
-A(m)=E\big[\lVert\mathbf a^\ast_{\rm stack}\rVert\;\big|\;m\big],
-$$
-
-equivalently $E[\lVert\mathbf F^\ast\rVert]/E[\lVert\mathbf a^\ast\rVert]$. Neither $g_i$ nor
-$\eta$ touches $A$ (shrinking the candidates by $\eta$ would infer signal size from the
-series, against L19). **This readout fails Z (T29) and gives c at the all-zero experiment
-only when c = s.** It joins readings through their sizes (against L19) and on null readings its
-weight is set by the instrument alone (O2, 27–28 Oct). Since 28 Oct it is not the point.
+- **The width.** At small $\eta$ the warp asks for ranks that lie in $\pi$'s tails, which the data never touch. On two
+  readings that both sit at 2 (T39's pair) the quoted interval is $[2\times10^{-36},\,2\times10^{42}]$ while the raw one
+  is $[1.985,\,2.015]$. The quoted width has to be a statement about the evidence, not a quantile of a law whose
+  tails are the declared $\pi$'s; and the evidence alone has no finite quantile interval (B16). What the width is, is
+  not written (`proof.md` G28; B24).
+- **How $\eta$ is computed.** The fitted $J$ gives $\eta\to1/99$ on that same pair, fails under one strong reading
+  among nulls (T43), and no estimate reaches the target $\Delta/(\Delta+M)$ at small $N$ (O14; B15).
+- **Composition.** A warp that commutes with composition is the identity (T51); under ours33 the order matters
+  (B18: 87.75% against 91.75%).
+- **The weak-signal centre.** The warp widens around the raw median, and the raw median carries the flat push
+  measure's tilt whatever $\eta$ is (O15).
 
 ## Output
 
-The point $\widehat m$ (the law's median) and the 95% interval (the quoted width), the raw
-law's interval ($\eta=1$) beside it, and $\eta$ itself (ruling 3 of 30 Sept). The misfit is kept
-with the result. The ordinary mean of m under $p$ is infinite (T19), so "mass ± SD" is not
-available.
+The point, the quoted 95% interval, the raw law's interval beside it, and $\eta$. The ordinary mean of m under $p_0$
+is infinite (T19), so "mass ± SD" is not available.
 
 ## Exact inputs
 
 $\sigma=0$ does not enter this function. It goes to the exact branch (T1): compute
 $m_1=\mathbf F\cdot\mathbf a/\lvert\mathbf a\rvert^2$ and $m_2=\lvert\mathbf F\rvert^2/(\mathbf F\cdot\mathbf a)$;
 one mass iff $m_1=m_2\in(0,\infty)$; no mass if they disagree or agree outside $(0,\infty)$;
-every mass at exact 0/0, the only place "undefined" survives.
+every mass at exact 0/0, the only place "undefined" survives. A $\Sigma_i$ declared exactly known
+($\nu_i=\infty$) is not this: it is a measured input with $\sigma>0$.
 
-## Declared, still free
+## What stands, and what is open
 
-The shape of $\pi$ (O6) and, with several noise pairs, its centre (O11). The middle of $g$
-was declared until 30 Sept and is now forced (T30, O12 closed). $\kappa$'s value under a general
-covariance (cross-channel correlation) is unknown yet; $k-\tfrac12$ is shown for isotropic channels.
+- **Stands:** the type with $\nu_{\rm eff}$; the per-reading factor, forced for readings with the full subspace once
+  $\nu_{\rm eff}$ is declared (`proof.md` G19, 17 Nov; provisional); the product; the raw law.
+- **Open at the reading level:** a declared subspace with $k_i<d$ (ours33 keeps the residual inside the candidates'
+  span; keeping the whole reading gives exponent $(\nu+2d-k)/2$, T48); the normalisation of the noise-size law
+  (G20); the old gaps in the flat push (G2, G17).
+- **Open beside it:** the shape of $\pi$, an input (O6); which location functional the point is (G6); consistency
+  at the rate as $N$ grows, unknown for this raw law (O19); everything under "Series and report".
 
 ## In the tester
 
-`law: {reference: cartesian2, nuisance: radius}` with
-`combine: {rule: likelihood_product, prior: [{uniform_angle: {center: first_reading}}], misfit: kink, positivity: true, calibrate: bartlett}`
-and readout `median` (the point): the batch pipeline, isotropic and per-axis noise. Without
-`positivity` it is ours29.
-
-The full input type above (any Σᵢ, a declared Nᵢ, the window carried) is `met/full.py`:
-`ours30(readings, c)` on a list of `Reading(force, acceleration, cov, subspace=None, window=None)`,
-with `c` required (π is an input). It agrees with the batch pipeline on isotropic noise, and on the
-weights with per-axis noise (`tests/test_ours30.py`); the weight's properties are in
-`tests/test_sign_numerator.py`. `ours29(readings, c)` is kept, and agrees with
-`../reference/noise_vs_signal/ours29_reference.py` at its grid (`tests/test_full.py`). Presets and
-the world do not generate correlated noise yet.
+`met/ours33.py`: `ours33(readings, c, nu_eff)` on a list of
+`Reading(force, acceleration, cov, subspace=None, window=None)`; `nu_eff` one value or one per reading,
+`math.inf` for exact; `calibrate=False` returns the raw law's interval as the quoted one. Returns `point`, `median`,
+`interval`, `raw_interval`, `eta`, `law` on `lm`. Its premise report is `tests/test_ours33.py`; coverage,
+`tools/ours33_coverage.py`. ours30 and ours29 remain callable in `met/full.py`, and ours31, ours32 beside it, as
+history.
 
 ## History
 
@@ -160,8 +143,10 @@ the world do not generate correlated noise yet.
 - ours29 (30 Sept): misfit weight and Bartlett power.
 - 10 Oct: the window joins the type; the exact branch restated in pairing form.
 - 2026-10-24: this file created.
-- 2026-10-28: the point is the law's median (provisional: O2, T35, L23 proposed, R-2026-10-28-1); the
-  cloud readout kept for comparison. No recorded number moved; `met/full.py` gains `point`.
-- **ours30 (29 Oct, R-2026-10-29-1): the misfit weight reads the misfit at the best positive mass,
-  numerator k − ½. Current.** Medians on the robot data move by under 1e-4; acute readings are
-  discounted less, by (k − ½)/(k − 1); anti-parallel readings get bounded weight in 1D–3D.
+- 2026-10-28: the point is the law's median (provisional); the cloud readout kept for comparison.
+- ours30 (29 Oct, R-2026-10-29-1): the misfit weight reads the misfit at the best positive mass, numerator k − ½.
+  Stated here until 17 Nov. Its weight was retired on principle by R-2026-11-17-1.
+- ours31 (30 Oct): the exact cut factor per reading, $\nu_{\rm eff}$ declared, no η. ours32 (1 Nov): η put back, as a
+  power. Both in `../problems/O18.md`.
+- ours33 (4 Nov): the declared noise's density of the residual (T48) and η as a warp of the report (T47).
+- **2026-11-17: this page states ours33** (R-2026-11-17-2); $\nu_{\rm eff}=\infty$ accepted (R-2026-11-17-1).

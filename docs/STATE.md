@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-17, by Claude (B21–B27 merged; B25 read and checked; R-2026-11-17-1 recorded and applied to the reading level; the other six briefs not yet read). Update this page in
+**Last updated:** 2026-11-17, by Claude (re-centred on ours33, R-2026-11-17-2; R-2026-11-17-1 applied; B21–B27 merged, B25 read and checked, the other six not yet read). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -30,32 +30,36 @@ definition**: there is no further mass behind the readout. F2 (ruled Sept) sets 
 standard: any choice the premises leave open is an alternative Newtonian mechanics,
 so the goal is uniqueness, not a good estimator.
 
-**Where it stands (9 Nov).** No candidate meets the premise list, and the list is still being restated.
-`definition/proof.md` opens with what is to be proved, part by part (9 Nov): existence and uniqueness without a named
-function. Its chain from the type to ours30 (29 Oct, eighteen steps) is kept as the parts' arguments; what it proves is
-conditional: on isotropic uncorrelated channels, any function meeting the premises as ruled, with R1 read as not
-constraining the misfit weight, L11 read as fixed-N amplitude consistency, and L22, L23 and η's finite-N form taken as
-given, is ours30 up to the declared inputs. ours30 fails two rows of its own list: R1 (a weight below 1 declares a
-larger noise, G18) and L11 at fixed signal as N grows (the sign of F·a is in its power weight, G22); since 17 Nov that weight is retired on principle (R-2026-11-17-1). Each later probe
-breaks: ours31 at weak signal, ours32 on T39's inputs, ours33 at the quoted width (O18). By part:
+**Where it stands (17 Nov).** The work is at ours33 (R-2026-11-17-2; `definition/equation.md`). Its reading level has
+not been touched by a break since ours31, and it is what R-2026-11-17-1 asks for: computed from what is declared. What
+is open is the report (how η is computed, what the quoted width is, composition under the widening) and where the raw
+law's centre sits when the signal is weak (`problems/O18.md`, O15). `definition/proof.md` opens with what is to be proved, part by
+part, read against ours33. ours30 and the chain built toward it (29 Oct) are history: its weight is retired on principle,
+and it fails consistency at fixed signal besides (G22). By part:
 
 - **The input type:** settled, apart from errors shared between readings (O16).
-- **What one reading contributes:** computed from the declaration since 17 Nov (R-2026-11-17-1; L24): the declared noise
-  law's probability of the reading, the noise size integrated under its declared law. The power form and its cap are
-  retired (G18 closed). One thing, up to the declared $\nu_{\rm eff}$ and how the push is removed, which is unforced
-  (G19; B17, E5).
-- **How much the series counts:** η's target is known (O14, 4 Nov); its finite-N form and its place (a power, a warp)
-  are not (G3, G24, G26).
+- **What one reading contributes:** ours33's factor: the declared noise law's probability of the reading's residual,
+  the noise size integrated under its declared law (R-2026-11-17-1; L24). Forced for readings with the full subspace once
+  $\nu_{\rm eff}$ is declared (17 Nov, provisional: G19, O18). Open: a declared subspace $k<d$; the noise-size law's
+  normalisation (G20).
+- **How much the series counts:** ours33 computes η from the fitted curvature over the squared scores and applies it as
+  a widening of the report, never as a power. η's target is known (O14, 4 Nov); its estimate and its form are not
+  (G3, G24, G26): it comes out at 1/99 on two readings that agree.
 - **The starting law:** the family is forced and no member is; two routes to a member closed on 9 Nov (O6).
 - **The point:** a family of location functionals of ln m; the median is the one in `met/` (G6).
-- **The quoted width:** what it promises on noise is not written (G28).
+- **The quoted width:** ours33's break. When the evidence is weak its interval is the starting law's tail; what the
+  width is, and what it promises on noise, is not written (G28).
 
 Two rungs the proof leans on are not fixed in VD-Newton: R3 (persistence, lumping) is unwritten and R5 (Newton III)
 is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, still say "carried from the records"
 (G15). The holes are typed in `definition/proof.md` §5, and that table is the queue.
 
-**Since 17 Nov** (briefs B21–B27 merged as delivered; read one at a time, in the order B25, B21, B24, B27, B26, B22, B23):
+**Since 17 Nov** (briefs B21–B27 merged as delivered; read one at a time, in the order B25, B24, B21, B27, B26, B22, B23):
 
+- **R-2026-11-17-2: ours30 is not "the current one"; the progress is at ours33.** The pages are re-centred on it. This
+  morning's deductions from R-2026-11-17-1 were already ours33's reading level; what the ruling added is their
+  justification, a σ declared exact ($\nu_{\rm eff}=\infty$, now accepted by `met/ours33.py`), and the latent measure:
+  forced for full-subspace readings (provisional).
 - **R-2026-11-17-1: the definition computes the consequences of the inputs; doubting an input is outside the problem.** How well
   each σ is known is a declared input (`../definition/type.md`), and a σ declared exact gives the extreme answer, which the
   caller owns. Applied the same day (Claude's deductions): the per-reading factor is computed from the declared noise law
@@ -65,7 +69,7 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   per-reading body: sign-dependent factors that are no noise-size mixture meet both, in the fixed-size Gaussian world
   only (under a scale mixture with the declared covariance their optimum moves: 2 becomes 1.89). Sorted, provisional:
   the 4 Nov candidate is withdrawn as stated; L24 is the row that selects the cut form, and it is not ruled.
-- B21, B24, B27, B26, B22, B23: merged, not yet read; nothing on this page reflects them. B21 is next.
+- B21, B24, B27, B26, B22, B23: merged, not yet read; nothing on this page reflects them. B24 is next: its sets need no starting law, which is ours33's break.
 
 **Since 9 Nov** (three exploration branches of Codex's; read by Claude and left on their branches, `../explore/README.md`):
 
@@ -96,10 +100,40 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   relative to the pushforward changes composite coverage, 87.75% against 91.75% (B18), as T51's non-commutation predicts (G27).
 - Left on the exploration branches, not harvested: T54–T68, the joint, score-law and anchor line (`../explore/README.md`).
 
-## The current equation: ours30 (since 29 Oct, R-2026-10-29-1)
+## The frontier probe: ours33 (R-2026-11-17-2)
 
-**17 Nov:** its per-reading misfit weight is retired by R-2026-11-17-1. Which equation this section and
-`../definition/equation.md` should state is open until the series level is read (B21, B24). What follows is ours30.
+Not the definition: the probe the work is at. Stated in `../definition/equation.md`; its record is `../problems/O18.md`
+(4 Nov and 17 Nov).
+
+- **Inputs.** Per reading: measured force and acceleration (any values, zero included), an error covariance, how well
+  it is known ($\nu_{\rm eff}$, ∞ for exact), a declared candidate subspace, a window. Declared once: the starting law π
+  with its centre c.
+- **Per reading.** $\ell_i(m)=-\tfrac12(\nu_i+k_i)\log(1+K_i(m)/\nu_i)$, with $K_i$ the reading's residual at $m$ in noise
+  units: the declared noise's probability density of that residual. No misfit weight.
+- **Raw law and point.** $p_0(m)\propto\pi(m)\prod_ie^{\ell_i(m)}$ on $m>0$; the point is its median.
+- **Report.** η = min(1, curvature / J) at the series' best line; the quoted interval is the raw law's quantiles at
+  ranks $\Phi(\mp z/\sqrt\eta)$. η never moves the point and is never a power on the law. **This is where it breaks.**
+- **Exact inputs** (sigma = 0) go to a separate three-way check: one mass, no mass, every mass.
+
+```python
+import math, numpy as np
+from met.full import Reading
+from met.ours33 import ours33
+
+# four 3D readings that disagree about m; sigma_F = 0.2 N, sigma_a = 0.1 m/s^2
+F = [[4.0, 0.3, 0.0], [6.1, -0.2, 0.1], [1.0, 0.8, 0.0], [3.0, 0.1, -0.2]]
+a = [[2.0, 0.0, 0.1], [2.0, 0.1, 0.0], [0.6, -0.4, 0.0], [1.0, 0.0, 0.0]]
+cov = np.diag([0.2**2] * 3 + [0.1**2] * 3)
+r = ours33([Reading(np.array(f), np.array(x), cov) for f, x in zip(F, a)], c=2.0, nu_eff=10)
+r["point"], r["interval"], r["raw_interval"], r["eta"]
+# 2.8138, [2.044, 3.501], raw [2.4096, 3.1539], eta 0.292
+# nu_eff=math.inf (sigma declared exact): 2.6262, [2.068, 3.386], raw [2.4203, 2.8549], eta 0.119
+# all-zero readings return c = 2 (checked 2026-11-17)
+```
+
+## History: ours30 (29 Oct to 17 Nov, R-2026-10-29-1)
+
+Its per-reading misfit weight is retired by R-2026-11-17-1. What follows is ours30 as it was stated; the code still runs.
 
 Inputs per reading i: measured force and acceleration (any values, including zero),
 an error covariance with every declared sigma > 0, a declared candidate subspace,
@@ -403,6 +437,12 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Claude, afternoon): **R-2026-11-17-2: re-centred on ours33.** Can: "if the constraints you are coming up with are being passed by ours33, are
+  you not fully caught up with the progress?" They were: this morning's deductions are ours33's reading level as assembled on 4 Nov.
+  `definition/equation.md` now states ours33; this page, GOAL.md and proof.md's head lead with it; ours30 and its chain are history.
+  `met/ours33.py` accepts $\nu_{\rm eff}=\infty$ (three tests; on the example series it returns the flat Gaussian law's 2.6262).
+  Sorted, provisional (O18): the latent measure is forced for full-subspace readings, since a weight on the push's measure changes
+  the reading's law given the true pair away from the declared one (`tests/test_latent_measure_declared_law.py`). The frontier is the report: η's estimate, the quoted width, composition. B24 is next.
 - 2026-11-17 (Claude, midday): **R-2026-11-17-1 recorded and applied.** Can: "we are interested in the consequences of the inputs, doubting the inputs is
   abdication of responsibility"; how well σ is known is an input and an extreme answer is owned by the declaration. Claude's deductions, on his
   "Go ahead": L24 held and restated (the factor is the declared noise law's probability of the reading); L21's power form, its cap and numerator

@@ -166,3 +166,50 @@ def test_t30_bounded_as_the_declared_noise_shrinks(pair):
         lo, hi = ours33([_iso(f, a, sd)], 1.0, 10.0, calibrate=False)["raw_interval"]
         widths.append(math.log(hi / lo))
     assert widths[-1] > 0.05 and abs(widths[-1] - widths[-2]) < 0.05 * widths[-1]
+
+
+# --- a sigma declared exact (R-2026-11-17-1) -------------------------------------------------------
+
+def test_an_exact_sigma_is_the_limit_of_large_nu_eff():
+    """nu_eff = inf is accepted and is the nu -> inf limit of the factor: the Gaussian's, l = -K/2."""
+    rd = _series(seed=5)
+    st_inf = _per_reading(rd, 1.0, [math.inf] * len(rd))
+    st_big = _per_reading(rd, 1.0, [1e9] * len(rd))
+    phi = np.array([0.3, -1.0, 1.2])
+    for exact, big in zip(_l_terms(st_inf, 1.0, phi, 2), _l_terms(st_big, 1.0, phi, 2)):
+        for a, b in zip(exact, big):
+            assert np.allclose(a, b, rtol=1e-6, atol=1e-6)
+    r_inf, r_big = ours33(rd, 1.0, math.inf), ours33(rd, 1.0, 1e9)
+    assert r_inf["median"] == pytest.approx(r_big["median"], rel=1e-5)
+    assert r_inf["eta"] == pytest.approx(r_big["eta"], rel=1e-5)
+
+
+def test_exact_and_declared_readings_mix_in_one_series():
+    rd = _series(seed=6, n=4)
+    r = ours33(rd, 1.0, [math.inf, 10.0, math.inf, 3.0])
+    lo, hi = r["raw_interval"]
+    assert 0 < lo < r["median"] < hi < math.inf and 0 < r["eta"] <= 1
+    with pytest.raises(ValueError):
+        ours33(rd, 1.0, [math.nan, 10.0, 10.0, 10.0])
+
+
+def test_with_sigma_declared_exact_a_misaligned_reading_gives_the_extreme_answer():
+    """T30's pair with the sigma declared exact: the evidence contrast between two positive masses grows
+    like 1/sigma^2 without bound, and the raw law piles up at one edge. With nu_eff = 10 the contrast stays
+    bounded (test_t30_bounded_as_the_declared_noise_shrinks). The extreme answer is the declaration's."""
+    masses = np.array([0.5, 2.0])
+    contrasts, widths, medians = [], [], []
+    for sd in (1.0, 0.1, 0.01):
+        rd = [_iso(1.0, -2.0, sd)]
+        st = _per_reading(rd, 1.0, [math.inf])
+        l0 = _l_terms(st, 1.0, np.arctan(masses), 0)[0][0]
+        contrasts.append(abs(float(l0[1] - l0[0])))
+        r = ours33(rd, 1.0, math.inf, calibrate=False)
+        widths.append(math.log(r["raw_interval"][1] / r["raw_interval"][0]))
+        medians.append(r["median"])
+    assert contrasts[1] == pytest.approx(100 * contrasts[0], rel=1e-9)
+    assert contrasts[2] == pytest.approx(100 * contrasts[1], rel=1e-9)
+    # nearer to the acceleration axis (|a| > |F|, opposed): every positive mass is beaten by a smaller one
+    assert medians[0] > medians[1] > medians[2] > 0
+    assert medians[2] < 1e-2
+

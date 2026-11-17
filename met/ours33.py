@@ -1,16 +1,19 @@
 """ours33: a probe. ours32's reading level with the normalised residual density (T48) and eta applied as a
 calibration of the output law (T47), not as a power on the likelihood.
 
-NOT the definition. ours30 is the working equation (R-2026-10-29-1). Assembled by Claude (4 Nov) from
-two results Codex set down on 3 Nov and did not build on; problems/O18.md states its holes before any
-result. Built to break (GOAL.md); each change answers a break T39 proved in ours32.
+NOT the definition. The frontier probe: the one definition/equation.md states since 17 Nov (R-2026-11-17-2).
+Assembled by Claude (4 Nov) from two results Codex set down on 3 Nov and did not build on; problems/O18.md
+states its holes before any result. Built to break (GOAL.md); each change answers a break T39 proved in
+ours32. Its reading level stands; it breaks at the report (the quoted width).
 
 Per reading (T48): the declared noise's density of the reading's k-dimensional residual at m, with the
 noise size v_i ~ IG(nu_eff_i/2, nu_eff_i/2) (T37, G20) integrated out,
 
   l_i(phi) = -(nu_eff_i + k_i)/2 * log(1 + K_i(phi)/nu_eff_i),     K_i = E_i - H_i  (T36's residual),
 
-on the whole projective line, up to an m-independent constant. ours31/32 had exponent (nu + k - 1)/2,
+on the whole projective line, up to an m-independent constant. nu_eff = inf declares the sigma exact
+(R-2026-11-17-1): the factor is then the Gaussian's, l_i = -K_i/2, and its confidence on a misaligned
+reading is unbounded, which the caller owns. ours31/32 had exponent (nu + k - 1)/2,
 the fitted count; T48's integration of the normalised Gaussian over the candidate plane gives k. This
 is the change that makes a single reading's raw law concentrate for every nu > 0 (T39 part 4 fails
 for nu < 1 under the old exponent; T48 section 3).
@@ -45,8 +48,15 @@ def _l_terms(states, c, phi, order):
     their first two phi-derivatives. The same residual as met.ours32, one more residual dimension."""
     per = []
     for r, ne, _, _ in states:
-        a = 0.5 * (ne + r.k)
         residual = _residual_energy(r, c, phi)
+        if math.isinf(ne):                      # sigma declared exact: the nu -> inf limit, the Gaussian factor
+            if order == 0:
+                per.append((-0.5 * residual,))
+                continue
+            _, h1, h2 = _h_terms(r.pre(), c, phi, 2)
+            per.append((-0.5 * residual, 0.5 * h1, 0.5 * h2))
+            continue
+        a = 0.5 * (ne + r.k)
         l0 = -a * np.log1p(residual / ne)
         if order == 0:
             per.append((l0,))
@@ -95,7 +105,8 @@ def _tail_quantiles(lm, lp, p):
 
 
 def ours33(readings, c, nu_eff, *, calibrate=True, grid=None, eta_method="fitted"):
-    """The ours33 probe on one series. Same arguments as ours32. calibrate=False gives eta = 1 (the raw
+    """The ours33 probe on one series. Same arguments as ours32, except that nu_eff may be math.inf for a
+    reading whose sigma is declared exact (R-2026-11-17-1). calibrate=False gives eta = 1 (the raw
     law; the quoted interval is then the raw interval). eta_method="fitted" retains the original
     H/J rule. eta_method="conditional" explicitly selects B15's study-only model variance H/C;
     its fixed-candidate exactness is scoped in met.eta_conditional, not a sampling coverage claim.
@@ -110,8 +121,8 @@ def ours33(readings, c, nu_eff, *, calibrate=True, grid=None, eta_method="fitted
     if np.ndim(nu_eff) == 0:
         nu_eff = [float(nu_eff)] * len(readings)
     nu_eff = [float(x) for x in nu_eff]
-    if len(nu_eff) != len(readings) or not all(x > 0 and math.isfinite(x) for x in nu_eff):
-        raise ValueError("nu_eff: one positive finite value per reading")
+    if len(nu_eff) != len(readings) or not all(x > 0 for x in nu_eff):      # nan fails x > 0
+        raise ValueError("nu_eff: one positive value per reading (math.inf declares the sigma exact)")
     states = _per_reading(readings, c, nu_eff)
     if calibrate and eta_method == "conditional":
         from met.eta_conditional import eta_c

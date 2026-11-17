@@ -466,6 +466,12 @@ read. Line numbers refer to the files as they stood that day.
 - **Words:** "I don't understand the math always unfortunately. The idea is that we are interested in the consequences of the inputs, doubting the inputs is abdication of responsibility. Ideas like, 'but that's unrealistic', 'you wouldn't do an experiment that way anyways' doesn't concern us." — to Claude's question "Is that right: 'how well σ is known' is an input, and a caller who declares σ exact gets the extreme answer and owns it?": "Absolutely, 'extreme answers' are what we are trying to handle here basically. So what's next." — to Claude's plan, which listed the three deductions and ended "it retires a form you ruled on 29 Sept. Say go, or tell me which part to hold.": "Go ahead."
 - **Source:** the conversation of 2026-11-17; recorded directly. The wording of the three deductions is Claude's.
 
+### R-2026-11-17-2 — ours30 is not "the current one"; the progress is at ours33; the old reasoning is cleaned up
+- **Decides:** The pages stop treating ours30 as the current equation. ours33 is the probe the work is at: constraints that ours33 already passes are not new findings, and reasoning from ours30's pages is what kept producing them. `definition/equation.md`, `docs/STATE.md`, `GOAL.md` and the head of `definition/proof.md` are re-centred on ours33 as the frontier probe (a probe, not the definition), with ours30 and the chain built toward it as history. The re-centring and the wording are Claude's, on his "Go".
+- **Replaces / closes:** the "working equation" designation of R-2026-10-29-1 (ours30).
+- **Words:** "First pay attention to ours 33 a bit more. Cause I think the idea that ours30 is 'the current one' is confusing you a bit. On the one hand, you are supposed to clean up the old reasoning, that is what we are doing here. On the other hand, if the constraints you are coming up with are being passed by ours33, are you not fully caught up with the progress?" — to Claude's plan (re-centre the state, equation and proof pages on ours33 as the frontier probe, with ours30 and its chain as history; check the latent-measure point; read B24 next): "Go"
+- **Source:** the conversation of 2026-11-17; recorded directly.
+
 ---
 
 ## Open: deductions Claude owes, and questions about the goal
