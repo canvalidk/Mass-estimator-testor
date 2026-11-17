@@ -387,6 +387,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Codex, B23, not checked by Claude): T71 and O17 derive the real commutants and compare graph misfits. A planar reflection removes the skew term. Spatial rotations already force a scalar. The actual push stabilizer retains $Q$, while an independent axis fits exactly. Seeded tests check both axis hypotheses. Full suite: 2,692 passed, 28 skipped, 17 xfailed. Audit findings unchanged.
+
 - 2026-11-09 (Claude, night): **`definition/proof.md`'s head restated**: what is to be proved no longer names ours30. A table by part (the type,
   the reading level, the series level, the starting law, consistency, the quoted width, composition, the point): the requirement, whether it is
   written with its quantifiers, what is known to meet it, and whether that is one body, a family or none. The consistency requirement written out
