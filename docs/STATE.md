@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-17, by Claude (briefs B21–B27 merged as delivered; B25 read and checked; the other six not yet read). Update this page in
+**Last updated:** 2026-11-17, by Codex on the E2 exploration branch (null combination; main's status below retained). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -393,6 +393,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-17 (Codex, E2 exploration; not checked by Claude): `explore/e2-null-combination.md` extends E10 to a random fixed informative baseline and separate inverse weights; full-rate consistency excludes the proposed random-null zero-influence contract, including ordinary pooled readings. T45 combines with retained score/variance curves but a long null block erases a fixed informative block; exact coverage and the stated invariances leave a family. No premise or production change. Final 40 new checks pass; full run 2,847 passed, 28 skipped, 25 xfailed, five Windows process-pipe permission failures all passed on authorized reruns; audit unchanged. Independent agent reviews found no mathematical blocker. Summary at branch root.
 
 - 2026-11-17 (Claude, later): **B25 read and checked** (T72 §§1–4: the gap identity, stationarity, the change of measure, the T30 spans; no error).
   Claude's expected class was false. `../tests/test_fisher_factor_world.py` (6): T72's factors are consistent only when the world is exactly Gaussian at
