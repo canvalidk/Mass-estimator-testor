@@ -1,6 +1,6 @@
 # B23: What makes mass real: isotropy in 3D, parity in 2D
 
-**Status:** done: T71 derives the real commutants and their misfits. The true-push stabilizer retains scalar $Q$, while an independent axis gives zero misfit. Seeded tests and the O17 scope comparison are included (Codex, 17 Nov 2026, not checked by Claude).
+**Status:** merged 2026-11-17, as delivered (not checked by Claude): T71 derives the real commutants and their misfits. The true-push stabilizer retains scalar $Q$, while an independent axis gives zero misfit. Seeded tests and the O17 scope comparison are included (Codex, 17 Nov 2026, not checked by Claude).
 **Item:** G10 (L22 as a clause of L1), `problems/O17.md`; T70 (3) (the sign is not a phase; imaginarity is what a
 non-scalar inertia would explain); the phase-two sort (T70, "Phase-two sort").
 **Branch:** `codex/b23`, from `origin/main`.

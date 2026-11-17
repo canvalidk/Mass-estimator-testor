@@ -1,6 +1,6 @@
 # B22: ours30 with η from the series' Gram (η_G) in place of the Bartlett η
 
-**Status:** done: opt-in Gram eta on both bases, 21 premise/option tests and 28-cell paired coverage study; G22 persists, sign-blind T30 fails, and full-type negative eta leaves G3 open (Codex, 2026-11-17; not checked by Claude).
+**Status:** merged 2026-11-17, as delivered (not checked by Claude): opt-in Gram eta on both bases, 21 premise/option tests and 28-cell paired coverage study; G22 persists, sign-blind T30 fails, and full-type negative eta leaves G3 open (Codex, 2026-11-17; not checked by Claude).
 **Item:** G3 (η's finite-$N$ form); `problems/O14.md` (7 Nov: η from the series' real density matrix); T70 (7).
 **Branch:** `codex/b22`, from `origin/main`.
 **Written:** 2026-11-07, Claude, from a conversation with Can (misalignment as imaginarity; T70).

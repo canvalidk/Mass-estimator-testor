@@ -1,6 +1,6 @@
 # B27: the identifying rate on vector readings
 
-**Status:** done: O19 gives the sharp component-count rate for common ratios and uniformly conditioned effective covariance, the sharp weighted rate for unequal independent channels, and a fixed-history obstruction when covariance geometry degenerates. Finite identities are checked in tests/test_vector_identifying_rate.py (Codex, 17 Nov 2026, not checked by Claude).
+**Status:** merged 2026-11-17, as delivered (not checked by Claude): O19 gives the sharp component-count rate for common ratios and uniformly conditioned effective covariance, the sharp weighted rate for unequal independent channels, and a fixed-history obstruction when covariance geometry degenerates. Finite identities are checked in tests/test_vector_identifying_rate.py (Codex, 17 Nov 2026, not checked by Claude).
 **Item:** G25 (L11's rate on the full type), `problems/O19.md`; T41, T42, T53; B19's item 3.
 **Branch:** `codex/b27`, from `origin/main`.
 **Written:** 2026-11-09, Claude.

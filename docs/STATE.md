@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-09, by Claude (intake of the 9 Nov explorations E6, E9 and E10, left on their branches; "Where it stands" rewritten; hole G28). Update this page in
+**Last updated:** 2026-11-17, by Claude (briefs B21–B27 merged as delivered; not yet read, so "Where it stands" is as of 9 Nov). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -64,8 +64,8 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   noise ratio, not L4; π is declared, centre and shape.
 - **Shared signal structure** (E6; a pointer in O16). A joint law of mass and a shared calibrated direction fails T30
   and L19 as written; whether such evidence may enter is unsorted, and no hole depends on it.
-- Briefs B21–B27 are open and not yet run; B24 (the width and η against the weak-instrument literature) and B25
-  (which per-reading factors keep the truth) are first (`../briefs/README.md`).
+- Briefs B21–B27 came back and were merged as delivered on 17 Nov (`../briefs/README.md`; the log). None is checked or yet
+  read by Claude, so nothing on this page reflects them yet.
 
 **Since 3 Nov** (Codex's exploration and briefs B15–B19, on main since 7 Nov as delivered; **not checked by Claude**):
 
@@ -387,16 +387,19 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
-- 2026-11-10 (Codex, B21; not checked by Claude): T69 derives the maximal-invariant Wishart laws and profile curvature tending to Delta/(Delta+Nk); both laws fail Z and T30. O15 records the 2,400-series paired coverage study, group/MILE qualifications and unresolved L10/L19 permission; G3/G28 stay open. Full suite: 2,735 passed, 28 skipped, 25 xfailed; final focused checks 54 passed, 8 xfailed; audit unchanged. No production or premise change.
-- 2026-11-10 (Codex, B24; not checked by Claude): O15/O14 compare weak-instrument sets and variance corrections: concentration is $\Delta\cos^2\theta$, the rate agrees but theorem quantifiers differ; AR/CLR fail Z, T45 is the Z-safe score set; exact pure-noise shape probabilities and known-covariance variance distinctions recorded, with deterministic checks and unavailable originals marked. G28/G3/G26 remain open; no output or estimator adopted. Checks pass; suite 2,684 passed, 28 skipped, 17 xfailed; audit unchanged.
-- 2026-11-10 (Codex, B25 continuation requested by Can; not checked by Claude): T72 §4/O18 show that Fisher consistency and bounded confidence together still allow noncancelling sign dependence: Gaussian damping/rescaling preserves the correct optimum while the extra term vanishes in T30's limit. Added checks beside B25's tests: 24 focused tests pass; full suite 2,708 passed, 28 skipped, 17 xfailed; audit findings unchanged. Fixed Gaussian near-line behavior still fails; mean-one cut-mixture representability is unestablished; no factor adopted.
-
-- 2026-11-10 (Codex, B25; not checked by Claude): T72/O18 refute the proposed Fisher-consistency restriction: a residual-increasing, Z/frame/units/swap-safe scalar factor retains noncancelling sign dependence yet has the unique correct population optimum at every nonzero fixed signal; deterministic Gaussian quadrature checks added. It fails T30 and the Gaussian near-line coefficient; B25 stops as instructed before tail-family classification. G19/G22 remain open; no factor adopted. All 17 new checks pass; full suite 2,701 passed, 28 skipped, 17 xfailed; audit findings unchanged.
+- 2026-11-17 (Claude): **briefs B21–B27 merged as delivered** (Codex; none checked, none yet read by Claude: the seven lines below are
+  Codex's own account of what each found). Conflicts only where two briefs added a section at the same place (O15: B21 and B24; O14: B24 and B22;
+  this log); both sides kept. The theorem index gains T69, T71, T72, and T70's row, missed on 7 Nov. Suite 2,809 passed, 28 skipped, 25 xfailed
+  (B21's eight strict xfails record its Z and T30 failures); audit: 57 theorems, nothing new out of order. Reading order: B25, B24, B27, B26,
+  then B21, B22, B23; each part's row at the head of `../definition/proof.md` is updated as its brief is read.
 - 2026-11-17 (Codex, B22; not checked by Claude): opt-in Gram eta on ours30 and sign-blind ours29; 300 paired series in 28 cells improve many weak-signal coverage rates, but G22 persists and valid correlated inputs can give negative eta; premise checks, coverage and E10 comparison in O14. Default unchanged; 21 new tests; suite 2705 passed, 28 skipped, 17 existing xfails; audit findings unchanged.
 - 2026-11-17 (Codex, B23, not checked by Claude): T71 and O17 derive the real commutants and compare graph misfits. A planar reflection removes the skew term. Spatial rotations already force a scalar. The actual push stabilizer retains $Q$, while an independent axis fits exactly. Seeded tests check both axis hypotheses. Full suite: 2,692 passed, 28 skipped, 17 xfailed. Audit findings unchanged.
 - 2026-11-17 (Codex, B26, not checked by Claude): under L4, independent sum or parallel-sum closure even at equal centres forces a point mass. Half-Cauchy quantiles in O6 and 18 matched B18 weak cells in O2. Prior substitution closes the observed historical parallel-sum deficit and leaves the centred sum below nominal. Full suite 2,694 passed, 28 skipped, 17 expected failures. Audit findings unchanged.
 - 2026-11-17 (Codex, B27, not checked by Claude): O19 proves the sharp exact-energy point threshold with $D=\sum_i k_i$ for common ratios and uniformly conditioned effective covariance. Unequal independent channels have a sensitivity-weighted count and energy. Two fixed histories with degenerating covariance have equal, diverging energy and efficient log-mass information but bounded KL. Finite identities have dedicated tests. Full suite: 2,692 passed, 28 skipped, 17 xfailed. Audit findings unchanged.
-
+- 2026-11-10 (Codex, B21; not checked by Claude): T69 derives the maximal-invariant Wishart laws and profile curvature tending to Delta/(Delta+Nk); both laws fail Z and T30. O15 records the 2,400-series paired coverage study, group/MILE qualifications and unresolved L10/L19 permission; G3/G28 stay open. Full suite: 2,735 passed, 28 skipped, 25 xfailed; final focused checks 54 passed, 8 xfailed; audit unchanged. No production or premise change.
+- 2026-11-10 (Codex, B24; not checked by Claude): O15/O14 compare weak-instrument sets and variance corrections: concentration is $\Delta\cos^2\theta$, the rate agrees but theorem quantifiers differ; AR/CLR fail Z, T45 is the Z-safe score set; exact pure-noise shape probabilities and known-covariance variance distinctions recorded, with deterministic checks and unavailable originals marked. G28/G3/G26 remain open; no output or estimator adopted. Checks pass; suite 2,684 passed, 28 skipped, 17 xfailed; audit unchanged.
+- 2026-11-10 (Codex, B25 continuation requested by Can; not checked by Claude): T72 §4/O18 show that Fisher consistency and bounded confidence together still allow noncancelling sign dependence: Gaussian damping/rescaling preserves the correct optimum while the extra term vanishes in T30's limit. Added checks beside B25's tests: 24 focused tests pass; full suite 2,708 passed, 28 skipped, 17 xfailed; audit findings unchanged. Fixed Gaussian near-line behavior still fails; mean-one cut-mixture representability is unestablished; no factor adopted.
+- 2026-11-10 (Codex, B25; not checked by Claude): T72/O18 refute the proposed Fisher-consistency restriction: a residual-increasing, Z/frame/units/swap-safe scalar factor retains noncancelling sign dependence yet has the unique correct population optimum at every nonzero fixed signal; deterministic Gaussian quadrature checks added. It fails T30 and the Gaussian near-line coefficient; B25 stops as instructed before tail-family classification. G19/G22 remain open; no factor adopted. All 17 new checks pass; full suite 2,701 passed, 28 skipped, 17 xfailed; audit findings unchanged.
 - 2026-11-09 (Claude, night): **`definition/proof.md`'s head restated**: what is to be proved no longer names ours30. A table by part (the type,
   the reading level, the series level, the starting law, consistency, the quoted width, composition, the point): the requirement, whether it is
   written with its quantifiers, what is known to meet it, and whether that is one body, a family or none. The consistency requirement written out

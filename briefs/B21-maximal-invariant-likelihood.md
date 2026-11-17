@@ -1,6 +1,6 @@
 # B21: Moreira's maximal invariant likelihood for the latent pushes
 
-**Status:** done: T69 derives the groups, invariant laws and profile curvature target; both laws fail Z and T30. O15 records the 2,400-series coverage comparison; L10/L19 permission and full property N remain open. Delivered 2026-11-10, Codex; not checked by Claude.
+**Status:** merged 2026-11-17, as delivered (not checked by Claude): T69 derives the groups, invariant laws and profile curvature target; both laws fail Z and T30. O15 records the 2,400-series coverage comparison; L10/L19 permission and full property N remain open. Delivered 2026-11-10, Codex; not checked by Claude.
 **Item:** `problems/O15.md` (the 30 Oct table of non-hierarchical cures, closed by B14 for the per-reading
 constructions); G3 (η's finite-$N$ form); `problems/O14.md` (4 Nov: η's target is ours28b's shrinkage $\Delta/(\Delta+M)$).
 **Branch:** `codex/b21`, from `origin/main` (O15's table and B14's row live on `main`; nothing on
