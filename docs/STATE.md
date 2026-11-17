@@ -387,6 +387,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Codex, B22; not checked by Claude): opt-in Gram eta on ours30 and sign-blind ours29; 300 paired series in 28 cells improve many weak-signal coverage rates, but G22 persists and valid correlated inputs can give negative eta; premise checks, coverage and E10 comparison in O14. Default unchanged; 21 new tests; suite 2705 passed, 28 skipped, 17 existing xfails; audit findings unchanged.
+
 - 2026-11-09 (Claude, night): **`definition/proof.md`'s head restated**: what is to be proved no longer names ours30. A table by part (the type,
   the reading level, the series level, the starting law, consistency, the quoted width, composition, the point): the requirement, whether it is
   written with its quantifiers, what is known to meet it, and whether that is one body, a family or none. The consistency requirement written out
