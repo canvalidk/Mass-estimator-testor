@@ -1,0 +1,12 @@
+# B21 / O15: same fixed-length-push Gaussian world as the 30 Oct N-growing study.
+# Four laws scored on identical observations; flat means g=eta=1, not ours30 without eta.
+seed: 69261109
+series: 200
+dimension: 3
+mass: 1.0
+prior_center: 1.0
+noise_sd: 1.0
+signals: [0.5, 1.0, 2.0]
+readings: [5, 20, 80, 200]
+quadrature_nodes: 128
+integrated_measure: flat_dDelta

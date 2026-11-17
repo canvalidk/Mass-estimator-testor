@@ -387,6 +387,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-10 (Codex, B21; not checked by Claude): T69 derives the maximal-invariant Wishart laws and profile curvature tending to Delta/(Delta+Nk); both laws fail Z and T30. O15 records the 2,400-series paired coverage study, group/MILE qualifications and unresolved L10/L19 permission; G3/G28 stay open. Full suite: 2,735 passed, 28 skipped, 25 xfailed; final focused checks 54 passed, 8 xfailed; audit unchanged. No production or premise change.
+
 - 2026-11-09 (Claude, night): **`definition/proof.md`'s head restated**: what is to be proved no longer names ours30. A table by part (the type,
   the reading level, the series level, the starting law, consistency, the quoted width, composition, the point): the requirement, whether it is
   written with its quantifiers, what is known to meet it, and whether that is one body, a family or none. The consistency requirement written out
