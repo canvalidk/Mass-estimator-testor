@@ -387,6 +387,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Codex, B26, not checked by Claude): under L4, independent sum or parallel-sum closure even at equal centres forces a point mass. Half-Cauchy quantiles in O6 and 18 matched B18 weak cells in O2. Prior substitution closes the observed historical parallel-sum deficit and leaves the centred sum below nominal. Full suite 2,694 passed, 28 skipped, 17 expected failures. Audit findings unchanged.
+
 - 2026-11-09 (Claude, night): **`definition/proof.md`'s head restated**: what is to be proved no longer names ours30. A table by part (the type,
   the reading level, the series level, the starting law, consistency, the quoted width, composition, the point): the requirement, whether it is
   written with its quantifiers, what is known to meet it, and whether that is one body, a family or none. The consistency requirement written out
