@@ -387,6 +387,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Codex, B27, not checked by Claude): O19 proves the sharp exact-energy point threshold with $D=\sum_i k_i$ for common ratios and uniformly conditioned effective covariance. Unequal independent channels have a sensitivity-weighted count and energy. Two fixed histories with degenerating covariance have equal, diverging energy and efficient log-mass information but bounded KL. Finite identities have dedicated tests. Full suite: 2,692 passed, 28 skipped, 17 xfailed. Audit findings unchanged.
+
 - 2026-11-09 (Claude, night): **`definition/proof.md`'s head restated**: what is to be proved no longer names ours30. A table by part (the type,
   the reading level, the series level, the starting law, consistency, the quoted width, composition, the point): the requirement, whether it is
   written with its quantifiers, what is known to meet it, and whether that is one body, a family or none. The consistency requirement written out
