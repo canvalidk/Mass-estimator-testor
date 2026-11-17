@@ -676,7 +676,7 @@ branch `codex/ours32-consistency` (Codex, 3–4 Nov): input, not checked by Clau
 
 | id | step | hole | type | where |
 | --- | --- | --- | --- | --- |
-| G10 | 1 | L22, scalar mass, as a clause of L1 | sort (Claude); goal if the version's L1 does not settle whether inertia is a scalar | O17 |
+| G10 | 1 | L22, scalar mass, as a clause of L1 | sort (Claude); **sorted 17 Nov, provisional (B23, T71; O17):** scalar mass is in the output type, a law on positive reals, and T71 says what that commits to: the object's inertia is the same under every rotation and reflection (in 2D the reflection is needed; frame bookkeeping forces nothing). Tensor or complex inertia are other entries. A question about the version, not a hole here: whether VD-Newton's ledger states the symmetry anywhere but in the type | O17; T71 |
 | G11 | 1, 4 | $N_i$ as an input (L18's second clause); R3 unwritten, R5 provisional | sort (Claude: TASK §5's inputs-cost test); VD-Newton | L18; `ladder.md` |
 | G1 | 2 | T23's Gaussian-forcing claim: B05 delivered counterexamples to both routes as stated; further justification is open. **Merged 31 Oct;** L13 is now stipulated, conditionally forced by Herschel–Maxwell given full sphericity and independent channels | write; derive; rule | O4 → brief B05, merged |
 | G2 | 3 | T6's argument: **written 31 Oct (B07, merged)**. Its remainder: the coefficient ½ (excluding the improper $e^{+\tau\lVert v\rVert^2}$, $0<\tau<\tfrac12$) does not follow from L7, which calibrates a point (B07 found the brief mis-sorted); L10 states $e^{H/2}$ as a clause. **Claude, 31 Oct, provisional:** by T36's homogeneity the $\tau$-member is the flat factor under a declared $(1-2\tau)\Sigma$, so the coefficient is forced exactly when the factor may not alter the declared noise law (R1 with L24, candidate); it rides on G18, not a new fork | write done; the remainder attaches to G18 | T06 §3; L24 |
@@ -721,6 +721,8 @@ O16 is where it may gain a slot); the 95% level (a convention, step 18).
 - `docs/STATE.md`'s "Read first" points here after `ladder.md`.
 
 ## History
+
+- 2026-11-17 (Claude): B23 read into G10 (scalar mass is in the type; T71 names the symmetry).
 
 - 2026-11-17 (Claude): B22 read into G3 and the series-level row (η's exact product; the cap on each factor, provisional).
 
