@@ -1,6 +1,6 @@
 # B26: is the starting law's family closed under lumping, and is that B18's weak-signal under-coverage
 
-**Status:** open.
+**Status:** done: closure at equal centres forces a point mass for both operations. Half-Cauchy quantiles and the 18 matched B18 weak cells are in O6 and O2 (Codex, 2026-11-17, not checked by Claude).
 **Item:** `problems/O6.md` (the family, B08), G27 (the joint composition protocol), `problems/O2.md` (B18's section);
 L4, L5, L14 in `definition/premises.md`; R-2026-10-28-1.
 **Branch:** `codex/b26`, from `origin/main`.
