@@ -21,6 +21,9 @@ ask Can to choose a side.
 statistics and what that theory already knows; the project's vocabulary is not a reason to
 re-derive known results, and Can should not have to supply them (GOAL.md, standing rule 6).
 
+**The consequences of the inputs.** The definition computes what follows from what is declared. A doubt about a
+declared input is outside the problem, and an extreme answer is the declaration's to own (R-2026-11-17-1).
+
 **Then `docs/STATE.md`**, then run `python tools/audit.py`. Do not reconstruct
 the state from the records; the living layer is the state.
 

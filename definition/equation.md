@@ -1,5 +1,10 @@
 # The equation: ours30
 
+**17 Nov 2026 (R-2026-11-17-1): this equation's per-reading misfit weight is retired on principle** (a weight for a
+reading's own misfit is the law doubting the declared noise; `premises.md` L21, L24). The reading levels of the admitted
+kind are ours31–ours33's (`../problems/O18.md`). Which equation this page should state is open until the series level
+is read (B21, B24); the text below is ours30's, kept as the equation the chain in `proof.md` was built toward.
+
 Stated once. ours30 (R-2026-10-29-1) is ours29 (`../docs/noise_vs_signal/ours29_misfit_weight_and_bartlett_power_2026-09-30.md`
 §3; lemma list d4: T8, T10, T30, T31) with one change: each reading's misfit weight reads its misfit at
 its best **positive** mass, with numerator $k_i-\tfrac12$. Edit in place when the equation changes; git

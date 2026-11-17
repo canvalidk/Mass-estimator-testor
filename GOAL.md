@@ -6,7 +6,7 @@
 
 ## 0. Short form
 
-**Target.** The body of the VD-Newton entry `mass := mass_estimator(F, a)`: the one function from readings (force and acceleration vectors with declared error covariances, a declared candidate subspace, a reading structure, a window) and a declared starting law π, to a law of mass on (0,∞) and a point — *and the proof that it is the only one* the version's commitments admit. The working equation is ours30 and the newest probe ours33 (4 Nov, on main 7 Nov); the proof is `definition/proof.md` in the tester, with its holes typed (G1–G28).
+**Target.** The body of the VD-Newton entry `mass := mass_estimator(F, a)`: the one function from readings (force and acceleration vectors with declared error covariances, a declared candidate subspace, a reading structure, a window) and a declared starting law π, to a law of mass on (0,∞) and a point — *and the proof that it is the only one* the version's commitments admit. The working equation is ours30 and the newest probe ours33 (4 Nov, on main 7 Nov); since 17 Nov ours30's per-reading weight is retired on principle (R-2026-11-17-1) and no probe is named in its place yet; the proof is `definition/proof.md` in the tester, with its holes typed (G1–G28).
 
 **How the work goes (Can, 29 Oct).** The candidates are probes. Each is built to the current premise list and is *supposed to break*; the break names a premise Newtonian practice has been running on unwritten. The growing premise list is the output, not a symptom. Sixteen probes so far (ours33, 4 Nov, is the latest, run beside ours30); each will fail too. Phase two, not yet started as a document: sort every find into three bins — a hidden commitment of Newton (persistence, additivity, positivity, one object), a hidden commitment of measuring anything (isotropy in noise units, the Gaussian model, no borrowing), or an input. `ladder.md` §2 draws the first line. The proof is relative to that sort. "Agrees with experiment" is a check on the survivor, not on a probe; no experiment is being run.
 
@@ -19,6 +19,7 @@
 4. VD-docs holds decisions and is the output; the tester holds the work. Rulings are Can's, verbatim, dated. Mark what is Claude's as Claude's.
 5. Read `docs/existence_argument_audit_2026-10-29.md` before the textbook prior fires. Then `TASK.md`, then `definition/proof.md`.
 6. **Bring the standard mathematics in first:** before working a fork, name what it is in standard mathematics or statistics and use what that theory already knows. The project's vocabulary is for the dictionary's own premises; it is not a licence to re-derive known results, and Can should not have to supply them (29 Oct; T36).
+7. **The consequences of the inputs.** The definition computes what follows from what is declared. A doubt about a declared input is outside the problem, and an extreme answer is the declaration's to own (R-2026-11-17-1).
 
 ---
 
@@ -75,15 +76,16 @@ A probe is reported against every row; a row is a find from an earlier probe or 
 | L13 | Gaussian noise model | stipulated (31 Oct: T23's forcing routes refuted, B05); conditionally forced by Herschel–Maxwell | T23's tests |
 | L16 | frame independence: rotations, signs, Galilean boosts | ruled 28 Sept | `test_rotation_with_covariance_changes_nothing` |
 | L17 | same candidate law, same mass | ruled 28 Sept | construction |
-| L18 | declared inputs are correct (σ, structure, window; Nᵢ proposed) | ruled | construction |
+| L18 | declared inputs are correct (σ, structure, window; Nᵢ proposed); how well each σ is known (ν_eff, ∞ for exact) is declared too (17 Nov) | ruled | construction |
 | L19 | no borrowing between readings; joined only through m | ruled 28/30 Sept | `test_readout_weight` |
 | L20 | Z: a reading with no information does not change the law (point-level Z *not* ruled, R-2026-10-29-2) | ruled 27 Sept; scope O7 | `test_a_zero_reading_leaves_the_law_alone…` |
-| L21 | readings are evidence, just less: 0 < g ≤ 1, decreasing | ruled 29 Sept | `test_no_gate_*` |
+| L21 | readings are evidence, just less: as a consequence of the declared noise law (L24) when ν_eff is declared; the power form 0 < g ≤ 1 is retired (17 Nov, R-2026-11-17-1) | the sentence ruled 29 Sept; restated 17 Nov | `test_no_gate_*` (the retired form) |
+| L24 | the per-reading factor is the declared noise law's probability of the reading, the noise size integrated under its declared law; computed, not chosen | Claude, 30 Oct; held since 17 Nov (R-2026-11-17-1) | `tests/test_noise_size.py`; B12 |
 | L22 | mass is a scalar: candidates share one direction | provisional (G10) | construction |
 | L23 | the point is parametrisation-free | provisional (G6) | `test_t35_*` |
 | N | the width tracks how far the point moves under repeats (η); a true statement, not nominal coverage (R-2026-09-29-4). Uniform coverage in the corner is impossible (Gleser–Hwang, O15, B13: infimum 0 at every finite N). ours30's 0.93–0.95 at N = 80–200 is finite-N only: its point is inconsistent at fixed signal (G22) | property | `test_ours29`; `tools/ours30_coverage_vs_n.py`; O15 |
 | R-09-07-1 | smallest error under the law: Q₊ | ruled 7 Sept | `test_q_plus_*` |
-| T30 | bounded confidence on a fixed misaligned pair as σ → 0 | forced by meaning | `test_t30_bounded_tilt_*` |
+| T30 | bounded confidence on a fixed misaligned pair as σ → 0: a consequence of a declared ν_eff < ∞, not a requirement; unbounded when σ is declared exact (17 Nov) | consequence (R-2026-11-17-1) | `test_t30_bounded_tilt_*` |
 | guard | inputs cost: every input is something practice supplies, declared before data | TASK.md §5 | by sort |
 | guard | agrees with experiment | TASK.md §5 | **not yet made**; a check on the survivor (the robot is a testbed, R-2026-10-31-1) |
 
@@ -124,7 +126,7 @@ The one recorded case where three things could not all stand: O1 (Z at the point
 
 **In the proof** (`proof.md` §5), by type:
 
-- *standing, until forced* (R-2026-11-01-1): **G18** R1 against O12's cap and κ's meaning; **G19** L21's power form, T37's cut factor, or T48's normalized residual, as the body (17 Nov, T72: L11 with T30 removes the power form and does not select the cut form; L24, a candidate, is what would: O18; T48's latent measure is forced neither by T36 nor by the instrument's moments, B17, E5).
+- *forced 17 Nov* (R-2026-11-17-1): **G18** closed on R1's side (the cap and numerator are retired with the power form; G13, G22 closed, G5 moot). *Left of* **G19**: with the noise size integrated under its declared law, how the push is removed: T37's cut, T44's normalised cut, or T48's normalized residual (T72, 17 Nov: consistency with bounded confidence does not select a body; L24, held since 17 Nov, does: O18; T48's latent measure is forced neither by T36 nor by the instrument's moments, B17, E5).
 - *sort* (Claude), formerly typed "rule (Can)" (R-2026-11-07-1): G25 L11's rate on the full type and its bin (restated 7 Nov); G10 L22 scalar mass as a clause of L1 (O17); G11 Nᵢ as an input (TASK §5's test); G9 π's centre (O11); G6 L23 (O2: sorted 6 Nov, provisional; L23 is mis-stated as a forcing argument, so the point is unforced within the robust reflection-equivariant family). Where one of these turns on what the goal means and the page does not say, it is a *goal* question to Can (`definition/bounds.md`).
 - *sort* (Claude): **G22 the sign in the weight against L11**; G17 the 1D factor; G13 why the weight is a power on Eᵢ and which premise makes bounded confidence a requirement; G3 η's cap and power form at finite N (O14); **G28 what the quoted width promises on noise** (9 Nov; O15, O18).
 - *from the 9 Nov exploration* (E6, E9 and exploration E10, Codex; read by Claude and left on their branches, `explore/README.md`): a law that returns to π on pure noise cannot keep L11's rate when reading order is free (O15, O19; both halves of the proof checked by Claude, `tests/test_washout_fixed_history.py`); neither the declared instruments' geometry nor the pure-noise limit selects a member of π's family (O6), and past one noise ratio the centre is declared, not derived (O11, G9; Claude, provisional); shared signal structure between readings is a pointer in O16.

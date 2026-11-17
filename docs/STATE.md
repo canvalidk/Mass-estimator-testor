@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-17, by Claude (briefs B21–B27 merged as delivered; B25 read and checked; the other six not yet read). Update this page in
+**Last updated:** 2026-11-17, by Claude (B21–B27 merged; B25 read and checked; R-2026-11-17-1 recorded and applied to the reading level; the other six briefs not yet read). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -36,13 +36,14 @@ function. Its chain from the type to ours30 (29 Oct, eighteen steps) is kept as 
 conditional: on isotropic uncorrelated channels, any function meeting the premises as ruled, with R1 read as not
 constraining the misfit weight, L11 read as fixed-N amplitude consistency, and L22, L23 and η's finite-N form taken as
 given, is ours30 up to the declared inputs. ours30 fails two rows of its own list: R1 (a weight below 1 declares a
-larger noise, G18) and L11 at fixed signal as N grows (the sign of F·a is in its power weight, G22). Each later probe
+larger noise, G18) and L11 at fixed signal as N grows (the sign of F·a is in its power weight, G22); since 17 Nov that weight is retired on principle (R-2026-11-17-1). Each later probe
 breaks: ours31 at weak signal, ours32 on T39's inputs, ours33 at the quoted width (O18). By part:
 
 - **The input type:** settled, apart from errors shared between readings (O16).
-- **What one reading contributes:** four candidate bodies (G19). L11 with T30 removes the power form (T46, ours29)
-  and selects nothing further (T72, 17 Nov). The cut form is selected only by L24, a candidate; the latent measure
-  is unforced (B17, E5).
+- **What one reading contributes:** computed from the declaration since 17 Nov (R-2026-11-17-1; L24): the declared noise
+  law's probability of the reading, the noise size integrated under its declared law. The power form and its cap are
+  retired (G18 closed). One thing, up to the declared $\nu_{\rm eff}$ and how the push is removed, which is unforced
+  (G19; B17, E5).
 - **How much the series counts:** η's target is known (O14, 4 Nov); its finite-N form and its place (a power, a warp)
   are not (G3, G24, G26).
 - **The starting law:** the family is forced and no member is; two routes to a member closed on 9 Nov (O6).
@@ -53,13 +54,18 @@ Two rungs the proof leans on are not fixed in VD-Newton: R3 (persistence, lumpin
 is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, still say "carried from the records"
 (G15). The holes are typed in `definition/proof.md` §5, and that table is the queue.
 
-**Since 17 Nov** (briefs B21–B27 merged as delivered; read one at a time, in the order B25, B24, B27, B26, B21, B22, B23):
+**Since 17 Nov** (briefs B21–B27 merged as delivered; read one at a time, in the order B25, B21, B24, B27, B26, B22, B23):
 
+- **R-2026-11-17-1: the definition computes the consequences of the inputs; doubting an input is outside the problem.** How well
+  each σ is known is a declared input (`../definition/type.md`), and a σ declared exact gives the extreme answer, which the
+  caller owns. Applied the same day (Claude's deductions): the per-reading factor is computed from the declared noise law
+  (L24 held); L21's power form and its cap are retired, so ours30's weight is out on principle; bounded confidence (T30) is a
+  consequence of a declared $\nu_{\rm eff}<\infty$, not a requirement. The same principle puts a question to η (G3).
 - **B25, read and checked** (T72; O18, 17 Nov). No error. Consistency and bounded confidence together do not select the
   per-reading body: sign-dependent factors that are no noise-size mixture meet both, in the fixed-size Gaussian world
   only (under a scale mixture with the declared covariance their optimum moves: 2 becomes 1.89). Sorted, provisional:
   the 4 Nov candidate is withdrawn as stated; L24 is the row that selects the cut form, and it is not ruled.
-- B24, B27, B26, B21, B22, B23: merged, not yet read; nothing on this page reflects them.
+- B21, B24, B27, B26, B22, B23: merged, not yet read; nothing on this page reflects them. B21 is next.
 
 **Since 9 Nov** (three exploration branches of Codex's; read by Claude and left on their branches, `../explore/README.md`):
 
@@ -91,6 +97,9 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
 - Left on the exploration branches, not harvested: T54–T68, the joint, score-law and anchor line (`../explore/README.md`).
 
 ## The current equation: ours30 (since 29 Oct, R-2026-10-29-1)
+
+**17 Nov:** its per-reading misfit weight is retired by R-2026-11-17-1. Which equation this section and
+`../definition/equation.md` should state is open until the series level is read (B21, B24). What follows is ours30.
 
 Inputs per reading i: measured force and acceleration (any values, including zero),
 an error covariance with every declared sigma > 0, a declared candidate subspace,
@@ -394,6 +403,12 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-17 (Claude, midday): **R-2026-11-17-1 recorded and applied.** Can: "we are interested in the consequences of the inputs, doubting the inputs is
+  abdication of responsibility"; how well σ is known is an input and an extreme answer is owned by the declaration. Claude's deductions, on his
+  "Go ahead": L24 held and restated (the factor is the declared noise law's probability of the reading); L21's power form, its cap and numerator
+  retired (G18, G13, G22 closed; G5 moot; steps 8–10 of the chain off the path); T30 a consequence of a declared $\nu_{\rm eff}$, not a requirement;
+  $\nu_{\rm eff}$ added to `type.md`. Claude's robustness remark on T72 withdrawn as an objection. G19 is now how the push is removed; G3 carries the
+  question to η. No code changed; the suite was not re-run.
 - 2026-11-17 (Claude, later): **B25 read and checked** (T72 §§1–4: the gap identity, stationarity, the change of measure, the T30 spans; no error).
   Claude's expected class was false. `../tests/test_fisher_factor_world.py` (6): T72's factors are consistent only when the world is exactly Gaussian at
   the declared variance; under a two-point scale mixture with the declared covariance the optimum for a true 2 is 1.887 (1.927 for the bounded one),
