@@ -279,8 +279,8 @@ def gram_eta(readings, c, g):
     On one isotropic instrument this is 1 - lambda_min / lambda_max of the series' 2x2 Gram in noise
     units: the eigenvalue ratio of the real part of the readings' qubit states. It is the shared size
     law's shrinkage 1 - M / H^2 (O14, 4 Nov) with the declared count M replaced by the series' own
-    misfit Q, so an exact-zero reading leaves it unchanged (Z). A comparison quantity, not used by any
-    equation: ours30's eta is bartlett_eta. Returns (eta_G, Q, H, phi_hat); 1 when H = 0."""
+    misfit Q, so an exact-zero reading leaves it unchanged (Z). Used only by the opt-in eta_form="gram";
+    the default remains bartlett_eta. Returns (eta_G, Q, H, phi_hat); 1 when H = 0."""
     if not readings:
         return 1.0, 0.0, 0.0, 0.0
 
@@ -427,7 +427,7 @@ def _stacked_mean_length(m, readings):
 
 
 def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", readout=True, grid=None,
-           positivity=False):
+           positivity=False, eta_form="bartlett"):
     """ours29, the equation state of 30 Sept to 29 Oct, on one series in the full type. Kept so the
     recorded numbers reproduce; the definition is `ours30` (the same function with positivity=True).
 
@@ -436,6 +436,8 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
     positivity=True weighs each reading by its misfit over positive mass, g_i = min(1, kappa/Q_plus)
     with kappa = k - 1/2: that is ours30 (R-2026-10-29-1). eta is unchanged (T31: whole line).
     grid: None for the adaptive grid, or (half_width, nodes) for log c +- half_width.
+    eta_form: "bartlett" (unchanged default) or "gram" (T70's g-weighted series ratio).
+    calibrate=False bypasses either rule; the returned eta_form is then "none".
 
     Returns a dict: point, median, interval (95%, quoted: eta applied), raw_interval (eta = 1),
     eta, g, Q, phi_hat, law (normalised weights on lm), lm, geometric_mean (exp E[ln m], the
@@ -446,6 +448,8 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
     fails Z (T29) and reads the instrument's ratio s on null readings (O2, 27 Oct)."""
     if not c > 0:
         raise ValueError("the starting law's centre c must be positive")
+    if eta_form not in ("bartlett", "gram"):
+        raise ValueError(f"unknown eta form {eta_form!r}")
     readings = list(readings)
     states = [reading_state(r, c) for r in readings]
     if not misfit:
@@ -454,8 +458,11 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
         g = [misfit_weight(s["Q_plus"], s["kappa"], misfit_form) for s in states]
     else:
         g = [misfit_weight(s["Q"], s["nu"], misfit_form) for s in states]
-    if calibrate:
+    if calibrate and eta_form == "bartlett":
         eta, curv, j, phi_hat = bartlett_eta(readings, c, g)
+    elif calibrate:
+        eta, gram_q, gram_h, phi_hat = gram_eta(readings, c, g)
+        curv, j = float("nan"), float("nan")
     else:
         eta, curv, j, phi_hat = 1.0, float("nan"), float("nan"), float("nan")
     lm = _grid(readings, c, g, eta, grid)
@@ -463,7 +470,9 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
     (lo, med, hi), p = _quantiles(lm, lp, [0.025, 0.5, 0.975])
     out = dict(median=float(med), interval=(float(lo), float(hi)), eta=eta, g=g,
                Q=[s["Q"] for s in states], Q_plus=[s["Q_plus"] for s in states], curv=curv, J=j,
-               phi_hat=phi_hat, law=p, lm=lm)
+               phi_hat=phi_hat, law=p, lm=lm, eta_form=eta_form if calibrate else "none")
+    if calibrate and eta_form == "gram":
+        out.update(gram_Q=gram_q, gram_H=gram_h)
     out["point"] = out["median"]
     out["geometric_mean"] = geometric_mean(lm, p)
     if eta < 1.0:
@@ -485,7 +494,8 @@ def ours29(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
     return out
 
 
-def ours30(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", readout=True, grid=None):
+def ours30(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", readout=True, grid=None,
+           eta_form="bartlett"):
     """The definition of mass on one series, in the full type: ours30 (R-2026-10-29-1).
 
     Each reading is weighted by its misfit at the best positive mass, g_i = min(1, kappa_i / Q_plus_i),
@@ -495,12 +505,15 @@ def ours30(readings, c, *, misfit=True, calibrate=True, misfit_form="kink", read
     readings: a list of Reading. c: the starting law's centre (the input pi; no default).
     misfit=False gives g_i = 1; calibrate=False gives eta = 1 (the raw law).
     grid: None for the adaptive grid, or (half_width, nodes) for log c +- half_width.
+    eta_form: "bartlett" (unchanged default) or the opt-in "gram" ratio on the same g-weighted series.
+    The result reports eta_form ("none" if calibrate=False); Gram diagnostics are gram_Q and gram_H,
+    with curv and J left NaN because the Bartlett calculation is bypassed.
 
     Returns a dict: point (the definition's point, the law's median), median, interval (95%, quoted:
     eta applied), raw_interval (eta = 1), eta, g, Q, Q_plus, phi_hat, law (normalised weights on lm),
     lm, and, with readout=True, the cloud readout and A (kept for comparison, not the point)."""
     return ours29(readings, c, misfit=misfit, calibrate=calibrate, misfit_form=misfit_form,
-                  readout=readout, grid=grid, positivity=True)
+                  readout=readout, grid=grid, positivity=True, eta_form=eta_form)
 
 
 def exact_mass(force, acceleration, rtol=1e-12):
