@@ -470,6 +470,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-18 (Codex, E12 exploration). The [reciprocal proof](../explore/e12-scalar-proof.md#what-the-reciprocal-construction-proves-next) derives orthogonal within, between and common components, a sharp local disagreement diagnostic, a law-level obstruction for every monotone response to total cost, and covariance-dependent G5 bounds.
+
 - 2026-11-18 (Codex, E12 exploration branch). The [scalar proof opening](../explore/e12-scalar-proof.md#start-with-the-reciprocal-pairing) now derives the measured longitudinal and transverse residuals from reciprocal pairing and physical isotropy before introducing any likelihood. The rotation and reflection checks compare that derivation with T36.
 
 - 2026-11-18 (Codex, E12 exploration branch). A [partial scalar proof](../explore/e12-scalar-proof.md) gives existence and nonuniqueness for the stated subset, a sharp failure of pooling relative evidence alone, and explicit limits on the per-reading rule, the report and final-factor multiplication. [O14 attempt](../problems/O14.md#e12-scalar-proof-attempt).
