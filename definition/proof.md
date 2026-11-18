@@ -1,5 +1,7 @@
 # The proof: what is to be proved, the chain so far, and the holes
 
+**18 Nov 2026, E12 exploration (Codex).** The [scalar proof](../explore/e12-scalar-proof.md) gives existence and an uncountable family under a stated subset of the requirements, with a two-reading example showing exactly which information pooled Gaussian evidence loses. Its application to L19, the full reading type and the physical composition protocol remains open.
+
 **What this is.** The second half of the deliverable: the argument that one function meets the
 requirements and no other does, with every step marked. The target is stated without a named
 function ("What is to be proved", below) and read against ours33, the probe the work is at
