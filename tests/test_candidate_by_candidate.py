@@ -116,3 +116,21 @@ def test_a_no_fit_form_carries_no_discount_and_holds_the_right_angle_scene_with_
     for name in cc.LAWS:
         assert plain[name] > 100, name
         assert 1.0 < b[name] < 3.0 and b[name] == pytest.approx(a[name], rel=0.02), name
+
+
+def test_read_at_its_least_the_along_line_weighted_leftover_reports_nothing_at_right_angles():
+    """Is the discount the exact, zero-safe weighted leftover read at its least? Not in scene C: it is zero there for
+    every sigma, while the energy-weighted leftover grows as 1/sigma^2. As one 2D reading the same numbers are seen."""
+    far = cc.leftover_at_its_least([([5.0], [1.0]), ([6.0], [1.0])], 0.1, 0.002, grid=20001)
+    assert far["squared scores"] == pytest.approx(far["along-line weighted"], rel=1e-12)
+    assert far["squared scores"] == pytest.approx(24.7, abs=0.2) and far["energy weighted"] == pytest.approx(24.7, abs=0.2)
+    two = cc.leftover_at_its_least([([2.0], [0.0]), ([0.0], [1.0])], 0.05, 0.05, grid=20001)
+    assert two["squared scores"] < 1e-4 and two["along-line weighted"] < 1e-4 and two["energy weighted"] > 70
+    one = cc.leftover_at_its_least([([2.0, 0.0], [0.0, 1.0])], 0.05, 0.05, grid=20001)
+    assert one["squared scores"] < 1e-4 and one["along-line weighted"] == pytest.approx(200, rel=0.01)
+
+
+def test_leaving_exact_zeros_out_of_the_count_restores_z_only_at_exact_zero():
+    r = cc.nearly_zero_readings(n_series=20)
+    assert r["exact zeros, left out of the count"] == r["nothing added"]
+    assert r["nearly zero, counted"] > 3 * r["nothing added"]

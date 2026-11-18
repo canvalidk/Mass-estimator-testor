@@ -231,6 +231,49 @@ def right_angle_scene(sigma, discounted, body="one weight, energy less 2, own be
     return w, {name: laws[name]["median"] for name in LAWS}
 
 
+# ---- 4. is the discount the along-line-weighted leftover read at its least? ---------------------------------------
+
+def leftover_at_its_least(readings, sF, sA, grid=200001):
+    """Observed over expected, least over positive masses, three ways of reading the leftover:
+      squared scores       sum (t_i.r_i)^2          over  sum |t_i|^2          (17 Nov; White's information comparison)
+      along-line weighted  sum |t_i|^2 |r_i|^2      over  sum k_i |t_i|^2      (exact given t; no zero reading in it)
+      energy weighted      sum (C_i - 2) K_i        over  sum k_i C_i          (the morning's; exact in the mean only)
+    For scalar readings the first two are the same number."""
+    ws = lab.whiten(readings, sF, sA)
+    phi = (np.arange(grid) + 0.5) / grid * (math.pi / 2)
+    s, c = np.sin(phi), np.cos(phi)
+    B, T, Qo, Qe = (np.zeros(grid) for _ in range(4))
+    for f, al in ws:
+        t = s[:, None] * f[None, :] + c[:, None] * al[None, :]
+        r = c[:, None] * f[None, :] - s[:, None] * al[None, :]
+        tt, rr = (t * t).sum(1), (r * r).sum(1)
+        B += (t * r).sum(1) ** 2
+        T += tt
+        Qo += tt * rr
+        Qe += len(f) * tt
+    least, E0, _ = lab.energy_less_two(ws, corrected=False)
+    return {"squared scores": float((B / T).min()), "along-line weighted": float((Qo / Qe).min()),
+            "energy weighted": float(least / E0)}
+
+
+def nearly_zero_readings(n=20, extra=20, size=1e-6, n_series=200, seed=20):
+    """T56's example: the conditional LR's median log width with nothing added; with `extra` exactly zero readings
+    that the count leaves out (a rule that restores Z at exact zero); and with `extra` readings of `size` noise
+    units, which any count must take in."""
+    rng = np.random.default_rng([seed, n, 100])
+    W = np.linalg.cholesky(np.linalg.inv(SIGMA56)).T
+    C = np.linalg.cholesky(SIGMA56)
+    out = {"nothing added": [], "exact zeros, left out of the count": [], "nearly zero, counted": []}
+    for _ in range(n_series):
+        Y = (np.array([M0_56, 1.0])[None, :] + rng.normal(size=(n, 2)) @ C.T) @ W.T
+        tiny = np.vstack([Y, size * rng.normal(size=(extra, 2))])
+        for key, (G, count) in (("nothing added", (Y.T @ Y, n)), ("exact zeros, left out of the count", (Y.T @ Y, n)),
+                                ("nearly zero, counted", (tiny.T @ tiny, n + extra))):
+            r = law_on_masses(G, count, W)["conditional LR"]
+            out[key].append(math.log(r["hi"] / r["lo"]))
+    return {key: float(np.median(v)) for key, v in out.items()}
+
+
 def main():
     print("1. How often the true mass is rejected at the 5% level (exact = 0.050); 100000 series a cell")
     print("| readings | push | " + " | ".join(LAWS) + " |")
@@ -281,5 +324,24 @@ def main():
         print(f"| {sigma} | {w:.3g} | " + " | ".join(f"{plain[name]:.3g}, {disc[name]:.3g}" for name in LAWS) + " |")
 
 
+def main_least():
+    print("\n4. Observed over expected leftover at its least over positive masses")
+    print("| scene | squared scores | along-line weighted | energy weighted |")
+    print("|---|---|---|---|")
+    far = [([5.0], [1.0]), ([6.0], [1.0])]
+    rows = [("B: 5 and 6, each +- 0.1", far, 0.1, 0.002)]
+    for sigma in (0.2, 0.05, 0.01):
+        rows.append((f"C as two scalar readings, sigma = {sigma}", [([2.0], [0.0]), ([0.0], [1.0])], sigma, sigma))
+    for sigma in (0.2, 0.05, 0.01):
+        rows.append((f"the same numbers as one 2D reading, sigma = {sigma}", [([2.0, 0.0], [0.0, 1.0])], sigma, sigma))
+    for name, readings, sF, sA in rows:
+        r = leftover_at_its_least(readings, sF, sA)
+        print(f"| {name} | {r['squared scores']:.3g} | {r['along-line weighted']:.3g} | {r['energy weighted']:.3g} |")
+    r = nearly_zero_readings()
+    print("\n   T56's example, 20 readings, the conditional LR's median log width: "
+          + "; ".join(f"{k} {v:.3f}" for k, v in r.items()))
+
+
 if __name__ == "__main__":
     main()
+    main_least()

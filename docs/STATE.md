@@ -485,6 +485,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   likelihood ratio, Moreira 2003) passes every check run and is moved by exactly zero readings (L20). An exact, Z-safe, one-sided verdict cannot
   read the leftover of a reading with nothing along the candidate line (derivation, Claude's); a leftover weighted by the along-line energy does
   see the false peak (`tools/candidate_by_candidate.py`).
+  Night: that weighted leftover is the 17 Nov squared scores and is blind at right angles (scene C), so the exact candidate-by-candidate route is
+  sorted as closed (Claude's, provisional). What no single mass explains is a sum over pairs of readings, with no mass in it; its mean under
+  the declaration is exact for any signals, with no fit and no count (`tools/contradiction_in_pairs.py`). The sign condition is not in it.
 
 - 2026-11-17 (Claude, 18:15): the sign problem and shared-or-assigned, worked (O14, evening). Reading each reading's leftover at the series' best mass
   removes ours30's sign bias on scalar readings (simulated); evaluating the rule at every candidate fails on the near pair; pooled or per reading
