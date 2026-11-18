@@ -238,6 +238,30 @@ def test_one_declared_vector_reading_has_a_t36_curve_collision_and_distinct_t32_
         np.testing.assert_allclose(-.5 * (left - left[centre]), -.5 * (right - right[centre]), atol=2e-9)
 
 
+def test_reciprocal_pairings_split_the_vector_reading_cost_in_each_spatial_frame():
+    rotation = np.array([[.6, -.8], [.8, .6]])
+    angles = np.array([.15, .5, 1.1])
+    masses = np.tan(angles)
+    sigma_f, sigma_a = .7, .4
+    for transform in (np.eye(2), rotation, rotation @ np.diag([-1., 1.])):
+        for observed_force, observed_accel, expected in (
+            ([2., 2.], [2., 2.], 1.),
+            ([4., 1.], [1., 4.], 8 / 17),
+            ([-4., -1.], [1., 4.], -8 / 17),
+        ):
+            force, accel = transform @ observed_force, transform @ observed_accel
+            forward = (accel @ force) / (accel @ accel)
+            reverse = (force @ accel) / (force @ force)
+            assert forward == pytest.approx(expected)
+            assert reverse == pytest.approx(expected)
+            transverse = force - forward * accel
+            assert transverse @ accel == pytest.approx(0, abs=1e-13)
+            cost = ((accel @ accel) * (masses - forward) ** 2 + transverse @ transverse)
+            cost /= sigma_f ** 2 + masses ** 2 * sigma_a ** 2
+            pre = isotropic(force, accel, sigma_f, sigma_a).pre()
+            np.testing.assert_allclose(cost, pre["energy"] - _h_terms(pre, 1., angles), atol=1e-12)
+
+
 def test_normalized_aggregate_curves_coincide_at_each_noise_scale(colliding_lists):
     compatible, conflicting = colliding_lists
     angles = np.linspace(0., QUADRANT, 2001)

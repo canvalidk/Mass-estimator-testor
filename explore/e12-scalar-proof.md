@@ -2,6 +2,29 @@
 
 **Result.** On one scalar Gaussian instrument, a law of positive mass, its median and a companion interval can jointly satisfy measured-zero neutrality, consistency at the sharp identifying threshold, nonvanishing uncertainty on every fixed incompatible series as the errors shrink, and a finite-sample coverage guarantee. Two explicit constructions satisfy all four and give different laws for the same inputs. This proves existence and failure of uniqueness for these stated requirements. The table at the end identifies the extra requirements on which the project's uniqueness question turns. [Project target](../GOAL.md) · [Proof and outstanding premises](../definition/proof.md)
 
+## Start with the reciprocal pairing
+
+Take one physical spatial vector space with metric \(g\). A nonzero acceleration \(a\) gives a normalized covector \(a^\vee=g(a,\cdot)/g(a,a)\), so \(a^\vee(a)=1\). The normalization alone leaves many possible covectors in multiple dimensions. Requiring the construction to respect all spatial orthogonal transformations selects this one. Indeed the subgroup fixing \(a\) contains the reflection reversing \(a^\perp\), so the selected covector must vanish there; its value on \(a\) fixes the remainder. In 3D the half-turn about \(a\) already suffices. Spatial dimension and the physical symmetries assumed matter. [Original reciprocal-vector argument](../docs/mass_as_force_paired_with_reciprocal_acceleration_2026-10-10.md) · [29 October ruling](../rulings.md#r-2026-10-29-3--the-reading-space-form-is-kept-central)
+
+Write the linear inertia relation as \(F^i=M^i{}_j a^j\). Under a change of spatial frame the components of \(M\) transform by conjugation. Physical invariance of the *same inertia* under all spatial rotations in 3D forces \(M=m\,\mathrm{Id}\). In 2D, allowing all linear maps, a reflection as well as rotations supplies the corresponding conclusion. Positivity of \(m\) is a separate physical premise. For an exact nonzero acceleration the scalar then follows by contraction:
+\[
+                 a^\vee_i F^i=m\,a^\vee_i a^i=m .
+\]
+In contrast the uncontracted tensor \(F^i a^\vee_j\) on such a pair is \(m\) times the projector onto the acceleration line. A single push measures the action on that line; physical isotropy supplies the extension to other directions. [T71](../definition/theorems/T71.md)
+
+For measured, nonzero \(F,a\), keep both \(a^\vee(F)\) and \(F^\vee(a)\). Their product is \(\cos^2\phi\) for their spatial angle \(\phi\); their signs distinguish alignment from anti-alignment. The contraction gives the longitudinal coefficient even off the common line. What the scalar inertia hypothesis leaves unexplained is a vector:
+\[
+ F-m a=(a^\vee(F)-m)a+F_\perp,\qquad F_\perp=F-a^\vee(F)a .
+\]
+For a full spatial reading with independent, spatially isotropic channel errors, the two components are orthogonal and the declared variance of each component of \(F-ma\) is \(\sigma_F^2+m^2\sigma_a^2\). Thus the candidate residual is derived directly from the pairing:
+\[
+ K(m)=\frac{\|a\|_g^2\,[m-a^\vee(F)]^2+\|F_\perp\|_g^2}
+             {\sigma_F^2+m^2\sigma_a^2}.
+\]
+For example, with unit channel errors, \(F=a=(2,2)\) gives both pairings 1, whereas \(F=(4,1),\,a=(1,4)\) gives both \(8/17\). In the latter case one is a mass and the other an inverse mass, so they disagree as reciprocal answers. Direct contraction gives \(K_{\rm second}(m)-K_{\rm first}(m)=9\) for every \(m\). Normalizing the two Gaussian evidence curves against the same prior discards precisely this constant. The reciprocal pairings already distinguish these readings before fitting any distribution. [Same example as two scalar readings and as one joint vector reading](e12-pooled-information.md)
+
+In general the physical spatial metric fixes the reciprocal and the instrument covariance fixes the size of the observed residual. With full subspace, set \(D_m=[I,-mI]\), \(y=(F,a)\). Then \(D_m y\) is the residual vector, \(D_m\Sigma D_m^\top\) its covariance, and their quadratic contraction is T36's \(K(m)\). This form also works at a measured \(a=0\), where \(a^\vee\) itself is undefined. The Gaussian law below is one way of assigning relative weight to candidate masses using this geometry. The geometric derivation specifies the residual and exposes what normalization can erase. The derivation of a unique law from the permitted contractions, the instrument and the composition premises is still open. The scalar construction below measures how much freedom survives the particular requirements we tested. [T36](../definition/theorems/T36.md) · [T32](../definition/theorems/T32.md)
+
 ## Experiment and quantifiers
 
 A reading has two scalar components with independent Gaussian errors of positive standard deviations \(\sigma_F,\sigma_a\). The ratio \(s=\sigma_F/\sigma_a\) is common to the series. Set \(Y_i=(F_i/\sigma_F,a_i/\sigma_a)\), \(\theta=\arctan(m/s)\), \(u_\theta=(\sin\theta,\cos\theta)\) and \(v_\theta=(\cos\theta,-\sin\theta)\). The positive mass domain is the **open** arc \(0<\theta<\pi/2\). Use a fixed proper prior with continuous positive density on this arc and transform it with the units and channel swap. A reciprocal-symmetric prior gives its declared centre as its median.

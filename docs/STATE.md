@@ -470,6 +470,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-18 (Codex, E12 exploration branch). The [scalar proof opening](../explore/e12-scalar-proof.md#start-with-the-reciprocal-pairing) now derives the measured longitudinal and transverse residuals from reciprocal pairing and physical isotropy before introducing any likelihood. The rotation and reflection checks compare that derivation with T36.
+
 - 2026-11-18 (Codex, E12 exploration branch). A [partial scalar proof](../explore/e12-scalar-proof.md) gives existence and nonuniqueness for the stated subset, a sharp failure of pooling relative evidence alone, and explicit limits on the per-reading rule, the report and final-factor multiplication. [O14 attempt](../problems/O14.md#e12-scalar-proof-attempt).
 
 - 2026-11-17 (Claude, 18:15): the sign problem and shared-or-assigned, worked (O14, evening). Reading each reading's leftover at the series' best mass
