@@ -481,6 +481,10 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   Afternoon: the weak-signal share has no count at the true line and the Gram share overshoots it on every series (the fit again); the
   score law's false peak (T56, exploration branch) is where the signal energy would be negative, and forbidding that removes it on T56's example
   (`tools/share_and_the_fit.py`).
+  Evening: that form is not exact even for one reading and is withdrawn as a candidate. The textbook's exact no-fit form (the conditional
+  likelihood ratio, Moreira 2003) passes every check run and is moved by exactly zero readings (L20). An exact, Z-safe, one-sided verdict cannot
+  read the leftover of a reading with nothing along the candidate line (derivation, Claude's); a leftover weighted by the along-line energy does
+  see the false peak (`tools/candidate_by_candidate.py`).
 
 - 2026-11-17 (Claude, 18:15): the sign problem and shared-or-assigned, worked (O14, evening). Reading each reading's leftover at the series' best mass
   removes ours30's sign bias on scalar readings (simulated); evaluating the rule at every candidate fails on the near pair; pooled or per reading
