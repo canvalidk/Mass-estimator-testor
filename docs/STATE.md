@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-17, by Claude (R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
+**Last updated:** 2026-11-18, by Claude (O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -469,6 +469,13 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-18 (Claude): O14, measurements only, on branch `claude/intake-2026-11-18`. A force-only reading with an acceleration-only reading
+  (two scalar readings at right angles in noise units) sends ours29, ours30 and ours33 to ever larger masses as σ shrinks, η = 1 throughout:
+  the squared scores vanish there. Five ways to read the leftover measured on that and related scenes (`tools/discount_lab.py`); the
+  fit-corrected count puts the far pair at ± 0.98. An identity exact at the true mass: the leftover weighted by each reading's energy minus
+  the noise's share has a declared-noise mean with no push size and no count in it (`tools/signal_energy_identity.py`). Not at the fitted
+  mass, not for vector readings. No sort between one weight and one per reading is written, and no rule; nothing in `met/`.
 
 - 2026-11-17 (Claude, 18:15): the sign problem and shared-or-assigned, worked (O14, evening). Reading each reading's leftover at the series' best mass
   removes ours30's sign bias on scalar readings (simulated); evaluating the rule at every candidate fails on the near pair; pooled or per reading
