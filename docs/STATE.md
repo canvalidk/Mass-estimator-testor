@@ -478,6 +478,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   mass, not for vector readings. No sort between one weight and one per reading is written, and no rule; nothing in `met/`.
   Later the same day: the identity in covariance form (weight: energy less 2; any k; an exact-zero reading adds nothing, which the first
   form got wrong for k > 1); read at its own least line its mean never exceeds the expected side, for any pushes; the fit to first order.
+  Afternoon: the weak-signal share has no count at the true line and the Gram share overshoots it on every series (the fit again); the
+  score law's false peak (T56, exploration branch) is where the signal energy would be negative, and forbidding that removes it on T56's example
+  (`tools/share_and_the_fit.py`).
 
 - 2026-11-17 (Claude, 18:15): the sign problem and shared-or-assigned, worked (O14, evening). Reading each reading's leftover at the series' best mass
   removes ours30's sign bias on scalar readings (simulated); evaluating the rule at every candidate fails on the near pair; pooled or per reading
