@@ -150,3 +150,32 @@ def test_by_signal_energy_with_thousands_of_noise_only_or_zero_readings():
     assert base == pytest.approx(0.0202, abs=0.0002)
     assert lab.law(far + nulls, 0.1, 0.002, 5.0, body, grid=2001)["w"][0] == pytest.approx(base, rel=0.06)
     assert lab.law(far + [([0.0], [0.0])] * 4000, 0.1, 0.002, 5.0, body, grid=2001)["w"][0] == pytest.approx(base, rel=1e-9)
+
+
+OWN = "one weight, energy less 2, own best line"
+
+
+def test_energy_less_two_at_its_own_best_line_holds_the_scenes_and_keeps_ordinary_ones_at_face_value():
+    for name in (C, C1, C2, "one 2D reading F = (2, 0), a = (0, 1)", "anti-parallel scalar reading F = 1, a = -1"):
+        assert _bounded(name, OWN)
+    for name in ("A: 5.5, 5.6 (each +- 0.1)", "99 ordinary near 5"):
+        assert _law(name, 0.1, OWN)["w"][0] == 1.0
+    assert _law("B: 5, 6", 0.1, OWN)["w"][0] == pytest.approx(0.0202, abs=0.0003)
+    assert _law("B and 40 noise-only readings", 0.1, OWN)["w"][0] == pytest.approx(0.0202, abs=0.0004)
+    assert _law("one 2D reading F = (2, 0), a = (0, 1)", 0.01, OWN)["w"][0] == pytest.approx(1e-4, rel=0.01)   # T30: (k - 1)/Q
+
+
+def test_exactly_zero_vector_readings_change_the_signal_energy_weight_and_not_the_energy_less_two_one():
+    # correction to item 5 of O14's first 18 Nov section: with weight C - 2k the expected side gains k (2 - 2k) per zero
+    # reading when k > 1; with weight C - 2 it gains nothing, for every k
+    far = [([5.0, 0.3, 0.0], [1.0, 0.0, 0.0]), ([6.0, -0.2, 0.1], [1.0, 0.0, 0.0])]
+    zeros = [([0.0, 0.0, 0.0], [0.0, 0.0, 0.0])] * 40
+
+    def weight(readings, body):
+        return lab.law(readings, 0.1, 0.002, 5.0, body, grid=2001)["w"][0]
+
+    assert weight(far + zeros, OWN) == pytest.approx(weight(far, OWN), rel=1e-12)
+    old = "one weight, by signal energy"
+    assert weight(far + zeros, old) / weight(far, old) == pytest.approx(0.9996, abs=0.0002)
+    assert weight(far + zeros, old) != pytest.approx(weight(far, old), rel=1e-6)
+    assert weight(far + zeros, "one weight, by count") == 1.0

@@ -19,6 +19,10 @@ all read once, at the best positive line of the summed Gaussian leftover (the an
     one weight, by energy       sum C_i (k_i - h_i) / sum C_i K_i
     one weight, by signal energy   sum (C_i - 2k_i + 2)(k_i - h_i) / sum (C_i - 2k_i) K_i   (tools/signal_energy_identity.py)
     one weight per reading      (k_i - h_i) / K_i for each reading (O14, 17 Nov evening, with the fit-corrected count)
+    one weight, energy less 2, own best line
+                                (sum k_i C_i - beta) / min over positive lines of sum (C_i - 2) K_i,
+                                beta = sum (C_i - 2)^2 C_i / sum (C_i - 2) C_i when the minimum is interior: the identity
+                                in covariance form, read where the weighted leftover is least (O14, 18 Nov, later)
 
 h_i is reading i's share of the along-line energy at the anchor (0 when positivity binds): the expected leftover of a
 reading at the fitted line is k_i - h_i, not k_i. Each weight is capped at 1.
@@ -30,7 +34,7 @@ import math
 import numpy as np
 
 BODIES = ("gauss", "eta as on the pages", "one weight, by count", "one weight, by leverage", "one weight, by energy",
-          "one weight, by signal energy", "one weight per reading")
+          "one weight, by signal energy", "one weight per reading", "one weight, energy less 2, own best line")
 TINY = 1e-9
 
 
@@ -63,6 +67,32 @@ def anchor_positive(Ms):
     if -1e-12 <= phi <= math.pi / 2 + 1e-12:
         return min(max(phi, 0.0), math.pi / 2), True, S
     return (0.0 if K_of(S, 0.0) <= K_of(S, math.pi / 2) else math.pi / 2), False, S
+
+
+def least_on_positive_lines(S):
+    """Minimum over the closed positive quadrant of K_of(S, phi) for a symmetric 2x2 S (it may be indefinite), and
+    whether the minimiser is interior (then the fit has used its one parameter)."""
+    gap = math.hypot(S[0, 0] - S[1, 1], 2 * S[0, 1])
+    if gap <= 1e-12 * max(abs(S[0, 0]) + abs(S[1, 1]), 1e-300):
+        return 0.5 * (S[0, 0] + S[1, 1]), False
+    phi = 0.5 * math.atan2(2 * S[0, 1], S[1, 1] - S[0, 0])
+    if -1e-12 <= phi <= math.pi / 2 + 1e-12:
+        return 0.5 * (S[0, 0] + S[1, 1] - gap), True
+    return min(S[0, 0], S[1, 1]), False
+
+
+def energy_less_two(ws, corrected=True):
+    """Observed and expected sides of the covariance-form identity, read at the weighted leftover's own least line.
+    O* = min sum (C_i - 2) K_i;  E0 = sum k_i C_i;  first-order fit correction beta when the minimiser is interior."""
+    Ms = [gram(f, al) for f, al in ws]
+    ks = np.array([len(f) for f, _ in ws], float)
+    C = np.array([np.trace(M) for M in Ms])
+    a = C - 2
+    least, interior = least_on_positive_lines(sum(ai * M for ai, M in zip(a, Ms)))
+    E0 = float((ks * C).sum())
+    den = float((a * C).sum())
+    beta = float((a * a * C).sum()) / den if (corrected and interior and den > 0) else 0.0
+    return least, E0, beta
 
 
 def _ratio(num, den, scale):
@@ -102,6 +132,9 @@ def weights(ws, body):
         return np.full(n, _ratio((C * kappa).sum(), (C * K).sum(), scale ** 2)), info
     if body == "one weight, by signal energy":
         return np.full(n, _ratio(((C - 2 * ks + 2) * kappa).sum(), ((C - 2 * ks) * K).sum(), scale ** 2)), info
+    if body == "one weight, energy less 2, own best line":
+        least, E0, beta = energy_less_two(ws)
+        return np.full(n, _ratio(E0 - beta, least, scale ** 2)), info
     if body == "one weight per reading":
         return np.array([_ratio(kp, kk, scale) for kp, kk in zip(kappa, K)]), info
     raise ValueError(body)
