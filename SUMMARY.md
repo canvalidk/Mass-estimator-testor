@@ -2,6 +2,8 @@
 
 [Start with the proof](explore/e12-scalar-proof.md#what-the-reciprocal-construction-proves-next). Contracting force with reciprocal acceleration gives mass for an exact reading. For noisy readings it gives a local correction at each candidate. Joining those corrections forces a squared disagreement. The full scatter tensor still loses how the energy was distributed across pushes. On one scalar instrument exactly four continuous real coordinates suffice if the state must retain the scatter, learn from repeated valid pushes and retain spread under fixed conflict. Even fixing this state, its join and every singleton law leaves different finite answers.
 
+**Known-mass experiment.** Adding a known mass of 2 to the same shared-acceleration record moves the two medians to 3.528611 and 3.510203. Both laws pass. If both ordinary and reciprocal-mass standards must also give identical odds on overlapping mass ranges after their histories are forgotten, both fail. A spatially balanced vector conflict then forces the prior, and even weak spread on all scalar conflicts becomes incompatible with learning every compatible interior singleton. [Proof and limits of additivity](explore/e12-known-mass.md)
+
 | Question | What is established |
 | --- | --- |
 | Can the discount use only disagreements at a common mass? | Yes on this instrument. Transform each reading’s own residual, add across the block, then minimize over masses. As the errors shrink, the minimum counts how many readings must be removed to admit a common fit on the closed mass arc. Two readouts of these same curves give medians 1.529 and 1.510 on the same two readings. [Construction and proof](explore/e12-joining-residuals.md) |

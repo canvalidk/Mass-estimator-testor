@@ -56,11 +56,11 @@ class JoinState:
         reference_cost = max(0.0, 0.5 * (self.force_energy + self.acceleration_energy) - self.cross)
         return self._log_evidence(angles, tau, reference_cost)
 
-    def _log_evidence(self, angles, tau, reference_cost):
+    def _log_evidence(self, angles, tau, reference_cost, aperture=math.pi / 2):
         """A missing reference cost selects the minimum total residual on the mass arc."""
         angles = np.asarray(angles, dtype=float)
-        if np.any(~np.isfinite(angles)) or np.any((angles < 0) | (angles > math.pi / 2)):
-            raise ValueError("angles must be in the closed positive quadrant")
+        if np.any(~np.isfinite(angles)) or np.any((angles < 0) | (angles > aperture)):
+            raise ValueError("angles must lie in the declared mass arc")
         if not math.isfinite(tau) or tau < 0:
             raise ValueError("tau must be finite and nonnegative")
 
@@ -71,7 +71,18 @@ class JoinState:
         eigenvalues, eigenvectors = np.linalg.eigh([[ff, fa], [fa, aa]])
         small, large = max(0.0, eigenvalues[0]), eigenvalues[1]
         gap = large - small
-        residual = small if fa > 0 else min(ff, aa)
+        centre = math.atan2(eigenvectors[0, 1], eigenvectors[1, 1]) % math.pi
+        # The first coordinate points along increasing angle at the lower endpoint.
+        if aperture == math.pi:
+            # A fit over all unoriented channel lines has no marked endpoints.
+            sine, cosine, end_cost = 0.0, -1.0, ff
+        elif aperture == math.pi / 2:
+            sine, cosine, end_cost = 1.0, 0.0, aa
+        else:
+            sine, cosine = math.sin(aperture), math.cos(aperture)
+            end_cost = small + gap * math.sin(aperture - centre) ** 2
+        endpoint_cost = min(ff, end_cost)
+        residual = small if centre <= aperture else endpoint_cost
         discount = 1.0
         if residual > 0 and self.count > 0:
             log_discount = math.log(self.count) - math.log(residual)
@@ -79,9 +90,8 @@ class JoinState:
             discount = math.exp(min(0.0, log_discount))
         spectral = (gap / large) * gap
         precision = discount * spectral
-        smaller_channel = min(ff, aa)
-        if smaller_channel < math.sqrt(precision):
-            precision = min(precision, 1.0 + smaller_channel ** 2)
+        if aperture < math.pi and endpoint_cost < math.sqrt(precision):
+            precision = min(precision, 1.0 + endpoint_cost ** 2)
 
         # The excess vanishes on every vector singleton, including full-rank ones.
         baseline = residual if reference_cost is None else reference_cost
@@ -91,9 +101,13 @@ class JoinState:
         penalty = area * excess / (1.0 + trace)
         precision /= 1.0 + tau * penalty
 
-        centre = math.atan2(eigenvectors[0, 1], eigenvectors[1, 1])
         log_factor = -0.5 * precision * np.sin(angles - centre) ** 2
+        if aperture == math.pi:
+            return log_factor
         gate = math.exp(-spectral) * (residual / (1.0 + residual))
-        norm = math.sqrt(1.0 + trace)
-        projection = (math.sqrt(ff) / norm) * np.cos(angles) - (math.sqrt(aa) / norm) * np.sin(angles)
+        # Weight each oriented endpoint by the residual at the opposite endpoint.
+        first = math.sqrt(ff) * sine
+        second = math.sqrt(ff) * cosine + math.sqrt(end_cost)
+        norm = math.hypot(1.0, first, second)
+        projection = (first / norm) * np.cos(angles) - (second / norm) * np.sin(angles)
         return log_factor - gate * projection ** 2

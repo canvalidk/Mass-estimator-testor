@@ -20,7 +20,7 @@ def _checked_grams(grams, dimension):
     return grams
 
 
-def _minimum(grams, dimension, atol):
+def _minimum(grams, dimension, atol, arc_end=math.pi / 2):
     if not math.isfinite(atol) or atol <= 0:
         raise ValueError("atol must be positive and finite")
     if not len(grams):
@@ -36,7 +36,6 @@ def _minimum(grams, dimension, atol):
     small = np.zeros(len(grams)) if dimension == 1 else np.maximum(spectrum[:, 0], 0.0)
     gaps = np.maximum(spectrum[:, 1] - small, 0.0)
     centres = np.mod(np.arctan2(vectors[:, 0, 1], vectors[:, 1, 1]), np.pi)
-    arc_end = math.pi / 2
     scale = dimension / (1.0 - 0.5 ** (0.5 * dimension))
 
     def costs(theta):
@@ -88,10 +87,13 @@ def residual_minimum(grams, *, dimension=1, atol=1e-9):
     return _minimum(_checked_grams(grams, dimension), dimension, atol)
 
 
-def residual_log_evidence(grams, angles, *, tau=0.0, dimension=1, atol=1e-9):
+def residual_log_evidence(grams, angles, *, tau=0.0, dimension=1, atol=1e-9,
+                          aperture=math.pi / 2):
     """Evaluate the joined residual-curve law for a list of whitened channel Grams."""
     grams = _checked_grams(grams, dimension)
-    count = _minimum(grams, dimension, atol)
+    if not 0 < aperture <= math.pi:
+        raise ValueError("aperture must be positive and at most pi")
+    count = _minimum(grams, dimension, atol, aperture)
     pooled = grams.sum(axis=0)
     state = JoinState(dimension, pooled[0, 0], pooled[0, 1], pooled[1, 1], count)
-    return state._log_evidence(angles, tau, reference_cost=None)
+    return state._log_evidence(angles, tau, reference_cost=None, aperture=aperture)

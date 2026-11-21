@@ -470,6 +470,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-21 (Codex, E12 exploration). [Known-mass composition](../explore/e12-known-mass.md) preserves two different finite medians. [Agreement on overlaps](../explore/e12-known-mass-overlap.md) gives new scalar and vector obstructions to stronger conflict requirements.
+
 - 2026-11-21 (Codex, E12 exploration). [Joining independent readings](../explore/e12-joining-gram.md) distinguishes spatial rotations from mixing separate pushes and gives a sharp four-coordinate result on the scalar instrument. [Same-singleton laws](../explore/e12-joining-laws.md) and an [exact physical composition counterexample](../explore/e12-joining-bodies.md) narrow the open global uniqueness question.
 
 - 2026-11-18 (Codex, E12 exploration). The [reciprocal proof](../explore/e12-scalar-proof.md#what-the-reciprocal-construction-proves-next) derives orthogonal within, between and common components, a sharp local disagreement diagnostic, a law-level obstruction for every monotone response to total cost, and covariance-dependent G5 bounds.
