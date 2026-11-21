@@ -470,6 +470,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-21 (Codex, E12 exploration). Shared uncertainty ranks characterize composition at all quantiles. A sharp total restores additive unique conditional medians. Persistence of two labelled reciprocal standards fixes the update given a detector response. A controlled total force supplies such a response, while a four-reading Gaussian odds test excludes both earlier E12 laws under arbitrary proper drive mixtures. [Mass-law proof](../explore/e12-mass-rays.md) · [Measurement theorem](../explore/e12-mass-measurement.md) · [Noise model](../explore/e12-conditioning-nuisance.md)
+
 - 2026-11-21 (Codex, E12 exploration). [Known-mass composition](../explore/e12-known-mass.md) preserves two different finite medians. [Agreement on overlaps](../explore/e12-known-mass-overlap.md) gives new scalar and vector obstructions to stronger conflict requirements.
 
 - 2026-11-21 (Codex, E12 exploration). [Joining independent readings](../explore/e12-joining-gram.md) distinguishes spatial rotations from mixing separate pushes and gives a sharp four-coordinate result on the scalar instrument. [Same-singleton laws](../explore/e12-joining-laws.md) and an [exact physical composition counterexample](../explore/e12-joining-bodies.md) narrow the open global uniqueness question.
