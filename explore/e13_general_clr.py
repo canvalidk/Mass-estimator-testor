@@ -119,6 +119,16 @@ def _weight_fn(h, mode):
         return 1.0
     if mode == "z_smooth":
         return h / (1.0 + h)
+    if mode == "z_quad":
+        h2 = h * h
+        return h2 / (1.0 + h2)
+    if mode == "z_cap10":
+        h2 = h * h
+        return h2 / (100.0 + h2)
+    if mode == "z_linear":
+        return h
+    if mode == "z_pow2":
+        return h * h
     if mode == "z_exp":
         return 1.0 - math.exp(-0.5 * h)
     raise ValueError(f"Unknown weight mode {mode!r}")
