@@ -470,6 +470,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-21 (Codex, E12 exploration). [Covector comparisons](../explore/e12-odds-geometry.md) give a sharp binary preference and a restriction on multiplicative odds. [Two-body widths](../explore/e12-joint-score-geometry.md) require a matrix on one regular design. [Signed covector ranks](../explore/e12-conditional-ranks.md) give a constructive law with an explicit rule for unused ranks.
+
 - 2026-11-21 (Codex, E12 exploration). Shared uncertainty ranks characterize composition at all quantiles. A sharp total restores additive unique conditional medians. Persistence of two labelled reciprocal standards fixes the update given a detector response. A controlled total force supplies such a response, while a four-reading Gaussian odds test excludes both earlier E12 laws under arbitrary proper drive mixtures. [Mass-law proof](../explore/e12-mass-rays.md) · [Measurement theorem](../explore/e12-mass-measurement.md) · [Noise model](../explore/e12-conditioning-nuisance.md)
 
 - 2026-11-21 (Codex, E12 exploration). [Known-mass composition](../explore/e12-known-mass.md) preserves two different finite medians. [Agreement on overlaps](../explore/e12-known-mass-overlap.md) gives new scalar and vector obstructions to stronger conflict requirements.
