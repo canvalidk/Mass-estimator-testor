@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-18, by Claude (O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
+**Last updated:** 2026-11-21, by Claude (O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -469,6 +469,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-21 (Claude): no new result. Written in from 18 Nov: O14's head section (where the weighting stands; the step nothing derives; an
+  untested lead), `proof.md` G29 (ours29, ours30 and ours33 fail two readings at right angles), and a line each on `GOAL.md` and `definition/equation.md`.
 
 - 2026-11-18 (Claude): O14, measurements only, on branch `claude/intake-2026-11-18`. A force-only reading with an acceleration-only reading
   (two scalar readings at right angles in noise units) sends ours29, ours30 and ours33 to ever larger masses as σ shrinks, η = 1 throughout:

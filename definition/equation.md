@@ -131,6 +131,8 @@ every mass at exact 0/0, the only place "undefined" survives. $\nu_i=\infty$ is 
 - **For the definition:** how much less an improbable result is believed is one quantity, computed from the
   readings with every σ believed (R-2026-11-17-3). This page has two mechanisms for it and they overlap; ours30
   had two that did not overlap and one of them broke (G22). Its form is the open item (`../problems/O14.md`).
+  18 Nov: this page's function goes to ever larger masses on two readings at right angles in noise units
+  (`proof.md` G29; `../tests/test_right_angle_scenes.py`).
 - **Open beside it:** the shape of $\pi$, an input (O6); which location functional the point is (G6); consistency
   at the rate as $N$ grows, unknown for this raw law (O19); what the quoted width is when the evidence is weak
   (G28); composition.
