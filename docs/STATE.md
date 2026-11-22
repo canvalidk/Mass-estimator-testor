@@ -522,6 +522,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-22 (Antigravity, with Can): recorded in `problems/O20.md` (cross-linked in `problems/O2.md`) the two `0/0`-padding
+  fixed-point endpoints (`T10`'s noise-angle circular mean vs. `B11`'s $\arg\min_{m>0}K(m)$) and the tropical-composition
+  forcing lead for $\arg\min K$ under `T74` (simultaneous finite-noise `L5` and `L14` without Jensen's no-go, while `B16`
+  rules out integral functionals on $K$ alone); provisional, queued as `briefs/B28-tropical-point-uniqueness.md`.
+
 - 2026-11-22 (Claude): R-2026-11-22-1 recorded; `problems/O20.md` opened. Harvested from `explore/e13-unnormalized-evidence` (Can) and checked:
   T73, T74, T75; `met/evidence.py`, `met/conditional_lr.py`; `tests/test_evidence_curve.py` (15, 2 slow), `tests/test_conditional_lr.py` (15, 5 slow).
   Pointers in O2, O6, O7, O11, O14 (a 22 Nov section), O15; two questions added to `definition/bounds.md`; board rows for E2, E12, E13.
