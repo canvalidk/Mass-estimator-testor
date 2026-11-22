@@ -206,41 +206,73 @@ On $n = 2$ scalar Gaussian readings `(X_1, X_2)` with declared $\sigma$:
 
 ---
 
-## 4. `ours34` Prototype: Honest `GOAL.md` §4 Report & Remaining Forks
+## 4. `ours34` Probe (`met/ours34.py`): Equation, Adversarial Breaks, and `GOAL.md` §4 Report
 
-**Prototype (`explore/e14_ours34.py`):**
-- **State carried:** additive triple $(K(m),\, C(m),\, M_{\rm nz})$ (zero prior $\pi$, zero $\nu_{\rm eff}$, zero Monte Carlo).
-- **Point:** $\arg\min_{m \in [0,\infty]} K(m)$ (closed ray $[0,\infty]$; flat/tied curves flagged for type-safety convention per `R-2026-11-22-2`).
-- **Set:** `floor_score` (`T45` $\cup$ `t_joint`) + leftover $K_{\min}$ beside it.
-- **Two-body composition (`L5` / `L14`):** `T74` infimal convolution for curve & point; `Q_pos` on $(K_1, C_1)$ and $(K_2, C_2)$ for exact valid composite sets.
+**Executable probe (`met/ours34.py`, pure stdlib, zero external dependencies; verified by `tests/test_ours34.py`):**
+Accepts both `met.full.Reading` (numpy arrays, $d \times k$ orthonormal subspace) and pure-Python `met.ours34.Reading`. Uses a zero-QR $(p, q) = (\sin\phi, \cos\phi)$ Gram-block engine so evaluation is exact and cancellation-free across the entire closed ray $[0, \infty]$.
+- **State carried:** additive triple $(K(\phi),\, C(\phi),\, M_{\rm nz})$ (zero prior $\pi$, zero $\nu_{\rm eff}$, zero Monte Carlo).
+- **Point:** $\widehat m = \arg\min_{m \in [0,\infty]} K(m)$ on the closed ray $[0,\infty]$ (provisional pick #1; flat/tied curves return declared covariance scale with `point_is_convention=True` per `R-2026-11-22-2`).
+- **Compatible set:** exact connected components (all crossing roots on $[0,\pi/2]$) of `floor_score` (`T45` $\cup$ `t_joint`, provisional picks #2 & #3) beside `raw_set` (`T45` alone) and `leftover` ($K_{\min}, M_{\rm nz}, \hat v, \chi^2$ bound).
+- **Two-body composition (`lump` for `L5`, `common_force` for `L14`):** `T74` infimal convolution for curve and exact point addition/harmonic addition on $[0,\infty]$; for the composite set, **`Q_joint`** (`method="joint"`, provisional pick #4):
+  $$p_{\rm joint}(m_1; M) = \begin{cases} p_1(m_1) & C_2 = 0, \\ p_2(M-m_1) & C_1 = 0, \\ \exp\!\big(-\tfrac12(\tilde Z_1^2 + \tilde Z_2^2)\big) & C_1, C_2 > 0, \end{cases}\qquad \tilde Z_j := \Phi^{-1}\!\big(1 - \tfrac12 p_j^{\rm floor}(m_j)\big).$$
+  (`method="qpos"` is also exposed to contrast 1-dof linearized `Q_pos` directly against `Q_joint`.)
+
+### Concrete breaks discovered by throwing adversarial scenes at `ours34` (`tests/test_ours34.py`)
+
+Building and stress-testing `met/ours34.py` immediately surfaced **five concrete breaks** (two of them brand-new discoveries beyond Theorems `E14-1`–`E14-7`):
+
+1. **New Break A — Linearized `Q_pos` fake-split break & discordant collapse (vs. `Q_joint`'s 2-dof tax):**
+   - On asymmetric nonlinear bodies (`Body 1 = 100`, `Body 2 = 10`, $\sigma_F = \sigma_a = 0.01$, true total `110`), our own `E14-4` linearized `Q_pos` **breaks catastrophically**: it accepts `M = 30` and `M = 40` with **`p = 1.000`** (kept set `[12.27, 112]`!) because the sub-quadratic curvature of $K_1(m_1)$ makes $S_1/C_1 + S_2/C_2 = 0$ at the fake split $(m_1, m_2) = (13.16, 16.84)$ even though $Z_1 = +500$ and $Z_2 = -500$.
+   - On discordant `Body 1 = {5.0, 6.0}` (3D, $\sigma=0.01$, `[4.925, 6.075]`) + clean `Body 2 = 20@10.0` ($\sigma=0.01$), Gaussian `Q_pos` collapses to `[15.49, 15.51]` (30× narrower than Body 1 alone).
+   - **`Q_joint` fixes BOTH breaks** with zero MC using only the two bodies' states (`[107.6, 112.5]` on `100+10`, `[14.68, 16.32]` $\sigma$-invariant without dilution on `Disc+Clean`, `[4.02, ∞)` on `5±0.5 + 0/0`), **at the exact price of a 2-dof width tax** at strong signal ($\sqrt{\chi^2_{2,0.95}}/z_{0.975} = 2.448/1.960$, +25% wider). This yields a sharp **3-way composition trade-off**: `Q_pos` (1-dof, curve-pair, breaks on nonlinear fake splits & discordant bodies) vs. `Q_joint` (2-dof, curve-pair, ghost-free & discordant-safe) vs. `T74 (6)` (1-dof, ghost-free, requires raw readings + MC).
+2. **New Break B — `M_nz` discontinuity dilution break (`Theorem E14-6` in action):**
+   - Appending 20 exact `0/0` readings to the 3D far pair `(5.0, 6.0)` leaves the set bit-for-bit at `[4.925, 6.075]`.
+   - Appending 20 readings of tiny size $10^{-9}$ ($10^{-8}\sigma$, indistinguishable from `0/0`) jumps $M_{\rm nz}: 6 \to 66$, diluting $\hat v$ by $13\times$ and **collapsing** the set all the way back to `T45`'s `[5.361, 5.639]`.
+   - By contrast, per-reading `T75 (6)` (`SCLR+`) is immune to tiny-$\epsilon$ dilution (since $\|V_i\| = 10^{-9}$ contributes nothing to its spherical draws), at the price of vacuous $(0,\infty)$ on $n \le 5$ scalar readings + MC.
+3. **Break C — Stationary hilltop & right-angle pinhole ghosts (score-test limitation):**
+   - Anti-parallel `(10, -10)` ($\sigma=0.1$) keeps a razor-thin ghost `[1, 1]` centered on the **maximum** of $K(m)$!
+   - Bimodal 2-instrument conflict `(0.1 & 10)` keeps a third ghost island `[0.844, 1.185]` in `raw_set`.
+   - One-sided `F=10, a=0` keeps an isolated right-angle pinhole `[0, 0]` alongside `[5.003, ∞)` (which propagates as `[0, 0]` into `common_force` beside `[1.703, 3.245]`).
+   - 1D Far `(5.0, 6.0)` at tiny $\sigma_a = 10^{-8}$ keeps a high-mass hilltop ghost `[1.17e10, ∞)` beside `[0, 11.85]`.
+4. **Break D — Per-reading heavy tails ($v_i$ varies per reading):**
+   - Common-scale `t_joint` covers `>= 0.95` under shared $v \sim \mathrm{Inv}\chi^2(2)$ (`0.966`), but under-covers (`~0.86`, vs. `T75 (6)`'s `0.94`) when each reading draws an independent $v_i \sim \mathrm{Inv}\chi^2(2)$.
+5. **Break E — Single-scalar $M_{\rm nz} = 1$:**
+   - $df = M_{\rm nz} - 1 = 0$ leaves no residual dof for `t_joint`; requires either `T45` fallback (`single_scalar_policy="t45"`) or vacuous `(0, ∞)` (`"vacuous"`).
+
+### What `ours34` passes where `ours30`–`ours33` broke (`tests/test_ours34.py`)
+- **`T39` opposed pair (`ours32` bias & `ours33` >60-decade blowup):** `pt = 2.000`, finite set `[0.798, 34.02]` (log10 span `< 1.7`, zero Cauchy-tail blowup).
+- **`G29` right-angle scene (`ours33` diverged to $\infty$):** clean `(0, ∞)`.
+- **`R-2026-11-17-3` & `T30`:** 3D Near stays `[5.411, 5.689]` (zero inflation); 3D Far widens to `[4.925, 6.075]` and stays bit-for-bit $\sigma$-invariant across $100\times$ $\sigma$ reduction; `T78 (2)` `{0.2, 1.0, 1.4}` stays `[0.601, 1.664]`; `99@5.0 + 1@10.0` covers `5.0` (`[4.951, 5.149]`).
+- **`T80` & `B26` & `O6`/`O11`:** no starting law $\pi$, no handed-over $\nu_{\rm eff}$, exact 4-shape unbounded sets, exact `L5`/`L14` tropical points (including boundary chaining `(F=10, a=0) || (3 ± 0.1) -> pt = 3.0`).
 
 ### Honest `GOAL.md` §4 matrix (Standing Rule 1: *passes / fails / unknown*, plus premise named)
 
 | Premise | Status | Details / Premise named on failure |
 | --- | --- | --- |
-| L1 (one $m>0$, no gate) | **passes** | Never empty on $m \in [0,\infty]$; point always inside `T45`/`t_joint` set when interior |
+| L1 (one $m>0$, no gate) | **passes** | Never empty on $m \in [0,\infty]$; interior point always inside `T45`/`t_joint` set |
 | L2 ($\sigma>0$, never undefined) | **fails on open $(0,\infty)$ / passes on $[0,\infty]$** | **Theorem E14-2:** one-sided sets force point at $0$ or $\infty$; names whether `L2`'s type for the point is open $(0,\infty)$ or closed $[0,\infty]$ (`T80`'s noise-angle arc) |
-| L3 (units covariance) | **passes** | Exact on curve, point, `T45`, `t_joint`, and `Q_pos` |
+| L3 (units covariance) | **passes** | Exact on curve, point, `T45`, `t_joint`, `Q_joint`, and `Q_pos` |
 | L4 ($\pi$ symmetry) | **vacuous** | No starting law $\pi$ (`O6`, `O11`, `B26` dissolved) |
-| L5 & L14 (composition) | **passes (point & Gaussian set); unknown (discounted set)** | Point exact at finite noise (Theorem E14-1); `Q_pos` exact from $(K_1,C_1),(K_2,C_2)$ under declared Gaussian; **open:** composing `t_joint` discounted sets across two bodies |
+| L5 & L14 (composition) | **passes (point & `Q_joint` valid coverage); fails 1-dof sharpness (`Q_joint` 2-dof tax)** | Point exact at finite noise (Theorem E14-1); `Q_joint` works for clean & discordant bodies from state alone (+25% 2-dof width tax); linearized 1-dof `Q_pos` fails on nonlinear fake splits & discordant bodies |
 | L8, L9, L10, L13, L16 | **passes** | Built directly on `T36` whitened span |
 | L11 (consistency at sharp rate) | **passes** | `argmin K` attains `B27` rate; `floor` converges to `T45` exact 95% as $N\to\infty$ |
-| L17 (same curve, same mass) | **passes for point & `T45`; fails for `t_joint`** | **Theorem E14-6:** unavoidable for ANY discount that keeps both `T30` and `L11` (requires $M_{\rm nz}$ beside $(K, C)$) |
+| L17 (same curve, same mass) | **passes for point & `T45`; fails for `t_joint`** | **Theorem E14-6:** unavoidable for ANY discount keeping `T30` + `L11` (requires $M_{\rm nz}$ beside $(K, C)$) |
 | L18 (believed $\sigma$, no handed-over $\nu$) | **passes (with caveat)** | No $\sigma$ revised, no $\nu_{\rm eff}$; **caveat:** `t_joint` imports common-scale $v$ validity on top of Kac–Bernstein (`T75 (2)`) |
 | L19 (no borrowing) | **passes (same caveat as `T78`)** | Per-reading split at $m_0$ borrows nothing; pooled $\hat v(m_0)$ aggregates residuals across readings |
-| L20 (`Z` on exact `0/0`) | **passes (discontinuous at $0$)** | Exact `0/0` changes nothing ($M_{\rm nz}$ unchanged); **fails continuity at $y_i = 0$** (Theorem E14-6 forces discontinuous $M_{\rm nz}$ vs non-unique smooth count $h_b$) |
-| L21 & T30 (disagreement widening) | **passes for $M_{\rm nz} \ge 2$; fails at $M_{\rm nz} = 1$** | Exact $\sigma$-invariance on 1D ($N\ge 2$) and 2D/3D ($N\ge 1$); at $M_{\rm nz} = 1$ (1 scalar reading), $df = 0$ leaves no dof for $v$ |
-| Anti-parallel hilltop & right-angle ghost | **fails (score-test limitation)** | Because $S(m) = -\frac12 K'(m) = 0$ at local maxima and right-angle points ($U = 0$), both `T45` and `t_joint` keep hilltops/pinholes (whereas $M_{\rm nz}$-GCLR kills both at the same discontinuity cost, using raw readings + MC) |
-| Per-reading heavy tails ($v_i$ varies per reading) | **fails (`0.86` at $\nu=2$)** | `t_joint` assumes common unknown scale $v$; `T75 (6)` assumes per-reading $v_i$ (`0.94`, at the cost of vacuous $n \le 5$ scalar sets + MC) |
+| L20 (`Z` on exact `0/0`) | **passes on exact `0/0`; fails continuity at `0/0`** | **Break B:** exact `0/0` changes nothing, but 20 readings of size $10^{-9}$ dilute $\hat v$ and collapse `[4.925, 6.075]` to `[5.361, 5.639]` |
+| L21 & T30 (disagreement widening) | **passes for $M_{\rm nz} \ge 2$; fails at $M_{\rm nz} = 1$** | Exact $\sigma$-invariance on 1D ($N\ge 2$) and 2D/3D ($N\ge 1$); at $M_{\rm nz} = 1$, $df = 0$ leaves no dof for $v$ |
+| Anti-parallel hilltop & right-angle ghost | **fails (Break C, score-test limitation)** | Anti-parallel `(10,-10)` keeps `[1,1]` at maximum; bimodal keeps ghost `[0.844, 1.185]`; `F=10, a=0` keeps pinhole `[0,0]` |
+| Per-reading heavy tails ($v_i$ varies per reading) | **fails (Break D, `~0.86` at $\nu=2$)** | `t_joint` assumes common unknown scale $v$; `T75 (6)` assumes per-reading $v_i$ (`0.94`, at cost of vacuous $n \le 5$ scalar sets + MC) |
 | Property N / `T80` (unbounded sets) | **passes** | Valid $\ge 1-\alpha$ for every $m>0$ and every signal; four shapes continuous in $\theta$ |
 | L22, L23 | **passes** | Scalar mass, parametrisation-free |
 
 ### The four sharp forks left for Can (compressed from the entire E13/E14 space)
 
 1. **Point codomain (Wall 1, Theorem E14-2):** On one-sided sets ($[L,\infty)$, $(0,U]$), `L5` + `L14` prove no finite point in $(0,\infty)$ works. Does the point type expand to the closed noise-angle arc $[0,\infty]$ (matching `T73`/`T80`), or does `R-2026-11-22-2` ("point value doesn't matter") extend to every curve with no interior minimum?
-2. **Disagreement widening principle (Wall 2, Theorem E14-6 & E14-7):** Under Kac–Bernstein, widening on disagreement requires an explicit extra principle beyond believed Gaussian $\sigma$. Which of the three options matches the goal?
-   - **Option A (Door A, `T45` only):** Exact $(K, C)$ state, continuous at `0/0`, `L17` intact, exact 95% everywhere, disagreement reported strictly in the leftover $K_{\min}$ beside the set (contradicts 17 Nov reading of `R-2026-11-17-3`).
-   - **Option B (`T45` $\cup$ `t_joint`, common scale $v$):** Additive state $(K, C, M_{\rm nz})$, zero MC, uniquely pins exponent $1$, works on 2 scalar readings (`5.55 ± 0.63` near, `5.50 ± 6.35` far) and 2 3D readings (`5.55 ± 0.138` near, `5.50 ± 0.574` far), converges to 95.0% as $N\to\infty$; costs: discontinuity of $M_{\rm nz}$ at `0/0`, vacuous at $M_{\rm nz}=1$, under-covers per-reading $\nu=2$ heavy tails (`0.86`), and keeps score hilltop ghosts.
-   - **Option C (`T75 (6)`, per-reading scales $v_i$):** Survives per-reading $\nu=2$ heavy tails (`0.94`) and kills multi-direction hilltops; costs: vacuous $(0,\infty)$ on $n \le 5$ scalar readings (including Can's 2-scalar scenes), persistent over-coverage, requires raw readings + MC, discontinuous at `0/0`, and `Z-GCLR`'s weight $w(H)$ breaks `L17` and can reject $\arg\min K$.
-3. **Hilltop ghosts vs. additive closed-form state:** Score tests (`T45`, `t_joint`) have exact additive state $(K, C, M_{\rm nz})$ and zero MC, but keep stationary hilltops ($K'(m)=0$); LR tests ($M_{\rm nz}$-GCLR) kill every hilltop and right-angle pinhole, but lose additive curve-pair state and require raw readings + MC.
-4. **Composing discounted sets (`L5`/`L14` under Option B/C):** Under Option A (`T45`), `Q_pos` solves two-body composition exactly from $(K_1, C_1)$ and $(K_2, C_2)$. Under Option B (`t_joint`), composing two common-scale-discounted bodies (`(K_1, C_1, M_1)` and `(K_2, C_2, M_2)`) into a Behrens–Fisher-type composite set is open.
+2. **Disagreement widening principle (Wall 2, Theorem E14-6 & E14-7, Breaks B & D):** Under Kac–Bernstein, widening on disagreement requires an explicit extra principle beyond believed Gaussian $\sigma$:
+   - **Option A (Door A, `T45` only):** Exact $(K, C)$ state, continuous at `0/0`, `L17` intact, exact 95% everywhere, disagreement strictly in leftover $K_{\min}$ (contradicts 17 Nov reading of `R-2026-11-17-3`).
+   - **Option B (`ours34` default: `T45` $\cup$ `t_joint`, common scale $v$):** Additive state $(K, C, M_{\rm nz})$, zero MC, uniquely pins exponent $1$, works on 2 scalar readings (`± 0.63` near, `± 6.35` far) and 2 3D readings (`± 0.138` near, `± 0.574` far), 95.0% limit as $N\to\infty$; costs: Break B ($10^{-9}$ readings dilute $\hat v$), Break D (per-reading $\nu=2$ under-covers `0.86`), Break E ($df=0$ at $M_{\rm nz}=1$).
+   - **Option C (`T75 (6)`, per-reading scales $v_i$):** Immune to Break B and Break D (`0.94` at $\nu=2$), kills multi-direction hilltops; costs: vacuous $(0,\infty)$ on $n \le 5$ scalar readings, persistent over-coverage, requires raw readings + MC, `Z-GCLR`'s weight $w(H)$ breaks `L17` and can reject $\arg\min K$.
+3. **Hilltop ghosts vs. additive closed-form state (Break C):** Score tests (`T45`, `t_joint`) have exact additive state $(K, C, M_{\rm nz})$ and zero MC, but keep stationary hilltops ($K'=0$) and right-angle pinholes ($U=0$); conditional LR ($M_{\rm nz}$-GCLR) kills both, at the cost of raw readings + MC.
+4. **Two-body set composition (Break A):** `Q_joint` (default in `ours34`) uses only additive states, has zero MC, kills fake splits, and handles discordant bodies without dilution — at a +25% 2-dof width tax (`2.448σ` vs `1.960σ`). Recovering 1-dof sharpness without fake splits currently requires `T74 (6)` (raw readings + MC, Gaussian only).
+
