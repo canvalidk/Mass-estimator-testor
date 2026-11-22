@@ -64,8 +64,10 @@ line is kept struck, as a premise would be.
 - The result must stay a true statement on noise: if the point wanders on a null series the quoted
   uncertainty grows with it (property N, R-2026-09-29-4); the law does not carry its own uncertainty,
   the noise measure lives beside it (R-2026-09-30-3); the quoted width is what a result is judged on
-  (R-2026-09-30-7); a null result enters combination with weight zero, as physicists already combine
-  (R-2026-09-29-3).
+  (R-2026-09-30-7); a 0/0 result enters combination with weight zero, as physicists already combine
+  (R-2026-09-29-3). That is about 0/0, exact zeros. It does not say that readings of pure noise leave a
+  result untouched; they do move it (T77), and nothing here asks otherwise (Can, 22 Nov: "noise only
+  reading having no influence was something you made up since the beginning").
 - Where every positive mass is compatible, the value of the point does not matter, and a point is still
   returned, for type safety ("a point is still owed for type safety"): "if it is the case that every value is
   compatible, it really doesn't matter what you return right?" The uncertainty quoted is a true statement
@@ -107,9 +109,6 @@ line is kept struck, as a premise would be.
 - On identifying series, is the quoted width asked to cover exactly at its level in the limit, or at least at
   its level? The first rules out a persistent widening when readings disagree; the second allows it
   (T78 (6); `../problems/O20.md`).
-- A noise-only block cannot both leave a fixed result untouched and be judged at L11's rate (T77). Which
-  gives way: "a null result has weight zero" for noise-only readings, or the rate at its boundary
-  (`../problems/O20.md`, finding 9)?
 - Is a result that is right at every level of disagreement and wider than the declared Gaussian calls for
   "believing the σ", or a change to σ in the sense of 17 Nov (`../problems/O20.md`; T75 (5), (6))?
 - Does the authority ruling still read E10 as "named, not supplied", now that the body is a theorem

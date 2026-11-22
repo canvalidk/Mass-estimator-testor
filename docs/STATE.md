@@ -81,8 +81,8 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   bound beside an unmeasured body. **T76** (insight 9): the weighted scores are exact member by member; the constant
   weight is the only efficient one when every reading is weak, a rising weight survives thousands of times more
   noise-only readings, and no member does both, so exactness selects nothing. **T77** (exploration E2, Codex, with its two
-  test files): a block of noise-only readings cannot leave a fixed result untouched and be judged at L11's rate, by any
-  procedure (a reading at signal r is undone by about r⁴ of them); a set, a p-value curve and a normalised law are too
+  test files): noise-only readings necessarily move a result under L11's rate, by any procedure (a reading at signal r is
+  undone by about r⁴ of them); exact zeros do not, and no row asked more (corrected at night: Can); a set, a p-value curve and a normalised law are too
   little to combine results, and on one instrument the unnormalised curve is exactly enough.
 - **In the evening. T78** (exploration E12's scalar proof, Codex; written again and checked): on one scalar instrument a
   pooled weight (count over leftover, capped, times the weak-signal share) gives a law that is zero-safe, consistent at
