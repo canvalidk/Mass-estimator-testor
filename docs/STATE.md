@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-22, by Claude (R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4, 6 and 8 harvested and checked as T73–T75, `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
+**Last updated:** 2026-11-22, by Claude (R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4 and 6–9 harvested and checked as T73–T76, exploration E2 as T77; `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -76,9 +76,17 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   readings, which includes Can's two scenes as given. A zero-safe weight is blind at right angles (the 18 Nov finding from
   the other side). The statistic, the null, the weight, the level and the domain are choices E13 leaves open: under F2
   that is where the direction is most exposed. Three numerical points in E13's text were corrected (T75).
-- **Left on the branch, not checked:** E13 insights 5, 7, 9, 10. **Read, not checked, next in the harvest:** E12 (one
-  scalar instrument: four requirements have a model and do not pin the function) and E2 (what state must be carried to
-  combine results). Board: `../explore/README.md`.
+- **Later the same day.** **T74 (6)** (E13 insight 7): the test of a total given two bodies' readings keeps its promise
+  at weak signal (0.97 where the raw composite has 0.90), is a one-parameter set at strong signal, and gives the one-sided
+  bound beside an unmeasured body. **T76** (insight 9): the weighted scores are exact member by member; the constant
+  weight is the only efficient one when every reading is weak, a rising weight survives thousands of times more
+  noise-only readings, and no member does both, so exactness selects nothing. **T77** (exploration E2, Codex, with its two
+  test files): a block of noise-only readings cannot leave a fixed result untouched and be judged at L11's rate, by any
+  procedure (a reading at signal r is undone by about r⁴ of them); a set, a p-value curve and a normalised law are too
+  little to combine results, and on one instrument the unnormalised curve is exactly enough.
+- **Left on the E13 branch:** insights 5 (superseded by its own 8) and 10 (a case study). **Read, not checked, next in the
+  harvest:** E12 (one scalar instrument: four requirements have a model and do not pin the function). Board:
+  `../explore/README.md`.
 
 **Since 17 Nov** (briefs B21–B27 merged as delivered; read one at a time, in the order B25, B24, B21, B27, B26, B22, B23):
 
@@ -499,6 +507,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   T73, T74, T75; `met/evidence.py`, `met/conditional_lr.py`; `tests/test_evidence_curve.py` (15, 2 slow), `tests/test_conditional_lr.py` (15, 5 slow).
   Pointers in O2, O6, O7, O11, O14 (a 22 Nov section), O15; two questions added to `definition/bounds.md`; board rows for E2, E12, E13.
   On branch `claude/intake-2026-11-22` (from `claude/intake-2026-11-18`), not on main.
+  Later: T74 (6), T76, T77; Codex's `tests/test_null_combination.py` and `tests/test_null_combination_score.py` taken from
+  `explore/e2-null-combination` unchanged (40 checks); `tests/test_null_block.py`; E2's section in O15; findings 9, 10 in O20.
 
 - 2026-11-21 (Claude): no new result. Written in from 18 Nov: O14's head section (where the weighting stands; the step nothing derives; an
   untested lead), `proof.md` G29 (ours29, ours30 and ours33 fail two readings at right angles), and a line each on `GOAL.md` and `definition/equation.md`.

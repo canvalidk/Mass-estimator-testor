@@ -7,9 +7,11 @@ import os
 
 import numpy as np
 import pytest
+from scipy import stats
 
-from met.conditional_lr import conditional_test, floor_test, zero_safe
-from met.evidence import leftover
+from met.conditional_lr import (conditional_test, drowning_count, floor_test, lump_kept, lump_test,
+                                score_test, weak_signal_efficiency, zero_safe)
+from met.evidence import Curve, leftover, lump
 from met.full import Reading, isotropic
 
 SLOW = pytest.mark.skipif(not os.environ.get("MET_SLOW"), reason="hundreds of simulated series")
@@ -226,3 +228,136 @@ def test_under_the_declared_gaussian_only_the_joined_test_is_right_at_every_leve
     assert all(0.91 < g < 0.985 for g in gaussian)
     assert spherical[0] < 0.90 and spherical[-1] > 0.98
     assert all(e >= g for e, g in zip(either, gaussian)) and either[-1] > 0.98
+
+
+# ---- two bodies: the composite with a kept promise (T74 (6); E13 insight 7) ------------------
+
+def _body(rng, m, n, r):
+    out = []
+    for _ in range(n):
+        d = rng.normal(size=3)
+        d /= np.linalg.norm(d)
+        th = math.atan(m)
+        out.append(isotropic(r * math.sin(th) * d + rng.normal(size=3), r * math.cos(th) * d + rng.normal(size=3),
+                             1.0, 1.0))
+    return out
+
+
+def test_a_measured_body_beside_an_unmeasured_one_gives_the_one_sided_normal_bound():
+    # 5 +- 0.5 beside a 0/0 body: the total is tested one-sidedly, p = 1 - Phi((5 - M) / 0.5), so the
+    # kept totals are 4.18 upward (5 - 1.645 * 0.5), where the raw curve of T74 (4) gives 4.02 upward
+    body = [isotropic([5.0], [1.0], 0.5, 1e-6)]
+    nothing = [isotropic([0.0], [0.0], 0.5, 1e-6)]
+    for total in (4.0, 4.18, 4.35):
+        got = lump_test(body, nothing, total, total * (1 - 1e-9), weight=zero_safe, draws=4999)["p_value"]
+        assert got == pytest.approx(stats.norm.sf((5 - total) / 0.5), abs=0.012)
+    assert lump_test(body, nothing, 6.0, 5.0, weight=zero_safe, draws=199)["p_value"] == 1.0
+    assert lump_test(nothing, nothing, 6.0, 5.0, weight=zero_safe, draws=199)["empty"]
+
+
+def test_at_strong_signal_a_total_is_kept_as_one_parameter_not_two():
+    # the largest p-value over the splits of a total. 2.3 standard deviations below the best total
+    # a one-parameter test rejects (p = 0.021) and a two-parameter one keeps (0.071): this rejects.
+    # Measured 22 Nov with 41 splits and 1999 draws: 0.070, 0.049, 0.036, 0.022, 0.016 at
+    # 1.8, 1.96, 2.1, 2.3, 2.45 sd below; 0.098, 0.074, 0.059, 0.040, 0.030 above.
+    rng = np.random.default_rng(3)
+    one, two = _body(rng, 2.0, 5, 40.0), _body(rng, 3.0, 5, 40.0)
+    grid = np.linspace(4.6, 5.4, 161)
+    curve = lump(Curve(one), Curve(two), grid)
+    best = grid[np.argmin(curve)]
+    inside = grid[curve - curve.min() <= 3.841]
+    sd = (inside.max() - inside.min()) / (2 * 1.96)
+    assert lump_kept(one, two, best - 1.6 * sd, candidates=5, draws=299)[0]
+    assert not lump_kept(one, two, best - 2.3 * sd, candidates=5, draws=299)[0]
+
+
+@SLOW
+@pytest.mark.parametrize("signal", [1.0, 3.0])
+def test_at_the_true_split_the_composite_test_covers_where_the_raw_composite_does_not(signal):
+    # measured 22 Nov, 150 pairs of bodies (masses 2 and 3, five 3D readings each): kept at the true
+    # split 0.973 and 0.947 at signal 1 and 3, the raw composite at 3.84 0.900 and 0.920 on the same
+    # series (0.840 and 0.910 on T74 (5)'s 300). E13 table B3: 97.3%, 93.3%; raw 89.3%, 90.7%.
+    rng = np.random.default_rng(3)
+    _body(rng, 2.0, 5, 40.0), _body(rng, 3.0, 5, 40.0)        # the stream position of the 22 Nov run
+    if signal == 3.0:
+        for _ in range(150):
+            _body(rng, 2.0, 5, 1.0), _body(rng, 3.0, 5, 1.0)
+    hit = raw = 0
+    for rep in range(150):
+        one, two = _body(rng, 2.0, 5, signal), _body(rng, 3.0, 5, signal)
+        got = lump_test(one, two, 5.0, 2.0, draws=199, seed=rep)
+        hit += got["p_value"] > 0.05
+        raw += got["statistic"] <= 3.841
+    assert hit / 150 > 0.92 and hit > raw
+
+
+# ---- the weighted conditional score: one family, two closed forms (T76; E13 insight 9) -------
+
+WEIGHTS = dict(one=lambda h: 1.0 + 0.0 * h, smooth=lambda h: h / (1 + h), cap10=lambda h: h * h / (100 + h * h),
+               linear=lambda h: h, square=lambda h: h * h)
+
+
+def test_the_weighted_score_is_exact_under_every_weight_on_the_full_type():
+    rng = np.random.default_rng(76)
+    reject = dict.fromkeys(("one", "smooth", "linear"), 0)
+    reps = 1500
+    for _ in range(reps):
+        series = _world(rng, 10, 2.5, 1.0)
+        for name in reject:
+            reject[name] += score_test(series, 2.5, WEIGHTS[name])["p_value"] < 0.05
+    for name, count in reject.items():
+        assert 0.033 < count / reps < 0.067, name
+
+
+def test_a_zero_reading_adds_nothing_to_the_score_under_any_weight_the_constant_one_included():
+    rng = np.random.default_rng(77)
+    series = _world(rng, 4, 2.5, 3.0)
+    zero = Reading(np.zeros(3), np.zeros(3), series[0].cov, subspace=series[0].subspace)
+    for weight in WEIGHTS.values():
+        assert score_test(series + [zero], 1.9, weight)["normal_score"] == score_test(series, 1.9, weight)["normal_score"]
+
+
+def test_the_two_closed_forms_and_that_no_weight_is_best_at_both():
+    # weak signal everywhere: the constant weight is the only one at 100%. One strong reading among
+    # noise-only readings: a rising weight survives thousands of times more of them. E13 table C1.
+    assert weak_signal_efficiency(WEIGHTS["one"], 1) == pytest.approx(1.0)
+    assert weak_signal_efficiency(WEIGHTS["linear"], 1) == pytest.approx(9 / 15)       # E[H^2]^2 / (E[H] E[H^3])
+    assert weak_signal_efficiency(WEIGHTS["linear"], 3) == pytest.approx(225 / 315)
+    assert weak_signal_efficiency(WEIGHTS["smooth"], 1) == pytest.approx(0.9205, abs=1e-4)
+    assert weak_signal_efficiency(WEIGHTS["cap10"], 3) == pytest.approx(0.5907, abs=1e-4)
+    assert drowning_count(WEIGHTS["one"], 1, 20.0) == pytest.approx(400.0)
+    assert drowning_count(WEIGHTS["one"], 3, 20.0) == pytest.approx(400.0 / 3)
+    assert drowning_count(WEIGHTS["linear"], 1, 20.0) == pytest.approx(20.0 ** 6 / 15)
+    assert drowning_count(WEIGHTS["smooth"], 1, 20.0) == pytest.approx(852.2, rel=1e-3)
+    for k in (1, 2, 3):
+        for name, weight in WEIGHTS.items():
+            efficiency = weak_signal_efficiency(weight, k)
+            assert efficiency <= 1.0 + 1e-9 and (name == "one" or efficiency < 0.99)
+            assert math.isfinite(drowning_count(weight, k, 20.0))      # every weight is drowned in the end
+        assert drowning_count(WEIGHTS["linear"], k, 20.0) > 1000 * drowning_count(WEIGHTS["one"], k, 20.0)
+
+
+def test_what_the_two_closed_forms_mean_in_a_simulated_series():
+    # scalar readings in their own noise coordinates: along the candidate line U = r cos(d) + noise,
+    # across it V = r sin(d) + noise, for a candidate off by the noise angle d
+    rng = np.random.default_rng(9)
+
+    def mean_score(weight, signals, shift, reps):
+        signals = np.asarray(signals, dtype=float)
+        u = signals * math.cos(shift) + rng.normal(size=(reps, signals.size))
+        v = signals * math.sin(shift) + rng.normal(size=(reps, signals.size))
+        w = weight(u * u)
+        return float(np.mean(np.sum(w * u * v, axis=1) / np.sqrt(np.sum(w * w * u * u, axis=1))))
+    # 400 noise-only readings halve the squared mean score of one reading at signal 20, weight 1
+    alone = mean_score(WEIGHTS["one"], [20.0], 0.15, 20000)
+    buried = mean_score(WEIGHTS["one"], [20.0] + [0.0] * 400, 0.15, 4000)
+    assert (buried / alone) ** 2 == pytest.approx(0.5, abs=0.04)
+    # the same 400 leave the rising weight's score where it was
+    alone = mean_score(WEIGHTS["linear"], [20.0], 0.15, 20000)
+    buried = mean_score(WEIGHTS["linear"], [20.0] + [0.0] * 400, 0.15, 4000)
+    assert (buried / alone) ** 2 == pytest.approx(1.0, abs=0.04)
+    # 4000 readings each at signal 0.3: the rising weight has about 0.55 of the constant weight's
+    # squared mean score (0.60 in the limit of no signal; (r^2 + 3)^2 (1 + r^2) / E[U^6] at r = 0.26; measured 0.574)
+    flat = mean_score(WEIGHTS["one"], [0.3] * 4000, 0.5, 3000)
+    rising = mean_score(WEIGHTS["linear"], [0.3] * 4000, 0.5, 3000)
+    assert (rising / flat) ** 2 == pytest.approx(0.555, abs=0.05)

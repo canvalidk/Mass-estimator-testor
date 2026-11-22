@@ -99,6 +99,9 @@ line is kept struck, as a premise would be.
   it leaves the law (O7, Z's scope at the point)?
 - Is "every positive mass" at the all-zero experiment a mass in the sense of 29 Sept, or is a point still
   owed there (`../problems/O20.md`, 22 Nov)?
+- A noise-only block cannot both leave a fixed result untouched and be judged at L11's rate (T77). Which
+  gives way: "a null result has weight zero" for noise-only readings, or the rate at its boundary
+  (`../problems/O20.md`, finding 9)?
 - Is a result that is right at every level of disagreement and wider than the declared Gaussian calls for
   "believing the σ", or a change to σ in the sense of 17 Nov (`../problems/O20.md`; T75 (5), (6))?
 - Does the authority ruling still read E10 as "named, not supplied", now that the body is a theorem
