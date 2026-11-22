@@ -66,6 +66,11 @@ line is kept struck, as a premise would be.
   the noise measure lives beside it (R-2026-09-30-3); the quoted width is what a result is judged on
   (R-2026-09-30-7); a null result enters combination with weight zero, as physicists already combine
   (R-2026-09-29-3).
+- Where every positive mass is compatible, no point is owed: "if it is the case that every value is
+  compatible, it really doesn't matter what you return right?" The uncertainty quoted is a true statement
+  for every true mass, so it is a set that can be unbounded; an interval that is always finite cannot
+  "run to be of infinite size fast enough" (R-2026-11-22-2; T80). The alternative reading, true on
+  average over a starting law, needs the starting law to be a fact about the object.
 - The readings are evidence, just less: a misaligned reading is not a mistake to fix, not a reason
   to doubt the σ's, and not a verdict on Newton II; under the declared σ's it is possible, only
   unlikely, and its direction still says something (R-2026-09-07-1, R-2026-09-28-1, R-2026-09-29-8,
@@ -89,7 +94,8 @@ line is kept struck, as a premise would be.
 
 ## Questions about the goal (open, asked of Can)
 
-- Is a declared shape of π something the definition may take as an input (a branch cut), or a
+- (Sharpened 22 Nov by T80: either the starting law is a fact about the object, or the output is a set that
+  can be unbounded. Sorted to the second, provisional. The question as first asked:) Is a declared shape of π something the definition may take as an input (a branch cut), or a
   choice the function makes (an alternative mechanics)? Its influence vanishes at strong signal and
   the readings cannot decide it, which is the branch-cut test; but no physicist declares one
   (O6, G9/G8).
@@ -97,8 +103,6 @@ line is kept struck, as a premise would be.
   of π fixed by the instruments alone (L3′), or is any centre an input (O11)?
 - May the point price a null reading in (his 27 Sept position) or must it leave the point alone as
   it leaves the law (O7, Z's scope at the point)?
-- Is "every positive mass" at the all-zero experiment a mass in the sense of 29 Sept, or is a point still
-  owed there (`../problems/O20.md`, 22 Nov)?
 - On identifying series, is the quoted width asked to cover exactly at its level in the limit, or at least at
   its level? The first rules out a persistent widening when readings disagree; the second allows it
   (T78 (6); `../problems/O20.md`).

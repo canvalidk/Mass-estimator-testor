@@ -41,6 +41,14 @@ $\eta$ and the raw law's interval beside the quoted one (ruling 3 of 30 Sept). T
 kept with the result (an output clause, not a premise the mathematics uses). The output is
 never "undefined".
 
+**22 Nov (T80; R-2026-11-22-1, R-2026-11-22-2; provisional).** The paragraph above is the output of the
+law-and-point line, and it stands as that line's. It is a true statement relative to a declared
+starting law. Read as a true statement for every true mass, the quoted uncertainty has to be a set of
+masses that can be unbounded (T80), and that is the kind of output the E13 direction returns: the
+evidence curve (T73), sets of candidate masses with a kept promise (T75), the leftover beside them. Where
+every positive mass is kept, no point is owed. Still never "undefined": the same kind of answer on
+every measured input. Which set is open (`../problems/O20.md`).
+
 ## Not this function
 
 Exact inputs ($\sigma=0$) go to the exact branch (T1), which has three outcomes: one mass,
@@ -48,6 +56,7 @@ no mass fits, every mass fits. "Undefined" survives only there, at exact 0/0.
 
 ## History
 
+- 2026-11-22: the kind of output T80 forces added beside the law-and-point output, which is kept (R-2026-11-22-2).
 - 2026-11-17: how well each covariance is known added to the input (R-2026-11-17-1).
 - 2026-11-17, afternoon: that input is the case study's, not the definition's (R-2026-11-17-3).
 - 2026-10-24: created from lemma list d4 §1.
