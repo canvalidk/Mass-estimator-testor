@@ -1,24 +1,26 @@
-# E13: Unnormalized Evidence ("Bell with σ = ∞") — Ten Insights
+# E13: Unnormalized Evidence ("Bell with σ = ∞") — Thirteen Insights
 
-**Branch:** `explore/e13-unnormalized-evidence` (from `main` `d2a3352`, 21 Nov 2026).  
+**Branch:** `explore/e13-unnormalized-evidence` (from `main` `d2a3352`, 21–22 Nov 2026).  
 **Status:** exploration input for Claude to harvest (`explore/README.md`, R-2026-11-07-2). Nothing in `definition/`, `problems/`, `rulings.md`, or `met/` is modified.  
 **Code & checks (pure Python stdlib — zero external dependencies):**
 - Initial prototype & killer gallery (Insights 1–5): `explore/e13_unnormalized_evidence.py`, `tests/test_e13_unnormalized_evidence.py`
 - Push 1–3 general-type CLR, exact two-body composition, and Door B / spherical CLR / O7 floor union (Insights 6–8): `explore/e13_general_clr.py`, `tests/test_e13_general_clr.py`
 - Push 4–5 Z-safe weight Pareto frontier & closing the 1D $N=2$ Door B gap (Insights 9–10): `explore/e13_push4_5.py`, `tests/test_e13_push4_5.py`
-- Run all 19 checks: `python3 -m unittest -v tests/test_e13_unnormalized_evidence.py tests/test_e13_general_clr.py tests/test_e13_push4_5.py` (also pytest-discoverable)
+- Push 6 $GL(d)$-covariant metric mass $g \in \mathrm{Sym}^+_d$ (Insights 11–13): `explore/e13_metric_mass.py`, `tests/test_e13_metric_mass.py`
+- Run all 24 checks: `python3 -m unittest -v tests/test_e13_unnormalized_evidence.py tests/test_e13_general_clr.py tests/test_e13_push4_5.py tests/test_e13_metric_mass.py` (also pytest-discoverable)
 
 ## Standard mathematics first (`GOAL.md` standing rule 6)
 
 - **Kac–Bernstein theorem** (Kac 1939; Bernstein 1941): for independent $X_1, X_2$, the sample mean $\bar X$ is independent of the difference $X_1 - X_2$ *if and only if* $X_1, X_2$ are Gaussian. (Equivalently, orthogonal projections $U_i, V_i$ of an isotropic error vector are independent iff the noise is Gaussian — directly governing why $U$-conditioning works for Gaussian `GCLR` and breaks for Student-$t$.)
-- **Unnormalized / profile likelihood & infimal convolution** (Royall 1997; Barndorff-Nielsen; epigraphical addition): combining independent evidence adds negative log-likelihoods $K_1 + K_2$; combining two parameters under $M = m_1 + m_2$ profiles out the split via $K_{\rm lump}(M) = \inf_{m_1+m_2=M}[K_1(m_1)+K_2(m_2)]$, with Chernoff (1954) one-sided boundary mixture $\frac{1}{2}\delta_0 + \frac{1}{2}\chi^2_1$ when one body is unmeasured (`0/0`) under $m_2 > 0$.
-- **Weak-identification exact conditional test inversion** (Anderson & Rubin 1949; Moreira 2003, *Econometrica* 71:1027–1048; Andrews–Moreira–Stock 2006; Gleser & Hwang 1987; Dufour 1997; Dwass 1957 / Barnard 1963 exact Monte Carlo tests): although no single nuisance-free *conditional likelihood* exists because $U_i(m_0)$ depends on $m_0$ (Kalbfleisch & Sprott 1970, cited in `problems/O15.md`), **pointwise conditional test inversion** given $(U_1(m_0), \dots, U_N(m_0))$ is exact in finite samples on the full covariance/subspace type without a prior $\pi$ or warp $\eta$, provided unbounded sets $(0,\infty)$ are allowed.
+- **Unnormalized / profile likelihood & infimal convolution** (Royall 1997; Barndorff-Nielsen; epigraphical addition): combining independent evidence adds negative log-likelihoods $K_1 + K_2$; combining two parameters under $M = m_1 + m_2$ (or $G = g_1 + g_2$ on the SPD cone $\mathrm{Sym}^+_d$) profiles out the split via infimal convolution, with Chernoff (1954) one-sided boundary mixture $\frac{1}{2}\delta_0 + \frac{1}{2}\chi^2_1$ when one body is unmeasured (`0/0`) under positivity.
+- **Weak-identification exact conditional test inversion** (Anderson & Rubin 1949; Moreira 2003, *Econometrica* 71:1027–1048; Andrews–Moreira–Stock 2006; Gleser & Hwang 1987; Dufour 1997; Dwass 1957 / Barnard 1963 exact Monte Carlo tests): although no single nuisance-free *conditional likelihood* exists because $U_i(m_0)$ depends on $m_0$ (Kalbfleisch & Sprott 1970, cited in `problems/O15.md`), **pointwise conditional test inversion** given $(U_1, \dots, U_N)$ is exact in finite samples on both the full scalar type and the metric cone $\mathrm{Sym}^+_d$ (extending `T50` / Markovsky & Van Huffel TLS) without a prior $\pi$ or warp $\eta$, provided unbounded sets are allowed.
 - **Stein's identity & Cauchy–Schwarz** (Stein 1981): for $H = \|\xi\|^2 \sim \chi^2_k$, $E[k w(H) + 2 H w'(H)] = E[H w(H)]$, pinning down the exact diffuse weak-signal asymptotic relative efficiency $\text{ARE}_k(w) = (E[H w(H)])^2 / (E[H] E[H w(H)^2]) \le 1$ of every $U$-weighted exact test.
-- **Spherical / sign-flip randomization tests** (Fisher 1935; Lehmann & Romano 2005, §15.2): conditioning on both $U_i(m_0)$ and $\|V_i(m_0)\|$ makes $V_i / \|V_i\| \sim \mathrm{Unif}(S^{k_i-1})$ exact under *any* per-reading noise-scale mixture $v_i \Sigma_i$ (Gaussian, Student-$t$, Cauchy, adversarial scale spikes).
+- **Spherical / sign-flip randomization tests** (Fisher 1935; Lehmann & Romano 2005, §15.2): conditioning on both $U_i$ and $\|V_i\|$ makes $V_i / \|V_i\| \sim \mathrm{Unif}(S^{k_i-1})$ exact under *any* per-reading noise-scale mixture $v_i \Sigma_i$ (Gaussian, Student-$t$, Cauchy, adversarial scale spikes).
+- **Metric / covector duality on $V \oplus V^*$** (bilinear forms on $\mathrm{Sym}^+_d$; BFGS secant positivity; `O17` / `T50`): modeling mass as $g: V \to V^*$ ($\mathbf{F} = g\mathbf{a}$, $g = g^\top \succ 0$) makes the covector residual $K_i(g) = (\tilde{\mathbf{F}}_i - g\tilde{\mathbf{a}}_i)^\top V_i(g)^{-1}(\tilde{\mathbf{F}}_i - g\tilde{\mathbf{a}}_i)$ strictly invariant under all invertible coordinate changes $A \in GL(d)$ (no Euclidean spatial metric $\delta$) and under covector duality $g \leftrightarrow g^{-1}$.
 
 ---
 
-## The 10 Insights (countable summary for harvest)
+## The 13 Insights (countable summary for harvest)
 
 ### Insight 1 — `0/0` forces the identity of combination ($L \equiv 1$, "bell with $\sigma = \infty$"), *not* a normalized prior $\pi_c$ (`E5`, `O6`, `O11`, `O2`, `G28`, `B16`)
 
@@ -113,6 +115,26 @@ $$
    - **`AR-bounded t-LR`** ($T_{t_\nu}(m_0) - T_{t_\nu,\min} \le q_{0.95}^{\text{t-AR}}$) has a **1-line mathematical proof of $\ge 95\%$ coverage** for every $(\Sigma_i, N_i, \alpha_i^*, m^*)$ under $t_\nu$ (since $T(m^*) - T_{\min} \le T(m^*)$), **never returns `EMPTY`**, and closes the 1D $N=2$ gap cleanly: **`[5.353, 5.734]`** on Scene A, **`[4.854, 6.154]`** on 10σ Scene B, **`[4.963, 5.067] ∪ [5.937, 6.041]`** on 50σ Scene B, and **`(0, inf)`** on `0/0` (Table C4).
 3. **Piecewise Exact Door B (`door_b_piecewise_exact_pvalue`):** Switching **only on declared experiment dimensions** (never on data $y_i$) — using `AR-bounded t-LR` on 1D $N \le 4$ and spherical `SCLR+(t_\nu)` everywhere else ($N \ge 5$ or $k \ge 2$) — is **rigorously proved $\ge 95\%$ on every experiment under declared $t_\nu$ with zero Bonferroni penalty**, closing both 1D $N=2$ (`98.2%–99.2%`) and 3D $N=15$ weak signal (`94.0%`, vs naive Door B's `62.0%`).
 4. **Honest limitations of the 1D $N \le 4$ branch (Table C5):** Unlike `SCLR+` (which is scale-free for $N \ge 5$ or $k \ge 2$), 1D $N \le 4$ `AR-bounded t-LR` genuinely relies on the declared $\nu$ (if true noise is $\nu=2$ while $\nu=10$ is declared, 1D $N=2$ coverage drops to `85.5%–89.0%`) and fails exact-zero `Z` (since $q_{0.95}^{\text{t-AR}}(N)$ grows with $N$: `4.442, 6.939, 8.971, 10.987`).
+
+### Insight 11 (Push 6A–B) — Switching to metric mass $g \in \mathrm{Sym}^+_d$ ($\mathbf{F} = g\mathbf{a}$) makes "$\sigma = \infty$" unavoidable even without noise, is strictly $GL(d)$-covariant, and splits surprise into a 3-rung ladder (`O17`, `E7`, `L22`, `T36`, `T50`)
+
+Reading acceleration as a vector $\mathbf{a} \in V$, force as a covector $\mathbf{F} \in V^*$, and mass as a symmetric positive-definite metric $g: V \to V^*$ ($F_i = g_{ij} a^j$, inverse mass $g^{-1}: V^* \to V$):
+- **Full $GL(d)$ and swap invariance (no Euclidean spatial metric $\delta$):** under any invertible basis change $A \in GL(d)$ (unequal axis units, non-orthogonal shears) $\mathbf{a} \mapsto A\mathbf{a}$, $\mathbf{F} \mapsto A^{-\top}\mathbf{F}$, $g \mapsto A^{-\top} g A^{-1}$, the covector residual $K_i(g) = (\tilde{\mathbf{F}}_i - g\tilde{\mathbf{a}}_i)^\top V_i(g)^{-1}(\tilde{\mathbf{F}}_i - g\tilde{\mathbf{a}}_i)$ and all conditional tests built on it are **100% invariant** (verified in 2D and 3D to $10^{-10}$). Force–acceleration swap ($V \leftrightarrow V^*$) maps $g \leftrightarrow g^{-1}$ identically.
+- **Unnormalized "$\sigma = \infty$" is forced on partial-axis pushes:** pushing a 2D or 3D body only along $e_1$ leaves $K_x(g)$ identically `0.000000` across every $g_{yy}, g_{zz} \in (0, \infty)$ — literally $\sigma = \infty$ along unpushed axes. Adding a later $e_2$ push simply sums $K_x(g) + K_y(g)$ and pins down `diag(2, 5)` with zero prior $\pi$.
+- **Three-rung nested surprise ladder (`scalar ⊂ metric ⊂ linear`, Table D1):** $K_{\min}^{\rm scalar} \ge K_{\min}^{\rm metric} \ge K_{\min}^{\rm linear} \ge 0$ separates **anisotropy surprise** (`O17`: `d_iso = 59.9, d_rec = 0.0` on `diag(2, 5)`), **reciprocity / gyroscopic surprise** (`E7`: `d_rec = 66.2, K_lin = 0.0` on `[[2, -1], [1, 2]]`), and irreducible residual.
+
+### Insight 12 (Push 6B–C & 6E) — Exact conditional tests on $\mathrm{Sym}^+_d$ (`Metric-GCLR`, `Metric-Z-GCLR`, `Metric-SCLR+`, and `L22` isotropy) kill `T50`'s full-rank ghost and eliminate the 1D small-$N$ floor (`T50`, `O17`, `L22`, `O7`)
+
+- **Full-rank (`rank = 3`) 2D anti-parallel hilltop ghost in `T50`:** on 6 symmetric anti-parallel readings at $g_0 = I_2$ ($K(I_2) = 3600$), `T50`'s conditional vector score accepts with `T2 = 0.0000, rank = 3, p = 1.0000`; both `Metric-GCLR(Sym_2)` and bit-for-bit `Z`-safe `Metric-Z-GCLR(Sym_2)` kill it (`p = 0.01`).
+- **Exact finite-sample coverage on 2D anisotropic `g = diag(2, 5)` (Table D2):** across pure noise ($r = 0$), partial $x$-axis-only excitation ($r = 4$), weak signal ($r = 1.5$), and strong signal ($r = 5$), `Metric-Z-GCLR+` and `Metric-SCLR+` hold ~95% (where raw 3-df Wilks LR drops to `65%`).
+- **No small-$N$ discrete spherical floor in $d \ge 2$:** because $S^{d-1}$ ($S^1$ in 2D, $S^2$ in 3D) is continuous, `Metric-SCLR+` and the `O7` Metric Floor Union have **no $1/2^N$ floor** and hold **`93.0% / 94.0%`** even under Cauchy-like $\nu = 2$ heavy tails where `T50` (`41.0%`) and Gaussian `GCLR+` (`42.0%`) collapse!
+- **Exact finite-sample test of scalar isotropy (`L22`):** $\sup_{m > 0} p_{\rm metric}(m I_d)$ accepts isotropic `2 I_2` (`p = 0.98 / 0.96`) and $x$-only pushes (`p = 1.00`, honestly admitting scalar compatibility!), while rejecting anisotropic `diag(2, 5)` (`p = 0.01 / 0.01`).
+
+### Insight 13 (Push 6D) — Switching to the metric cone $\mathrm{Sym}^+_d$ resolves `O17`'s `L5`/`L14` conflict simultaneously (`O17`, `L5`, `L14`, `B26`)
+
+- `O17` showed that no single scalarization of an anisotropic metric satisfies both `L5` (lumping) and `L14` (common force). Keeping the full unnormalized metric curve $K(g)$ on $\mathrm{Sym}^+_d$ makes **both** `L5` lumping ($G = g_1 + g_2$, infimal convolution over the operator interval $0 \prec g_1 \prec G$) and `L14` common force ($G^{-1} = g_1^{-1} + g_2^{-1}$) hold **simultaneously and exactly** with exact swap duality $g \leftrightarrow g^{-1}$ (`diag(2,5) + diag(3,1) -> diag(5,6)` and reduced `diag(6/5, 5/6)` both with $K = 0.000000$; Table D3).
+- Gluing an anisotropic body `diag(2, 5)` onto a body pushed *only* along $x$ ($g_{2,xx} = 3$, $g_{2,yy}$ unmeasured = $\sigma_\infty$) rules out $G_{yy} < 5$ ($K = 20.79$ at $G_{yy} = 4.5$) while leaving $G_{yy} > 5$ identically flat ($K = 0.000$ at $5.05, 6, 20$).
+- **Honest limitations of metric mass:** (1) requires a shared known frame across readings (not arbitrary per-reading spatial rotations); (2) any single reading with $\langle \mathbf{F}, \mathbf{a} \rangle > 0$ fits some $g \succ 0$ with $K_{\min}^{\rm metric} = 0$ (leftover surprise begins at $N \ge 2$ via reciprocity failure or $N > d$); (3) symmetry $g = g^\top$ imports reciprocity (parked by `R-2026-10-27-2` as a later-version commitment).
 
 ---
 
@@ -247,6 +269,40 @@ $$
 | True $\nu=10$, $r=5$ *(matched)* | `94.5%` | **`99.2%`** | `94.5%` |
 | True $\nu=2$, $r=0$ *(misspecified!)* | `76.0%` | `85.5%` *(relies on declared $\nu$)* | `74.5%` |
 | True $\nu=2$, $r=3$ *(misspecified!)* | `75.5%` | `89.0%` *(relies on declared $\nu$)* | `76.8%` |
+
+---
+
+### Part D — Push 6: Metric Mass $g \in \mathrm{Sym}^+_d$ (`python3 explore/e13_metric_mass.py`, seed 20261122)
+
+#### Table D1 — Push 6B: Three-Rung Nested Surprise Ladder (`scalar ⊂ metric Sym+_2 ⊂ linear M`)
+
+| 2D World (4 clean pushes, $\sigma = 0.1$) | $K_{\min}^{\rm scalar}$ | $K_{\min}^{\rm metric}$ | $K_{\min}^{\rm linear}$ | $\Delta K_{\rm iso}$ (`O17`) | $\Delta K_{\rm recip}$ (`E7`) |
+|---|---:|---:|---:|---:|---:|
+| 1. Isotropic scalar $g = 2 I_2$ | `0.0` | `0.0` | `0.00` | `0.0` | `0.0` |
+| 2. Anisotropic metric $g = \mathrm{diag}(2, 5)$ (`O17`) | `59.9` | **`0.0`** | `0.00` | **`59.9`** | `0.0` |
+| 3. Gyroscopic non-reciprocal $M = \begin{pmatrix}2&-1\\1&2\end{pmatrix}$ (`E7`) | `68.6` | `66.2` | **`0.00`** | `2.5` | **`66.2`** |
+| 4. Anti-parallel negative map $M = -\mathrm{diag}(2, 3)$ | `400.2` | `400.0` | `0.00` | `0.2` | `400.0` |
+
+*Full-rank (`rank = 3`) 2D anti-parallel hilltop ghost at $g_0 = I_2$ ($K(I_2) = 3600$):* `T50` gives `T2 = 0.0000, p = 1.0000` *(ghost accepted)*; `Metric-GCLR(Sym_2)` gives `lr_obs = 3200.0, p = 0.0100`; `Metric-Z-GCLR(Sym_2)` gives `lr_obs = 3152.8, p = 0.0100` *(both kill the ghost)*.
+
+#### Table D2 — Push 6C: Monte Carlo 95% Coverage on 2D Anisotropic Metric $g = \mathrm{diag}(2, 5)$ (`N = 8`, 100 reps)
+
+| World | `T50` score | `Metric-GCLR+` | `Metric-Z-GCLR+` | `Metric-SCLR+` | `O7` Metric Floor | Raw 3-df Wilks *(contrast)* |
+|---|---:|---:|---:|---:|---:|---:|
+| Gaussian pure noise (`r = 0`) | `96.0%` | `89.0%` | **`95.0%`** | **`96.0%`** | `100.0%` | `65.0%` |
+| Gaussian partial $x$-axis only (`r = 4`) | `97.0%` | `94.0%` | **`94.0%`** | **`98.0%`** | `99.0%` | `88.0%` |
+| Gaussian weak (`r = 1.5`) | `94.0%` | `94.0%` | **`97.0%`** | **`96.0%`** | `99.0%` | `84.0%` |
+| Gaussian strong (`r = 5`) | `93.0%` | `91.0%` | **`93.0%`** | `90.0%` | `96.0%` | `92.0%` |
+| Scale-mix $\nu = 10$ weak (`r = 1.5`) | `86.0%` | `84.0%` | `82.0%` | **`93.0%`** | **`96.0%`** | `70.0%` |
+| Heavy-tail $\nu = 2$ (`r = 3`) | **`41.0%`** | **`42.0%`** | **`40.0%`** | **`93.0%`** | **`94.0%`** | `36.0%` |
+
+#### Table D3 — Push 6D–E: Simultaneous `L5`/`L14` Tensor Composition & Exact `L22` Isotropy Test
+
+- **Simultaneous `L5` & `L14`** (`g_1 = diag(2, 5)`, `g_2 = diag(3, 1)`):
+  - `L5` lumping: $K_{\rm lump}(\mathrm{diag}(5.0, 6.0)) = 0.000000$; $K_{\rm lump}(\mathrm{diag}(5.4, 6.0)) = 7.439$.
+  - `L14` common force: $K_{\rm red}(\mathrm{diag}(6/5, 5/6)) = 0.000000$; $K_{\rm red}(\mathrm{diag}(1.5, 5/6)) = 57.925$.
+- **Partial-axis lumping** (`diag(2, 5)` + `g2_xx = 3`, $g_{2,yy}$ unmeasured = $\sigma_\infty$): $K_{\rm lump}(\mathrm{diag}(5.0, G_{yy}))$ equals `20.790` at `4.50`, `3.251` at `4.80`, and **`0.000`** at `5.05`, `6.00`, and `20.00`.
+- **Exact `L22` scalar-isotropy test** (`N = 8, r = 15`): Isotropic `2 I_2` -> `Z-GCLR p = 0.980, SCLR p = 0.960`; Anisotropic `diag(2, 5)` -> `Z-GCLR p = 0.010, SCLR p = 0.010`; $x$-only push -> `p = 1.000` (both).
 
 ---
 
