@@ -45,9 +45,10 @@ never "undefined".
 law-and-point line, and it stands as that line's. It is a true statement relative to a declared
 starting law. Read as a true statement for every true mass, the quoted uncertainty has to be a set of
 masses that can be unbounded (T80), and that is the kind of output the E13 direction returns: the
-evidence curve (T73), sets of candidate masses with a kept promise (T75), the leftover beside them. Where
-every positive mass is kept, no point is owed. Still never "undefined": the same kind of answer on
-every measured input. Which set is open (`../problems/O20.md`).
+evidence curve (T73), sets of candidate masses with a kept promise (T75), the leftover beside them. A point is
+returned on every input, for type safety; where every positive mass is kept its value does not matter
+(R-2026-11-22-2). Still never "undefined": the same type of answer on every measured input. Which set,
+and which point where the value does matter, are open (`../problems/O20.md`).
 
 ## Not this function
 

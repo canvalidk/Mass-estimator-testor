@@ -66,7 +66,8 @@ line is kept struck, as a premise would be.
   the noise measure lives beside it (R-2026-09-30-3); the quoted width is what a result is judged on
   (R-2026-09-30-7); a null result enters combination with weight zero, as physicists already combine
   (R-2026-09-29-3).
-- Where every positive mass is compatible, no point is owed: "if it is the case that every value is
+- Where every positive mass is compatible, the value of the point does not matter, and a point is still
+  returned, for type safety ("a point is still owed for type safety"): "if it is the case that every value is
   compatible, it really doesn't matter what you return right?" The uncertainty quoted is a true statement
   for every true mass, so it is a set that can be unbounded; an interval that is always finite cannot
   "run to be of infinite size fast enough" (R-2026-11-22-2; T80). The alternative reading, true on
