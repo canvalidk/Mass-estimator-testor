@@ -24,6 +24,9 @@ re-derive known results, and Can should not have to supply them (GOAL.md, standi
 **The equation the work is at is ours33** (`definition/equation.md`, `met/ours33.py`; R-2026-11-17-2). Read every
 result, brief and premise against it. ours30 and the probes before it are history.
 
+**The direction pursued is E13** (R-2026-11-22-1; `problems/O20.md`): harvest from the exploration branches into main's own
+slots, each piece checked first and its branch named, until E13 has landed; nothing on the law-and-point line is struck in advance.
+
 **The consequences of the inputs.** The definition computes what follows from what is declared, and a doubt about a
 declared input is outside the problem (R-2026-11-17-1). Every σ is believed as given. How much less an improbable set of
 readings is believed is computed by the definition from the readings, and handling such readings is the job

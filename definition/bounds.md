@@ -97,5 +97,9 @@ line is kept struck, as a premise would be.
   of π fixed by the instruments alone (L3′), or is any centre an input (O11)?
 - May the point price a null reading in (his 27 Sept position) or must it leave the point alone as
   it leaves the law (O7, Z's scope at the point)?
+- Is "every positive mass" at the all-zero experiment a mass in the sense of 29 Sept, or is a point still
+  owed there (`../problems/O20.md`, 22 Nov)?
+- Is a result that is right at every level of disagreement and wider than the declared Gaussian calls for
+  "believing the σ", or a change to σ in the sense of 17 Nov (`../problems/O20.md`; T75 (5), (6))?
 - Does the authority ruling still read E10 as "named, not supplied", now that the body is a theorem
   of the later commitments (R-2026-10-27-2)?

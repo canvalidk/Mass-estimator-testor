@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-21, by Claude (O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
+**Last updated:** 2026-11-22, by Claude (R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4, 6 and 8 harvested and checked as T73–T75, `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -55,6 +55,30 @@ case study. ours33 stacks the last two and discounts the same improbability twic
 Two rungs the proof leans on are not fixed in VD-Newton: R3 (persistence, lumping) is unwritten and R5 (Newton III)
 is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, still say "carried from the records"
 (G15). The holes are typed in `definition/proof.md` §5, and that table is the queue.
+
+**Since 22 Nov** (R-2026-11-22-1; the harvest of `explore/e13-unnormalized-evidence`, Can's, 21 Nov; record `../problems/O20.md`):
+
+- **The direction.** E13 proposes a different output: no starting law and no normalisation; the evidence curve, sets of
+  candidate masses that keep a stated promise and may be unbounded, the leftover beside them. It is pursued by taking parts
+  from the exploration branches into main's slots, each checked first. ours33, `definition/equation.md` and the premise
+  list stand as they are.
+- **Harvested and checked** (reimplemented on `met.full`'s reading type; an independent simulated world):
+  **T73** the curve with no starting law (0/0 is the flat curve, the identity of combination; a zero reading and an
+  infinitely noisy one are the same reading; on one instrument the least is the smaller eigenvalue of the 2×2 matrix of dot
+  products; the leftover sits beside the curve and not in its shape). **T74** curves of two bodies compose by infimal
+  convolution with no starting law; cut at the χ² threshold the composite under-covers at weak signal (0.84). **T75** exact
+  conditional tests of a candidate on the full type for any statistic; the scale-free null; the two joined.
+- **What the check found** (`../problems/O20.md`, findings; `../problems/O14.md`, 22 Nov). Under the declared Gaussian the
+  gap between readings widens nothing, at any size, and only the Gaussian has that property: E13's Door A is the outcome
+  Can called wrong on 17 Nov. The joined test gives the far pair 5.5 ± 0.45 where the near pair gets 5.55 ± 0.13, on vector
+  readings, with no σ revised and no parameter, and that width stops depending on σ; it is right at every level of
+  disagreement and wider than the inputs call for (0.95 rising to 0.998), and it says nothing on fewer than six scalar
+  readings, which includes Can's two scenes as given. A zero-safe weight is blind at right angles (the 18 Nov finding from
+  the other side). The statistic, the null, the weight, the level and the domain are choices E13 leaves open: under F2
+  that is where the direction is most exposed. Three numerical points in E13's text were corrected (T75).
+- **Left on the branch, not checked:** E13 insights 5, 7, 9, 10. **Read, not checked, next in the harvest:** E12 (one
+  scalar instrument: four requirements have a model and do not pin the function) and E2 (what state must be carried to
+  combine results). Board: `../explore/README.md`.
 
 **Since 17 Nov** (briefs B21–B27 merged as delivered; read one at a time, in the order B25, B24, B21, B27, B26, B22, B23):
 
@@ -363,6 +387,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 | O14 | proof | eta at small N: a correction that counts effective readings. The 26 Oct second noise channel is superseded by T36 (29 Oct). **30 Oct sort (provisional):** g and η are noise scales, per reading and per series, on an unwritten declaration that Σ is a floor; which levels a caller declares exact / floor / unknown is an input; G13 sorted |
 | O15 | proof | Is the bounded null floor the best any law can do? **9 Nov (exploration E10):** an order-free law consistent at L11's rate cannot remove the null tilt; what the quoted width promises there is G28 |
 | O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
+| O20 | output type; a harvest in progress | A law and a point, or the evidence curve with sets beside it (the E13 direction, R-2026-11-22-1). T73–T75 harvested and checked 22 Nov; which statistic, null and weight is open; findings against the rows in the file |
 | O19 | proof; premise sort | What growth of signal makes L11 attainable? T41: divergent total energy is not enough for any estimator; B19: the literature's rate is $\Delta_N/\sqrt N\to\infty$ (= T42, T53); L11 restated with it 7 Nov (Claude, provisional; G25). Open: the full type, the row's quantifiers, and (9 Nov) that the rate holds only beside a law that keeps its null tilt |
 | O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type. On the robot: the static rows show a real 1.15° force–IMU misalignment, but neither it nor a lever arm explains the miss, and the white budget is understated 2–19× by autocorrelated samples (28 Oct). Next: the budget from calibration-side data and the rerun (briefed), then the slot |
 | L13, L18 | ruling | Confirm "the noise model is forced Gaussian, the data need not be"; is the subspace an input? |
@@ -469,6 +494,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-22 (Claude): R-2026-11-22-1 recorded; `problems/O20.md` opened. Harvested from `explore/e13-unnormalized-evidence` (Can) and checked:
+  T73, T74, T75; `met/evidence.py`, `met/conditional_lr.py`; `tests/test_evidence_curve.py` (15, 2 slow), `tests/test_conditional_lr.py` (15, 5 slow).
+  Pointers in O2, O6, O7, O11, O14 (a 22 Nov section), O15; two questions added to `definition/bounds.md`; board rows for E2, E12, E13.
+  On branch `claude/intake-2026-11-22` (from `claude/intake-2026-11-18`), not on main.
 
 - 2026-11-21 (Claude): no new result. Written in from 18 Nov: O14's head section (where the weighting stands; the step nothing derives; an
   untested lead), `proof.md` G29 (ours29, ours30 and ours33 fail two readings at right angles), and a line each on `GOAL.md` and `definition/equation.md`.
