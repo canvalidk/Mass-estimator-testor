@@ -14,6 +14,8 @@
 | **X2** | Given the premises as ruled and the declared inputs ($\pi$, $N_i$, structure, window), the function is unique — and it is ours30. | partially proved; holes typed G1–G17 | tester `proof.md` §§2, 4, 5 |
 | **X3** | The premise list is consistent: a function satisfying all of it exists. | **conjecture** — the licensed working assumption | nowhere, correctly |
 
+**22 Nov 2026 (Claude).** X3 now has a model for a part of the list: on one scalar instrument at a fixed noise ratio, zero neutrality, L11's rate with a calibrated width, bounded confidence on readings no mass explains and a true statement on noise are met together, by a continuum of functions (exploration E12, Codex; harvested and checked as `../definition/theorems/T78.md`). So for that part X3 holds and X2 fails as it stands. Nothing is shown for the full type.
+
 X1 motivates. X2 is the theorem being written. X3 is the bet. Treating them as one claim is what makes a fresh reader either over-believe (X1 is "proved", so the equation "exists") or under-believe (X3 is unproved, so the whole thing is "just a framing"). Keep them apart.
 
 ---

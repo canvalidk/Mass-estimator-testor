@@ -99,6 +99,9 @@ line is kept struck, as a premise would be.
   it leaves the law (O7, Z's scope at the point)?
 - Is "every positive mass" at the all-zero experiment a mass in the sense of 29 Sept, or is a point still
   owed there (`../problems/O20.md`, 22 Nov)?
+- On identifying series, is the quoted width asked to cover exactly at its level in the limit, or at least at
+  its level? The first rules out a persistent widening when readings disagree; the second allows it
+  (T78 (6); `../problems/O20.md`).
 - A noise-only block cannot both leave a fixed result untouched and be judged at L11's rate (T77). Which
   gives way: "a null result has weight zero" for noise-only readings, or the rate at its boundary
   (`../problems/O20.md`, finding 9)?

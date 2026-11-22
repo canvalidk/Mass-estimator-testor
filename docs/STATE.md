@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-22, by Claude (R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4 and 6–9 harvested and checked as T73–T76, exploration E2 as T77; `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
+**Last updated:** 2026-11-22, by Claude (R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4 and 6–9 harvested and checked as T73–T76, exploration E2 as T77, E12's scalar proof as T78; `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -84,9 +84,17 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   test files): a block of noise-only readings cannot leave a fixed result untouched and be judged at L11's rate, by any
   procedure (a reading at signal r is undone by about r⁴ of them); a set, a p-value curve and a normalised law are too
   little to combine results, and on one instrument the unnormalised curve is exactly enough.
-- **Left on the E13 branch:** insights 5 (superseded by its own 8) and 10 (a case study). **Read, not checked, next in the
-  harvest:** E12 (one scalar instrument: four requirements have a model and do not pin the function). Board:
-  `../explore/README.md`.
+- **In the evening. T78** (exploration E12's scalar proof, Codex; written again and checked): on one scalar instrument a
+  pooled weight (count over leftover, capped, times the weak-signal share) gives a law that is zero-safe, consistent at
+  L11's rate with a width that covers at its level in the limit, and spread on readings no mass explains. The 17–18 Nov
+  candidate therefore has a proof of its good properties there, and a continuum of weights shares them: the first model of
+  a part of the premise list, and a proof that this part does not pin the function. Also: a width that covers exactly at
+  its level on identifying series cannot be wider when readings disagree; final factors that stay bounded on conflicts
+  cannot multiply; what normalising erases is the curve's least value. Two findings against the witness itself: its
+  discount fades to nothing as the acceleration is made exact, and its cap for a reading on an axis misfires at a large
+  noise ratio (two agreeing readings come out as 0.2 to 15.6).
+- **Left on the branches:** E13 insights 5 (superseded by its own 8) and 10 (a case study); the rest of E12, about forty
+  notes read in summary only (`../problems/O20.md` lists them). Board: `../explore/README.md`.
 
 **Since 17 Nov** (briefs B21–B27 merged as delivered; read one at a time, in the order B25, B24, B21, B27, B26, B22, B23):
 
@@ -509,6 +517,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   On branch `claude/intake-2026-11-22` (from `claude/intake-2026-11-18`), not on main.
   Later: T74 (6), T76, T77; Codex's `tests/test_null_combination.py` and `tests/test_null_combination_score.py` taken from
   `explore/e2-null-combination` unchanged (40 checks); `tests/test_null_block.py`; E2's section in O15; findings 9, 10 in O20.
+  Evening: T78, `met/scalar_witness.py`, `tests/test_scalar_witness.py` (14, 1 slow); a line under X3 in `docs/existence_argument_audit_2026-10-29.md`;
+  O14's head (items 1 and "the step nothing derives"); the E12 section of O20; a question in `definition/bounds.md`.
 
 - 2026-11-21 (Claude): no new result. Written in from 18 Nov: O14's head section (where the weighting stands; the step nothing derives; an
   untested lead), `proof.md` G29 (ours29, ours30 and ours33 fail two readings at right angles), and a line each on `GOAL.md` and `definition/equation.md`.
