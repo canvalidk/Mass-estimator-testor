@@ -108,7 +108,8 @@ line is kept struck, as a premise would be.
   it leaves the law (O7, Z's scope at the point)?
 - On identifying series, is the quoted width asked to cover exactly at its level in the limit, or at least at
   its level? The first rules out a persistent widening when readings disagree; the second allows it
-  (T78 (6); `../problems/O20.md`).
+  (T78 (6); `../problems/O20.md`). **23 Nov, deduced, provisional (Claude; `../problems/O14.md`):** at least. A discount is
+  asked for (R-2026-11-17-3) and none can be exact at every level of disagreement.
 - Is a result that is right at every level of disagreement and wider than the declared Gaussian calls for
   "believing the σ", or a change to σ in the sense of 17 Nov (`../problems/O20.md`; T75 (5), (6))?
 - Is a returned zero or infinite mass "a mass"? If the computed lump's point is the sum of the parts'

@@ -546,6 +546,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-23 (Claude, night): O14, measurements and two provisional deductions, no rule: the declared Gaussian adds separate readings' improbabilities
+  as squares, and Can's "it cannot be told which is the outlier" is the law that adds them as lengths; that law gives his two scenes on direct readings with
+  no parameter and no count, and tips onto the stronger reading on force-and-acceleration readings; so the scene needs one noise size for the result.
+  The price of any discount under the bell, measured (0.887 on close pairs or wider than needed). `tools/how_errors_combine.py`, `tests/test_how_errors_combine.py` (4).
+
 - 2026-11-23 (Claude, later): harvested from `explore/e14-ours34-walls` and checked: T81 (its E14-1, E14-2: the point), `tests/test_curve_point.py` (14).
   Pointers in `GOAL.md` §5 row 1, `definition/proof.md` G6, `definition/type.md`, T73 (one sentence corrected), O2, O20 (a 23 Nov section);
   one question in `definition/bounds.md`; B28 struck as delivered; board row for E14. Then T77 (6) (its E14-3: what is carried past one
