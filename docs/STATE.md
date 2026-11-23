@@ -74,7 +74,10 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   curve give opposite verdicts beside one new reading (3.79 kept, 4.68 rejected). The curve carries the score on the
   full type; past one instrument it does not carry the score's variance. The pair adds across blocks and is enough
   for T45's test.
-- **Left on that branch:** two-body sets from the carried state, the discount, the `ours34` probe.
+- **ours34 taken across as a probe** (`met/ours34.py`, `tests/test_ours34.py`, as they stand on the branch; Can's request). Not the equation the
+  work is at. Its curve, score and point agree with main's code; its discount and two-body sets are not checked. On two scalar readings it widens
+  the agreeing pair as well (± 0.64 against ± 0.14): `../problems/O18.md`, 23 Nov.
+- **Left on that branch:** the results on two-body sets and on the discount, not checked.
 
 **Since 22 Nov** (R-2026-11-22-1; the harvest of `explore/e13-unnormalized-evidence`, Can's, 21 Nov; record `../problems/O20.md`):
 
@@ -546,7 +549,8 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 - 2026-11-23 (Claude, later): harvested from `explore/e14-ours34-walls` and checked: T81 (its E14-1, E14-2: the point), `tests/test_curve_point.py` (14).
   Pointers in `GOAL.md` §5 row 1, `definition/proof.md` G6, `definition/type.md`, T73 (one sentence corrected), O2, O20 (a 23 Nov section);
   one question in `definition/bounds.md`; B28 struck as delivered; board row for E14. Then T77 (6) (its E14-3: what is carried past one
-  instrument), `tests/test_carried_state.py` (3). On branch `claude/intake-2026-11-23`.
+  instrument), `tests/test_carried_state.py` (3). Then `met/ours34.py` and `tests/test_ours34.py` (12) taken across as they stand, with
+  `tests/test_ours34_against_main.py` (2); row 17 in `GOAL.md` §5; a section in O18. On branch `claude/intake-2026-11-23`.
 
 - 2026-11-23 (Claude): the record corrected, nothing harvested. E13 insights 11–13 (mass as a symmetric tensor, pushed 22 Nov 12:51)
   were missing from the 22 Nov harvest table and are listed as left on the branch (`problems/O20.md`); a board row for
