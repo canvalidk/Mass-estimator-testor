@@ -1,6 +1,6 @@
 # B28: does tropical composition on E13's curve uniquely force $\arg\min K(m)$, and what happens at boundary minima?
 
-**Status:** open
+**Status:** struck 2026-11-23 (Claude): delivered by the harvest of `explore/e14-ours34-walls`, which had already worked items 1 and 3; all three items are checked in `definition/theorems/T81.md`, `tests/test_curve_point.py` and `problems/O20.md` (23 Nov). Nothing to run.
 **Item:** `problems/O20.md` (finding 1, open question on E13's point, 22 Nov section), `problems/O2.md` (G6, O2);
 T73, T74, T80 in `definition/theorems/`; L2, L3, L5, L7, L14, L19, L20 in `definition/premises.md`;
 R-2026-10-28-1, R-2026-11-22-1, R-2026-11-22-2.

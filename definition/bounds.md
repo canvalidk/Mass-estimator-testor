@@ -111,5 +111,11 @@ line is kept struck, as a premise would be.
   (T78 (6); `../problems/O20.md`).
 - Is a result that is right at every level of disagreement and wider than the declared Gaussian calls for
   "believing the σ", or a change to σ in the sense of 17 Nov (`../problems/O20.md`; T75 (5), (6))?
+- Is a returned zero or infinite mass "a mass"? If the computed lump's point is the sum of the parts'
+  points, the point of a body that did not move is infinite, and no positive value can stand in for it
+  (T81 (5)). On one instrument this happens whenever the summed $\mathbf F\!\cdot\mathbf a$ is not positive: half of
+  all series at no signal, 4% for one scalar reading two noise units strong. Sorted to "yes, the point
+  lives on the closed arc", provisional (T81). The other reading: composition is not asked of the point
+  on such inputs, and then nothing yet says what the point is there.
 - Does the authority ruling still read E10 as "named, not supplied", now that the body is a theorem
   of the later commitments (R-2026-10-27-2)?

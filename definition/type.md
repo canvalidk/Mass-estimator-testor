@@ -50,6 +50,10 @@ returned on every input, for type safety; where every positive mass is kept its 
 (R-2026-11-22-2). Still never "undefined": the same type of answer on every measured input. Which set,
 and which point where the value does matter, are open (`../problems/O20.md`).
 
+**23 Nov (T81; provisional).** The point sorted for this output is the mass at which the curve is least,
+on the closed arc: zero and infinite mass are possible values (a body that was not pushed, a body that
+did not move). Not in `met/`.
+
 ## Not this function
 
 Exact inputs ($\sigma=0$) go to the exact branch (T1), which has three outcomes: one mass,
@@ -57,6 +61,7 @@ no mass fits, every mass fits. "Undefined" survives only there, at exact 0/0.
 
 ## History
 
+- 2026-11-23: the point sorted for the E13 output and its range, provisional (T81).
 - 2026-11-22: the kind of output T80 forces added beside the law-and-point output, which is kept (R-2026-11-22-2).
 - 2026-11-17: how well each covariance is known added to the input (R-2026-11-17-1).
 - 2026-11-17, afternoon: that input is the case study's, not the definition's (R-2026-11-17-3).

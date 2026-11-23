@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-22, by Claude (R-2026-11-22-2 and T80: where every mass is compatible the point's value does not matter (one is still returned, for type safety), and a true statement for every true mass has to be a set that can be unbounded, which sorts G28, provisional. R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4 and 6–9 harvested and checked as T73–T76, exploration E2 as T77, E12's scalar proof and signed ranks as T78 and T79; `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
+**Last updated:** 2026-11-23, by Claude (T81: the point read off the curve, harvested from exploration E14 and checked; composition at the point and the point's range sorted, provisional; T77 (6): the curve alone is not enough past one instrument; nothing in `met/`. 22 Nov: R-2026-11-22-2 and T80: where every mass is compatible the point's value does not matter (one is still returned, for type safety), and a true statement for every true mass has to be a set that can be unbounded, which sorts G28, provisional. R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4 and 6–9 harvested and checked as T73–T76, exploration E2 as T77, E12's scalar proof and signed ranks as T78 and T79; `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -55,6 +55,26 @@ case study. ours33 stacks the last two and discounts the same improbability twic
 Two rungs the proof leans on are not fixed in VD-Newton: R3 (persistence, lumping) is unwritten and R5 (Newton III)
 is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, still say "carried from the records"
 (G15). The holes are typed in `definition/proof.md` §5, and that table is the queue.
+
+**Since 23 Nov** (the harvest of `explore/e14-ours34-walls`, Antigravity with Can, 22 Nov; `../problems/O20.md`, 23 Nov):
+
+- **T81: the point read off the curve.** The curve's least adds for the computed lump and adds in inverse under a
+  common force, exactly, at any noise (the invariance of maximum likelihood). Asked of the point, with units and
+  consistency, that composition leaves only the least (E14-1, proof checked). On the data themselves the least does
+  not add, like every point before it (0.12%, 3.3%, 28% on the 28 Oct scene).
+- **It can be zero or infinite mass.** On one instrument the least is at an end exactly when the summed
+  $\mathbf F\!\cdot\mathbf a$ is not positive: half of all series at no signal, 4% for one scalar reading two noise units
+  strong. No positive value there keeps composition at the point (E14-2, checked). It is not continuous in the
+  readings.
+- **Sorted, provisional (Claude):** the 28 Oct reason for taking composition off the point (nothing has it) does not
+  hold on the curve, so it returns for the composite computed from the parts, and the point of the E13 output is the
+  least on the closed arc. Whether a returned zero or infinity is "a mass" is a question in `../definition/bounds.md`.
+  T73's "a mode, so it does not compose" is corrected. B28 is struck as delivered. Nothing is in `met/`.
+- **T77 (6): what is carried past one instrument** (E14-3, checked). Two blocks on two instruments with the same flat
+  curve give opposite verdicts beside one new reading (3.79 kept, 4.68 rejected). The curve carries the score on the
+  full type; past one instrument it does not carry the score's variance. The pair adds across blocks and is enough
+  for T45's test.
+- **Left on that branch:** two-body sets from the carried state, the discount, the `ours34` probe.
 
 **Since 22 Nov** (R-2026-11-22-1; the harvest of `explore/e13-unnormalized-evidence`, Can's, 21 Nov; record `../problems/O20.md`):
 
@@ -415,7 +435,7 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 | O14 | proof | eta at small N: a correction that counts effective readings. The 26 Oct second noise channel is superseded by T36 (29 Oct). **30 Oct sort (provisional):** g and η are noise scales, per reading and per series, on an unwritten declaration that Σ is a floor; which levels a caller declares exact / floor / unknown is an input; G13 sorted |
 | O15 | proof | Is the bounded null floor the best any law can do? **9 Nov (exploration E10):** an order-free law consistent at L11's rate cannot remove the null tilt; what the quoted width promises there is G28 |
 | O17 | ruling and research | Mass as a metric: is isotropy of inertia (L22, proposed 27 Oct, read as a clause of L1) a premise; what it buys. On a tensor-mass world ours29 returns a confident pseudomass, not "no mass" (Codex, 27 Oct), so isotropy has to be declared |
-| O20 | output type; a harvest in progress | A law and a point, or the evidence curve with sets beside it (the E13 direction, R-2026-11-22-1). T73–T75 harvested and checked 22 Nov; which statistic, null and weight is open; findings against the rows in the file |
+| O20 | output type; a harvest in progress | A law and a point, or the evidence curve with sets beside it (the E13 direction, R-2026-11-22-1). T73–T75 harvested and checked 22 Nov; the point sorted 23 Nov, provisional (T81); which statistic, null and weight is open; findings against the rows in the file |
 | O19 | proof; premise sort | What growth of signal makes L11 attainable? T41: divergent total energy is not enough for any estimator; B19: the literature's rate is $\Delta_N/\sqrt N\to\infty$ (= T42, T53); L11 restated with it 7 Nov (Claude, provisional; G25). Open: the full type, the row's quantifiers, and (9 Nov) that the rate holds only beside a law that keeps its null tilt |
 | O16 | fork (input, Claude's sort) | Errors shared across readings have no slot in the type. On the robot: the static rows show a real 1.15° force–IMU misalignment, but neither it nor a lever arm explains the miss, and the white budget is understated 2–19× by autocorrelated samples (28 Oct). Next: the budget from calibration-side data and the rerun (briefed), then the slot |
 | L13, L18 | ruling | Confirm "the noise model is forced Gaussian, the data need not be"; is the subspace an input? |
@@ -522,6 +542,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-23 (Claude, later): harvested from `explore/e14-ours34-walls` and checked: T81 (its E14-1, E14-2: the point), `tests/test_curve_point.py` (14).
+  Pointers in `GOAL.md` §5 row 1, `definition/proof.md` G6, `definition/type.md`, T73 (one sentence corrected), O2, O20 (a 23 Nov section);
+  one question in `definition/bounds.md`; B28 struck as delivered; board row for E14. Then T77 (6) (its E14-3: what is carried past one
+  instrument), `tests/test_carried_state.py` (3). On branch `claude/intake-2026-11-23`.
 
 - 2026-11-23 (Claude): the record corrected, nothing harvested. E13 insights 11–13 (mass as a symmetric tensor, pushed 22 Nov 12:51)
   were missing from the 22 Nov harvest table and are listed as left on the branch (`problems/O20.md`); a board row for

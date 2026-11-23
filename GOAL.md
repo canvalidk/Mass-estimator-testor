@@ -99,7 +99,7 @@ Every probe, what it was, what broke it. The breaker is the find: a premise that
 
 | # | candidate | date | what it was | what killed it |
 |---|---|---|---|---|
-| 1 | Deming best point | 1 Aug | errors-in-variables profile minimiser; the positive root of the quadratic | boundary-seeking: argmin at 0 or ∞ for any zero reading, and the positive root is the profile's *maximum* for anti-aligned data (Sept 2 audit). Fails L5 and L14 by type (a mode) |
+| 1 | Deming best point | 1 Aug | errors-in-variables profile minimiser; the positive root of the quadratic | boundary-seeking: argmin at 0 or ∞ for any zero reading, and the positive root is the profile's *maximum* for anti-aligned data (Sept 2 audit). Fails L5 and L14 by type (a mode). **23 Nov (T81):** that last clause holds for laws pushed forward; under T74's composition of curves the least composes exactly, and asked of the point that composition forces it. It still goes to an end: on one instrument exactly when $\sum\mathbf F\!\cdot\mathbf a\le0$ |
 | 2 | median with excitation model | 27 Aug | median of the induced mass under an excitation model and a mass prior | needed an excitation model and a mass prior the type does not carry; superseded by integrating over the compatible-pair law (spec d1 §23) |
 | 3 | spec d1 / ratio of means with gate | 30 Aug | integrate over compatible pairs under the flat measure; point E[f]/E[α]; absolute compatibility gate Q_crit = 9 | the gate: Newton II is a premise, not tested (R-2026-09-07-1); the readout form survived into ours21 |
 | 4 | ours21 | 21 Sept | the equation spec with code; flat magnitudes, uniform direction; 1D = Liseo's flat posterior, positive part | the measure: axis splitting warrants a different joint law in 1D and 3D (2D identical) → ours24 |
