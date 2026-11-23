@@ -104,7 +104,8 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   alternative is truth on average over a starting law, which is the law-and-point output. The set has four shapes decided
   by which channel can be told from zero and moves continuously between them. `definition/type.md` carries both outputs,
   the old one kept; `definition/proof.md` G28 is sorted, provisional. Which set is still open (`../problems/O20.md`).
-- **Left on the branches:** E13 insights 5 (superseded by its own 8) and 10 (a case study); the rest of E12, about forty
+- **Left on the branches:** E13 insights 5 (superseded by its own 8), 10 (a case study) and 11–13 (mass as a symmetric
+  tensor; missed on 22 Nov); all of `explore/e14-ours34-walls` (22 Nov night; not checked); the rest of E12, about forty
   notes read in summary only (`../problems/O20.md` lists them). Board: `../explore/README.md`.
 
 **Since 17 Nov** (briefs B21–B27 merged as delivered; read one at a time, in the order B25, B24, B21, B27, B26, B22, B23):
@@ -521,6 +522,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-23 (Claude): the record corrected, nothing harvested. E13 insights 11–13 (mass as a symmetric tensor, pushed 22 Nov 12:51)
+  were missing from the 22 Nov harvest table and are listed as left on the branch (`problems/O20.md`); a board row for
+  `explore/e14-ours34-walls` (not checked). The numbers in the 22 Nov section on the two zero-padding endpoints reproduced by hand.
+  Suite on this branch: 3045 passed; the fourteen test files new since 17 Nov with the slow ones on: 208 passed.
 
 - 2026-11-22 (Antigravity, with Can): recorded in `problems/O20.md` (cross-linked in `problems/O2.md`) the two `0/0`-padding
   fixed-point endpoints (`T10`'s noise-angle circular mean vs. `B11`'s $\arg\min_{m>0}K(m)$) and the tropical-composition
