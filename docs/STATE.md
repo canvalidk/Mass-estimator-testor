@@ -76,8 +76,12 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   are not checked.
 - **On the board, read in full, not harvested:** E15 (uniqueness of the score set among tests that read only the
   curve), E17 (combining in any order; the point under errors that are not Gaussian), E18 (a weighting from dropping
-  the Gaussian shape). Three of the four lean on "a reading equals its equal parts", which they label L17 and which is
-  not L17 as the premise list has it; that is sorted before anything built on it is taken.
+  the Gaussian shape). Three of the four lean on "a reading equals its equal parts", which they label L17.
+- **That premise sorted, provisional (Claude; `../problems/O20.md`, 24 Nov):** for the point it is L17 and stands; for the
+  set it is not a premise. It is the property dropped on 30 Sept (the law carries its own uncertainty) carried to the
+  curve, and on main's own results it is equivalent to having no discount. A real window cut into 50 moves the Gaussian
+  rule's own point and widens its set by a fifth, so how readings are cut is an input on every line. E15's uniqueness is
+  therefore a conditional, and its useful half is that a weighting must read something the curve does not hold.
 
 **Since 24 Nov (later, Antigravity at Can's request; R-2026-11-24-1; the probe checked by Claude that afternoon, above):**
 
@@ -599,6 +603,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-24, later (Claude): "same curve, same result" sorted in `problems/O20.md` (a 24 Nov section); notes in `definition/premises.md` (L17),
+  T82 (1), `definition/bounds.md`, O18, the board; `tests/test_same_curve_same_result.py` (2).
 
 - 2026-11-24, afternoon (Claude): on `claude/intake-2026-11-24`, started from `pr/l25-ours35` as delivered (R-2026-11-24-1, L25, `met/ours35.py`).
   R-2026-11-24-2 and R-2026-11-24-3 recorded; `definition/bounds.md` (one line on type safety; one question answered, one restated);

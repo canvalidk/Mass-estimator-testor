@@ -69,7 +69,8 @@ line is kept struck, as a premise would be.
   behind the readout (R-2026-09-27-1).
 - The result must stay a true statement on noise: if the point wanders on a null series the quoted
   uncertainty grows with it (property N, R-2026-09-29-4); the law does not carry its own uncertainty,
-  the noise measure lives beside it (R-2026-09-30-3); the quoted width is what a result is judged on
+  the noise measure lives beside it (R-2026-09-30-3; so "same curve, same result" holds for the point and
+  is not asked of the width: `../problems/O20.md`, 24 Nov); the quoted width is what a result is judged on
   (R-2026-09-30-7); a 0/0 result enters combination with weight zero, as physicists already combine
   (R-2026-09-29-3). That is about 0/0, exact zeros. It does not say that readings of pure noise leave a
   result untouched; they do move it (T77), and nothing here asks otherwise (Can, 22 Nov: "noise only
