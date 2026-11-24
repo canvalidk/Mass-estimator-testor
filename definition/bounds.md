@@ -49,6 +49,12 @@ line is kept struck, as a premise would be.
   out however well it covers (ours28).
 - Not on the choice of axes, frames or sign conventions: bookkeeping cannot matter
   (R-2026-09-27-4, R-2026-09-28-3).
+- Not on a regime the readings cannot certify. A rule whose validity depends on which values come in
+  is not type safe: "if it depends on the answer, we need checks to make sure, and that defeats type
+  safety" (R-2026-11-24-3). So no finite interval behind a check for a signal (T80 (6)), and no
+  estimator chained from estimators each tuned to a range of the mass, "that seems to go beyond even
+  what is theoretically possible" (Hodges' estimator; Le Cam). A rule that branches on a value and is
+  valid on every input, like a cap at 1, is not that.
 - Not on an unverifiable cap or convenience: "why would the definition of mass depend on an
   assumption like g < 1" (R-2026-11-01-1). A property that is not a property of mass has no claim
   on the body by being agreed to.
@@ -73,13 +79,17 @@ line is kept struck, as a premise would be.
   compatible, it really doesn't matter what you return right?" The uncertainty quoted is a true statement
   for every true mass, so it is a set that can be unbounded; an interval that is always finite cannot
   "run to be of infinite size fast enough" (R-2026-11-22-2; T80). The alternative reading, true on
-  average over a starting law, needs the starting law to be a fact about the object.
+  average over a starting law, needs the starting law to be a fact about the object. A normalised law
+  with a finite interval "doesn't work" (R-2026-11-24-3).
 - The readings are evidence, just less: a misaligned reading is not a mistake to fix, not a reason
   to doubt the σ's, and not a verdict on Newton II; under the declared σ's it is possible, only
   unlikely, and its direction still says something (R-2026-09-07-1, R-2026-09-28-1, R-2026-09-29-8,
   R-2026-10-30-1). No gate. "Less" is not a change to σ: "There should be, simultaneously, a way to
   change the resulting confidence, without interpreting that as changing sigma"; g and η "were there to
-  ultimately find this value. How much do we believe the result less" (R-2026-11-17-3). "Extreme
+  ultimately find this value. How much do we believe the result less" (R-2026-11-17-3). The same
+  mathematics as "the noise was larger by an unknown factor" is a weight on the result, and reading it
+  as a change to σ is the mistake: "changing sigma vs weighting sigma are the same… We are allowed to
+  weight it" (R-2026-11-24-2; Claude made that mistake twice on 24 Nov). "Extreme
   answers are what we are trying to handle" (R-2026-11-17-1): handling them is the job.
 
 ## How the deductions are made
@@ -101,7 +111,8 @@ line is kept struck, as a premise would be.
   can be unbounded. Sorted to the second, provisional. The question as first asked:) Is a declared shape of π something the definition may take as an input (a branch cut), or a
   choice the function makes (an alternative mechanics)? Its influence vanishes at strong signal and
   the readings cannot decide it, which is the branch-cut test; but no physicist declares one
-  (O6, G9/G8).
+  (O6, G9/G8). 24 Nov (R-2026-11-24-3): "I think the old way doesn't work", for the finite interval;
+  the horn "true on average over a starting law" is closed by T80's sort, which stays Claude's.
 - Is "no knowledge of the object" part of what the definition promises, i.e. is the default centre
   of π fixed by the instruments alone (L3′), or is any centre an input (O11)?
 - May the point price a null reading in (his 27 Sept position) or must it leave the point alone as
@@ -111,14 +122,22 @@ line is kept struck, as a premise would be.
   (T78 (6); `../problems/O20.md`). **23 Nov, deduced, provisional (Claude; `../problems/O14.md`):** at least. A discount is
   asked for (R-2026-11-17-3) and none can be exact at every level of disagreement. (24 Nov: at a fixed number of
   readings. The joined test of T82 tends to the stated level as readings are added.)
-- Is a result that is right at every level of disagreement and wider than the declared Gaussian calls for
-  "believing the σ", or a change to σ in the sense of 17 Nov (`../problems/O20.md`; T75 (5), (6))?
-  **24 Nov, the same question with what each answer forces (T82):** is the stated level promised only if the
-  noise was as declared, or also if it was larger by one unknown common factor? Only as declared: the bell is
-  already exact at 5 and 6 (± 0.14), a discount is extra width, and nothing fixes how much. Also if larger:
-  the discount is forced and unique (Student's test joined with the bell); two scalar readings at 5.5 and 5.6
-  come out as 5.55 ± 0.64; and small readings count as evidence about the size of the noise. Deduced,
-  provisional (Claude): the second, because R-2026-11-17-3 asks for a discount and a definition has one body.
+- ~~Is a result that is right at every level of disagreement and wider than the declared Gaussian calls for
+  "believing the σ", or a change to σ in the sense of 17 Nov (`../problems/O20.md`; T75 (5), (6))?~~
+  Answered 24 Nov (R-2026-11-24-2): it is believing the σ and weighting the result; the weighting is allowed.
+- In which situations must the statement beside a result stay true: only if the noise was as declared, or
+  also if it was larger by one unknown common factor? (24 Nov; T82.) Only as declared: the bell is already
+  exact at 5 and 6 (± 0.14), a discount is extra width, and nothing fixes how much. Also if larger: the
+  discount is forced and unique (Student's test joined with the bell), and two scalar readings at 5.5 and
+  5.6 come out as 5.55 ± 0.64, three times wider than either reading alone. His two scenes as he gave them
+  (the agreeing pair at about ± 0.14, the disagreeing pair wider) are the 18 Nov pair weight, which nothing
+  forces. If the statement is promised under larger noise, that weight, and the rule of T82 (6), lean on a
+  check the readings cannot certify (that the noise was as declared) in the sense of R-2026-11-24-3, and
+  fall short there (T82 (6), (7)). Claude's sort of the morning of 24 Nov (the second, "because R-2026-11-17-3 asks
+  for a discount and a definition has one body") is in doubt since that afternoon: ± 0.64 on an agreeing
+  pair reads as not taking σ at its word. Put to him twice on 24 Nov as "is an agreeing pair taken at σ's
+  word, or is ± 0.64 acceptable there?"; "clearly thte confidence does need to stay true" does not say in
+  which situations. Not answered.
 - Is a returned zero or infinite mass "a mass"? If the computed lump's point is the sum of the parts'
   points, the point of a body that did not move is infinite, and no positive value can stand in for it
   (T81 (5)). On one instrument this happens whenever the summed $\mathbf F\!\cdot\mathbf a$ is not positive: half of

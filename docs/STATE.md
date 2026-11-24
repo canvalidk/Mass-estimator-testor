@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-24, by Antigravity at Can's request (24 Nov, later, not yet checked by Claude: R-2026-11-24-1 adds `L25` order- and grouping-independent combination to `definition/premises.md`, takes `met/ours35.py` and `tests/test_ours35.py` across as a Door A1 probe beside `ours33`/`ours34`, and adds `E15`/`E16` board rows; `definition/equation.md` and `met/ours33.py` unchanged). Prior update: 2026-11-24, by Claude (23 Nov: T81: the point read off the curve, harvested from exploration E14 and checked; composition at the point and the point's range sorted, provisional; T77 (6): the curve alone is not enough past one instrument; `met/ours34.py` taken across as a probe; the equation the work is at unchanged. 24 Nov: T82, the discount under one unknown common scale, from E14-5 to E14-7, checked. 22 Nov: R-2026-11-22-2 and T80: where every mass is compatible the point's value does not matter (one is still returned, for type safety), and a true statement for every true mass has to be a set that can be unbounded, which sorts G28, provisional. R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4 and 6–9 harvested and checked as T73–T76, exploration E2 as T77, E12's scalar proof and signed ranks as T78 and T79; `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
+**Last updated:** 2026-11-24, afternoon, by Claude (R-2026-11-24-2: weighting a result is allowed and is not a change to σ; the version without it is an experiment. R-2026-11-24-3: a rule that depends on a regime the readings cannot certify is not type safe; T80 (6). `met/ours35.py` checked against main's code. Explorations E15–E18 read in full, on the board, not harvested). Before that: 2026-11-24, by Antigravity at Can's request (24 Nov, later, not yet checked by Claude: R-2026-11-24-1 adds `L25` order- and grouping-independent combination to `definition/premises.md`, takes `met/ours35.py` and `tests/test_ours35.py` across as a Door A1 probe beside `ours33`/`ours34`, and adds `E15`/`E16` board rows; `definition/equation.md` and `met/ours33.py` unchanged). Prior update: 2026-11-24, by Claude (23 Nov: T81: the point read off the curve, harvested from exploration E14 and checked; composition at the point and the point's range sorted, provisional; T77 (6): the curve alone is not enough past one instrument; `met/ours34.py` taken across as a probe; the equation the work is at unchanged. 24 Nov: T82, the discount under one unknown common scale, from E14-5 to E14-7, checked. 22 Nov: R-2026-11-22-2 and T80: where every mass is compatible the point's value does not matter (one is still returned, for type safety), and a true statement for every true mass has to be a set that can be unbounded, which sorts G28, provisional. R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4 and 6–9 harvested and checked as T73–T76, exploration E2 as T77, E12's scalar proof and signed ranks as T78 and T79; `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -56,7 +56,30 @@ Two rungs the proof leans on are not fixed in VD-Newton: R3 (persistence, lumpin
 is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, still say "carried from the records"
 (G15). The holes are typed in `definition/proof.md` §5, and that table is the queue.
 
-**Since 24 Nov (later, Antigravity at Can's request; R-2026-11-24-1; not yet checked by Claude):**
+**Since 24 Nov, afternoon (Claude; R-2026-11-24-2, R-2026-11-24-3; on branch `claude/intake-2026-11-24`):**
+
+- **The weighting is allowed (R-2026-11-24-2).** "Changing sigma vs weighting sigma are the same… We are allowed to
+  weight it." T82's rule is a weight on the result, not a revision of a σ; the question kept in
+  `../definition/bounds.md` since 22 Nov is answered. The version of the output without a weighting (explorations E15,
+  E16; `met/ours35.py`) is an experiment, and Can reads it as having reached a natural end. What is still open: which
+  weight, and whether a pair that agrees is taken at σ's word (± 0.14 or T82's ± 0.64 on 5.5 and 5.6).
+- **A rule that depends on a regime the readings cannot certify is not type safe (R-2026-11-24-3; T80 (6)).** Can's
+  argument against the old output: a finite interval is right where there is a signal, something else is needed where
+  there is not, and switching by the readings "defeats type safety". Measured on one scalar reading at a true mass of
+  10: the textbook interval behind a check on the acceleration holds the true mass in as few as 0.85, 0.89, 0.93 of
+  series for a check at 1.96, 3, 5 σ, where 0.95 is stated; the curve's set holds it in 0.95 at every signal with no
+  check. The same principle forbids an estimator chained from estimators tuned to ranges of the mass (Hodges).
+  A switch that never leans on the check is type safe and is excluded by uniqueness (Claude's reading).
+- **ours35 checked against main's code** (`../tests/test_ours35_against_main.py`): curve, score, point, leftover and
+  kept set agree on the full type. On readings with force against acceleration its set leaves out its own point and
+  keeps only the mass the curve is highest at (recomputed on main's code; T81, "What is not shown"). Its two-body sets
+  are not checked.
+- **On the board, read in full, not harvested:** E15 (uniqueness of the score set among tests that read only the
+  curve), E17 (combining in any order; the point under errors that are not Gaussian), E18 (a weighting from dropping
+  the Gaussian shape). Three of the four lean on "a reading equals its equal parts", which they label L17 and which is
+  not L17 as the premise list has it; that is sorted before anything built on it is taken.
+
+**Since 24 Nov (later, Antigravity at Can's request; R-2026-11-24-1; the probe checked by Claude that afternoon, above):**
 
 - **`L25` added to `definition/premises.md`:** order- and grouping-independent combination (weak reading-order
   invariance ruled 24 Nov; strong associative/commutative block-combination clause with `0/0` identity proposed by
@@ -65,8 +88,8 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   pure-stdlib full-type implementation of Door A1 beside `ours33` and `ours34` (`definition/equation.md` unchanged;
   `problems/O18.md`): believed Gaussian $\Sigma_i$, no $\pi$, no $\nu_{\rm eff}$, no discount, pure additive `(K, C)`
   monoid state with zero hidden `M`/`M_nz`, `T81` point, exact `T45` set, pure `K_min` leftover, `T1` exact branch, and
-  curve-pair `L5`/`L14` composition. Its 12 pure-stdlib checks pass; not yet cross-checked by Claude against `main`'s
-  `met.evidence` / `met.conditional_score`.
+  curve-pair `L5`/`L14` composition. Its 12 pure-stdlib checks pass; cross-checked by Claude against `main`'s
+  `met.evidence` / `met.conditional_score` the same afternoon (above).
 - **Left on `explore/e15-door-a-uniqueness` for Claude's independent check and harvest:** Theorems `E15-1`–`E15-3`
   (Laguerre–UMPU uniqueness of `T45` under Door A, `Z-GCLR` rejection of `T81`'s point, `M_nz`-`GCLR` breaks at `0/0`
   and `L17`, `T81` boundary-end inclusion answer) and the full `definition/proof.md` (`G1`–`G29`) audit under Door A.
@@ -576,6 +599,11 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-24, afternoon (Claude): on `claude/intake-2026-11-24`, started from `pr/l25-ours35` as delivered (R-2026-11-24-1, L25, `met/ours35.py`).
+  R-2026-11-24-2 and R-2026-11-24-3 recorded; `definition/bounds.md` (one line on type safety; one question answered, one restated);
+  T80 (6) with six tests in `tests/test_unbounded_sets.py`; pointers in T82 and T81; `tests/test_ours35_against_main.py` (3); O18;
+  board rows for E17 and E18 and notes on E15 and E16. Nothing harvested from E15, E17 or E18 beyond one recomputed result (T81).
 
 - 2026-11-24 (Claude): after Antigravity's review of the 23 Nov intake (relayed by Can): E14-5, E14-6, E14-7 harvested and checked as T82,
   `tests/test_common_scale_discount.py` (11); a 24 Nov section in O14 (its 23 Nov section moved after the 22 Nov one, item 8 restated); T76 and T77 notes;

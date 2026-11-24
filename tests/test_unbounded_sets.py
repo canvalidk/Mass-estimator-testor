@@ -70,3 +70,75 @@ def test_an_always_finite_interval_is_wrong_about_large_masses_when_there_is_no_
         kept_large += conditional_test(series, 1e4, draws=199, seed=rep)["p_value"] > 0.05
     assert small / reps > 0.9 and large == 0
     assert kept_large / reps == pytest.approx(0.95, abs=0.04)
+
+
+# T80 (6), 24 Nov (R-2026-11-24-3): a rule that is valid only where there is a signal, behind a
+# check on the readings. One scalar reading, unit sigmas, true mass 10 (ten times the instruments'
+# ratio), true acceleration `signal` noise units. The textbook rule is F/a with the propagated
+# error, sigma_m/m = sqrt((sigma_F/F)^2 + (sigma_a/a)^2), at 1.96. The switched rule returns that
+# interval when the measured acceleration is more than `threshold` sigma from zero and every
+# positive mass otherwise.
+
+SIGNALS = (0.0, 0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 12.0)
+
+
+def _one_reading_worlds(mass, signal, seed, n=200_000):
+    rng = np.random.default_rng(seed)
+    return mass * signal + rng.normal(size=n), signal + rng.normal(size=n)
+
+
+def _textbook_holds(force, acceleration, mass):
+    estimate = force / acceleration
+    half = 1.96 * np.abs(estimate) * np.sqrt(1.0 / force ** 2 + 1.0 / acceleration ** 2)
+    return np.abs(estimate - mass) <= half
+
+
+def test_the_textbook_interval_is_right_only_where_there_is_a_signal():
+    held = {}
+    for signal in SIGNALS:
+        f, a = _one_reading_worlds(10.0, signal, seed=8060 + int(10 * signal))
+        held[signal] = _textbook_holds(f, a, 10.0).mean()
+    assert held[0.0] == pytest.approx(0.31, abs=0.01)             # no signal: right 31% of the time
+    assert held[2.0] == pytest.approx(0.888, abs=0.005)
+    assert held[12.0] == pytest.approx(0.950, abs=0.003)          # strong signal: it works
+    values = [held[s] for s in SIGNALS]
+    assert all(b > a - 0.004 for a, b in zip(values, values[1:]))  # and it gets there gradually
+
+
+@pytest.mark.parametrize("threshold,worst,at_signal", [(1.96, 0.845, 1.0), (3.0, 0.889, 2.0), (5.0, 0.926, 4.0)])
+def test_a_check_on_the_readings_lets_through_the_series_the_rule_is_wrong_on(threshold, worst, at_signal):
+    # The textbook interval misses a large mass when the acceleration was read too HIGH (the mass
+    # comes out too small, with too small an error). Those readings pass any "is the acceleration
+    # far enough from zero" check. So the switched rule's worst case is close to the textbook
+    # rule's own value at that signal (equal to it for the two higher thresholds); a higher
+    # threshold moves where the worst case is and does not remove it.
+    lowest, where = 1.0, None
+    for signal in SIGNALS:
+        f, a = _one_reading_worlds(10.0, signal, seed=8061 + int(10 * signal))
+        held = np.where(np.abs(a) > threshold, _textbook_holds(f, a, 10.0), True).mean()
+        if held < lowest:
+            lowest, where = held, signal
+    assert where == at_signal
+    assert lowest == pytest.approx(worst, abs=0.006) and lowest < 0.93
+
+
+def test_among_the_series_that_pass_the_check_the_rule_can_be_wrong_every_time():
+    # true acceleration 3 sigma, check at 5 sigma: 2.3% of series pass, each with the acceleration
+    # read at least 2 sigma too high, and the textbook interval holds the true mass in none of them
+    f, a = _one_reading_worlds(10.0, 3.0, seed=8062, n=400_000)
+    passed = np.abs(a) > 5.0
+    assert passed.mean() == pytest.approx(0.0228, abs=0.002)
+    assert _textbook_holds(f, a, 10.0)[passed].mean() < 0.002
+
+
+def test_the_curves_set_is_right_at_its_level_at_every_signal_with_no_check():
+    # the curve of one scalar reading at unit sigmas is (F - m a)^2 / (1 + m^2) (checked against
+    # met.evidence on a few readings); cut at the 95% threshold it holds the true mass in 95% of
+    # series at every signal, and it is the same rule at every signal
+    rng = np.random.default_rng(8063)
+    for _ in range(5):
+        f, a, m = rng.normal(scale=4.0), rng.normal(scale=4.0), float(rng.uniform(0.2, 20.0))
+        assert Curve([isotropic([f], [a], 1.0, 1.0)])(m) == pytest.approx((f - m * a) ** 2 / (1.0 + m * m), rel=1e-9, abs=1e-9)
+    for signal in SIGNALS:
+        f, a = _one_reading_worlds(10.0, signal, seed=8064 + int(10 * signal))
+        assert ((f - 10.0 * a) ** 2 / 101.0 <= CUT).mean() == pytest.approx(0.95, abs=0.003)
