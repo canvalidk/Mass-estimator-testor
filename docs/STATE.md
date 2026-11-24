@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-24, afternoon, by Claude (R-2026-11-24-2: weighting a result is allowed and is not a change to σ; the version without it is an experiment. R-2026-11-24-3: a rule that depends on a regime the readings cannot certify is not type safe; T80 (6). `met/ours35.py` checked against main's code. Explorations E15–E18 read in full, on the board, not harvested). Before that: 2026-11-24, by Antigravity at Can's request (24 Nov, later, not yet checked by Claude: R-2026-11-24-1 adds `L25` order- and grouping-independent combination to `definition/premises.md`, takes `met/ours35.py` and `tests/test_ours35.py` across as a Door A1 probe beside `ours33`/`ours34`, and adds `E15`/`E16` board rows; `definition/equation.md` and `met/ours33.py` unchanged). Prior update: 2026-11-24, by Claude (23 Nov: T81: the point read off the curve, harvested from exploration E14 and checked; composition at the point and the point's range sorted, provisional; T77 (6): the curve alone is not enough past one instrument; `met/ours34.py` taken across as a probe; the equation the work is at unchanged. 24 Nov: T82, the discount under one unknown common scale, from E14-5 to E14-7, checked. 22 Nov: R-2026-11-22-2 and T80: where every mass is compatible the point's value does not matter (one is still returned, for type safety), and a true statement for every true mass has to be a set that can be unbounded, which sorts G28, provisional. R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4 and 6–9 harvested and checked as T73–T76, exploration E2 as T77, E12's scalar proof and signed ranks as T78 and T79; `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
+**Last updated:** 2026-11-24, evening, by Claude (exploration E17 harvested and checked as T83, what combining in any order forces on what is carried, and T84, the point under errors that are not Gaussian and on the whole arc; "same curve, same result" sorted as not a premise for the set, `problems/O20.md`). Afternoon, by Claude (R-2026-11-24-2: weighting a result is allowed and is not a change to σ; the version without it is an experiment. R-2026-11-24-3: a rule that depends on a regime the readings cannot certify is not type safe; T80 (6). `met/ours35.py` checked against main's code. Explorations E15–E18 read in full, on the board, not harvested). Before that: 2026-11-24, by Antigravity at Can's request (24 Nov, later, not yet checked by Claude: R-2026-11-24-1 adds `L25` order- and grouping-independent combination to `definition/premises.md`, takes `met/ours35.py` and `tests/test_ours35.py` across as a Door A1 probe beside `ours33`/`ours34`, and adds `E15`/`E16` board rows; `definition/equation.md` and `met/ours33.py` unchanged). Prior update: 2026-11-24, by Claude (23 Nov: T81: the point read off the curve, harvested from exploration E14 and checked; composition at the point and the point's range sorted, provisional; T77 (6): the curve alone is not enough past one instrument; `met/ours34.py` taken across as a probe; the equation the work is at unchanged. 24 Nov: T82, the discount under one unknown common scale, from E14-5 to E14-7, checked. 22 Nov: R-2026-11-22-2 and T80: where every mass is compatible the point's value does not matter (one is still returned, for type safety), and a true statement for every true mass has to be a set that can be unbounded, which sorts G28, provisional. R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4 and 6–9 harvested and checked as T73–T76, exploration E2 as T77, E12's scalar proof and signed ranks as T78 and T79; `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -56,6 +56,21 @@ Two rungs the proof leans on are not fixed in VD-Newton: R3 (persistence, lumpin
 is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, still say "carried from the records"
 (G15). The holes are typed in `definition/proof.md` §5, and that table is the queue.
 
+**Since 24 Nov, evening (Claude; exploration E17 harvested and checked; on branch `claude/intake-2026-11-24`):**
+
+- **T83: what combining results in any order forces on what is carried** (E17, part I). If the result is one curve
+  joined mass by mass, curves add (Aczél). The strong clause of L25 does not by itself exclude a normalised law: with
+  one fixed starting law, laws join in any order too. A count of readings cannot be carried continuously through a zero
+  reading; the scale-free test on scalar readings shows it (0.0625 to 0.031 beside a reading 0.001 σ in size). A
+  weighting has to carry one of three things: a count (not continuous beside a zero reading), a further sum that is
+  not quadratic (a reading no longer equals its equal parts, which is no premise), or the readings themselves. A
+  reading, not a theorem.
+- **T84: the point under errors that are not Gaussian, and on the whole arc** (E17, part II). With the declared
+  covariance and fourth moments the curve's least keeps L11's rate on the full type, over every mass from zero to
+  infinity; the Gaussian shape is not used. That writes two clauses the head of `../definition/proof.md` listed as
+  missing. Without fourth moments the threshold is higher. On the whole arc a far instrument's noise-only readings can
+  carry the least away while B27's weighted condition holds; L11 as restated is not touched.
+
 **Since 24 Nov, afternoon (Claude; R-2026-11-24-2, R-2026-11-24-3; on branch `claude/intake-2026-11-24`):**
 
 - **The weighting is allowed (R-2026-11-24-2).** "Changing sigma vs weighting sigma are the same… We are allowed to
@@ -75,8 +90,7 @@ is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, stil
   keeps only the mass the curve is highest at (recomputed on main's code; T81, "What is not shown"). Its two-body sets
   are not checked.
 - **On the board, read in full, not harvested:** E15 (uniqueness of the score set among tests that read only the
-  curve), E17 (combining in any order; the point under errors that are not Gaussian), E18 (a weighting from dropping
-  the Gaussian shape). Three of the four lean on "a reading equals its equal parts", which they label L17.
+  curve) and E18 (a weighting from dropping the Gaussian shape). E17 was harvested that evening (above). Three of the four lean on "a reading equals its equal parts", which they label L17.
 - **That premise sorted, provisional (Claude; `../problems/O20.md`, 24 Nov):** for the point it is L17 and stands; for the
   set it is not a premise. It is the property dropped on 30 Sept (the law carries its own uncertainty) carried to the
   curve, and on main's own results it is equivalent to having no discount. A real window cut into 50 moves the Gaussian
@@ -603,6 +617,10 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-24, evening (Claude): exploration E17 harvested and checked as T83 and T84; `tests/test_combining_in_any_order.py` (4),
+  `tests/test_point_under_other_errors.py` (5, and 3 slow), `tools/point_under_other_errors.py`. Rows: L25 and L11 in `GOAL.md`, L25 in
+  `definition/premises.md`, the consistency clause and G25 in `definition/proof.md`, a section in O19, notes in T75 and T81, O20, the board.
 
 - 2026-11-24, later (Claude): "same curve, same result" sorted in `problems/O20.md` (a 24 Nov section); notes in `definition/premises.md` (L17),
   T82 (1), `definition/bounds.md`, O18, the board; `tests/test_same_curve_same_result.py` (2).
