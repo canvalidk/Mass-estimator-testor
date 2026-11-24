@@ -109,9 +109,16 @@ line is kept struck, as a premise would be.
 - On identifying series, is the quoted width asked to cover exactly at its level in the limit, or at least at
   its level? The first rules out a persistent widening when readings disagree; the second allows it
   (T78 (6); `../problems/O20.md`). **23 Nov, deduced, provisional (Claude; `../problems/O14.md`):** at least. A discount is
-  asked for (R-2026-11-17-3) and none can be exact at every level of disagreement.
+  asked for (R-2026-11-17-3) and none can be exact at every level of disagreement. (24 Nov: at a fixed number of
+  readings. The joined test of T82 tends to the stated level as readings are added.)
 - Is a result that is right at every level of disagreement and wider than the declared Gaussian calls for
   "believing the σ", or a change to σ in the sense of 17 Nov (`../problems/O20.md`; T75 (5), (6))?
+  **24 Nov, the same question with what each answer forces (T82):** is the stated level promised only if the
+  noise was as declared, or also if it was larger by one unknown common factor? Only as declared: the bell is
+  already exact at 5 and 6 (± 0.14), a discount is extra width, and nothing fixes how much. Also if larger:
+  the discount is forced and unique (Student's test joined with the bell); two scalar readings at 5.5 and 5.6
+  come out as 5.55 ± 0.64; and small readings count as evidence about the size of the noise. Deduced,
+  provisional (Claude): the second, because R-2026-11-17-3 asks for a discount and a definition has one body.
 - Is a returned zero or infinite mass "a mass"? If the computed lump's point is the sum of the parts'
   points, the point of a body that did not move is infinite, and no positive value can stand in for it
   (T81 (5)). On one instrument this happens whenever the summed $\mathbf F\!\cdot\mathbf a$ is not positive: half of

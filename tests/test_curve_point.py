@@ -2,7 +2,7 @@
 
 Harvested 23 Nov 2026 from the exploration branch `explore/e14-ours34-walls` (Antigravity with Can,
 22 Nov; its Theorems E14-1 and E14-2) and checked here on met.evidence, which shares no code with
-that branch. Nothing in this file adopts a point: `met/` and `definition/equation.md` are unchanged.
+that branch. Nothing in this file adopts a point: `definition/equation.md` and `met/ours33.py` are unchanged.
 """
 import math
 

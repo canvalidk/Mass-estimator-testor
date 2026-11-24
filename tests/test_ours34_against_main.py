@@ -44,7 +44,8 @@ def test_on_two_scalar_readings_ours34_widens_the_agreeing_pair_too():
     """Can's two scenes of 17 Nov as he gave them: two scalar readings of one mass, each +- 0.1.
     The near pair (5.5, 5.6), which he called convincing, is kept as 4.91 to 6.19, where the
     declared Gaussian gives 5.41 to 5.69. The far pair (5, 6) is kept from 0 to 11.85, with a
-    second piece at very large masses. A finding against R-2026-11-17-3's near scene."""
+    second piece at very large masses. E14's own table has the near interval (4.917 to 6.181); read against
+    scene A of R-2026-11-17-3 by Claude. Forced under one unknown common scale (T82 (4), (6))."""
     from met.ours34 import scalar
     near = ours34([scalar(5.5, 1.0, 0.1, 1e-6), scalar(5.6, 1.0, 0.1, 1e-6)])
     assert near["point"] == pytest.approx(5.55, abs=1e-6)

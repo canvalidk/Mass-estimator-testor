@@ -52,7 +52,7 @@ and which point where the value does matter, are open (`../problems/O20.md`).
 
 **23 Nov (T81; provisional).** The point sorted for this output is the mass at which the curve is least,
 on the closed arc: zero and infinite mass are possible values (a body that was not pushed, a body that
-did not move). Not in `met/`.
+did not move). Not in the equation the work is at; the probe `met/ours34.py` returns it.
 
 ## Not this function
 
