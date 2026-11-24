@@ -1,6 +1,6 @@
 # State of the mass estimator
 
-**Last updated:** 2026-11-24, by Claude (23 Nov: T81: the point read off the curve, harvested from exploration E14 and checked; composition at the point and the point's range sorted, provisional; T77 (6): the curve alone is not enough past one instrument; `met/ours34.py` taken across as a probe; the equation the work is at unchanged. 24 Nov: T82, the discount under one unknown common scale, from E14-5 to E14-7, checked. 22 Nov: R-2026-11-22-2 and T80: where every mass is compatible the point's value does not matter (one is still returned, for type safety), and a true statement for every true mass has to be a set that can be unbounded, which sorts G28, provisional. R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4 and 6–9 harvested and checked as T73–T76, exploration E2 as T77, E12's scalar proof and signed ranks as T78 and T79; `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
+**Last updated:** 2026-11-24, by Antigravity at Can's request (24 Nov, later, not yet checked by Claude: R-2026-11-24-1 adds `L25` order- and grouping-independent combination to `definition/premises.md`, takes `met/ours35.py` and `tests/test_ours35.py` across as a Door A1 probe beside `ours33`/`ours34`, and adds `E15`/`E16` board rows; `definition/equation.md` and `met/ours33.py` unchanged). Prior update: 2026-11-24, by Claude (23 Nov: T81: the point read off the curve, harvested from exploration E14 and checked; composition at the point and the point's range sorted, provisional; T77 (6): the curve alone is not enough past one instrument; `met/ours34.py` taken across as a probe; the equation the work is at unchanged. 24 Nov: T82, the discount under one unknown common scale, from E14-5 to E14-7, checked. 22 Nov: R-2026-11-22-2 and T80: where every mass is compatible the point's value does not matter (one is still returned, for type safety), and a true statement for every true mass has to be a set that can be unbounded, which sorts G28, provisional. R-2026-11-22-1: the E13 direction is pursued on main by harvesting; `problems/O20.md` opened; E13 insights 1–4 and 6–9 harvested and checked as T73–T76, exploration E2 as T77, E12's scalar proof and signed ranks as T78 and T79; `met/evidence.py`, `met/conditional_lr.py`; nothing on the law-and-point line changed. 21 Nov: O14's head: where the weighting stands and the step nothing derives; G29: ours33 fails the right-angle scene. O14, 18 Nov: readings at right angles, the leftover measured five ways, the signal-energy identity; no sort and no rule. 17 Nov: R-2026-11-17-3: the discount is the definition's to compute, σ believed; the sorts in O14; re-centred on ours33, R-2026-11-17-2; B21–B27 merged and all read: B25 checked, the others read with spot checks). Update this page in
 the same commit as any change it describes (see "Keeping this page true" at the end).
 
 This is the entry point. A newcomer, human or AI, should be able to read this page,
@@ -55,6 +55,21 @@ case study. ours33 stacks the last two and discounts the same improbability twic
 Two rungs the proof leans on are not fixed in VD-Newton: R3 (persistence, lumping) is unwritten and R5 (Newton III)
 is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, still say "carried from the records"
 (G15). The holes are typed in `definition/proof.md` §5, and that table is the queue.
+
+**Since 24 Nov (later, Antigravity at Can's request; R-2026-11-24-1; not yet checked by Claude):**
+
+- **`L25` added to `definition/premises.md`:** order- and grouping-independent combination (weak reading-order
+  invariance ruled 24 Nov; strong associative/commutative block-combination clause with `0/0` identity proposed by
+  Antigravity, provisional, not yet checked by Claude).
+- **`ours35` taken across as a Door A1 probe (`met/ours35.py`, `tests/test_ours35.py`; from `explore/e16-ours35-door-a`):**
+  pure-stdlib full-type implementation of Door A1 beside `ours33` and `ours34` (`definition/equation.md` unchanged;
+  `problems/O18.md`): believed Gaussian $\Sigma_i$, no $\pi$, no $\nu_{\rm eff}$, no discount, pure additive `(K, C)`
+  monoid state with zero hidden `M`/`M_nz`, `T81` point, exact `T45` set, pure `K_min` leftover, `T1` exact branch, and
+  curve-pair `L5`/`L14` composition. Its 12 pure-stdlib checks pass; not yet cross-checked by Claude against `main`'s
+  `met.evidence` / `met.conditional_score`.
+- **Left on `explore/e15-door-a-uniqueness` for Claude's independent check and harvest:** Theorems `E15-1`–`E15-3`
+  (Laguerre–UMPU uniqueness of `T45` under Door A, `Z-GCLR` rejection of `T81`'s point, `M_nz`-`GCLR` breaks at `0/0`
+  and `L17`, `T81` boundary-end inclusion answer) and the full `definition/proof.md` (`G1`–`G29`) audit under Door A.
 
 **Since 24 Nov** (the rest of that harvest, the discount; `../definition/theorems/T82.md`, `../problems/O14.md`, 24 Nov):
 
