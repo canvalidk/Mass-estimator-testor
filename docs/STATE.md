@@ -56,14 +56,16 @@ Two rungs the proof leans on are not fixed in VD-Newton: R3 (persistence, lumpin
 is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, still say "carried from the records"
 (G15). The holes are typed in `definition/proof.md` §5, and that table is the queue.
 
-**The fluke (Can, 24 Nov evening; R-2026-11-24-4): the logic of the discount.** The curve is the test. The cut is fixed
-by how sure the statement is to be, before the readings are seen. The kept set is never empty. So after the definition's
-adjustment some mass reaches zero. The law was not wrong, so where the raw curve reaches zero nowhere a fluke happened,
-and the readings' misalignment is a fact about its amount. That amount is computed from the readings, the masses with
-the least fluke are found once the fluke that had to exist is accounted for, and the amount weights how reliable the
-result is. The aim: the weighting makes the score test unnecessary. The form of the adjustment is open
-(`../problems/O14.md`, 24 Nov evening: subtraction is not forced; the fork is how the readings' separate flukes
-combine; a premise that would carry it is "a fluke has one size"). Also in `../CLAUDE.md` and `../GOAL.md` rule 8.
+**The fluke (Can, 24 Nov evening; R-2026-11-24-4, R-2026-11-24-5): the logic of the discount.** The test is calculated
+with the law held true, always. So some mass is true, a candidate mass is compared with the other masses and nothing
+else, and the χ² of that comparison reaches zero at the best mass every time. The cut is fixed by how sure the statement
+is to be, before the readings are seen, and the kept set is never empty. The curve's height is the fluke each mass
+requires; its least (the leftover) is the fluke that happened whichever mass is true. The leftover tests nothing, since
+the law failing is not an alternative; it is a measurement. That amount is computed from the readings, the masses that
+need the least fluke beyond it are found, and the amount weights how reliable the result is. The aim: the weighting makes
+the score test unnecessary. How the amount enters is open (`../problems/O14.md`, 24 Nov evening: subtraction is not
+forced; the fork is how the readings' separate flukes combine; a premise that would carry it is "a fluke has one
+size"). Also in `../CLAUDE.md` and `../GOAL.md` rule 8.
 
 **Since 24 Nov, evening (Claude; exploration E17 harvested and checked; on branch `claude/intake-2026-11-24`):**
 
@@ -627,6 +629,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
 
 ## Log
 
+- 2026-11-24, night (Claude, at Can's "Yes fix it please"): R-2026-11-24-5 recorded: the test is calculated with the law held true, so
+  its χ² always reaches zero. The fluke paragraph restated here, in `CLAUDE.md`, `GOAL.md` rule 8, `definition/bounds.md` and
+  `problems/O14.md`: no "raw curve" and "adjustment"; the curve's height is the fluke a mass requires, the leftover a measurement.
 - 2026-11-24, later evening (Claude, at Can's "write this somewhere prominent"): R-2026-11-24-4, the fluke: `CLAUDE.md`, `GOAL.md` rule 8,
   `definition/bounds.md`, a section in `problems/O14.md`, `tests/test_plain_cuts.py` (4).
 

@@ -56,8 +56,13 @@ line is kept struck, as a premise would be.
   "We need to use available information to calculate the amount of fluke and use available information to find the
   values with the minimum fluke after accounting for the necessarily existing fluke. And we use all that to weight how
   reliable the information is." "If its more likely that both readings are a fluke, we prefer that." The weighting
-  "needs to have the effect of no longer needing Kleibergen". How the curve is brought to zero is not fixed by this
-  ("subtraction, you just guessed that one"): `../problems/O14.md`, 24 Nov evening.
+  "needs to have the effect of no longer needing Kleibergen". The form is not fixed by this ("subtraction, you just
+  guessed that one"): `../problems/O14.md`, 24 Nov evening. **Why it reaches zero (R-2026-11-24-5):** "For the
+  hypothesis test to be correctly calculated, you have to assume the null hypothesis is CORRECT", always; "the logic
+  ends with, therefore, chi-squared always reaches zero." In standard terms (Claude): a χ² compares a hypothesis with
+  an alternative. The curve's own height compares "the mass is m" with every pair of true values, the law failing
+  among them; with the law held true the only alternative is another mass, and the χ² of that comparison is zero at
+  the best mass by construction. The leftover then tests nothing and is a measurement of the noise.
 - Not on a regime the readings cannot certify. A rule whose validity depends on which values come in
   is not type safe: "if it depends on the answer, we need checks to make sure, and that defeats type
   safety" (R-2026-11-24-3). So no finite interval behind a check for a signal (T80 (6)), and no

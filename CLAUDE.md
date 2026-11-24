@@ -32,12 +32,14 @@ declared input is outside the problem (R-2026-11-17-1). Every σ is believed as 
 readings is believed is computed by the definition from the readings, and handling such readings is the job
 (R-2026-11-17-3).
 
-**The fluke** (R-2026-11-24-4). The curve says, for each candidate mass, how many σ the readings are from it. The cut is fixed
-by how sure the statement is to be, before the readings are seen, and the kept set is never empty; so after the definition's
-adjustment some mass reaches zero. The law is not wrong, so where no mass reaches zero in the raw curve a fluke happened, and
-the misalignment of the readings is a fact about how large it was. The definition computes the amount of fluke from the
-readings, finds the masses with the least fluke once the fluke that had to exist is accounted for, and uses that amount to
-weight how reliable the result is. The form of that adjustment is what is being looked for (`problems/O14.md`, 24 Nov).
+**The fluke** (R-2026-11-24-4, R-2026-11-24-5). The test is calculated with the law held true, always. So some mass is
+true, a candidate mass is compared with the other masses and with nothing else, and the χ² of that comparison reaches zero at
+the best mass every time. The cut is fixed by how sure the statement is to be, before the readings are seen, and the kept set
+is never empty. The curve's height says how large a fluke each mass requires. Its least (the leftover) is the fluke that
+happened whichever mass is true: it tests nothing, because the law failing is not an alternative, and it is a measurement of
+how misaligned the readings are. The definition computes that amount of fluke from the readings, finds the masses that need
+the least fluke beyond it, and uses the amount to weight how reliable the result is. How the amount enters is what is being
+looked for (`problems/O14.md`, 24 Nov).
 
 **Then `docs/STATE.md`**, then run `python tools/audit.py`. Do not reconstruct
 the state from the records; the living layer is the state.
