@@ -56,6 +56,15 @@ Two rungs the proof leans on are not fixed in VD-Newton: R3 (persistence, lumpin
 is provisional (`definition/ladder.md`). 19 theorem files, ten on the path, still say "carried from the records"
 (G15). The holes are typed in `definition/proof.md` §5, and that table is the queue.
 
+**The fluke (Can, 24 Nov evening; R-2026-11-24-4): the logic of the discount.** The curve is the test. The cut is fixed
+by how sure the statement is to be, before the readings are seen. The kept set is never empty. So after the definition's
+adjustment some mass reaches zero. The law was not wrong, so where the raw curve reaches zero nowhere a fluke happened,
+and the readings' misalignment is a fact about its amount. That amount is computed from the readings, the masses with
+the least fluke are found once the fluke that had to exist is accounted for, and the amount weights how reliable the
+result is. The aim: the weighting makes the score test unnecessary. The form of the adjustment is open
+(`../problems/O14.md`, 24 Nov evening: subtraction is not forced; the fork is how the readings' separate flukes
+combine; a premise that would carry it is "a fluke has one size"). Also in `../CLAUDE.md` and `../GOAL.md` rule 8.
+
 **Since 24 Nov, evening (Claude; exploration E17 harvested and checked; on branch `claude/intake-2026-11-24`):**
 
 - **T83: what combining results in any order forces on what is carried** (E17, part I). If the result is one curve
@@ -617,6 +626,9 @@ Queued for other agents (Codex), sorted, one deliverable each: `../briefs/README
   say which mode the work is in (generation or pressure).
 
 ## Log
+
+- 2026-11-24, later evening (Claude, at Can's "write this somewhere prominent"): R-2026-11-24-4, the fluke: `CLAUDE.md`, `GOAL.md` rule 8,
+  `definition/bounds.md`, a section in `problems/O14.md`, `tests/test_plain_cuts.py` (4).
 
 - 2026-11-24, evening (Claude): exploration E17 harvested and checked as T83 and T84; `tests/test_combining_in_any_order.py` (4),
   `tests/test_point_under_other_errors.py` (5, and 3 slow), `tools/point_under_other_errors.py`. Rows: L25 and L11 in `GOAL.md`, L25 in

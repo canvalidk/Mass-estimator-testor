@@ -49,6 +49,15 @@ line is kept struck, as a premise would be.
   out however well it covers (ours28).
 - Not on the choice of axes, frames or sign conventions: bookkeeping cannot matter
   (R-2026-09-27-4, R-2026-09-28-3).
+- **The fluke (R-2026-11-24-4), his logic for the discount, in order.** The curve is the test. The cut is fixed by how
+  sure the statement is to be, "regardless of X^2 without cheating". "We can't ever return an empty set." So "there
+  must always be at least value reaching zero". "The law couldn't have been wrong", so "there must have been a
+  fluke", and "we can actually use our knowledge that the measures are misaligned as fact about the amount of fluke".
+  "We need to use available information to calculate the amount of fluke and use available information to find the
+  values with the minimum fluke after accounting for the necessarily existing fluke. And we use all that to weight how
+  reliable the information is." "If its more likely that both readings are a fluke, we prefer that." The weighting
+  "needs to have the effect of no longer needing Kleibergen". How the curve is brought to zero is not fixed by this
+  ("subtraction, you just guessed that one"): `../problems/O14.md`, 24 Nov evening.
 - Not on a regime the readings cannot certify. A rule whose validity depends on which values come in
   is not type safe: "if it depends on the answer, we need checks to make sure, and that defeats type
   safety" (R-2026-11-24-3). So no finite interval behind a check for a signal (T80 (6)), and no
